@@ -1,0 +1,625 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_DOM_COUNTRY
+      author: System
+      changes:
+        - createTable:
+            tableName: DOM_COUNTRY
+            dbms: 'h2,  mysql, postgresql'
+            columns:
+              - column:
+                  name: COUNTRY_ID
+                  autoIncrement: true
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: PK_DOM_COUNTRY
+                    nullable: false
+              - column:
+                  name: NAME
+                  autoIncrement: false
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: ACRONYM
+                  autoIncrement: false
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: CODE
+                  autoIncrement: false
+                  type: VARCHAR(15)
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            columnNames: NAME
+            constraintName: UK_NAME_DOM_COUNTRY
+            tableName: DOM_COUNTRY
+            validate: true
+        - addUniqueConstraint:
+            columnNames: ACRONYM
+            constraintName: UK_ACRONYM_DOM_COUNTRY
+            tableName: DOM_COUNTRY
+            validate: true
+        - addUniqueConstraint:
+            columnNames: CODE
+            constraintName: UK_CODE_DOM_COUNTRY
+            tableName: DOM_COUNTRY
+            validate: true
+  - changeSet:
+      id: create_DOM_DAY
+      author: System
+      changes:
+        - createTable:
+            tableName: DOM_DAY
+            dbms:  'h2,  mysql, postgresql'
+            columns:
+              - column:
+                  name: DAY_ID
+                  autoIncrement: true
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: PK_DOM_DAY
+                    nullable: false
+              - column:
+                  name: DATE
+                  autoIncrement: false
+                  type: DATE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: WEEKEND
+                  autoIncrement: false
+                  type: ${typeBoolean}
+                  constraints:
+                    nullable: false
+              - column:
+                  name: HOLIDAY
+                  autoIncrement: false
+                  type: ${typeBoolean}
+                  constraints:
+                    nullable: false
+              - column:
+                  name: COUNTRY_ID
+                  autoIncrement: false
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_COUNTRY_ID_DOM_DAY
+                    validateForeignKey: true
+                    referencedColumnNames: COUNTRY_ID
+                    referencedTableName: DOM_COUNTRY
+        - addUniqueConstraint:
+            columnNames: DATE,COUNTRY_ID
+            constraintName: UK_DATE_DOM_DAY
+            tableName: DOM_DAY
+            validate: true
+  - changeSet:
+      id: create_DOM_STATE
+      author: System
+      changes:
+        - createTable:
+            tableName: DOM_STATE
+            dbms:  'h2,  mysql, postgresql'
+            columns:
+              - column:
+                  name: STATE_ID
+                  autoIncrement: true
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: PK_DOM_STATE
+                    nullable: false
+              - column:
+                  name: NAME
+                  autoIncrement: false
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: ACRONYM
+                  autoIncrement: false
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: COUNTRY_ID
+                  autoIncrement: false
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_COUNTRY_ID_DOM_STATE
+                    validateForeignKey: true
+                    referencedColumnNames: COUNTRY_ID
+                    referencedTableName: DOM_COUNTRY
+        - addUniqueConstraint:
+            columnNames: NAME,COUNTRY_ID,ACRONYM
+            constraintName: UK_NAME_DOM_STATE
+            tableName: DOM_STATE
+            validate: true
+        - addUniqueConstraint:
+            columnNames: ACRONYM,COUNTRY_ID
+            constraintName: UK_ACRONYM_DOM_STATE
+            tableName: DOM_STATE
+            validate: true
+  - changeSet:
+      id: create_DOM_CITY
+      author: System
+      changes:
+        - createTable:
+            tableName: DOM_CITY
+            dbms: 'h2,  mysql, postgresql'
+            columns:
+              - column:
+                  name: CITY_ID
+                  autoIncrement: true
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: PK_DOM_CITY
+                    nullable: false
+              - column:
+                  name: NAME
+                  autoIncrement: false
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: ACRONYM
+                  autoIncrement: false
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: CODE
+                  autoIncrement: false
+                  type: VARCHAR(15)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: STATE_ID
+                  autoIncrement: false
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_STATE_ID_DOM_CITY
+                    validateForeignKey: true
+                    referencedColumnNames: STATE_ID
+                    referencedTableName: DOM_STATE
+        - addUniqueConstraint:
+            columnNames: NAME,STATE_ID
+            constraintName: UK_NAME_DOM_CITY
+            tableName: DOM_CITY
+            validate: true
+        - addUniqueConstraint:
+            columnNames: ACRONYM,STATE_ID,CODE
+            constraintName: UK_ACRONYM_DOM_CITY
+            tableName: DOM_CITY
+            validate: true
+        - addUniqueConstraint:
+            columnNames: CODE,STATE_ID
+            constraintName: UK_CODE_DOM_CITY
+            tableName: DOM_CITY
+            validate: true
+  - changeSet:
+      id: create_DOM_HOLIDAY
+      author: System
+      changes:
+        - createTable:
+            tableName: DOM_HOLIDAY
+            dbms: 'h2,  mysql, postgresql'
+            columns:
+              - column:
+                  name: HOLIDAY_ID
+                  autoIncrement: true
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: PK_DOM_HOLIDAY
+                    nullable: false
+              - column:
+                  name: NAME
+                  autoIncrement: false
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: DESCRIPTION
+                  autoIncrement: false
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: TYPE
+                  autoIncrement: false
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: FROM_TIME
+                  autoIncrement: false
+                  type: TIME
+                  constraints:
+                    nullable: true
+              - column:
+                  name: DAY_ID
+                  autoIncrement: false
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_DAY_ID_DOM_HOLIDAY
+                    validateForeignKey: true
+                    referencedColumnNames: DAY_ID
+                    referencedTableName: DOM_DAY
+  - changeSet:
+      id: create_DOM_CITY_HOLIDAY
+      author: System
+      changes:
+        - createTable:
+            tableName: DOM_CITY_HOLIDAY
+            dbms: 'h2,  mysql, postgresql'
+            columns:
+              - column:
+                  name: CITY_ID
+                  autoIncrement: false
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_CITY_ID_DOM_CITY_HOLIDAY
+                    validateForeignKey: true
+                    referencedColumnNames: CITY_ID
+                    referencedTableName: DOM_CITY
+              - column:
+                  name: HOLIDAY_ID
+                  autoIncrement: false
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_HOLIDAY_ID_DOM_CITY_HOLIDAY
+                    validateForeignKey: true
+                    referencedColumnNames: HOLIDAY_ID
+                    referencedTableName: DOM_HOLIDAY
+        - addPrimaryKey:
+            columnNames: CITY_ID, HOLIDAY_ID
+            constraintName: PK_DOM_CITY_HOLIDAY
+            tableName: DOM_CITY_HOLIDAY
+            validate: true
+  - changeSet:
+      id: create_DOM_STATE_HOLIDAY
+      author: System
+      changes:
+        - createTable:
+            tableName: DOM_STATE_HOLIDAY
+            dbms: 'h2,  mysql, postgresql'
+            columns:
+              - column:
+                  name: STATE_ID
+                  autoIncrement: false
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_STATE_ID_DOM_STATE_HOLIDAY
+                    validateForeignKey: true
+                    referencedColumnNames: STATE_ID
+                    referencedTableName: DOM_STATE
+              - column:
+                  name: HOLIDAY_ID
+                  autoIncrement: false
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_HOLIDAY_ID_DOM_STATE_HOLIDAY
+                    validateForeignKey: true
+                    referencedColumnNames: HOLIDAY_ID
+                    referencedTableName: DOM_HOLIDAY
+        - addPrimaryKey:
+            columnNames: STATE_ID, HOLIDAY_ID
+            constraintName: PK_DOM_STATE_HOLIDAY
+            tableName: DOM_STATE_HOLIDAY
+            validate: true
+  - changeSet:
+      id: create_DOM_FIXED_HOLIDAY
+      author: System
+      changes:
+        - createTable:
+            tableName: DOM_FIXED_HOLIDAY
+            dbms: 'h2,  mysql, postgresql'
+            columns:
+              - column:
+                  name: FIXED_HOLIDAY_ID
+                  autoIncrement: true
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: PK_DOM_FIXED_HOLIDAY
+                    nullable: false
+              - column:
+                  name: NAME
+                  autoIncrement: false
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: DESCRIPTION
+                  autoIncrement: false
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: DAY_HOLIDAY
+                  autoIncrement: false
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: MONTH_HOLIDAY
+                  autoIncrement: false
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: OPTIONAL
+                  autoIncrement: false
+                  type: ${typeBoolean}
+                  defaultValue: ${defaultValueBoolean}
+                  constraints:
+                    nullable: false
+              - column:
+                  name: FROM_TIME
+                  autoIncrement: false
+                  type: TIME
+                  constraints:
+                    nullable: true
+              - column:
+                  name: COUNTRY_ID
+                  autoIncrement: false
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_COUNTRY_ID_DOM_FIXED_HOLIDAY
+                    validateForeignKey: true
+                    referencedColumnNames: COUNTRY_ID
+                    referencedTableName: DOM_COUNTRY
+        - addUniqueConstraint:
+            columnNames: DAY_HOLIDAY,MONTH_HOLIDAY,COUNTRY_ID
+            constraintName: UK_FIXED_HOLIDAY_COUNTRY
+            tableName: DOM_FIXED_HOLIDAY
+            validate: true
+  - changeSet:
+      id: create_DOM_CONFIGURATION
+      author: System
+      changes:
+        - createTable:
+            tableName: DOM_CONFIGURATION
+            dbms: 'h2,  mysql, postgresql'
+            columns:
+              - column:
+                  name: CONFIGURATION_ID
+                  autoIncrement: true
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: PK_DOM_CONFIGURATION
+                    nullable: false
+              - column:
+                  name: CONFIGURATION_KEY
+                  autoIncrement: false
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: DESCRIPTION
+                  autoIncrement: false
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: CONFIGURATION_VALUE
+                  autoIncrement: false
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: DEFAULT_VALUE
+                  autoIncrement: false
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            columnNames: CONFIGURATION_KEY
+            constraintName: UK_DOM_CONFIGURATION
+            tableName: DOM_CONFIGURATION
+            validate: true
+  - changeSet:
+      id: create_DOM_REQUEST
+      author: System
+      changes:
+        - createTable:
+            tableName: DOM_REQUEST
+            dbms: 'h2,  mysql, postgresql'
+            columns:
+              - column:
+                  name: REQUEST_ID
+                  autoIncrement: false
+                  type: ${UUIDType}
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: PK_DOM_REQUEST
+                    nullable: false
+              - column:
+                  name: REQUESTING
+                  autoIncrement: false
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: TYPE_REQUEST
+                  autoIncrement: false
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: STATUS_REQUEST
+                  autoIncrement: false
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: CREATE_DATE
+                  autoIncrement: false
+                  type: DATETIME
+                  constraints:
+                    nullable: false
+              - column:
+                  name: START_DATE
+                  autoIncrement: false
+                  type: DATETIME
+                  constraints:
+                    nullable: true
+              - column:
+                  name: END_DATE
+                  autoIncrement: false
+                  type: DATETIME
+                  constraints:
+                    nullable: true
+  - changeSet:
+      id: create_DOM_REQUEST_PARAMETER
+      author: System
+      changes:
+        - createTable:
+            tableName: DOM_REQUEST_PARAMETER
+            dbms: 'h2,  mysql, postgresql'
+            columns:
+              - column:
+                  name: REQUEST_PARAMETER_ID
+                  autoIncrement: true
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: PK_DOM_REQUEST_PARAMETER
+                    nullable: false
+              - column:
+                  name: TYPE_PARAMETER
+                  autoIncrement: false
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: VALUE_PARAMETER
+                  autoIncrement: false
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: TYPE_VALUE
+                  autoIncrement: false
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: REQUEST_ID
+                  autoIncrement: false
+                  type: ${UUIDType}
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_REQUESTS_ID_DOM_REQUEST_PARAMETER
+                    validateForeignKey: true
+                    referencedColumnNames: REQUEST_ID
+                    referencedTableName: DOM_REQUEST
+  - changeSet:
+      id: create_DOM_DAY_BATCH
+      author: System
+      changes:
+        - createTable:
+            tableName: DOM_DAY_BATCH
+            dbms: 'h2,  mysql, postgresql'
+            columns:
+              - column:
+                  name: DAY_BATCH_ID
+                  autoIncrement: true
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: PK_DOM_DAY_BATCH
+                    nullable: false
+              - column:
+                  name: DATE
+                  autoIncrement: false
+                  type: DATE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: WEEKEND
+                  autoIncrement: false
+                  type: ${typeBoolean}
+                  constraints:
+                    nullable: false
+              - column:
+                  name: HOLIDAY
+                  autoIncrement: false
+                  type: ${typeBoolean}
+                  constraints:
+                    nullable: false
+              - column:
+                  name: PROCESSED
+                  autoIncrement: false
+                  type: ${typeBoolean}
+                  constraints:
+                    nullable: false
+              - column:
+                  name: COUNTRY_ID
+                  autoIncrement: false
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_COUNTRY_ID_DOM_DAY
+                    validateForeignKey: true
+                    referencedColumnNames: COUNTRY_ID
+                    referencedTableName: DOM_COUNTRY
+              - column:
+                  name: REQUEST_ID
+                  autoIncrement: false
+                  type: ${UUIDType}
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            columnNames: DATE,COUNTRY_ID
+            constraintName: UK_DATE_DOM_DAY_BATCH
+            tableName: DOM_DAY_BATCH
+            validate: true
+  - changeSet:
+      id: create_DOM_CITY_NOT_HOLIDAY
+      author: System
+      changes:
+        - createTable:
+            tableName: DOM_CITY_NOT_HOLIDAY
+            dbms: 'h2,  mysql, postgresql'
+            columns:
+              - column:
+                  name: CITY_ID
+                  autoIncrement: false
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_CITY_ID_DOM_CITY_NOT_HOLIDAY
+                    validateForeignKey: true
+                    referencedColumnNames: CITY_ID
+                    referencedTableName: DOM_CITY
+              - column:
+                  name: HOLIDAY_ID
+                  autoIncrement: false
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_HOLIDAY_ID_DOM_CITY_NOT_HOLIDAY
+                    validateForeignKey: true
+                    referencedColumnNames: HOLIDAY_ID
+                    referencedTableName: DOM_HOLIDAY
+        - addPrimaryKey:
+            columnNames: CITY_ID, HOLIDAY_ID
+            constraintName: PK_DOM_CITY_NOT_HOLIDAY
+            tableName: DOM_CITY_NOT_HOLIDAY
+            validate: true

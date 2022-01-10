@@ -1,0 +1,562 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "insert_holidays_br",
+        "author": "System",
+        "changes": [
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_FIXED_HOLIDAY",
+              "columns": [
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "01-01"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "DESCRIPTION",
+                    "value": "01-01"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "DAY_HOLIDAY",
+                    "value": "1"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "MONTH_HOLIDAY",
+                    "value": "1"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "OPTIONAL",
+                    "value": "0"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "FROM_TIME",
+                    "value": "null"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_FIXED_HOLIDAY",
+              "columns": [
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Tiradentes' Day"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "DESCRIPTION",
+                    "value": "Tiradentes' Day"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "DAY_HOLIDAY",
+                    "value": "21"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "MONTH_HOLIDAY",
+                    "value": "4"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "OPTIONAL",
+                    "value": "0"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "FROM_TIME",
+                    "value": "null"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_FIXED_HOLIDAY",
+              "columns": [
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "05-01"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "DESCRIPTION",
+                    "value": "05-01"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "DAY_HOLIDAY",
+                    "value": "1"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "MONTH_HOLIDAY",
+                    "value": "5"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "OPTIONAL",
+                    "value": "0"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "FROM_TIME",
+                    "value": "null"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_FIXED_HOLIDAY",
+              "columns": [
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Lovers' Day"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "DESCRIPTION",
+                    "value": "Lovers' Day"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "DAY_HOLIDAY",
+                    "value": "12"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "MONTH_HOLIDAY",
+                    "value": "6"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "OPTIONAL",
+                    "value": "0"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "FROM_TIME",
+                    "value": "null"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_FIXED_HOLIDAY",
+              "columns": [
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Independence Day"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "DESCRIPTION",
+                    "value": "Independence Day"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "DAY_HOLIDAY",
+                    "value": "7"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "MONTH_HOLIDAY",
+                    "value": "9"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "OPTIONAL",
+                    "value": "0"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "FROM_TIME",
+                    "value": "null"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_FIXED_HOLIDAY",
+              "columns": [
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Our Lady of Aparecida"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "DESCRIPTION",
+                    "value": "Our Lady of Aparecida"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "DAY_HOLIDAY",
+                    "value": "12"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "MONTH_HOLIDAY",
+                    "value": "10"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "OPTIONAL",
+                    "value": "0"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "FROM_TIME",
+                    "value": "null"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_FIXED_HOLIDAY",
+              "columns": [
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "11-02"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "DESCRIPTION",
+                    "value": "11-02"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "DAY_HOLIDAY",
+                    "value": "2"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "MONTH_HOLIDAY",
+                    "value": "11"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "OPTIONAL",
+                    "value": "0"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "FROM_TIME",
+                    "value": "null"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_FIXED_HOLIDAY",
+              "columns": [
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Republic Day"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "DESCRIPTION",
+                    "value": "Republic Day"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "DAY_HOLIDAY",
+                    "value": "15"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "MONTH_HOLIDAY",
+                    "value": "11"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "OPTIONAL",
+                    "value": "0"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "FROM_TIME",
+                    "value": "null"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_FIXED_HOLIDAY",
+              "columns": [
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "12-24"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "DESCRIPTION",
+                    "value": "12-24"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "DAY_HOLIDAY",
+                    "value": "24"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "MONTH_HOLIDAY",
+                    "value": "12"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "OPTIONAL",
+                    "value": "1"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "FROM_TIME",
+                    "value": "null"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_FIXED_HOLIDAY",
+              "columns": [
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "12-25"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "DESCRIPTION",
+                    "value": "12-25"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "DAY_HOLIDAY",
+                    "value": "25"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "MONTH_HOLIDAY",
+                    "value": "12"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "OPTIONAL",
+                    "value": "0"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "FROM_TIME",
+                    "value": "null"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_FIXED_HOLIDAY",
+              "columns": [
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "12-31"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "DESCRIPTION",
+                    "value": "12-31"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "DAY_HOLIDAY",
+                    "value": "31"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "MONTH_HOLIDAY",
+                    "value": "12"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "OPTIONAL",
+                    "value": "1"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "FROM_TIME",
+                    "value": "null"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /dayoffmarker
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:dayoffmarker;MODE=MYSQL
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+        web-admin-password: dayoffmarker
+        trace: false
+      path: /database_config
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
+        ddl-auto: none
+        dialect: org.hibernate.dialect.H2Dialect
+        naming:
+          implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl
+          physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher
+
+logging:
+  exception-conversion-word:
+  level:
+    liquibase: INFO
+
+liquibase:
+  change-log: classpath:db.changelog-master.yaml
+
+jwt:
+  secret: usersecretforjwtauthenticateoratoroeuaroupadoreideromalalalameudeuscomoessabencaodechave
+  valid: 60 #Define em Minutos o tempo valido do Token

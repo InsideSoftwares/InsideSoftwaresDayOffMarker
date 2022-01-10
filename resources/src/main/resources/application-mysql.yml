@@ -1,0 +1,42 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /dayoffmarker
+
+application:
+  description: Projeto desenvolvido no Bootcamp GFT Start ## 2Java
+  version: 1.0.0-BIC
+  msg_success: Moving was successfully carried out to the warehouse.
+  encrypt_password: BIC
+
+logging:
+  exception-conversion-word:
+  level:
+    liquibase: INFO
+
+liquibase:
+  change-log: classpath:db.changelog-master.yaml
+
+jwt:
+  secret: usersecretforjwtauthenticateoratoroeuaroupadoreideromalalalameudeuscomoessabencaodechave
+  valid: 60 #Define em Minutos o tempo valido do Token
+
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/bic?serverTimezone=UTC
+    username: root
+    password: root
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
+        ddl-auto: none
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        naming:
+          implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl
+          physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher

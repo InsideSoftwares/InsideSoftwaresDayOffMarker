@@ -1,0 +1,101 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert_configuration
+      author: System
+      changes:
+        - insert:
+            dbms: 'h2,  mysql, postgresql'
+            tableName: DOM_CONFIGURATION
+            columns:
+              - column:
+                  name: CONFIGURATION_KEY
+                  value: 'INITIAL_CONFIGURATION'
+              - column:
+                  name: DESCRIPTION
+                  value: 'Initial configuration of the application performed'
+              - column:
+                  name: CONFIGURATION_VALUE
+                  value: 'N'
+              - column:
+                  name: DEFAULT_VALUE
+                  value: 'N'
+        - insert:
+            dbms: 'h2,  mysql, postgresql'
+            tableName: DOM_CONFIGURATION
+            columns:
+              - column:
+                  name: CONFIGURATION_KEY
+                  value: 'ACCESS_KEY_TOKEN_ADMIN'
+              - column:
+                  name: DESCRIPTION
+                  value: 'Access key to obtain api edit token'
+              - column:
+                  name: CONFIGURATION_VALUE
+                  value: 'null'
+              - column:
+                  name: DEFAULT_VALUE
+                  value: '6b718a92-15bb-4e83-b845-e45ef446e5b4'
+        - insert:
+            dbms: 'h2,  mysql, postgresql'
+            tableName: DOM_CONFIGURATION
+            columns:
+              - column:
+                  name: CONFIGURATION_KEY
+                  value: 'LIMIT_FORWARD_DAYS_YEARS'
+              - column:
+                  name: DESCRIPTION
+                  value: 'Indicates the Limit for creating the days forward in years'
+              - column:
+                  name: CONFIGURATION_VALUE
+                  value: '5'
+              - column:
+                  name: DEFAULT_VALUE
+                  value: '5'
+        - insert:
+            dbms: 'h2,  mysql, postgresql'
+            tableName: DOM_CONFIGURATION
+            columns:
+              - column:
+                  name: CONFIGURATION_KEY
+                  value: 'LIMIT_BACK_DAYS_YEARS'
+              - column:
+                  name: DESCRIPTION
+                  value: 'Indicates the Limit to create the days back in years'
+              - column:
+                  name: CONFIGURATION_VALUE
+                  value: '5'
+              - column:
+                  name: DEFAULT_VALUE
+                  value: '5'
+        - insert:
+            dbms: 'h2,  mysql, postgresql'
+            tableName: DOM_CONFIGURATION
+            columns:
+              - column:
+                  name: CONFIGURATION_KEY
+                  value: 'ACCESS_KEY_TOKEN_VIEW'
+              - column:
+                  name: DESCRIPTION
+                  value: 'Access key to obtain api view token'
+              - column:
+                  name: CONFIGURATION_VALUE
+                  value: 'null'
+              - column:
+                  name: DEFAULT_VALUE
+                  value: '3fd37968-43c5-44d0-b343-69a7870dacfd'
+        - insert:
+            dbms: 'h2,  mysql, postgresql'
+            tableName: DOM_CONFIGURATION
+            columns:
+              - column:
+                  name: CONFIGURATION_KEY
+                  value: 'COUNTRY_DEFAULT'
+              - column:
+                  name: DESCRIPTION
+                  value: 'Default Application Country'
+              - column:
+                  name: CONFIGURATION_VALUE
+                  value: 'BRAZIL'
+              - column:
+                  name: DEFAULT_VALUE
+                  value: 'BRAZIL'
