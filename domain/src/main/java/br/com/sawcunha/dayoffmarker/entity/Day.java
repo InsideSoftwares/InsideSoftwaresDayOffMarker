@@ -23,7 +23,7 @@ import java.time.Year;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "DCY_DAY")
+@Table(name = "DOM_DAY")
 public class Day {
 
     @Id

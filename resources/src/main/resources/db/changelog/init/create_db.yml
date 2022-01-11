@@ -254,6 +254,11 @@ databaseChangeLog:
                     validateForeignKey: true
                     referencedColumnNames: DAY_ID
                     referencedTableName: DOM_DAY
+        - addUniqueConstraint:
+            columnNames: DAY_ID
+            constraintName: UK_DAY_DOM_HOLIDAY
+            tableName: DOM_DAY
+            validate: true
   - changeSet:
       id: create_DOM_CITY_HOLIDAY
       author: System

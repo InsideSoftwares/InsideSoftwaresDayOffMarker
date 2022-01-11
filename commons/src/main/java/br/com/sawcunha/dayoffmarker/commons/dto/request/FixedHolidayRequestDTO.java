@@ -13,28 +13,28 @@ import java.time.LocalTime;
 @Data
 public class FixedHolidayRequestDTO {
 
-    @NotNull(message = "DCYV-003")
-    @NotEmpty(message = "DCYV-001")
+    @NotNull(message = "DOMV-003")
+    @NotEmpty(message = "DOMV-001")
     private String name;
 
-    @NotNull(message = "DCYV-003")
-    @NotEmpty(message = "DCYV-001")
+    @NotNull(message = "DOMV-003")
+    @NotEmpty(message = "DOMV-001")
     private String description;
 
-    @NotNull(message = "DCYV-003")
-    @Min(value = 1, message = "DCYV-002")
-    @Max(value = 31, message = "DCYV-004")
+    @NotNull(message = "DOMV-003")
+    @Min(value = 1, message = "DOMV-002")
+    @Max(value = 31, message = "DOMV-004")
     private Integer day;
 
-    @NotNull(message = "DCYV-003")
-    @Min(value = 1, message = "DCYV-002")
-    @Max(value = 12, message = "DCYV-004")
+    @NotNull(message = "DOMV-003")
+    @Min(value = 1, message = "DOMV-002")
+    @Max(value = 12, message = "DOMV-004")
     private Integer month;
 
-    @NotNull(message = "DCYV-003")
+    @NotNull(message = "DOMV-003")
     private Long countryId;
 
-    @NotNull(message = "DCYV-003")
+    @NotNull(message = "DOMV-003")
     private Boolean isOptional;
 
     private LocalTime fromTime;

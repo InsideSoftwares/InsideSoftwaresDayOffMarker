@@ -9,18 +9,18 @@ import javax.validation.constraints.Size;
 @Getter
 public class CountryRequestDTO {
 
-    @NotNull(message = "DCYV-003")
-    @NotEmpty(message = "DCYV-001")
+    @NotNull(message = "DOMV-003")
+    @NotEmpty(message = "DOMV-001")
     private String name;
 
-    @NotNull(message = "DCYV-003")
-    @NotEmpty(message = "DCYV-001")
-    @Size(min = 2, max = 10, message = "DCYV-006")
+    @NotNull(message = "DOMV-003")
+    @NotEmpty(message = "DOMV-001")
+    @Size(min = 2, max = 10, message = "DOMV-006")
     private String acronym;
 
-    @NotNull(message = "DCYV-003")
-    @NotEmpty(message = "DCYV-001")
-    @Size(min = 3, max = 15, message = "DCYV-006")
+    @NotNull(message = "DOMV-003")
+    @NotEmpty(message = "DOMV-001")
+    @Size(min = 3, max = 15, message = "DOMV-006")
     private String code;
 
 }

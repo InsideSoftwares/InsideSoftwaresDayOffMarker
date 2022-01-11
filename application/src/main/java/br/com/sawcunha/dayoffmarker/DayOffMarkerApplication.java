@@ -3,18 +3,14 @@ package br.com.sawcunha.dayoffmarker;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
-@ConfigurationPropertiesScan(basePackages ={"br.com.sawcunha.dayoffmarker"})
-@ComponentScan(basePackages ={"br.com.sawcunha.dayoffmarker","br.com.sawcunha.dayoffmarker.controller"})
+@ComponentScan(basePackages={"br.com.sawcunha.dayoffmarker.configuration"})
 @AutoConfigurationPackage
-@EnableAsync
 public class DayOffMarkerApplication {
 
     public static void main(String[] args) {

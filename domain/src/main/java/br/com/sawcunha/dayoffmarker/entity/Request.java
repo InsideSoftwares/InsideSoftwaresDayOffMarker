@@ -29,7 +29,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "DCY_REQUEST")
+@Table(name = "DOM_REQUEST")
 public class Request {
 
     @Id

@@ -26,7 +26,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "DCY_REQUEST_PARAMETER")
+@Table(name = "DOM_REQUEST_PARAMETER")
 public class RequestParameter {
 
     @Id

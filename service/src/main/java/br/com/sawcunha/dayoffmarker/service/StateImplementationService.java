@@ -11,6 +11,7 @@ import br.com.sawcunha.dayoffmarker.commons.exception.error.state.StateNotExistE
 import br.com.sawcunha.dayoffmarker.commons.utils.PaginationUtils;
 import br.com.sawcunha.dayoffmarker.entity.Country;
 import br.com.sawcunha.dayoffmarker.entity.State;
+import br.com.sawcunha.dayoffmarker.mapper.StateMapper;
 import br.com.sawcunha.dayoffmarker.repository.StateRepository;
 import br.com.sawcunha.dayoffmarker.specification.service.CountryService;
 import br.com.sawcunha.dayoffmarker.specification.service.StateService;
@@ -32,6 +33,7 @@ public class StateImplementationService implements StateService {
     private final StateRepository stateRepository;
     private final CountryService countryService;
     private final Validator<Long, StateRequestDTO> stateValidator;
+    private final StateMapper stateMapper;
 
     @Transactional(readOnly = true)
     @Override
@@ -50,7 +52,7 @@ public class StateImplementationService implements StateService {
         Page<State> states = stateRepository.findAllByCountry(country, pageable);
 
         return DayOffMarkerResponse.<List<StateResponseDTO>>builder()
-                .data(createStateDTOs(states))
+                .data(stateMapper.toDTOs(states.getContent()))
                 .paginated(
                         PaginationUtils.createPaginated(
                             states.getTotalPages(),
@@ -66,7 +68,7 @@ public class StateImplementationService implements StateService {
     public DayOffMarkerResponse<StateResponseDTO> findById(final Long stateID) throws Exception {
         State state = stateRepository.findById(stateID).orElseThrow(StateNotExistException::new);
         return DayOffMarkerResponse.<StateResponseDTO>builder()
-                .data(createStateDTO(state))
+                .data(stateMapper.toDTO(state))
                 .build();
     }
 
@@ -91,7 +93,7 @@ public class StateImplementationService implements StateService {
         state = stateRepository.save(state);
 
         return DayOffMarkerResponse.<StateResponseDTO>builder()
-                .data(createStateDTO(state))
+                .data(stateMapper.toDTO(state))
                 .build();
     }
 
@@ -115,7 +117,7 @@ public class StateImplementationService implements StateService {
         state = stateRepository.save(state);
 
         return DayOffMarkerResponse.<StateResponseDTO>builder()
-                .data(createStateDTO(state))
+                .data(stateMapper.toDTO(state))
                 .build();
     }
 
@@ -124,21 +126,5 @@ public class StateImplementationService implements StateService {
     public State findStateByStateId(final Long stateId) throws Exception {
         Optional<State> optionalState = stateRepository.findById(stateId);
         return optionalState.orElseThrow(StateNotExistException::new);
-    }
-
-    private List<StateResponseDTO> createStateDTOs(final Page<State> states){
-        return states.map(this::createStateDTO)
-                .stream().toList();
-
-    }
-
-    private StateResponseDTO createStateDTO(final State state){
-        return StateResponseDTO.builder()
-                .id(state.getId())
-                .acronym(state.getAcronym())
-                .name(state.getName())
-                .countryId(state.getCountry().getId())
-                .countryName(state.getCountry().getName())
-                .build();
     }
 }

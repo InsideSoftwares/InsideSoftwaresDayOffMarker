@@ -23,7 +23,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "DCY_FIXED_HOLIDAY")
+@Table(name = "DOM_FIXED_HOLIDAY")
 public class FixedHoliday {
 
     @Id

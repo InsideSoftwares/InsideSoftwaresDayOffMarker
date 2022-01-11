@@ -16,15 +16,15 @@ import java.util.UUID;
 @Builder
 public class AuthRequestDTO {
 
-    @NotNull(message = "DCYV-003")
+    @NotNull(message = "DOMV-003")
     private UUID key;
 
-    @NotNull(message = "DCYV-003")
-    @NotEmpty(message = "DCYV-001")
+    @NotNull(message = "DOMV-003")
+    @NotEmpty(message = "DOMV-001")
     private String name;
 
-    @NotNull(message = "DCYV-003")
-    @Email(message = "DCYV-005")
+    @NotNull(message = "DOMV-003")
+    @Email(message = "DOMV-005")
     private String mail;
 
 }

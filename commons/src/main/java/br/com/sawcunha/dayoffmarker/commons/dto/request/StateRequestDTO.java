@@ -11,16 +11,16 @@ import javax.validation.constraints.Size;
 @Data
 public class StateRequestDTO {
 
-    @NotNull(message = "DCYV-003")
-    @NotEmpty(message = "DCYV-001")
+    @NotNull(message = "DOMV-003")
+    @NotEmpty(message = "DOMV-001")
     private String name;
 
-    @NotNull(message = "DCYV-003")
-    @NotEmpty(message = "DCYV-001")
-    @Size(min = 2, max = 10, message = "DCYV-006")
+    @NotNull(message = "DOMV-003")
+    @NotEmpty(message = "DOMV-001")
+    @Size(min = 2, max = 10, message = "DOMV-006")
     private String acronym;
 
-    @NotNull(message = "DCYV-003")
+    @NotNull(message = "DOMV-003")
     private Long countryId;
 
 }

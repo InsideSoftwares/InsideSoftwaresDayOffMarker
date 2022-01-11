@@ -11,6 +11,7 @@ import br.com.sawcunha.dayoffmarker.commons.exception.error.fixedholiday.FixedHo
 import br.com.sawcunha.dayoffmarker.commons.utils.PaginationUtils;
 import br.com.sawcunha.dayoffmarker.entity.Country;
 import br.com.sawcunha.dayoffmarker.entity.FixedHoliday;
+import br.com.sawcunha.dayoffmarker.mapper.FixedHolidayMapper;
 import br.com.sawcunha.dayoffmarker.repository.FixedHolidayRepository;
 import br.com.sawcunha.dayoffmarker.specification.service.CountryService;
 import br.com.sawcunha.dayoffmarker.specification.service.FixedHolidayService;
@@ -33,6 +34,7 @@ public class FixedHolidayImplementationService  implements FixedHolidayService {
     private final CountryService countryService;
     private final FixedHolidayRepository fixedHolidayRepository;
     private final Validator<Long, FixedHolidayRequestDTO> fixedHolidayValidator;
+    private final FixedHolidayMapper fixedHolidayMapper;
 
     @Override
     @Transactional(readOnly = true)
@@ -50,7 +52,7 @@ public class FixedHolidayImplementationService  implements FixedHolidayService {
 
         Page<FixedHoliday> fixedHolidays = fixedHolidayRepository.findAllByCountry(country,pageable);
         return DayOffMarkerResponse.<List<FixedHolidayResponseDTO>>builder()
-                .data(createFixedHolidayDTOs(fixedHolidays))
+                .data(fixedHolidayMapper.toDTOs(fixedHolidays.getContent()))
                 .paginated(
                         PaginationUtils.createPaginated(
                                 fixedHolidays.getTotalPages(),
@@ -70,7 +72,7 @@ public class FixedHolidayImplementationService  implements FixedHolidayService {
                 .orElseThrow(FixedHolidayNotExistException::new);
 
         return DayOffMarkerResponse.<FixedHolidayResponseDTO>builder()
-                .data(createFixedHolidayDTO(fixedHoliday))
+                .data(fixedHolidayMapper.toDTO(fixedHoliday))
                 .build();
     }
 
@@ -101,7 +103,7 @@ public class FixedHolidayImplementationService  implements FixedHolidayService {
         fixedHoliday = fixedHolidayRepository.save(fixedHoliday);
 
         return DayOffMarkerResponse.<FixedHolidayResponseDTO>builder()
-                .data(createFixedHolidayDTO(fixedHoliday))
+                .data(fixedHolidayMapper.toDTO(fixedHoliday))
                 .build();
     }
 
@@ -120,7 +122,7 @@ public class FixedHolidayImplementationService  implements FixedHolidayService {
 
         FixedHoliday fixedHoliday = fixedHolidayRepository.getById(fixedHolidayID);
 
-        if(fixedHoliday.getCountry().getId().equals(fixedHolidayRequestDTO.getCountryId())){
+        if(!fixedHoliday.getCountry().getId().equals(fixedHolidayRequestDTO.getCountryId())){
             Country country = countryService.findCountryByCountryId(fixedHolidayRequestDTO.getCountryId());
             fixedHoliday.setCountry(country);
         }
@@ -135,27 +137,7 @@ public class FixedHolidayImplementationService  implements FixedHolidayService {
         fixedHoliday = fixedHolidayRepository.save(fixedHoliday);
 
         return DayOffMarkerResponse.<FixedHolidayResponseDTO>builder()
-                .data(createFixedHolidayDTO(fixedHoliday))
-                .build();
-    }
-
-    private List<FixedHolidayResponseDTO> createFixedHolidayDTOs(final Page<FixedHoliday> fixedHolidays){
-        return fixedHolidays.map(this::createFixedHolidayDTO)
-                .stream().toList();
-
-    }
-
-    private FixedHolidayResponseDTO createFixedHolidayDTO(final FixedHoliday fixedHoliday){
-        return FixedHolidayResponseDTO.builder()
-                    .id(fixedHoliday.getId())
-                    .day(fixedHoliday.getDay())
-                    .month(fixedHoliday.getMonth())
-                    .name(fixedHoliday.getName())
-                    .description(fixedHoliday.getDescription())
-                    .fromTime(fixedHoliday.getFromTime())
-                    .isOptional(fixedHoliday.isOptional())
-                    .countryId(fixedHoliday.getCountry().getId())
-                    .countryName(fixedHoliday.getCountry().getName())
+                .data(fixedHolidayMapper.toDTO(fixedHoliday))
                 .build();
     }
 
