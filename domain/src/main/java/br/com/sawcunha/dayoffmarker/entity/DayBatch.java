@@ -24,7 +24,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "DCY_DAY_BATCH")
+@Table(name = "DOM_DAY_BATCH")
 public class DayBatch {
 
     @Id

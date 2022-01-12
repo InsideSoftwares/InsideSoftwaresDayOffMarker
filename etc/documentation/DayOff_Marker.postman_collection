@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "4baddf07-5fa3-4e5c-aabd-4c0612ea4488",
-		"name": "Day Control",
+		"_postman_id": "728f25f7-1f61-4e10-9a5e-9d2f65c4126f",
+		"name": "DayOff Marker",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -106,14 +106,15 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}:{{port}}/{{base_url}}/authentication",
+							"raw": "{{url}}:{{port}}/{{base_url}}/authentication/login",
 							"host": [
 								"{{url}}"
 							],
 							"port": "{{port}}",
 							"path": [
 								"{{base_url}}",
-								"authentication"
+								"authentication",
+								"login"
 							]
 						}
 					},
@@ -445,7 +446,14 @@
 					"name": "Find All",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "asdasdas",
+								"type": "default",
+								"disabled": true
+							}
+						],
 						"url": {
 							"raw": "{{url}}:{{port}}/{{base_url}}/v1/state?sizePerPage=100",
 							"host": [
@@ -826,6 +834,65 @@
 									"value": "16",
 									"disabled": true
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Rapazzzz\",\r\n    \"countryId\": \"1\",\r\n    \"acronym\": \"BlaS\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/holiday",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"holiday"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"AAAA\",\r\n    \"countryId\": \"21\",\r\n    \"acronym\": \"CCCC\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/holiday/1",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"holiday",
+								"1"
 							]
 						}
 					},

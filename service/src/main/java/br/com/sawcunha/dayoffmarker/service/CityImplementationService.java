@@ -13,6 +13,7 @@ import br.com.sawcunha.dayoffmarker.commons.utils.PaginationUtils;
 import br.com.sawcunha.dayoffmarker.entity.City;
 import br.com.sawcunha.dayoffmarker.entity.Country;
 import br.com.sawcunha.dayoffmarker.entity.State;
+import br.com.sawcunha.dayoffmarker.mapper.CityMapper;
 import br.com.sawcunha.dayoffmarker.repository.CityRepository;
 import br.com.sawcunha.dayoffmarker.specification.service.CityService;
 import br.com.sawcunha.dayoffmarker.specification.service.CountryService;
@@ -36,7 +37,7 @@ public class CityImplementationService implements CityService {
     private final CityRepository cityRepository;
     private final CountryService countryService;
     private final StateService stateService;
-
+    private final CityMapper cityMapper;
     private final Validator<Long, CityRequestDTO> cityValidator;
 
     @Transactional(readOnly = true)
@@ -60,7 +61,7 @@ public class CityImplementationService implements CityService {
         }
 
         return DayOffMarkerResponse.<List<CityResponseDTO>>builder()
-                .data(createCityDTOs(cities))
+                .data(cityMapper.toDTOs(cities.getContent()))
                 .paginated(
                         PaginationUtils.createPaginated(
                                 cities.getTotalPages(),
@@ -76,7 +77,7 @@ public class CityImplementationService implements CityService {
     public DayOffMarkerResponse<CityResponseDTO> findById(final Long cityID) throws Exception {
         City city = cityRepository.findById(cityID).orElseThrow(CityNotExistException::new);
         return DayOffMarkerResponse.<CityResponseDTO>builder()
-                .data(createCityDTO(city))
+                .data(cityMapper.toDTO(city))
                 .build();
     }
 
@@ -103,7 +104,7 @@ public class CityImplementationService implements CityService {
         city = cityRepository.save(city);
 
         return DayOffMarkerResponse.<CityResponseDTO>builder()
-                .data(createCityDTO(city))
+                .data(cityMapper.toDTO(city))
                 .build();
     }
 
@@ -135,25 +136,7 @@ public class CityImplementationService implements CityService {
         city = cityRepository.save(city);
 
         return DayOffMarkerResponse.<CityResponseDTO>builder()
-                .data(createCityDTO(city))
-                .build();
-    }
-
-    private List<CityResponseDTO> createCityDTOs(final Page<City> cities){
-        return cities.map(this::createCityDTO)
-                .stream().toList();
-
-    }
-
-    private CityResponseDTO createCityDTO(final City city){
-        return CityResponseDTO.builder()
-                .id(city.getId())
-                .acronym(city.getAcronym())
-                .name(city.getName())
-                .code(city.getCode())
-                .stateName(city.getState().getName())
-                .stateAcronym(city.getState().getAcronym())
-                .stateID(city.getState().getId())
+                .data(cityMapper.toDTO(city))
                 .build();
     }
 }

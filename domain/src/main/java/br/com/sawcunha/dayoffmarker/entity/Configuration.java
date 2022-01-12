@@ -21,7 +21,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "DCY_CONFIGURATION")
+@Table(name = "DOM_CONFIGURATION")
 public class Configuration {
 
     @Id

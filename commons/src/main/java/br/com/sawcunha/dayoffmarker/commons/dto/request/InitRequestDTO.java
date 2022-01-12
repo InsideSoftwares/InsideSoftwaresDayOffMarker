@@ -19,13 +19,13 @@ public class InitRequestDTO {
     private UUID adminKey;
     private UUID viewKey;
 
-    @NotNull(message = "DCYV-003")
-    @Min(value = 1, message = "DCYV-002")
-    @Max(value = 15, message = "DCYV-004")
+    @NotNull(message = "DOMV-003")
+    @Min(value = 1, message = "DOMV-002")
+    @Max(value = 15, message = "DOMV-004")
     private Integer numberBackYears;
-    @NotNull(message = "DCYV-003")
-    @Min(value = 1, message = "DCYV-002")
-    @Max(value = 25, message = "DCYV-004")
+    @NotNull(message = "DOMV-003")
+    @Min(value = 1, message = "DOMV-002")
+    @Max(value = 25, message = "DOMV-004")
     private Integer numberForwardYears;
 
     private String countryDefault;

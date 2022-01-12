@@ -16,8 +16,6 @@ public class WriteRequest implements ItemWriter<Request> {
 
     @Override
     public void write(List<? extends Request> requests)  {
-        requests.forEach(request -> {
-            batchCreationDayService.saveRequest(request);
-        });
+        requests.forEach(request -> batchCreationDayService.saveRequest(request) );
     }
 }

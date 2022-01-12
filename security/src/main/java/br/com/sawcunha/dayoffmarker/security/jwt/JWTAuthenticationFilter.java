@@ -6,7 +6,7 @@ import br.com.sawcunha.dayoffmarker.commons.logger.LogService;
 import br.com.sawcunha.dayoffmarker.commons.utils.LocaleUtils;
 import br.com.sawcunha.dayoffmarker.security.jwt.dto.JwtDTO;
 import com.google.gson.Gson;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -27,27 +27,26 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
+@RequiredArgsConstructor
 public class JWTAuthenticationFilter extends GenericFilterBean {
 
-    @Autowired
-    private TokenAuthenticationService authenticationService;
+    private final TokenAuthenticationService authenticationService;
+    private final LocaleUtils localeUtils;
+    private final LogService<JWTAuthenticationFilter> logService;
+    private final Gson gson;
 
-    @Autowired
-    private LocaleUtils localeUtils;
-
-    @Autowired
-    private LogService<JWTAuthenticationFilter> logService;
+    private static final Pattern pattern = Pattern.compile("(api\\/v([0-9])+)");
 
     @PostConstruct
     public void init(){
         logService.init(JWTAuthenticationFilter.class);
         logService.logInfor("Init JWTAuthenticationFilter");
     }
-
-    private final Gson gson = new Gson();
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain)
@@ -60,7 +59,7 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
         enableCors(response);
 
         AtomicReference<Authentication> authentication = new AtomicReference<>(null);
-        if(request.getRequestURI().contains("/api/v1/")) {
+        if(isValidationJWT(request.getServletPath())) {
             JwtDTO jwtValidation = authenticationService
                     .getAuthentication(request);
 
@@ -74,6 +73,11 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
 
         SecurityContextHolder.getContext().setAuthentication(authentication.get());
         filterChain.doFilter(request, response);
+    }
+
+    private boolean isValidationJWT(String path){
+        Matcher matcher = pattern.matcher(path);
+        return matcher.find();
     }
 
     private void setUnauthorizedResponse(HttpServletResponse response, eJWTErro error) {

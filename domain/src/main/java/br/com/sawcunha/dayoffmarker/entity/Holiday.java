@@ -2,6 +2,7 @@ package br.com.sawcunha.dayoffmarker.entity;
 
 import br.com.sawcunha.dayoffmarker.commons.enums.eTypeHoliday;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,12 +20,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.LocalTime;
 
+@Builder
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "DCY_HOLIDAY")
+@Table(name = "DOM_HOLIDAY")
 public class Holiday {
 
     @Id

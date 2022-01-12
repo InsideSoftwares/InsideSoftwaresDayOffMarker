@@ -3,14 +3,14 @@ package br.com.sawcunha.dayoffmarker.commons.exception;
 import br.com.sawcunha.dayoffmarker.commons.exception.enums.eExceptionCode;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.ApplicationAlreadyInitializedException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.ConfigurationNotExistException;
-import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.DayMonthInvalidException;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.InvalidKeyAccessException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.TokenJWTException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.city.CityException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.country.CountryExpetion;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.fixedholiday.FixedHolidayException;
-import br.com.sawcunha.dayoffmarker.commons.exception.error.holiday.HolidayNotExistException;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.holiday.HolidayException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.state.StateException;
 import br.com.sawcunha.dayoffmarker.commons.exception.model.AttributeNotValid;
 import br.com.sawcunha.dayoffmarker.commons.exception.model.ExceptionResponse;
@@ -188,10 +188,10 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
         return createResponse(exception.getCode());
     }
 
-    @ExceptionHandler(HolidayNotExistException.class)
+    @ExceptionHandler(HolidayException.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    protected ExceptionResponse handleSecurity(HolidayNotExistException exception){
+    protected ExceptionResponse handleSecurity(HolidayException exception){
         return createResponse(exception.getCode());
     }
 

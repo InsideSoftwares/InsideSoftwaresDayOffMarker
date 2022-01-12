@@ -17,4 +17,19 @@ public interface HolidayRepository extends JpaRepository<Holiday, Long> {
             """)
     Page<Holiday> findAllByCountry(Country country, Pageable pageable);
 
+    @Query("""
+            SELECT count(h)>0
+            FROM Holiday h
+            WHERE h.day.id = :dayID
+            """)
+    boolean existsByDayID(Long dayID);
+
+    @Query("""
+            SELECT count(h)>0
+            FROM Holiday h
+            WHERE h.day.id = :dayID AND
+            h.id != :holidayId
+            """)
+    boolean existsByDayIDAndNotId(Long dayID, Long holidayId);
+
 }

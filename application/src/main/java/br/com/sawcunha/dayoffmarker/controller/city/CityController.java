@@ -42,7 +42,6 @@ public class CityController {
             @RequestParam(value = "direction", required = false, defaultValue = "ASC") Sort.Direction direction,
             @RequestParam(value = "orderBy", required = false, defaultValue = "ID") eOrderCity orderCity
     ) throws Exception {
-        double a = 0/0;
         return cityService.findAll(stateID, page, sizePerPage, direction, orderCity);
     }
 

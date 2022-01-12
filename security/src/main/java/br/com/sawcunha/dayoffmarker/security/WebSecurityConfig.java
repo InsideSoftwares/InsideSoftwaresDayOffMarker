@@ -2,7 +2,7 @@ package br.com.sawcunha.dayoffmarker.security;
 
 import br.com.sawcunha.dayoffmarker.security.exception.AccessDeniedExceptionHandler;
 import br.com.sawcunha.dayoffmarker.security.jwt.JWTAuthenticationFilter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -18,20 +18,18 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @ComponentScan(basePackages = { "br.com.sawcunha.dayoffmarker.controller" })
+@RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private AccessDeniedExceptionHandler accessDeniedExceptionHandler;
-
-    @Autowired
-    private JWTAuthenticationFilter jwtAuthenticationFilter;
-
+    private final AccessDeniedExceptionHandler accessDeniedExceptionHandler;
+    private final JWTAuthenticationFilter jwtAuthenticationFilter;
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests(auth -> auth
                         .antMatchers("/**").permitAll()
-                        .antMatchers("/api/v1/**").denyAll()
+                        .antMatchers("/api/**").denyAll()
+                        .antMatchers("/api/authentication/**").permitAll()
                         .anyRequest().authenticated())
                 .csrf()
                 .disable()

@@ -20,7 +20,8 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
-    @PostMapping
+
+    @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
     public DayOffMarkerResponse<AuthResponseDTO> login(@RequestBody final AuthRequestDTO authRequestDTO) throws Exception {
         return authenticationService.login(authRequestDTO);

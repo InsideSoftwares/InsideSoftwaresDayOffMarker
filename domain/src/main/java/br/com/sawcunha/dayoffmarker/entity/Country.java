@@ -19,7 +19,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "DCY_COUNTRY")
+@Table(name = "DOM_COUNTRY")
 public class Country {
 
     @Id

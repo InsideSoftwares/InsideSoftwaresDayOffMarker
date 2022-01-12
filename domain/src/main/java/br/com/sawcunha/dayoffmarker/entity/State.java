@@ -25,7 +25,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "DCY_STATE")
+@Table(name = "DOM_STATE")
 public class State {
 
     @Id
@@ -45,7 +45,7 @@ public class State {
 
     @Column(name = "STATE_HOLIDAY")
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name="DCY_STATE_HOLIDAY", joinColumns=
+    @JoinTable(name="DOM_STATE_HOLIDAY", joinColumns=
             {@JoinColumn(name="STATE_ID")}, inverseJoinColumns=
             {@JoinColumn(name="HOLIDAY_ID")})
     private Set<Holiday> holidays;
