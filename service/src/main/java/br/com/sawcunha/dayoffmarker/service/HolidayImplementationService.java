@@ -38,7 +38,13 @@ public class HolidayImplementationService implements HolidayService {
     private final DayService dayService;
     
     @Override
-    public DayOffMarkerResponse<List<HolidayResponseDTO>> findAll(String nameCountry, int page, int sizePerPage, Sort.Direction direction, eOrderHoliday orderHoliday) throws Exception {
+    public DayOffMarkerResponse<List<HolidayResponseDTO>> findAll(
+            final String nameCountry,
+            final int page,
+            final int sizePerPage,
+            final Sort.Direction direction,
+            final eOrderHoliday orderHoliday
+    ) throws Exception {
         Pageable pageable = PaginationUtils.createPageable(page, sizePerPage, direction, orderHoliday);
 
         Country country = countryService.findCountryByNameOrDefault(nameCountry);
@@ -58,7 +64,7 @@ public class HolidayImplementationService implements HolidayService {
     }
 
     @Override
-    public DayOffMarkerResponse<HolidayResponseDTO> findById(Long holidayID) throws Exception {
+    public DayOffMarkerResponse<HolidayResponseDTO> findById(final Long holidayID) throws Exception {
         Holiday holiday = holidayRepository.findById(holidayID).orElseThrow(HolidayNotExistException::new);
         return DayOffMarkerResponse.<HolidayResponseDTO>builder()
                 .data(holidayMapper.toDTO(holiday))
@@ -71,7 +77,7 @@ public class HolidayImplementationService implements HolidayService {
             HolidayFromTimeNotInformedException.class
     })
     @Override
-    public DayOffMarkerResponse<HolidayResponseDTO> save(HolidayRequestDTO holidayRequestDTO) throws Exception {
+    public DayOffMarkerResponse<HolidayResponseDTO> save(final HolidayRequestDTO holidayRequestDTO) throws Exception {
         holidayValidator.validator(holidayRequestDTO);
 
         Day day = dayService.findDayByID(holidayRequestDTO.getDayId());
@@ -86,6 +92,8 @@ public class HolidayImplementationService implements HolidayService {
 
         holiday = holidayRepository.save(holiday);
 
+        dayService.setDayHoliday(holidayRequestDTO.getDayId(), true);
+
         return DayOffMarkerResponse.<HolidayResponseDTO>builder()
                 .data(holidayMapper.toDTO(holiday))
                 .build();
@@ -98,11 +106,15 @@ public class HolidayImplementationService implements HolidayService {
             HolidayFromTimeNotInformedException.class
     })
     @Override
-    public DayOffMarkerResponse<HolidayResponseDTO> update(Long holidayID, HolidayRequestDTO holidayRequestDTO) throws Exception {
+    public DayOffMarkerResponse<HolidayResponseDTO> update(
+            final Long holidayID,
+            final HolidayRequestDTO holidayRequestDTO
+    ) throws Exception {
         holidayValidator.validator(holidayID, holidayRequestDTO);
 
         Holiday holiday = holidayRepository.getById(holidayID);
         if(!holiday.getDay().getId().equals(holidayRequestDTO.getDayId())) {
+            dayService.setDayHoliday(holiday.getDay().getId(), false);
             Day day = dayService.findDayByID(holidayRequestDTO.getDayId());
             holiday.setDay(day);
         }
@@ -113,6 +125,8 @@ public class HolidayImplementationService implements HolidayService {
         holiday.setFromTime(holidayRequestDTO.getFromTime());
 
         holiday = holidayRepository.save(holiday);
+
+        dayService.setDayHoliday(holidayRequestDTO.getDayId(), true);
 
         return DayOffMarkerResponse.<HolidayResponseDTO>builder()
                 .data(holidayMapper.toDTO(holiday))
