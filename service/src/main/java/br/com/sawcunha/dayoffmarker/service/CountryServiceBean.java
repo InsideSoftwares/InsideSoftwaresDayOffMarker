@@ -30,11 +30,11 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class CountryImplementationService implements CountryService {
+public class CountryServiceBean implements CountryService {
 
     private final CountryRepository countryRepository;
     private final CountryMapper countryMapper;
-    private final ConfigurationImplementationService configurationService;
+    private final ConfigurationServiceBean configurationService;
     private final Validator<Long, CountryRequestDTO> countryValidator;
 
     @Override

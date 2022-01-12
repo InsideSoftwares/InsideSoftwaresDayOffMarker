@@ -11,6 +11,7 @@ import br.com.sawcunha.dayoffmarker.commons.exception.error.city.CityException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.country.CountryExpetion;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.fixedholiday.FixedHolidayException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.holiday.HolidayException;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.request.RequestException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.state.StateException;
 import br.com.sawcunha.dayoffmarker.commons.exception.model.AttributeNotValid;
 import br.com.sawcunha.dayoffmarker.commons.exception.model.ExceptionResponse;
@@ -214,6 +215,13 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ExceptionResponse handleSecurity(DayMonthInvalidException exception){
+        return createResponse(exception.getCode());
+    }
+
+    @ExceptionHandler(RequestException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected ExceptionResponse handleSecurity(RequestException exception){
         return createResponse(exception.getCode());
     }
 

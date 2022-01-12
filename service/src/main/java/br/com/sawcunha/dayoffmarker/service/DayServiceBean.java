@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class DayImplementationService implements DayService {
+public class DayServiceBean implements DayService {
 
     private final DayRepository dayRepository;
 

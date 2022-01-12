@@ -5,5 +5,6 @@ public enum eTypeParameter {
     YEAR,
     START_YEAR,
     END_YEAR,
-    COUNTRY;
+    COUNTRY,
+    REQUEST_ORIGINAL;
 }

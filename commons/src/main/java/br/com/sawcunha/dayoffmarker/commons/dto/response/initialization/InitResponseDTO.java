@@ -1,4 +1,4 @@
-package br.com.sawcunha.dayoffmarker.commons.dto.response;
+package br.com.sawcunha.dayoffmarker.commons.dto.response.initialization;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

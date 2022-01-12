@@ -22,15 +22,15 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationImplementationService implements AuthenticationService {
+public class AuthenticationServiceBean implements AuthenticationService {
 
     private final ConfigurationRepository configurationRepository;
     private final JwtTokenUtil jwtTokenUtil;
-    private final LogService<AuthenticationImplementationService> logService;
+    private final LogService<AuthenticationServiceBean> logService;
 
     @PostConstruct
     public void init(){
-        logService.init(AuthenticationImplementationService.class);
+        logService.init(AuthenticationServiceBean.class);
         logService.logInfor("Init AuthenticationImplementationService");
     }
 

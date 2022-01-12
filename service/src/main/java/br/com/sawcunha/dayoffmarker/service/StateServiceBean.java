@@ -28,7 +28,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class StateImplementationService implements StateService {
+public class StateServiceBean implements StateService {
 
     private final StateRepository stateRepository;
     private final CountryService countryService;

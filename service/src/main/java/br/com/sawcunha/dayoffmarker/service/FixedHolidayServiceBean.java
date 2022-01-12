@@ -29,7 +29,7 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class FixedHolidayImplementationService  implements FixedHolidayService {
+public class FixedHolidayServiceBean implements FixedHolidayService {
 
     private final CountryService countryService;
     private final FixedHolidayRepository fixedHolidayRepository;

@@ -10,6 +10,7 @@ import br.com.sawcunha.dayoffmarker.repository.HolidayRepository;
 import br.com.sawcunha.dayoffmarker.specification.validator.Validator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
@@ -20,6 +21,7 @@ public class HolidayValidator implements Validator<Long, HolidayRequestDTO> {
     private final HolidayRepository holidayRepository;
     private final DayRepository dayRepository;
 
+    @Transactional(readOnly = true)
     @Override
     public void validator(final HolidayRequestDTO holidayRequestDTO) throws Exception {
         if(!dayRepository.existsById(holidayRequestDTO.getDayId())) throw new DayNotExistException();
@@ -27,6 +29,7 @@ public class HolidayValidator implements Validator<Long, HolidayRequestDTO> {
         validTypeHoliday(holidayRequestDTO);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public void validator(final Long holidayId,final  HolidayRequestDTO holidayRequestDTO) throws Exception {
         if(!holidayRepository.existsById(holidayId)) throw new HolidayNotExistException();

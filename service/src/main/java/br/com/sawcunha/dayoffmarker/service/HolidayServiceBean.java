@@ -29,7 +29,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class HolidayImplementationService implements HolidayService {
+public class HolidayServiceBean implements HolidayService {
     
     private final HolidayRepository holidayRepository;
     private final CountryService countryService;

@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-class ConfigurationImplementationService {
+class ConfigurationServiceBean {
 
     private final ConfigurationRepository configurationRepository;
 

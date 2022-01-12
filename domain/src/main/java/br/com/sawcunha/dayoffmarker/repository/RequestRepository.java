@@ -22,4 +22,7 @@ public interface RequestRepository extends JpaRepository<Request, UUID> {
 
     Optional<Request> findRequestByTypeRequestAndStatusRequest(eTypeRequest typeRequest, eStatusRequest statusRequest);
 
+    @Query(" SELECT r FROM Request r WHERE r.typeRequest = :typeRequest AND r.statusRequest != :statusRequest")
+    List<Request> findAllRequestByTypeRequestAndNotStatusRequest(eTypeRequest typeRequest, eStatusRequest statusRequest);
+
 }

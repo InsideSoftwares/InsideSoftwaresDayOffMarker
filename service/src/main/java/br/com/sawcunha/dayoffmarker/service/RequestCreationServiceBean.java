@@ -5,13 +5,18 @@ import br.com.sawcunha.dayoffmarker.commons.enums.eStatusRequest;
 import br.com.sawcunha.dayoffmarker.commons.enums.eTypeParameter;
 import br.com.sawcunha.dayoffmarker.commons.enums.eTypeRequest;
 import br.com.sawcunha.dayoffmarker.commons.enums.eTypeValue;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.country.CountryNameInvalidException;
 import br.com.sawcunha.dayoffmarker.commons.utils.DateUtils;
+import br.com.sawcunha.dayoffmarker.entity.Country;
 import br.com.sawcunha.dayoffmarker.entity.Request;
 import br.com.sawcunha.dayoffmarker.entity.RequestParameter;
 import br.com.sawcunha.dayoffmarker.repository.RequestRepository;
-import br.com.sawcunha.dayoffmarker.specification.service.RequestService;
+import br.com.sawcunha.dayoffmarker.specification.service.CountryService;
+import br.com.sawcunha.dayoffmarker.specification.service.RequestCreationService;
+import br.com.sawcunha.dayoffmarker.specification.validator.RequestValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,14 +26,20 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class RequestImplementationService implements RequestService {
+public class RequestCreationServiceBean implements RequestCreationService {
 
-    private final ConfigurationImplementationService configurationImplementationService;
+    private final ConfigurationServiceBean configurationServiceBean;
     private final RequestRepository requestRepository;
+    private final CountryService countryService;
+    private final RequestValidator requestValidator;
 
+    @Transactional(rollbackFor = {
+            CountryNameInvalidException.class
+    })
     @Override
     public String createInitialApplication(final String countryName) throws Exception{
         UUID keyRequest = UUID.randomUUID();
+        Country country = countryService.findCountryByName(countryName);
 
         Request request = Request.builder()
                 .id(keyRequest)
@@ -38,15 +49,17 @@ public class RequestImplementationService implements RequestService {
                 .requesting("System")
                 .build();
 
-        createRequestParameterInitial(request);
+        request.setRequestParameter(
+                createRequestParameterInitial(request, country)
+        );
 
         requestRepository.save(request);
         return keyRequest.toString();
     }
 
-    private void createRequestParameterInitial(final Request request) throws Exception {
-        String limitBackYears = configurationImplementationService.findValueConfigurationByKey(eConfigurationkey.LIMIT_BACK_DAYS_YEARS);
-        String limitForwardYears = configurationImplementationService.findValueConfigurationByKey(eConfigurationkey.LIMIT_FORWARD_DAYS_YEARS);
+    private Set<RequestParameter> createRequestParameterInitial(final Request request, final Country country) throws Exception {
+        String limitBackYears = configurationServiceBean.findValueConfigurationByKey(eConfigurationkey.LIMIT_BACK_DAYS_YEARS);
+        String limitForwardYears = configurationServiceBean.findValueConfigurationByKey(eConfigurationkey.LIMIT_FORWARD_DAYS_YEARS);
         LocalDate baseDate = LocalDate.now();
 
         String startYear = DateUtils.returnYearMinus(baseDate,limitBackYears);
@@ -55,18 +68,18 @@ public class RequestImplementationService implements RequestService {
         Set<RequestParameter> requestParameters = new HashSet<>();
 
         requestParameters.add(
+                createRequestParameter(request, eTypeParameter.COUNTRY, eTypeValue.LONG, country.getId().toString())
+        );
+        requestParameters.add(
                 createRequestParameter(request, eTypeParameter.START_YEAR, eTypeValue.INT, startYear)
         );
         requestParameters.add(
                 createRequestParameter(request, eTypeParameter.END_YEAR, eTypeValue.INT, endYear)
         );
-        requestParameters.add(
-                createRequestParameter(request, eTypeParameter.COUNTRY, eTypeValue.LONG, "76")
-        );
 
-        request.setRequestParameter(requestParameters);
+        requestValidator.validRequestInitial(requestParameters);
 
-        validRequest(request);
+        return requestParameters;
     }
 
     private RequestParameter createRequestParameter(
@@ -83,8 +96,6 @@ public class RequestImplementationService implements RequestService {
                 .build();
     }
 
-    private void validRequest(final Request request) throws Exception{
 
-    }
 
 }

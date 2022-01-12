@@ -10,6 +10,7 @@ import br.com.sawcunha.dayoffmarker.repository.StateRepository;
 import br.com.sawcunha.dayoffmarker.specification.validator.Validator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -18,6 +19,7 @@ public class StateValidator implements Validator<Long, StateRequestDTO> {
     private final StateRepository stateRepository;
     private final CountryRepository countryRepository;
 
+    @Transactional(readOnly = true)
     @Override
     public void validator(StateRequestDTO stateRequestDTO) throws Exception {
         if(!countryRepository.existsById(stateRequestDTO.getCountryId())) throw new CountryNotExistException();
@@ -37,6 +39,7 @@ public class StateValidator implements Validator<Long, StateRequestDTO> {
 
     }
 
+    @Transactional(readOnly = true)
     @Override
     public void validator(Long stateId, StateRequestDTO stateRequestDTO) throws Exception {
         if(!countryRepository.existsById(stateRequestDTO.getCountryId())) throw new CountryNotExistException();

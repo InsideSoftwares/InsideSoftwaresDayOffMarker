@@ -32,7 +32,7 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class CityImplementationService implements CityService {
+public class CityServiceBean implements CityService {
 
     private final CityRepository cityRepository;
     private final CountryService countryService;
