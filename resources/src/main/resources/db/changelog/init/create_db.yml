@@ -628,3 +628,72 @@ databaseChangeLog:
             constraintName: PK_DOM_CITY_NOT_HOLIDAY
             tableName: DOM_CITY_NOT_HOLIDAY
             validate: true
+  - changeSet:
+      id: create_DOM_TAG
+      author: System
+      changes:
+        - createTable:
+            tableName: DOM_TAG
+            dbms: 'h2,  mysql, postgresql'
+            columns:
+              - column:
+                  name: TAG_ID
+                  autoIncrement: true
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: DESCRIPTION
+                  autoIncrement: false
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: CODE
+                  autoIncrement: false
+                  type: VARCHAR(30)
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            columnNames: TAG_ID
+            constraintName: PK_DOM_TAG
+            tableName: DOM_TAG
+            validate: true
+        - addUniqueConstraint:
+            columnNames: CODE
+            constraintName: UK_CODE_DOM_TAG
+            tableName: DOM_TAG
+            validate: true
+  - changeSet:
+      id: create_DOM_DAY_TAG
+      author: System
+      changes:
+        - createTable:
+            tableName: DOM_DAY_TAG
+            dbms: 'h2,  mysql, postgresql'
+            columns:
+              - column:
+                  name: DAY_ID
+                  autoIncrement: false
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_DAY_ID_DOM_DAY_TAG
+                    validateForeignKey: true
+                    referencedColumnNames: DAY_ID
+                    referencedTableName: DOM_DAY
+              - column:
+                  name: TAG_ID
+                  autoIncrement: false
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_TAG_ID_DOM_DAY_TAG
+                    validateForeignKey: true
+                    referencedColumnNames: TAG_ID
+                    referencedTableName: DOM_TAG
+        - addPrimaryKey:
+            columnNames: DAY_ID, TAG_ID
+            constraintName: PK_DAY_TAG
+            tableName: DOM_DAY_TAG
+            validate: true

@@ -1,4 +1,4 @@
-package br.com.sawcunha.dayoffmarker.commons.dto.response.country;
+package br.com.sawcunha.dayoffmarker.commons.dto.response.tag;
 
 import lombok.Builder;
 import lombok.Data;
@@ -8,14 +8,12 @@ import java.io.Serializable;
 
 @Builder
 @Data
-public class CountryResponseDTO implements Serializable {
+public class TagResponseDTO implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     private Long id;
-    private String name;
-    private String acronym;
     private String code;
-
+    private String description;
 }

@@ -5,7 +5,10 @@ import br.com.sawcunha.dayoffmarker.commons.dto.request.StateRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.state.StateResponseDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.sort.eOrderState;
 import br.com.sawcunha.dayoffmarker.specification.service.StateService;
+import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
+import com.trendyol.jdempotent.core.annotation.JdempotentResource;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping(
@@ -35,6 +39,7 @@ public class StateController {
     @GetMapping("/v1/state")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ADMIN')")
+    @Cacheable("DAYOFF_MARKER_ADMIN")
     public DayOffMarkerResponse<List<StateResponseDTO>> findAll(
             @RequestParam(value = "country", required = false) String nameCountry,
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
@@ -48,6 +53,7 @@ public class StateController {
     @GetMapping("/v1/state/{id}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ADMIN')")
+    @Cacheable("DAYOFF_MARKER_ADMIN")
     public DayOffMarkerResponse<StateResponseDTO> findById(@PathVariable Long id) throws Exception {
         return stateService.findById(id);
     }
@@ -55,7 +61,10 @@ public class StateController {
     @PostMapping(value = "/v1/state", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public DayOffMarkerResponse<StateResponseDTO> save(@RequestBody StateRequestDTO stateRequestDTO) throws Exception {
+    @JdempotentResource(cachePrefix = "dayoff_marker", ttl = 1, ttlTimeUnit = TimeUnit.DAYS)
+    public DayOffMarkerResponse<StateResponseDTO> save(
+            @JdempotentRequestPayload @RequestBody StateRequestDTO stateRequestDTO
+    ) throws Exception {
         return stateService.save(stateRequestDTO);
     }
 

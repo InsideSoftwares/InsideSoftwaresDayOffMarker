@@ -13,6 +13,7 @@ import br.com.sawcunha.dayoffmarker.commons.exception.error.fixedholiday.FixedHo
 import br.com.sawcunha.dayoffmarker.commons.exception.error.holiday.HolidayException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.request.RequestException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.state.StateException;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.tag.TagException;
 import br.com.sawcunha.dayoffmarker.commons.exception.model.AttributeNotValid;
 import br.com.sawcunha.dayoffmarker.commons.exception.model.ExceptionResponse;
 import br.com.sawcunha.dayoffmarker.commons.exception.utils.ExceptionUtils;
@@ -224,5 +225,12 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
     protected ExceptionResponse handleSecurity(RequestException exception){
         return createResponse(exception.getCode());
     }
+
+	@ExceptionHandler(TagException.class)
+	@ResponseBody
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	protected ExceptionResponse handleSecurity(TagException exception){
+		return createResponse(exception.getCode());
+	}
 
 }

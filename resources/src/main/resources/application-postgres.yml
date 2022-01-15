@@ -7,6 +7,7 @@ logging:
   exception-conversion-word:
   level:
     liquibase: INFO
+    root: INFO
 
 liquibase:
   change-log: classpath:db.changelog-master.yaml
@@ -16,6 +17,10 @@ jwt:
   valid: 60 #Define em Minutos o tempo valido do Token
 
 spring:
+  data:
+    redis:
+      repositories:
+        enabled: false
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
@@ -41,6 +46,32 @@ spring:
     scheduling:
       pool:
         size: 5
+  redis:
+    port: 26379
+    passowrd: str0ng_passw0rd
+    sentinel:
+      database: 0
+      master: mymaster
+      nodes:  localhost
+      passowrd: str0ng_passw0rd
+  cache:
+    type: redis
+    edis:
+      key-prefix: 'api::'
+      time-to-live: 12000000
+
+dayoff-marker-cache:
+  config:
+    caches:
+      -  name: DAYOFF_MARKER_ADMIN
+         timeToLiveSeconds: 3600
+      -  name: TEN_MINUTES_CACHE
+         timeToLiveSeconds: 600
+
+  dayoff-caches:
+    caches:
+      serviceOne_cache: DAYOFF_MARKER_ADMIN
+      serviceTwo_cache: TEN_MINUTES_CACHE
 
 application:
   scheduling:
@@ -49,3 +80,19 @@ application:
         fixedDelayInMilliseconds: 60000
         fixedRateInMilliseconds: 60000
         initialDelayInMilliseconds: 120000
+
+jdempotent:
+  enable: true
+  cache:
+    redis:
+      database: 1
+      password: "str0ng_passw0rd"
+      sentinelHostList: localhost
+      sentinelPort: "26379"
+      sentinelMasterName: "mymaster"
+      expirationTimeHour: 2
+      dialTimeoutSecond: 3
+      readTimeoutSecond: 3
+      writeTimeoutSecond: 3
+      maxRetryCount: 3
+      expireTimeoutHour: 3

@@ -5,9 +5,14 @@ import lombok.Getter;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serial;
+import java.io.Serializable;
 
 @Getter
-public class CountryRequestDTO {
+public class CountryRequestDTO implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @NotNull(message = "DOMV-003")
     @NotEmpty(message = "DOMV-001")

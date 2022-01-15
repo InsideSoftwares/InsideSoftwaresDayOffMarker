@@ -11,6 +11,7 @@ import br.com.sawcunha.dayoffmarker.repository.DayRepository;
 import br.com.sawcunha.dayoffmarker.repository.FixedHolidayRepository;
 import br.com.sawcunha.dayoffmarker.repository.HolidayRepository;
 import br.com.sawcunha.dayoffmarker.repository.StateRepository;
+import br.com.sawcunha.dayoffmarker.repository.TagRepository;
 import br.com.sawcunha.dayoffmarker.specification.validator.Validator;
 import br.com.sawcunha.dayoffmarker.validator.city.CityValidator;
 import br.com.sawcunha.dayoffmarker.validator.country.CountryValidator;
@@ -31,6 +32,7 @@ public class ValidatorConfiguration {
     private final FixedHolidayRepository fixedHolidayRepository;
     private final HolidayRepository holidayRepository;
     private final DayRepository dayRepository;
+	private final TagRepository tagRepository;
 
     @Bean
     public Validator<Long, CountryRequestDTO> createCountryValidator(){
