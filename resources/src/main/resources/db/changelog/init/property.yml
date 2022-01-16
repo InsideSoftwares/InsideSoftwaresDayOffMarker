@@ -22,7 +22,7 @@ databaseChangeLog:
   - property:
       dbms: 'mysql'
       name: UUIDType
-      value: VARCHAR(255)
+      value: binary(16)
   - property:
       dbms: postgresql
       name: defaultValueBoolean

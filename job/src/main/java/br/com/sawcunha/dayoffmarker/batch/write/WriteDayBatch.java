@@ -16,8 +16,6 @@ public class WriteDayBatch implements ItemWriter<DayBatch> {
 
     @Override
     public void write(List<? extends DayBatch> dayBatches)  {
-        dayBatches.forEach(dayBatch -> {
-            batchCreationDayService.createDayBatch(dayBatch);
-        });
+        dayBatches.forEach(dayBatch -> batchCreationDayService.createDayBatch(dayBatch));
     }
 }

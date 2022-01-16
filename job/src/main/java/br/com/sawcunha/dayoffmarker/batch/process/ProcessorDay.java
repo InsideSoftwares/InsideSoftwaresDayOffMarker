@@ -14,7 +14,7 @@ public class ProcessorDay implements ItemProcessor<DayBatch, Day> {
     private DayMapper dayMapper;
 
     @Override
-    public Day process(DayBatch dayBatch) throws Exception {
+    public Day process(final DayBatch dayBatch) {
         return dayMapper.toDayBatch(dayBatch);
     }
 

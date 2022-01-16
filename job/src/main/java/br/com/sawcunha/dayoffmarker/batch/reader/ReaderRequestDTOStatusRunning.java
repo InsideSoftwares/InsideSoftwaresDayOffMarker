@@ -3,16 +3,15 @@ package br.com.sawcunha.dayoffmarker.batch.reader;
 import br.com.sawcunha.dayoffmarker.commons.dto.batch.RequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.eStatusRequest;
 import br.com.sawcunha.dayoffmarker.specification.batch.BatchCreationDayService;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 @Component
 @StepScope
@@ -23,23 +22,19 @@ public class ReaderRequestDTOStatusRunning implements ItemReader<RequestDTO> {
 
     private int nextRequest;
     private List<RequestDTO> requestDTOs;
-    private List<UUID> uuid;
 
-    @Value("#{jobParameters['List']}")
-    public void setFileName(final String name) {
-        uuid = new ArrayList<>();
-        Arrays.stream(name.split(",")).forEach(s -> {
-            uuid.add(UUID.fromString(s.trim()));
-        });
-    }
+	private Long jobId;
+
+	@BeforeStep
+	public void getInterstepData(StepExecution stepExecution) {
+		JobExecution jobExecution = stepExecution.getJobExecution();
+		this.jobId = jobExecution.getJobId();
+	}
 
     @Override
     public RequestDTO read() throws Exception {
         if(requestDTOs == null){
-            requestDTOs = batchCreationDayService.findAllRequestDTOForBatch(
-                    uuid,
-                    eStatusRequest.RUNNING
-            );
+            requestDTOs = batchCreationDayService.findAllRequestDTOForBatch(jobId, eStatusRequest.RUNNING);
         }
         RequestDTO nextRequestDto = null;
 

@@ -6,9 +6,11 @@ import br.com.sawcunha.dayoffmarker.commons.exception.error.ConfigurationNotExis
 import br.com.sawcunha.dayoffmarker.commons.exception.error.DayMonthInvalidException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.InvalidKeyAccessException;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.StartDateAfterEndDateException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.TokenJWTException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.city.CityException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.country.CountryExpetion;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.day.DayExpetion;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.fixedholiday.FixedHolidayException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.holiday.HolidayException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.request.RequestException;
@@ -230,6 +232,20 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
 	@ResponseBody
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	protected ExceptionResponse handleSecurity(TagException exception){
+		return createResponse(exception.getCode());
+	}
+
+	@ExceptionHandler(DayExpetion.class)
+	@ResponseBody
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	protected ExceptionResponse handleSecurity(DayExpetion exception){
+		return createResponse(exception.getCode());
+	}
+
+	@ExceptionHandler(StartDateAfterEndDateException.class)
+	@ResponseBody
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	protected ExceptionResponse handleSecurity(StartDateAfterEndDateException exception){
 		return createResponse(exception.getCode());
 	}
 

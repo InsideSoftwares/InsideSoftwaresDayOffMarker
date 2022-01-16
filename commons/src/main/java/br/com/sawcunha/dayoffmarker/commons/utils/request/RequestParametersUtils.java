@@ -3,36 +3,34 @@ package br.com.sawcunha.dayoffmarker.commons.utils.request;
 import br.com.sawcunha.dayoffmarker.commons.dto.batch.RequestParameterDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.eTypeParameter;
 
-import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 
 public class RequestParametersUtils {
 
-    public RequestParametersUtils() {
-        //Empty
+	private static RequestParameterDTO getParameter(
+			final Set<RequestParameterDTO> requestParameterDTOS,
+			final eTypeParameter typeParameter){
+		Optional<RequestParameterDTO> optionalRequestParameterDTO =
+				requestParameterDTOS.stream().filter(requestParameterDTO ->
+					requestParameterDTO.getTypeParameter().equals(typeParameter)
+			).findAny();
+        return optionalRequestParameterDTO.orElse(null);
     }
 
-    private String getParameter(List<RequestParameterDTO> requestParameterDTOS){
-        return "";
+    public static Integer getYear(Set<RequestParameterDTO> requestParameterDTOS){
+		RequestParameterDTO requestParameterDTO = getParameter(requestParameterDTOS, eTypeParameter.YEAR);
+        return Objects.nonNull(requestParameterDTO) ? Integer.parseInt(requestParameterDTO.getValue()) : null;
     }
 
-    private Integer getYear(List<RequestParameterDTO> requestParameterDTOS){
-        String year = requestParameterDTOS.stream().filter(requestParameterDTO ->
-                requestParameterDTO.getTypeParameter().equals(eTypeParameter.YEAR)
-        ).findAny().get().getValue();
-        return Integer.parseInt(year);
+	public static Integer getMonth(Set<RequestParameterDTO> requestParameterDTOS){
+		RequestParameterDTO requestParameterDTO = getParameter(requestParameterDTOS, eTypeParameter.MONTH);
+		return Objects.nonNull(requestParameterDTO) ? Integer.parseInt(requestParameterDTO.getValue()) : null;
     }
 
-    private Integer getMonth(List<RequestParameterDTO> requestParameterDTOS){
-        String month = requestParameterDTOS.stream().filter(requestParameterDTO ->
-                requestParameterDTO.getTypeParameter().equals(eTypeParameter.MONTH)
-        ).findAny().get().getValue();
-        return Integer.parseInt(month);
-    }
-
-    private Long getCountry(List<RequestParameterDTO> requestParameterDTOS){
-        String country = requestParameterDTOS.stream().filter(requestParameterDTO ->
-                requestParameterDTO.getTypeParameter().equals(eTypeParameter.COUNTRY)
-        ).findAny().get().getValue();
-        return Long.parseLong(country);
+	public static Long getCountry(Set<RequestParameterDTO> requestParameterDTOS){
+		RequestParameterDTO requestParameterDTO = getParameter(requestParameterDTOS, eTypeParameter.COUNTRY);
+		return Objects.nonNull(requestParameterDTO) ? Long.parseLong(requestParameterDTO.getValue()) : null;
     }
 }

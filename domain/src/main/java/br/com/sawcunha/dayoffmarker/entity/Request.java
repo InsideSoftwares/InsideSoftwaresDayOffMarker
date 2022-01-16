@@ -57,6 +57,9 @@ public class Request {
     @Enumerated(EnumType.STRING)
     private eTypeRequest typeRequest;
 
+	@Column(name = "JOB_ID")
+	private Long jobId;
+
     @OneToMany(mappedBy = "request", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<RequestParameter> requestParameter;
 

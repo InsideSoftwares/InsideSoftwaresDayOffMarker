@@ -4,6 +4,7 @@ import br.com.sawcunha.dayoffmarker.commons.dto.DayOffMarkerResponse;
 import br.com.sawcunha.dayoffmarker.commons.dto.request.HolidayRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.holiday.HolidayResponseDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.sort.eOrderHoliday;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.StartDateAfterEndDateException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.day.DayNotExistException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.holiday.HolidayDayExistException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.holiday.HolidayFromTimeNotInformedException;
@@ -25,7 +26,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -36,33 +39,53 @@ public class HolidayServiceBean implements HolidayService {
     private final HolidayMapper holidayMapper;
     private final Validator<Long, HolidayRequestDTO> holidayValidator;
     private final DayService dayService;
-    
-    @Override
-    public DayOffMarkerResponse<List<HolidayResponseDTO>> findAll(
-            final String nameCountry,
-            final int page,
-            final int sizePerPage,
-            final Sort.Direction direction,
-            final eOrderHoliday orderHoliday
-    ) throws Exception {
-        Pageable pageable = PaginationUtils.createPageable(page, sizePerPage, direction, orderHoliday);
 
-        Country country = countryService.findCountryByNameOrDefault(nameCountry);
+	@Transactional(readOnly = true)
+	@Override
+	public DayOffMarkerResponse<List<HolidayResponseDTO>> findAll(
+			final LocalDate startDate,
+			final LocalDate endDate,
+			final String nameCountry,
+			final int page,
+			final int sizePerPage,
+			final Sort.Direction direction,
+			final eOrderHoliday orderHoliday
+	) throws Exception {
 
-        Page<Holiday> holidays = holidayRepository.findAllByCountry(country, pageable);
+		Pageable pageable = PaginationUtils.createPageable(page, sizePerPage, direction, orderHoliday);
 
-        return DayOffMarkerResponse.<List<HolidayResponseDTO>>builder()
-                .data(holidayMapper.toDTOs(holidays.getContent()))
-                .paginated(
-                        PaginationUtils.createPaginated(
-                                holidays.getTotalPages(),
-                                holidays.getTotalElements(),
-                                sizePerPage
-                        )
-                )
-                .build();
-    }
+		Country country = countryService.findCountryByNameOrDefault(nameCountry);
 
+		Page<Holiday> holidays;
+		if(Objects.nonNull(startDate) && Objects.nonNull(endDate)) {
+
+			if (startDate.isAfter(endDate)) {
+				throw new StartDateAfterEndDateException();
+			}
+
+			holidays = holidayRepository.findAllByCountryAndStartDateAndEndDate(
+					country,
+					startDate,
+					endDate,
+					pageable
+			);
+		} else {
+			holidays = holidayRepository.findAllByCountry(country, pageable);
+		}
+
+		return DayOffMarkerResponse.<List<HolidayResponseDTO>>builder()
+				.data(holidayMapper.toDTOs(holidays.getContent()))
+				.paginated(
+						PaginationUtils.createPaginated(
+								holidays.getTotalPages(),
+								holidays.getTotalElements(),
+								sizePerPage
+						)
+				)
+				.build();
+	}
+
+	@Transactional(readOnly = true)
     @Override
     public DayOffMarkerResponse<HolidayResponseDTO> findById(final Long holidayID) throws Exception {
         Holiday holiday = holidayRepository.findById(holidayID).orElseThrow(HolidayNotExistException::new);
@@ -132,4 +155,28 @@ public class HolidayServiceBean implements HolidayService {
                 .data(holidayMapper.toDTO(holiday))
                 .build();
     }
+
+	@Transactional(rollbackFor = {
+			DayNotExistException.class,
+			HolidayDayExistException.class,
+			HolidayFromTimeNotInformedException.class
+	})
+	@Override
+	public void saveHoliday(final HolidayRequestDTO holidayRequestDTO) throws Exception {
+		holidayValidator.validator(holidayRequestDTO);
+
+		Day day = dayService.findDayByID(holidayRequestDTO.getDayId());
+
+		Holiday holiday = Holiday.builder()
+				.name(holidayRequestDTO.getName())
+				.description(holidayRequestDTO.getDescription())
+				.holidayType(holidayRequestDTO.getHolidayType())
+				.fromTime(holidayRequestDTO.getFromTime())
+				.day(day)
+				.build();
+
+		holidayRepository.save(holiday);
+
+		dayService.setDayHoliday(holidayRequestDTO.getDayId(), true);
+	}
 }

@@ -24,10 +24,9 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
-
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    @JdempotentResource(cachePrefix = "dayoff_marker_auth", ttl = 30, ttlTimeUnit = TimeUnit.MINUTES)
+    @JdempotentResource(cachePrefix = "dayoff_marker_auth", ttl = 60, ttlTimeUnit = TimeUnit.MINUTES)
     public DayOffMarkerResponse<AuthResponseDTO> login(
             @JdempotentRequestPayload @RequestBody final AuthRequestDTO authRequestDTO
     ) throws Exception {

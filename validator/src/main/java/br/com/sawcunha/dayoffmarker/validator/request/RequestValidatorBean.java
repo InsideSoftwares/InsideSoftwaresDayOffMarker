@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -49,17 +50,17 @@ public class RequestValidatorBean implements RequestValidator {
                             eStatusRequest.ERROR
                     );
 
-            Integer startYearToValidate = getStartYear(requestParametersToValidate);
-            Integer endYearToValidate = getEndYear(requestParametersToValidate);
-            Long countryToValidate = getCountry(requestParametersToValidate);
+            Integer startYearToValidate = getInteger(requestParametersToValidate, eTypeParameter.START_YEAR);
+            Integer endYearToValidate = getInteger(requestParametersToValidate, eTypeParameter.END_YEAR);
+            Long countryToValidate = getLong(requestParametersToValidate, eTypeParameter.COUNTRY);
 
             for (Request request : requests) {
                 Set<RequestParameter> requestParameters = request.getRequestParameter();
 
-                Long country = getCountry(requestParameters);
+                Long country = getLong(requestParameters, eTypeParameter.COUNTRY);
                 if(country.equals(countryToValidate)){
-                    Integer startYear = getStartYear(requestParameters);
-                    Integer endYear = getEndYear(requestParameters);
+                    Integer startYear = getInteger(requestParameters,  eTypeParameter.START_YEAR);
+                    Integer endYear = getInteger(requestParameters, eTypeParameter.END_YEAR);
                     if(startYearToValidate >= startYear && startYearToValidate <= endYear ) throw new RequestConflitParametersException();
                     if(endYearToValidate >= startYear && endYearToValidate <= endYear ) throw new RequestConflitParametersException();
                 }
@@ -77,6 +78,43 @@ public class RequestValidatorBean implements RequestValidator {
         }
     }
 
+	@Transactional(readOnly = true)
+	@Override
+	public void validRequestCreateDate(final Set<RequestParameter> requestParametersToValidate) throws Exception {
+		try {
+			List<Request> requests =
+					requestRepository.findAllRequestByTypeRequestAndNotStatusRequest(
+							eTypeRequest.CREATE_DATE,
+							eStatusRequest.ERROR
+					);
+
+			Integer yearToValidate = getInteger(requestParametersToValidate, eTypeParameter.YEAR);
+			Integer monthToValidate = getInteger(requestParametersToValidate, eTypeParameter.MONTH);
+			Long countryToValidate = getLong(requestParametersToValidate, eTypeParameter.COUNTRY);
+
+			for (Request request : requests) {
+				Set<RequestParameter> requestParameters = request.getRequestParameter();
+
+				Long country = getLong(requestParameters, eTypeParameter.COUNTRY);
+				if(country.equals(countryToValidate)){
+					Integer year = getInteger(requestParameters,  eTypeParameter.YEAR);
+					Integer month = getInteger(requestParameters, eTypeParameter.MONTH);
+					if(Objects.equals(yearToValidate, year) && Objects.equals(monthToValidate, month) ) throw new RequestConflitParametersException();
+				}
+			}
+		} catch (ParameterNotExistException | RequestConflitParametersException parameterNotExistExeption){
+			logService.logError(
+					parameterNotExistExeption.getCode(),
+					parameterNotExistExeption.getMessage(),
+					parameterNotExistExeption.getCause()
+			);
+			throw parameterNotExistExeption;
+		} catch (Exception e){
+			logService.logError(eExceptionCode.GENERIC.getCode(), e.getMessage(), e.getCause());
+			throw e;
+		}
+	}
+
     private String getParameter(
             final Set<RequestParameter> requestParameters,
             eTypeParameter typeParameter
@@ -88,18 +126,13 @@ public class RequestValidatorBean implements RequestValidator {
         return requestParameterOptional.orElseThrow(ParameterNotExistException::new).getValue();
     }
 
-    private Integer getStartYear(final Set<RequestParameter> requestParameters) throws ParameterNotExistException {
-        String year = getParameter(requestParameters, eTypeParameter.START_YEAR);
+    private Integer getInteger(final Set<RequestParameter> requestParameters, eTypeParameter typeParameter) throws ParameterNotExistException {
+        String year = getParameter(requestParameters, typeParameter);
         return Integer.parseInt(year);
     }
 
-    private Integer getEndYear(final Set<RequestParameter> requestParameters) throws ParameterNotExistException {
-        String year = getParameter(requestParameters, eTypeParameter.END_YEAR);
-        return Integer.parseInt(year);
-    }
-
-    private Long getCountry(final Set<RequestParameter> requestParameters) throws ParameterNotExistException {
-        String country = getParameter(requestParameters, eTypeParameter.COUNTRY);
+    private Long getLong(final Set<RequestParameter> requestParameters, eTypeParameter typeParameter) throws ParameterNotExistException {
+        String country = getParameter(requestParameters, typeParameter);
         return Long.parseLong(country);
     }
 

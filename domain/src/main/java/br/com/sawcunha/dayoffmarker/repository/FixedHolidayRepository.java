@@ -8,10 +8,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface FixedHolidayRepository extends JpaRepository<FixedHoliday, Long> {
 
-    Page<FixedHoliday> findAllByCountry(Country country, Pageable pageable);
+	Page<FixedHoliday> findAllByCountry(Country country, Pageable pageable);
+	List<FixedHoliday> findAllByCountry(Country country);
 
     @Query("""
             SELECT count(f)>0

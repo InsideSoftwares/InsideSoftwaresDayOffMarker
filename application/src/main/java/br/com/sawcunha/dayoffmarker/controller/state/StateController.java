@@ -8,6 +8,7 @@ import br.com.sawcunha.dayoffmarker.specification.service.StateService;
 import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
 import com.trendyol.jdempotent.core.annotation.JdempotentResource;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -39,7 +40,7 @@ public class StateController {
     @GetMapping("/v1/state")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ADMIN')")
-    @Cacheable("DAYOFF_MARKER_ADMIN")
+    @Cacheable("DAYOFF_MARKER_STATE")
     public DayOffMarkerResponse<List<StateResponseDTO>> findAll(
             @RequestParam(value = "country", required = false) String nameCountry,
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
@@ -53,7 +54,7 @@ public class StateController {
     @GetMapping("/v1/state/{id}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ADMIN')")
-    @Cacheable("DAYOFF_MARKER_ADMIN")
+    @Cacheable("DAYOFF_MARKER_STATE")
     public DayOffMarkerResponse<StateResponseDTO> findById(@PathVariable Long id) throws Exception {
         return stateService.findById(id);
     }
@@ -61,7 +62,8 @@ public class StateController {
     @PostMapping(value = "/v1/state", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyRole('ADMIN')")
-    @JdempotentResource(cachePrefix = "dayoff_marker", ttl = 1, ttlTimeUnit = TimeUnit.DAYS)
+	@CacheEvict(value="DAYOFF_MARKER_STATE", allEntries=true)
+    @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_STATE", ttl = 1, ttlTimeUnit = TimeUnit.DAYS)
     public DayOffMarkerResponse<StateResponseDTO> save(
             @JdempotentRequestPayload @RequestBody StateRequestDTO stateRequestDTO
     ) throws Exception {
@@ -71,6 +73,7 @@ public class StateController {
     @PutMapping(value = "/v1/state/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PreAuthorize("hasAnyRole('ADMIN')")
+	@CacheEvict(value="DAYOFF_MARKER_STATE", allEntries=true)
     public DayOffMarkerResponse<StateResponseDTO> update(
             @PathVariable Long id,
             @RequestBody StateRequestDTO stateRequestDTO

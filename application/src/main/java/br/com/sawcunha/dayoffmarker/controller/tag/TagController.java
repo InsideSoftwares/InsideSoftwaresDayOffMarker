@@ -8,6 +8,7 @@ import br.com.sawcunha.dayoffmarker.specification.service.TagService;
 import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
 import com.trendyol.jdempotent.core.annotation.JdempotentResource;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -39,7 +40,7 @@ public class TagController {
 	@GetMapping("/v1/tag")
 	@ResponseStatus(HttpStatus.OK)
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@Cacheable("DAYOFF_MARKER_ADMIN")
+	@Cacheable("DAYOFF_MARKER_TAG")
 	public DayOffMarkerResponse<List<TagResponseDTO>> findAll(
 			@RequestParam(value = "page", required = false, defaultValue = "1") int page,
 			@RequestParam(value = "sizePerPage", required = false, defaultValue = "10") int sizePerPage,
@@ -52,7 +53,7 @@ public class TagController {
 	@GetMapping("/v1/tag/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@Cacheable("DAYOFF_MARKER_ADMIN")
+	@Cacheable("DAYOFF_MARKER_TAG")
 	public DayOffMarkerResponse<TagResponseDTO> findById(@PathVariable Long id) throws Exception {
 		return tagService.findById(id);
 	}
@@ -60,7 +61,8 @@ public class TagController {
 	@PostMapping(value = "/v1/tag", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@JdempotentResource(cachePrefix = "dayoff_marker", ttl = 1, ttlTimeUnit = TimeUnit.DAYS)
+	@CacheEvict(value="DAYOFF_MARKER_TAG", allEntries=true)
+	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_TAG", ttl = 1, ttlTimeUnit = TimeUnit.DAYS)
 	public DayOffMarkerResponse<TagResponseDTO> save(
 			@JdempotentRequestPayload @RequestBody TagRequestDTO tagRequestDTO
 	) throws Exception {
@@ -70,6 +72,7 @@ public class TagController {
 	@PutMapping(value = "/v1/tag/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@CacheEvict(value="DAYOFF_MARKER_TAG", allEntries=true)
 	public DayOffMarkerResponse<TagResponseDTO> update(
 			@PathVariable Long id,
 			@RequestBody TagRequestDTO tagRequestDTO

@@ -27,6 +27,7 @@ public class HolidayRequestDTO implements Serializable {
 
     @NotNull(message = "DOMV-003")
     private eTypeHoliday holidayType;
+
     private LocalTime fromTime;
 
     @NotNull(message = "DOMV-003")

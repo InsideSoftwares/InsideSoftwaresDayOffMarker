@@ -490,6 +490,12 @@ databaseChangeLog:
                   type: DATETIME
                   constraints:
                     nullable: true
+              - column:
+                  name: JOB_ID
+                  autoIncrement: false
+                  type: BIGINT
+                  constraints:
+                    nullable: true
   - changeSet:
       id: create_DOM_REQUEST_PARAMETER
       author: System
@@ -580,7 +586,7 @@ databaseChangeLog:
                   type: BIGINT
                   constraints:
                     nullable: false
-                    foreignKeyName: FK_COUNTRY_ID_DOM_DAY
+                    foreignKeyName: FK_COUNTRY_ID_DOM_DAY_BATCH
                     validateForeignKey: true
                     referencedColumnNames: COUNTRY_ID
                     referencedTableName: DOM_COUNTRY
@@ -641,6 +647,8 @@ databaseChangeLog:
                   autoIncrement: true
                   type: BIGINT
                   constraints:
+                    primaryKey: true
+                    primaryKeyName: PK_DOM_TAG
                     nullable: false
               - column:
                   name: DESCRIPTION
@@ -654,11 +662,6 @@ databaseChangeLog:
                   type: VARCHAR(30)
                   constraints:
                     nullable: false
-        - addPrimaryKey:
-            columnNames: TAG_ID
-            constraintName: PK_DOM_TAG
-            tableName: DOM_TAG
-            validate: true
         - addUniqueConstraint:
             columnNames: CODE
             constraintName: UK_CODE_DOM_TAG

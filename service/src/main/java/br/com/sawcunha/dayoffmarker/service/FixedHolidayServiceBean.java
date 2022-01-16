@@ -2,6 +2,7 @@ package br.com.sawcunha.dayoffmarker.service;
 
 import br.com.sawcunha.dayoffmarker.commons.dto.DayOffMarkerResponse;
 import br.com.sawcunha.dayoffmarker.commons.dto.request.FixedHolidayRequestDTO;
+import br.com.sawcunha.dayoffmarker.commons.dto.request.FixedHolidayUpdateRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.fixedholiday.FixedHolidayResponseDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.sort.eOrderFixedHoliday;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.DayMonthInvalidException;
@@ -33,7 +34,8 @@ public class FixedHolidayServiceBean implements FixedHolidayService {
 
     private final CountryService countryService;
     private final FixedHolidayRepository fixedHolidayRepository;
-    private final Validator<Long, FixedHolidayRequestDTO> fixedHolidayValidator;
+	private final Validator<Long, FixedHolidayRequestDTO> fixedHolidayValidator;
+	private final Validator<Long, FixedHolidayUpdateRequestDTO> fixedHolidayUpdateValidator;
     private final FixedHolidayMapper fixedHolidayMapper;
 
     @Override
@@ -116,21 +118,14 @@ public class FixedHolidayServiceBean implements FixedHolidayService {
     @Override
     public DayOffMarkerResponse<FixedHolidayResponseDTO> update(
             Long fixedHolidayID,
-            final @Valid FixedHolidayRequestDTO fixedHolidayRequestDTO
+            final @Valid FixedHolidayUpdateRequestDTO fixedHolidayRequestDTO
     ) throws Exception {
-        fixedHolidayValidator.validator(fixedHolidayID,fixedHolidayRequestDTO);
+	fixedHolidayUpdateValidator.validator(fixedHolidayID,fixedHolidayRequestDTO);
 
         FixedHoliday fixedHoliday = fixedHolidayRepository.getById(fixedHolidayID);
 
-        if(!fixedHoliday.getCountry().getId().equals(fixedHolidayRequestDTO.getCountryId())){
-            Country country = countryService.findCountryByCountryId(fixedHolidayRequestDTO.getCountryId());
-            fixedHoliday.setCountry(country);
-        }
-
         fixedHoliday.setName(fixedHolidayRequestDTO.getName());
         fixedHoliday.setDescription(fixedHolidayRequestDTO.getDescription());
-        fixedHoliday.setDay(fixedHolidayRequestDTO.getDay());
-        fixedHoliday.setMonth(fixedHolidayRequestDTO.getMonth());
         fixedHoliday.setOptional(fixedHolidayRequestDTO.getIsOptional());
         fixedHoliday.setFromTime(fixedHolidayRequestDTO.getFromTime());
 
@@ -141,4 +136,9 @@ public class FixedHolidayServiceBean implements FixedHolidayService {
                 .build();
     }
 
+	@Override
+	public List<FixedHoliday> findAllByCountry() throws Exception {
+		Country country = countryService.findCountryDefault();
+		return fixedHolidayRepository.findAllByCountry(country);
+	}
 }

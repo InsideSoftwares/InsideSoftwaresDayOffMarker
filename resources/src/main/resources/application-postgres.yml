@@ -14,7 +14,7 @@ liquibase:
 
 jwt:
   secret: usersecretforjwtauthenticateoratoroeuaroupadoreideromalalalameudeuscomoessabencaodechave
-  valid: 60 #Define em Minutos o tempo valido do Token
+  valid: 60 #Sets token validity time in minutes
 
 spring:
   data:
@@ -22,9 +22,13 @@ spring:
       repositories:
         enabled: false
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: bicDev2021!
+    url: jdbc:postgresql://localhost:5432/DayOff_Marker
+    username: dayoff_marker_ADMIN
+    password: pe&X=RwN&@!H7%mB
+    idleTimeout: 150000
+    maxLifetime: 300000
+    minimumIdle: 5
+    maximumPoolSize: 25
   jpa:
     show-sql: false
     properties:
@@ -63,23 +67,50 @@ spring:
 dayoff-marker-cache:
   config:
     caches:
-      -  name: DAYOFF_MARKER_ADMIN
+      -  name: DAYOFF_MARKER_CITY
          timeToLiveSeconds: 3600
-      -  name: TEN_MINUTES_CACHE
-         timeToLiveSeconds: 600
+      -  name: DAYOFF_MARKER_COUNTRY
+         timeToLiveSeconds: 3600
+      -  name: DAYOFF_MARKER_FIXEDHOLIDAY
+         timeToLiveSeconds: 3600
+      -  name: DAYOFF_MARKER_HOLIDAY
+         timeToLiveSeconds: 3600
+      -  name: DAYOFF_MARKER_STATE
+         timeToLiveSeconds: 3600
+      -  name: DAYOFF_MARKER_TAG
+         timeToLiveSeconds: 3600
 
   dayoff-caches:
     caches:
-      serviceOne_cache: DAYOFF_MARKER_ADMIN
-      serviceTwo_cache: TEN_MINUTES_CACHE
+      name_cache_city: DAYOFF_MARKER_CITY
+      name_cache_country: DAYOFF_MARKER_COUNTRY
+      name_cache_fixedholiday: DAYOFF_MARKER_FIXEDHOLIDAY
+      name_cache_holiday: DAYOFF_MARKER_HOLIDAY
+      name_cache_state: DAYOFF_MARKER_STATE
+      name_cache_tag: DAYOFF_MARKER_TAG
 
 application:
+  view_response_json: true
   scheduling:
     request:
       create_date:
-        fixedDelayInMilliseconds: 60000
-        fixedRateInMilliseconds: 60000
-        initialDelayInMilliseconds: 120000
+        initialDelayInMilliseconds: 180000
+        find_request_create_date:
+          fixedRateInMilliseconds: 180000
+        run_request_create_date:
+          fixedRateInMilliseconds: 120000
+        batch:
+          fixedRateInMilliseconds: 140000
+    cache:
+      initialDelayInMilliseconds: 180000
+      clear:
+        fixedRateInMilliseconds: 43200000
+    holiday:
+      initialDelayInMilliseconds: 180000
+      create:
+        fixedRateInMilliseconds: 180000
+      update:
+        fixedRateInMilliseconds: 180000
 
 jdempotent:
   enable: true

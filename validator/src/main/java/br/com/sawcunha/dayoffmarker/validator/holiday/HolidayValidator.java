@@ -1,6 +1,7 @@
 package br.com.sawcunha.dayoffmarker.validator.holiday;
 
 import br.com.sawcunha.dayoffmarker.commons.dto.request.HolidayRequestDTO;
+import br.com.sawcunha.dayoffmarker.commons.enums.eTypeHoliday;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.day.DayNotExistException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.holiday.HolidayDayExistException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.holiday.HolidayFromTimeNotInformedException;
@@ -39,11 +40,9 @@ public class HolidayValidator implements Validator<Long, HolidayRequestDTO> {
     }
 
     private void validTypeHoliday(final HolidayRequestDTO holidayRequestDTO) throws Exception{
-        switch (holidayRequestDTO.getHolidayType()){
-            case OPTIONAL, HALF_PERIOD -> {
-                if(Objects.isNull(holidayRequestDTO.getFromTime()))
-                    throw new HolidayFromTimeNotInformedException();
-            }
-        }
+		if (holidayRequestDTO.getHolidayType() == eTypeHoliday.HALF_PERIOD) {
+			if (Objects.isNull(holidayRequestDTO.getFromTime()))
+				throw new HolidayFromTimeNotInformedException();
+		}
     }
 }

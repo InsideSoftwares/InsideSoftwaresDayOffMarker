@@ -2,6 +2,7 @@ package br.com.sawcunha.dayoffmarker.service.batch;
 
 import br.com.sawcunha.dayoffmarker.commons.dto.batch.RequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.eStatusRequest;
+import br.com.sawcunha.dayoffmarker.commons.enums.eTypeRequest;
 import br.com.sawcunha.dayoffmarker.entity.Country;
 import br.com.sawcunha.dayoffmarker.entity.Day;
 import br.com.sawcunha.dayoffmarker.entity.DayBatch;
@@ -22,26 +23,41 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class BatchCreationDayImplementationService implements BatchCreationDayService {
 
-    private RequestRepository requestRepository;
-    private RequestMapper requestMapper;
-    private DayBatchRepository dayBatchRepository;
-    private DayRepository dayRepository;
-    private CountryRepository countryRepository;
+    private final RequestRepository requestRepository;
+    private final RequestMapper requestMapper;
+    private final DayBatchRepository dayBatchRepository;
+    private final DayRepository dayRepository;
+    private final CountryRepository countryRepository;
 
 
-    @Override
-    public List<RequestDTO> findAllRequestDTOForBatch(List<UUID> requests, eStatusRequest statusRequest){
-        return requestMapper.toDTOs(requestRepository.findAllByIdAndStatusRequest(requests, statusRequest));
+	@Override
+	public List<RequestDTO> findAllRequestDTOForBatch(eStatusRequest statusRequest) {
+		return requestMapper.toDTOs(
+				requestRepository.findAllByStatusRequest(statusRequest, eTypeRequest.CREATE_DATE)
+		);
+	}
+
+	@Override
+    public List<RequestDTO> findAllRequestDTOForBatch(final Long jobId, eStatusRequest statusRequest){
+        return requestMapper.toDTOs(
+				requestRepository.findAllByJobIdAndStatusRequest(jobId, statusRequest, eTypeRequest.CREATE_DATE)
+		);
+    }
+
+	@Override
+	public List<Request> findAllRequestForBatch(eStatusRequest statusRequest) {
+		return requestRepository.findAllByStatusRequest(statusRequest, eTypeRequest.CREATE_DATE);
+	}
+
+	@Override
+    public List<Request> findAllRequestForBatch(final Long jobId, eStatusRequest statusRequest) {
+        return requestRepository.findAllByJobIdAndStatusRequest(jobId, statusRequest, eTypeRequest.CREATE_DATE);
     }
 
     @Override
-    public List<Request> findAllRequestForBatch(List<UUID> requests, eStatusRequest statusRequest) {
-        return requestRepository.findAllByIdAndStatusRequest(requests, statusRequest);
-    }
-
-    @Override
-    public List<DayBatch> findAllDayBatchForBatch(List<UUID> requests) {
-        return dayBatchRepository.findAllByRequestIDAndProcess(requests,false);
+    public List<DayBatch> findAllDayBatchForBatch(final Long jobId) {
+		List<UUID> ids = requestRepository.findAllByJobId(jobId, eTypeRequest.CREATE_DATE);
+        return dayBatchRepository.findAllByRequestIDAndProcess(ids,false);
     }
 
     @Override

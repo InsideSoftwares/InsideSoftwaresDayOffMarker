@@ -31,9 +31,9 @@ public class LogService<T> {
         this.logger = LoggerFactory.getLogger(valueClass);
     }
 
-    public void logInfor(String message){
-        logger.info(message);
-    }
+	public void logInfor(String message){
+		logger.info(message);
+	}
 
     public void logDebug(String message){
         logger.debug(message);
@@ -150,6 +150,18 @@ public class LogService<T> {
     public void logTrace(String code, String message, String ...args){
         logger.trace(createMessage(code, message, args));
     }
+
+	public void logInforByArgs(String message, String... args){
+		logger.info(message, args);
+	}
+
+	public void logInforByArgs(String message, Throwable throwable, String... args){
+		logger.info(message, args, throwable);
+	}
+
+	public void logErrorByArgs(String message, String ...args){
+		logger.error(message, args);
+	}
 
     private String createMessage(String code, String message, String... args){
         String messageCode = localeUtils.getMessage(code, args);
