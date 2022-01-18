@@ -1,0 +1,52 @@
+version: '2'
+
+networks:
+  dayoff_marker:
+    driver: bridge
+
+services:
+  postgresql:
+    image: 'bitnami/postgresql:latest'
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1GB
+    environment:
+      - POSTGRESQL_USERNAME=dayoff_marker_ADMIN
+      - POSTGRESQL_PASSWORD=pe&X=RwN&@!H7%mB
+      - POSTGRESQL_DATABASE=DayOff_Marker
+    networks:
+      - dayoff_marker
+    ports:
+      - '5432:5432'
+  redis:
+    image: 'bitnami/redis:latest'
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 500M
+    environment:
+      - REDIS_REPLICATION_MODE=master
+      - ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      - dayoff_marker
+    ports:
+      - '6379:6379'
+  redis-sentinel:
+    image: 'bitnami/redis-sentinel:latest'
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 500M
+    environment:
+      - REDIS_MASTER_HOST=localhost
+      - REDIS_MASTER_PASSWORD=str0ng_passw0rd
+    depends_on:
+      - redis
+    ports:
+      - '26379-26381:26379'
+    networks:
+      - dayoff_marker

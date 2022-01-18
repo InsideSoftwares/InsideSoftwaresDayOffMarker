@@ -8,13 +8,18 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AuthRequestDTO {
+public class AuthRequestDTO implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @NotNull(message = "DOMV-003")
     private UUID key;

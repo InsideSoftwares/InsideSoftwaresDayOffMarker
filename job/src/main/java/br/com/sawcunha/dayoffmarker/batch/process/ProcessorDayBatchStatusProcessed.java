@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class ProcessorDayBatchStatusProcessed implements ItemProcessor<DayBatch, DayBatch> {
 
     @Override
-    public DayBatch process(DayBatch dayBatch) throws Exception {
+    public DayBatch process(DayBatch dayBatch) {
         dayBatch.setProcessed(true);
         return dayBatch;
     }

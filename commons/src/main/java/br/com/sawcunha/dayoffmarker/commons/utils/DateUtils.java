@@ -2,19 +2,19 @@ package br.com.sawcunha.dayoffmarker.commons.utils;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class DateUtils {
 
-
-    private final static int YEAR_BASE = 2022;
-    private final static int YEAR_LEAP_BASE = 2024;
-    private final static int MONTH_31_DAY = 31;
-    private final static int MONTH_30_DAY = 30;
-    private final static int FEBRUARY = 2;
-    private final static int FEBRUARY_DAY = 29;
-    private final static List<Integer> MONTHS_31_DAYS = List.of(1,3,5,7,8,10,12);
-    private final static List<Integer> MONTHS_30_DAYS = List.of(4,6,9,11);
+	private static final int MONTH_31_DAY = 31;
+	private static final int MONTH_30_DAY = 30;
+	private static final int FEBRUARY = 2;
+	private static final int FEBRUARY_DAY = 29;
+	private static final List<Integer> MONTHS_31_DAYS = List.of(1,3,5,7,8,10,12);
+	private static final List<Integer> MONTHS_30_DAYS = List.of(4,6,9,11);
+	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SSS");
 
     public static boolean isWeenkend(LocalDate ld) {
         DayOfWeek d = ld.getDayOfWeek();
@@ -52,4 +52,7 @@ public class DateUtils {
         return month.equals(FEBRUARY) && day <= FEBRUARY_DAY;
     }
 
+	public static String returnDateCurrent(){
+		return LocalDateTime.now().format(FORMATTER);
+	}
 }

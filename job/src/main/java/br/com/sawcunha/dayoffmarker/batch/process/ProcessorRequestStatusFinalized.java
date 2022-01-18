@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class ProcessorRequestStatusFinalized implements ItemProcessor<Request, Request> {
 
     @Override
-    public Request process(Request request) throws Exception {
+    public Request process(Request request) {
         request.setStatusRequest(eStatusRequest.FINALIZED);
         request.setEndDate(LocalDateTime.now());
         return request;

@@ -11,6 +11,7 @@ import br.com.sawcunha.dayoffmarker.repository.FixedHolidayRepository;
 import br.com.sawcunha.dayoffmarker.specification.validator.Validator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -19,6 +20,7 @@ public class FixedHolidayValidator implements Validator<Long, FixedHolidayReques
     private final FixedHolidayRepository fixedHolidayRepository;
     private final CountryRepository countryRepository;
 
+    @Transactional(readOnly = true)
     @Override
     public void validator(FixedHolidayRequestDTO fixedHolidayRequestDTO) throws Exception {
         if(!countryRepository.existsById(fixedHolidayRequestDTO.getCountryId())) throw new CountryNotExistException();
@@ -38,6 +40,7 @@ public class FixedHolidayValidator implements Validator<Long, FixedHolidayReques
 
     }
 
+    @Transactional(readOnly = true)
     @Override
     public void validator(Long fixedHolidayId, FixedHolidayRequestDTO fixedHolidayRequestDTO) throws Exception {
         if(!fixedHolidayRepository.existsById(fixedHolidayId)) throw new FixedHolidayNotExistException();

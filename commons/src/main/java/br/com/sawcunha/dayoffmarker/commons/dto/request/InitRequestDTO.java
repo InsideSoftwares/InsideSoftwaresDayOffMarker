@@ -8,13 +8,18 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class InitRequestDTO {
+public class InitRequestDTO implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     private UUID adminKey;
     private UUID viewKey;

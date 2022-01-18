@@ -5,7 +5,11 @@ import br.com.sawcunha.dayoffmarker.commons.dto.request.CityRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.city.CityResponseDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.sort.eOrderCity;
 import br.com.sawcunha.dayoffmarker.specification.service.CityService;
+import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
+import com.trendyol.jdempotent.core.annotation.JdempotentResource;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping(
@@ -35,6 +40,7 @@ public class CityController {
     @GetMapping("/v1/city")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ADMIN')")
+    @Cacheable("DAYOFF_MARKER_CITY")
     public DayOffMarkerResponse<List<CityResponseDTO>> findAll(
             @RequestParam(value = "stateID", required = false) Long stateID,
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
@@ -48,6 +54,7 @@ public class CityController {
     @GetMapping("/v1/city/{id}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ADMIN')")
+    @Cacheable("DAYOFF_MARKER_CITY")
     public DayOffMarkerResponse<CityResponseDTO> findById(@PathVariable Long id) throws Exception {
         return cityService.findById(id);
     }
@@ -55,13 +62,18 @@ public class CityController {
     @PostMapping(value = "/v1/city", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public DayOffMarkerResponse<CityResponseDTO> save(@RequestBody CityRequestDTO cityRequestDTO) throws Exception {
+	@CacheEvict(value="DAYOFF_MARKER_CITY", allEntries=true)
+    @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_CITY", ttl = 1, ttlTimeUnit = TimeUnit.DAYS)
+    public DayOffMarkerResponse<CityResponseDTO> save(
+            @JdempotentRequestPayload @RequestBody CityRequestDTO cityRequestDTO
+    ) throws Exception {
         return cityService.save(cityRequestDTO);
     }
 
     @PutMapping(value = "/v1/city/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PreAuthorize("hasAnyRole('ADMIN')")
+	@CacheEvict(value="DAYOFF_MARKER_CITY", allEntries=true)
     public DayOffMarkerResponse<CityResponseDTO> update(
             @PathVariable Long id,
             @RequestBody CityRequestDTO cityRequestDTO

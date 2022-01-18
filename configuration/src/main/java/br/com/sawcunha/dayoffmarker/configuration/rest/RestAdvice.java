@@ -23,37 +23,42 @@ public class RestAdvice implements ResponseBodyAdvice<DayOffMarkerResponse<Objec
     @Autowired
     private LogService<RestAdvice> adviceLogService;
 
+	private static final String START_TIME_HEADER = "StartTime";
+
     @PostConstruct
     public void init(){
         adviceLogService.init(RestAdvice.class);
         adviceLogService.logInfor("Init RestAdvice");
     }
 
+	@Override
+	public DayOffMarkerResponse<Object> beforeBodyWrite(DayOffMarkerResponse<Object> body, MethodParameter returnType,
+														MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType,
+														ServerHttpRequest request, ServerHttpResponse response) {
+
+		if(Objects.nonNull(body)) {
+			long startTime = getStartTime(response);
+			long duration = System.currentTimeMillis() - startTime;
+			Duration diff = Duration.ofMillis(duration);
+			body.setDuration(String.format("%02d:%02d:%02d.%03d",
+					diff.toHours(),
+					diff.toMinutesPart(),
+					diff.toSecondsPart(),
+					diff.toMillis()));
+		}
+
+		return body;
+	}
+
     @Override
     public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> aClass) {
         return methodParameter.getContainingClass().getPackage().getName().contains("br.com.sawcunha.dayoffmarker.controller");
     }
 
-    @Override
-    public DayOffMarkerResponse<Object> beforeBodyWrite(DayOffMarkerResponse<Object> body, MethodParameter returnType,
-                                                        MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType,
-                                                        ServerHttpRequest request, ServerHttpResponse response) {
-        if(Objects.nonNull(body)) {
-            long startTime = getStartTime(response);
-            long duration = System.currentTimeMillis() - startTime;
-            Duration diff = Duration.ofMillis(duration);
-            body.setDuration(String.format("%02d:%02d:%02d.%03d",
-                    diff.toHours(),
-                    diff.toMinutesPart(),
-                    diff.toSecondsPart(),
-                    diff.toMillis()));
-        }
-        return body;
-    }
-
     private Long getStartTime(ServerHttpResponse response){
-        if(response.getHeaders().containsKey("StartTime") && response.getHeaders().get("StartTime") != null){
-            return Long.parseLong(response.getHeaders().get("StartTime").toString().replaceAll("[^\\d]*",""));
+        if(response.getHeaders() != null && response.getHeaders().containsKey(START_TIME_HEADER) && response.getHeaders().get(START_TIME_HEADER) != null){
+
+            return Long.parseLong(response.getHeaders().get(START_TIME_HEADER).toString().replaceAll("[^\\d]*",""));
         }
         return LocalTime.now().getLong(ChronoField.MILLI_OF_DAY);
     }

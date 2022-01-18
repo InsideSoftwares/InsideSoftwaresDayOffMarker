@@ -15,13 +15,35 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"numberBackYears\": 0,\r\n    \"numberForwardYears\": 10,\r\n    \"countryDefault\": \"BRAZIL\"\r\n}",
+							"raw": "{\r\n    \"numberBackYears\": 15,\r\n    \"numberForwardYears\": 24,\r\n    \"countryDefault\": \"BRAZIL\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
+						"url": {
+							"raw": "http://localhost:8080/dayoffmarker/api/v1/initialization",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"dayoffmarker",
+								"api",
+								"v1",
+								"initialization"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Is Init Application",
+					"request": {
+						"method": "GET",
+						"header": [],
 						"url": {
 							"raw": "http://localhost:8080/dayoffmarker/api/v1/initialization",
 							"protocol": "http",
@@ -98,7 +120,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"key\": \"6b718a92-15bb-4e83-b845-e45ef446e5b4\",\r\n    \"name\": \"aaaa\",\r\n    \"mail\": \"test@test.com\"\r\n}",
+							"raw": "{\r\n    \"key\": \"d1e23cb6-77b9-40af-805b-a72e633a9205\",\r\n    \"name\": \"aaaa\",\r\n    \"mail\": \"test@test.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -302,7 +324,7 @@
 							"query": [
 								{
 									"key": "sizePerPage",
-									"value": "2",
+									"value": "3",
 									"disabled": true
 								},
 								{
@@ -327,7 +349,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Rapazzzz\",\r\n    \"code\": \"251\",\r\n    \"acronym\": \"BlaS\"\r\n}",
+							"raw": "{\r\n    \"name\": \"TBSSAW\",\r\n    \"code\": \"2352\",\r\n    \"acronym\": \"SBAV3\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -385,7 +407,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}:{{port}}/{{base_url}}/v1/country/1",
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/country/2",
 							"host": [
 								"{{url}}"
 							],
@@ -394,7 +416,7 @@
 								"{{base_url}}",
 								"v1",
 								"country",
-								"1"
+								"2"
 							],
 							"query": [
 								{
@@ -566,6 +588,171 @@
 								"{{base_url}}",
 								"v1",
 								"state",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Tag",
+			"item": [
+				{
+					"name": "Find All",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "asdasdas",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/tag?sizePerPage=100",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"tag"
+							],
+							"query": [
+								{
+									"key": "sizePerPage",
+									"value": "100"
+								},
+								{
+									"key": "orderBy",
+									"value": "CODED",
+									"disabled": true
+								},
+								{
+									"key": "direction",
+									"value": "DESC",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/tag/1",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"tag",
+								"1"
+							],
+							"query": [
+								{
+									"key": "sizePerPage",
+									"value": "16",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"1\",\r\n    \"code\": \"BlaS\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/tag",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"tag"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Pode suspender clientes\",\r\n    \"code\": \"PODE_SUSPENDER\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/tag/1",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"tag",
 								"1"
 							]
 						}

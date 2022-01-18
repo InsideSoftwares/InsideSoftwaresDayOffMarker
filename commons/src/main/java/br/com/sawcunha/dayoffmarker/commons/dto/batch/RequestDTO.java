@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -25,6 +25,6 @@ public class RequestDTO {
     private LocalDate endDate;
     private eStatusRequest statusRequest;
     private eTypeRequest typeRequest;
-    private List<RequestParameterDTO> requestParameter;
+    private Set<RequestParameterDTO> requestParameter;
 
 }

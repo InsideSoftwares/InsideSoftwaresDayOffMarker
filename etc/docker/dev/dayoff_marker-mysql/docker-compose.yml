@@ -1,0 +1,55 @@
+version: '2'
+
+networks:
+  dayoff_marker:
+    driver: bridge
+
+services:
+  mysql:
+    image: 'bitnami/mysql:latest'
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1GB
+    environment:
+      - MYSQL_ROOT_USER=dayoff_marker_ADMIN
+      - MYSQL_ROOT_PASSWORD=pe&X=RwN&@!H7%mB
+      - MYSQL_USER=dayoff_marker
+      - MYSQL_PASSWORD=#Af8v@b_D*$TL-+N
+      - MYSQL_DATABASE=DayOff_Marker
+      - MYSQL_AUTHENTICATION_PLUGIN=mysql_native_password
+    networks:
+      - dayoff_marker
+    ports:
+      - '3306:3306'
+  redis:
+    image: 'bitnami/redis:latest'
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 500M
+    environment:
+      - REDIS_REPLICATION_MODE=master
+      - ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      - dayoff_marker
+    ports:
+      - '6379:6379'
+  redis-sentinel:
+    image: 'bitnami/redis-sentinel:latest'
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 500M
+    environment:
+      - REDIS_MASTER_HOST=localhost
+      - REDIS_MASTER_PASSWORD=str0ng_passw0rd
+    depends_on:
+      - redis
+    ports:
+      - '26379-26381:26379'
+    networks:
+      - dayoff_marker

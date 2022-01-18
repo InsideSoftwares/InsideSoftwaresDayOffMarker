@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -43,6 +44,9 @@ public class Day {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "COUNTRY_ID")
     private Country country;
+
+	@OneToOne(mappedBy = "day")
+	private Holiday holiday;
 
     public DayOfWeek getDiaSemana() {
         return date.getDayOfWeek();

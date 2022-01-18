@@ -6,7 +6,11 @@ import br.com.sawcunha.dayoffmarker.commons.dto.response.country.CountryResponse
 import br.com.sawcunha.dayoffmarker.commons.enums.sort.eOrderCountry;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.country.CountryNotExistException;
 import br.com.sawcunha.dayoffmarker.specification.service.CountryService;
+import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
+import com.trendyol.jdempotent.core.annotation.JdempotentResource;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping(
@@ -36,6 +41,7 @@ public class CountryController {
     @GetMapping("/v1/country")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ADMIN')")
+    @Cacheable("DAYOFF_MARKER_COUNTRY")
     public DayOffMarkerResponse<List<CountryResponseDTO>> findAll(
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
             @RequestParam(value = "sizePerPage", required = false, defaultValue = "10") int sizePerPage,
@@ -48,6 +54,7 @@ public class CountryController {
     @GetMapping("/v1/country/{id}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ADMIN')")
+    @Cacheable("DAYOFF_MARKER_COUNTRY")
     public DayOffMarkerResponse<CountryResponseDTO> findById(@PathVariable Long id) throws CountryNotExistException {
         return countryService.findById(id);
     }
@@ -55,13 +62,18 @@ public class CountryController {
     @PostMapping(value = "/v1/country", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public DayOffMarkerResponse<CountryResponseDTO> save(@RequestBody CountryRequestDTO countryRequestDTO) throws Exception {
+	@CacheEvict(value="DAYOFF_MARKER_COUNTRY", allEntries=true)
+    @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_COUNTRY", ttl = 1, ttlTimeUnit = TimeUnit.DAYS)
+    public DayOffMarkerResponse<CountryResponseDTO> save(
+            @JdempotentRequestPayload @RequestBody CountryRequestDTO countryRequestDTO
+    ) throws Exception {
         return countryService.save(countryRequestDTO);
     }
 
     @PutMapping(value = "/v1/country/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PreAuthorize("hasAnyRole('ADMIN')")
+	@CacheEvict(value="DAYOFF_MARKER_COUNTRY", allEntries=true)
     public DayOffMarkerResponse<CountryResponseDTO> update(
             @PathVariable Long id,
             @RequestBody CountryRequestDTO countryRequestDTO

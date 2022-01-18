@@ -16,8 +16,6 @@ public class WriteDay implements ItemWriter<Day> {
 
     @Override
     public void write(List<? extends Day> days)  {
-        days.forEach(day -> {
-            batchCreationDayService.createDay(day);
-        });
+        days.forEach(day -> batchCreationDayService.createDay(day));
     }
 }

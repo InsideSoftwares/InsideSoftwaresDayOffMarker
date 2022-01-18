@@ -6,11 +6,16 @@ import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalTime;
 
 @Builder
 @Data
-public class HolidayRequestDTO {
+public class HolidayRequestDTO implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @NotNull(message = "DOMV-003")
     @NotEmpty(message = "DOMV-001")
@@ -22,7 +27,9 @@ public class HolidayRequestDTO {
 
     @NotNull(message = "DOMV-003")
     private eTypeHoliday holidayType;
+
     private LocalTime fromTime;
+	private boolean optional;
 
     @NotNull(message = "DOMV-003")
     private Long dayId;

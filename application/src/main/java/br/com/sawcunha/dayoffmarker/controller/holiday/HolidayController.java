@@ -5,8 +5,13 @@ import br.com.sawcunha.dayoffmarker.commons.dto.request.HolidayRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.holiday.HolidayResponseDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.sort.eOrderHoliday;
 import br.com.sawcunha.dayoffmarker.specification.service.HolidayService;
+import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
+import com.trendyol.jdempotent.core.annotation.JdempotentResource;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,7 +25,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping(
@@ -35,19 +42,23 @@ public class HolidayController {
     @GetMapping("/v1/holiday")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ADMIN')")
+    @Cacheable("DAYOFF_MARKER_HOLIDAY")
     public DayOffMarkerResponse<List<HolidayResponseDTO>> findAll(
+			@RequestParam(value = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+			@RequestParam(value = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
             @RequestParam(value = "country", required = false) String nameCountry,
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
             @RequestParam(value = "sizePerPage", required = false, defaultValue = "10") int sizePerPage,
             @RequestParam(value = "direction", required = false, defaultValue = "ASC") Sort.Direction direction,
-            @RequestParam(value = "orderBy", required = false, defaultValue = "ID") eOrderHoliday orderHoliday
+            @RequestParam(value = "orderBy", required = false, defaultValue = "DAY") eOrderHoliday orderHoliday
     ) throws Exception {
-        return holidayService.findAll(nameCountry, page, sizePerPage, direction, orderHoliday);
+        return holidayService.findAll(startDate, endDate, nameCountry, page, sizePerPage, direction, orderHoliday);
     }
 
     @GetMapping("/v1/holiday/{id}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ADMIN')")
+    @Cacheable("DAYOFF_MARKER_HOLIDAY")
     public DayOffMarkerResponse<HolidayResponseDTO> findById(@PathVariable Long id) throws Exception {
         return holidayService.findById(id);
     }
@@ -55,13 +66,18 @@ public class HolidayController {
     @PostMapping(value = "/v1/holiday", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public DayOffMarkerResponse<HolidayResponseDTO> save(@RequestBody HolidayRequestDTO holidayRequestDTO) throws Exception {
+	@CacheEvict(value="DAYOFF_MARKER_HOLIDAY", allEntries=true)
+    @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_HOLIDAY", ttl = 1, ttlTimeUnit = TimeUnit.DAYS)
+    public DayOffMarkerResponse<HolidayResponseDTO> save(
+            @JdempotentRequestPayload @RequestBody HolidayRequestDTO holidayRequestDTO
+    ) throws Exception {
         return holidayService.save(holidayRequestDTO);
     }
 
     @PutMapping(value = "/v1/holiday/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PreAuthorize("hasAnyRole('ADMIN')")
+	@CacheEvict(value="DAYOFF_MARKER_HOLIDAY", allEntries=true)
     public DayOffMarkerResponse<HolidayResponseDTO> update(
             @PathVariable Long id,
             @RequestBody HolidayRequestDTO holidayRequestDTO

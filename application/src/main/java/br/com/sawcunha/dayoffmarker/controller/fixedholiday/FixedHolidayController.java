@@ -2,11 +2,16 @@ package br.com.sawcunha.dayoffmarker.controller.fixedholiday;
 
 import br.com.sawcunha.dayoffmarker.commons.dto.DayOffMarkerResponse;
 import br.com.sawcunha.dayoffmarker.commons.dto.request.FixedHolidayRequestDTO;
+import br.com.sawcunha.dayoffmarker.commons.dto.request.FixedHolidayUpdateRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.fixedholiday.FixedHolidayResponseDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.sort.eOrderFixedHoliday;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.fixedholiday.FixedHolidayNotExistException;
 import br.com.sawcunha.dayoffmarker.specification.service.FixedHolidayService;
+import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
+import com.trendyol.jdempotent.core.annotation.JdempotentResource;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping(
@@ -36,6 +42,7 @@ public class FixedHolidayController {
     @GetMapping("/v1/fixed-holiday")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ADMIN')")
+    @Cacheable("DAYOFF_MARKER_FIXEDHOLIDAY")
     public DayOffMarkerResponse<List<FixedHolidayResponseDTO>> findAll(
             @RequestParam(value = "country", required = false) String nameCountry,
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
@@ -49,6 +56,7 @@ public class FixedHolidayController {
     @GetMapping("/v1/fixed-holiday/{id}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ADMIN')")
+    @Cacheable("DAYOFF_MARKER_FIXEDHOLIDAY")
     public DayOffMarkerResponse<FixedHolidayResponseDTO> findById(@PathVariable Long id) throws FixedHolidayNotExistException {
         return fixedHolidayService.findById(id);
     }
@@ -56,16 +64,21 @@ public class FixedHolidayController {
     @PostMapping(value = "/v1/fixed-holiday", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public DayOffMarkerResponse<FixedHolidayResponseDTO> save(@RequestBody FixedHolidayRequestDTO fixedHolidayRequestDTO) throws Exception {
+	@CacheEvict(value="DAYOFF_MARKER_FIXEDHOLIDAY", allEntries=true)
+    @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_FIXEDHOLIDAY", ttl = 1, ttlTimeUnit = TimeUnit.DAYS)
+    public DayOffMarkerResponse<FixedHolidayResponseDTO> save(
+            @JdempotentRequestPayload @RequestBody FixedHolidayRequestDTO fixedHolidayRequestDTO
+    ) throws Exception {
         return fixedHolidayService.save(fixedHolidayRequestDTO);
     }
 
     @PutMapping(value = "/v1/fixed-holiday/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PreAuthorize("hasAnyRole('ADMIN')")
+	@CacheEvict(value="DAYOFF_MARKER_FIXEDHOLIDAY", allEntries=true)
     public DayOffMarkerResponse<FixedHolidayResponseDTO> update(
             @PathVariable Long id,
-            @RequestBody FixedHolidayRequestDTO fixedHolidayRequestDTO
+            @RequestBody FixedHolidayUpdateRequestDTO fixedHolidayRequestDTO
     ) throws Exception {
         return fixedHolidayService.update(id, fixedHolidayRequestDTO);
     }

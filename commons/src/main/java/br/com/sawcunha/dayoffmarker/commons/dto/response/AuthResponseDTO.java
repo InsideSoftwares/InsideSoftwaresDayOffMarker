@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
@@ -13,7 +15,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @ToString
-public class AuthResponseDTO {
+public class AuthResponseDTO implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     private String token;
     private LocalDateTime request;

@@ -11,6 +11,7 @@ import br.com.sawcunha.dayoffmarker.repository.StateRepository;
 import br.com.sawcunha.dayoffmarker.specification.validator.Validator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -19,6 +20,7 @@ public class CityValidator implements Validator<Long, CityRequestDTO> {
     private final CityRepository cityRepository;
     private final StateRepository stateRepository;
 
+    @Transactional(readOnly = true)
     @Override
     public void validator(CityRequestDTO cityRequestDTO) throws Exception {
         if(!stateRepository.existsById(cityRequestDTO.getStateID())) throw new StateNotExistException();
@@ -43,6 +45,7 @@ public class CityValidator implements Validator<Long, CityRequestDTO> {
         ) throw new CityNameStateExistException();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public void validator(Long cityID, CityRequestDTO cityRequestDTO) throws Exception {
         if(!cityRepository.existsById(cityID)) throw new CityNotExistException();

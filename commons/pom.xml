@@ -29,6 +29,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>1.18.22</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -49,6 +50,7 @@
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
+            <version>4.6.2</version>
         </dependency>
         <dependency>
             <groupId>br.com.sawcunha.dayoffmarker</groupId>

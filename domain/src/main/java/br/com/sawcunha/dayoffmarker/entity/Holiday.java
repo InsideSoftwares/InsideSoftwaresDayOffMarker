@@ -51,4 +51,10 @@ public class Holiday {
     @JoinColumn(name = "DAY_ID")
     private Day day;
 
+	@Column(name = "OPTIONAL")
+	private boolean optional;
+
+	@Column(name = "AUTOMATIC_UPDATE")
+	private boolean automaticUpdate;
+
 }

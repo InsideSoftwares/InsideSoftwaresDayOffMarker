@@ -72,6 +72,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
+            <version>5.3.14</version>
         </dependency>
 
         <dependency>
@@ -93,6 +94,10 @@
             <groupId>br.com.sawcunha.dayoffmarker</groupId>
             <artifactId>job</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.trendyol</groupId>
+            <artifactId>Jdempotent-spring-boot-redis-starter</artifactId>
         </dependency>
     </dependencies>
 
