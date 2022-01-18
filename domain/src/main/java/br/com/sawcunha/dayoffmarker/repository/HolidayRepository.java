@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Repository
 public interface HolidayRepository extends JpaRepository<Holiday, Long> {
@@ -30,6 +31,13 @@ public interface HolidayRepository extends JpaRepository<Holiday, Long> {
 			LocalDate endDate,
 			Pageable pageable
 	);
+
+	@Query("""
+            SELECT h
+            FROM Holiday h
+            WHERE h.day.id = :dayID
+            """)
+	Optional<Holiday> findByDayID(Long dayID);
 
     @Query("""
             SELECT count(h)>0

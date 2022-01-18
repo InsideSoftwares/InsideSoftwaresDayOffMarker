@@ -28,25 +28,25 @@ public class RequestServiceBean implements RequestService {
 	@Transactional(readOnly = true)
 	@Override
 	public List<Request> findAllRequestForBatch(final eTypeRequest typeRequest, final eStatusRequest statusRequest) {
-		return requestRepository.findAllByStatusRequest(statusRequest, eTypeRequest.CREATE_DATE);
+		return requestRepository.findAllByStatusRequest(statusRequest, typeRequest);
 	}
 	@Transactional(readOnly = true)
 	@Override
 	public List<Request> findAllRequestForBatch(final Long jobId, final eStatusRequest statusRequest) {
-		return requestRepository.findAllByJobIdAndStatusRequest(jobId, statusRequest, eTypeRequest.CREATE_DATE);
+		return requestRepository.findAllByJobIdAndStatusRequest(jobId, statusRequest);
 	}
 
 	@Override
-	public List<RequestDTO> findAllRequestDTOForBatch(eStatusRequest statusRequest) {
+	public List<RequestDTO> findAllRequestDTOForBatch(final eTypeRequest typeRequest, final eStatusRequest statusRequest) {
 		return requestMapper.toDTOs(
-				requestRepository.findAllByStatusRequest(statusRequest, eTypeRequest.CREATE_DATE)
+				requestRepository.findAllByStatusRequest(statusRequest, typeRequest)
 		);
 	}
 
 	@Override
 	public List<RequestDTO> findAllRequestDTOForBatch(final Long jobId, eStatusRequest statusRequest){
 		return requestMapper.toDTOs(
-				requestRepository.findAllByJobIdAndStatusRequest(jobId, statusRequest, eTypeRequest.CREATE_DATE)
+				requestRepository.findAllByJobIdAndStatusRequest(jobId, statusRequest)
 		);
 	}
 

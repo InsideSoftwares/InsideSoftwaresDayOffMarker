@@ -107,9 +107,9 @@ application:
         fixedRateInMilliseconds: 43200000
     holiday:
       update:
-        cron: "* 30 0 * * *"
+        cron: "0 */15 * * * *"
       batch:
-        cron: "* */3 * * * *"
+        cron: "0 */20 * * * *"
 
 jdempotent:
   enable: true

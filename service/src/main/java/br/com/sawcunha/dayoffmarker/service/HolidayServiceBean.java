@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -166,20 +167,35 @@ public class HolidayServiceBean implements HolidayService {
 	})
 	@Override
 	public void saveHoliday(final HolidayRequestDTO holidayRequestDTO) throws Exception {
-		holidayValidator.validator(holidayRequestDTO);
 
+		Optional<Holiday> optionalHoliday = holidayRepository.findByDayID(holidayRequestDTO.getDayId());
 		Day day = dayService.findDayByID(holidayRequestDTO.getDayId());
-
-		Holiday holiday = Holiday.builder()
-				.name(holidayRequestDTO.getName())
-				.description(holidayRequestDTO.getDescription())
-				.holidayType(holidayRequestDTO.getHolidayType())
-				.fromTime(holidayRequestDTO.getFromTime())
-				.day(day)
-				.build();
-
+		Holiday holiday;
+		if(optionalHoliday.isPresent()){
+			holidayValidator.validator(optionalHoliday.get().getId(), holidayRequestDTO);
+			holiday = Holiday.builder()
+					.name(holidayRequestDTO.getName())
+					.description(holidayRequestDTO.getDescription())
+					.holidayType(holidayRequestDTO.getHolidayType())
+					.fromTime(holidayRequestDTO.getFromTime())
+					.day(day)
+					.automaticUpdate(true)
+					.build();
+			holiday.setId(
+					optionalHoliday.get().getId()
+			);
+		} else {
+			holidayValidator.validator(holidayRequestDTO);
+			holiday = Holiday.builder()
+					.name(holidayRequestDTO.getName())
+					.description(holidayRequestDTO.getDescription())
+					.holidayType(holidayRequestDTO.getHolidayType())
+					.fromTime(holidayRequestDTO.getFromTime())
+					.day(day)
+					.automaticUpdate(true)
+					.build();
+		}
 		holidayRepository.save(holiday);
-
 		dayService.setDayHoliday(holidayRequestDTO.getDayId(), true);
 	}
 }

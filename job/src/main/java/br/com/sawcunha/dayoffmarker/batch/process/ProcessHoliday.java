@@ -51,7 +51,8 @@ public class ProcessHoliday implements ItemProcessor<RequestDTO, List<HolidayReq
 
 				LocalDate daySearch = LocalDate.of(yearIndex, fixedHoliday.getMonth(), fixedHoliday.getDay());
 				Day day = batchUpdateHolidayService.findDayIDByDateAndCountry(daySearch, fixedHoliday.getCountry());
-				if (!day.isHoliday()) {
+				boolean isUpdate = day.getHoliday() != null && day.getHoliday().isAutomaticUpdate();
+				if (!day.isHoliday() || isUpdate) {
 					eTypeHoliday typeHoliday = getTypeHoliday(fixedHoliday.getFromTime(), fixedHoliday.isOptional());
 
 					HolidayRequestDTO holidayRequestDTO = HolidayRequestDTO.builder()
@@ -64,10 +65,7 @@ public class ProcessHoliday implements ItemProcessor<RequestDTO, List<HolidayReq
 							.build();
 
 					holidays.add(holidayRequestDTO);
-				} else {
-
 				}
-
 				yearIndex++;
 			}
 		} catch (Exception e) {

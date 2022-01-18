@@ -6,7 +6,6 @@ import br.com.sawcunha.dayoffmarker.commons.dto.response.initialization.InitResp
 import br.com.sawcunha.dayoffmarker.commons.dto.response.initialization.InitializationDTO;
 import br.com.sawcunha.dayoffmarker.specification.service.InitializationService;
 import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
-import com.trendyol.jdempotent.core.annotation.JdempotentResource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.concurrent.TimeUnit;
 
 
 @RestController
@@ -34,7 +31,6 @@ public class InitializationController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ADMIN')")
-    @JdempotentResource(cachePrefix = "dayoff_marker", ttl = 1, ttlTimeUnit = TimeUnit.DAYS)
     public DayOffMarkerResponse<InitResponseDTO> init(
             @JdempotentRequestPayload @RequestBody final InitRequestDTO initRequestDTO
     ) throws Exception {

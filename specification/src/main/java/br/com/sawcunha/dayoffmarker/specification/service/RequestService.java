@@ -16,7 +16,7 @@ public interface RequestService {
 	List<Request> findAllRequestForBatch(final eTypeRequest typeRequest, final eStatusRequest statusRequest);
 	List<Request> findAllRequestForBatch(final Long jobId, final eStatusRequest statusRequest);
 
-	List<RequestDTO> findAllRequestDTOForBatch(final eStatusRequest statusRequest);
+	List<RequestDTO> findAllRequestDTOForBatch(final eTypeRequest typeRequest, final eStatusRequest statusRequest);
 	List<RequestDTO> findAllRequestDTOForBatch(final Long jobId, final eStatusRequest statusRequest);
 
 }

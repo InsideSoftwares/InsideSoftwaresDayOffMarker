@@ -245,6 +245,20 @@ databaseChangeLog:
                   constraints:
                     nullable: true
               - column:
+                  name: OPTIONAL
+                  autoIncrement: false
+                  type: ${typeBoolean}
+                  defaultValue: ${defaultValueBoolean}
+                  constraints:
+                    nullable: false
+              - column:
+                  name: AUTOMATIC_UPDATE
+                  autoIncrement: false
+                  type: ${typeBoolean}
+                  defaultValue: ${trueValueBoolean}
+                  constraints:
+                    nullable: false
+              - column:
                   name: DAY_ID
                   autoIncrement: false
                   type: BIGINT
@@ -378,13 +392,6 @@ databaseChangeLog:
                   type: TIME
                   constraints:
                     nullable: true
-              - column:
-                  name: AUTOMATIC_UPDATE
-                  autoIncrement: false
-                  type: ${typeBoolean}
-                  defaultValue: ${trueValueBoolean}
-                  constraints:
-                    nullable: false
               - column:
                   name: COUNTRY_ID
                   autoIncrement: false

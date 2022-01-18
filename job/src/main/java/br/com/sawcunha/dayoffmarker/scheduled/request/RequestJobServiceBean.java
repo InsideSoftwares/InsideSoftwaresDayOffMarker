@@ -10,7 +10,7 @@ import br.com.sawcunha.dayoffmarker.commons.logger.LogService;
 import br.com.sawcunha.dayoffmarker.entity.Request;
 import br.com.sawcunha.dayoffmarker.entity.RequestParameter;
 import br.com.sawcunha.dayoffmarker.repository.RequestRepository;
-import br.com.sawcunha.dayoffmarker.scheduled.utils.RequestParametersUtils;
+import br.com.sawcunha.dayoffmarker.scheduled.utils.RequestUtils;
 import br.com.sawcunha.dayoffmarker.specification.validator.RequestValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
@@ -119,9 +119,9 @@ public class RequestJobServiceBean {
 	public void createsRequestWithMonths(final Request request) throws Exception {
 		logService.logInfor("Starting the creation of the requests to create the Days.");
 
-		Long countryID = RequestParametersUtils.getCountry(request.getRequestParameter());
-		Integer startYear = RequestParametersUtils.getStartYear(request.getRequestParameter());
-		Integer endYear = RequestParametersUtils.getEndYear(request.getRequestParameter());
+		Long countryID = RequestUtils.getCountry(request.getRequestParameter());
+		Integer startYear = RequestUtils.getStartYear(request.getRequestParameter());
+		Integer endYear = RequestUtils.getEndYear(request.getRequestParameter());
 
 		while (startYear <= endYear) {
 
@@ -178,16 +178,16 @@ public class RequestJobServiceBean {
 		Set<RequestParameter> requestParameters = new HashSet<>();
 
 		requestParameters.add(
-				createRequestParameter(request, eTypeParameter.COUNTRY, eTypeValue.LONG, countryID)
+				RequestUtils.createRequestParameter(request, eTypeParameter.COUNTRY, eTypeValue.LONG, countryID)
 		);
 		requestParameters.add(
-				createRequestParameter(request, eTypeParameter.MONTH, eTypeValue.INT, month)
+				RequestUtils.createRequestParameter(request, eTypeParameter.MONTH, eTypeValue.INT, month)
 		);
 		requestParameters.add(
-				createRequestParameter(request, eTypeParameter.YEAR, eTypeValue.INT, year)
+				RequestUtils.createRequestParameter(request, eTypeParameter.YEAR, eTypeValue.INT, year)
 		);
 		requestParameters.add(
-				createRequestParameter(request, eTypeParameter.REQUEST_ORIGINAL, eTypeValue.STRING, requestID)
+				RequestUtils.createRequestParameter(request, eTypeParameter.REQUEST_ORIGINAL, eTypeValue.STRING, requestID)
 		);
 
 		requestValidator.validRequestCreateDate(requestParameters);
@@ -195,19 +195,7 @@ public class RequestJobServiceBean {
 		return requestParameters;
 	}
 
-	private RequestParameter createRequestParameter(
-			final Request request,
-			final eTypeParameter typeParameter,
-			final eTypeValue typeValue,
-			final String value
-	){
-		return RequestParameter.builder()
-				.typeParameter(typeParameter)
-				.typeValue(typeValue)
-				.value(value)
-				.request(request)
-				.build();
-	}
+
 
 
 
