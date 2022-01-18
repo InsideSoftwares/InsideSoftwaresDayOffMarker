@@ -1,11 +1,9 @@
 package br.com.sawcunha.dayoffmarker.batch.reader;
 
 import br.com.sawcunha.dayoffmarker.commons.enums.eStatusRequest;
+import br.com.sawcunha.dayoffmarker.commons.enums.eTypeRequest;
 import br.com.sawcunha.dayoffmarker.entity.Request;
 import br.com.sawcunha.dayoffmarker.specification.service.RequestService;
-import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.StepExecution;
-import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,7 @@ import java.util.List;
 
 @Component
 @StepScope
-public class ReaderRequestStatusRunning implements ItemReader<Request> {
+public class ReaderRequestUpdateHolidayStatusCreated implements ItemReader<Request> {
 
     @Autowired
     private RequestService requestService;
@@ -23,18 +21,10 @@ public class ReaderRequestStatusRunning implements ItemReader<Request> {
     private int nextRequestIndex;
     private List<Request> requests;
 
-	private Long jobId;
-
-	@BeforeStep
-	public void getInterstepData(StepExecution stepExecution) {
-		JobExecution jobExecution = stepExecution.getJobExecution();
-		this.jobId = jobExecution.getJobId();
-	}
-
     @Override
-    public Request read() throws Exception {
+    public Request read() {
         if(requests == null){
-            requests = requestService.findAllRequestForBatch(jobId, eStatusRequest.RUNNING);
+            requests = requestService.findAllRequestForBatch(eTypeRequest.UPDATE_HOLIDAY, eStatusRequest.CREATED);
         }
         Request nextRequest = null;
 

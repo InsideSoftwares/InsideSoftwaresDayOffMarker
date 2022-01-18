@@ -10,6 +10,7 @@ import br.com.sawcunha.dayoffmarker.commons.logger.LogService;
 import br.com.sawcunha.dayoffmarker.entity.Request;
 import br.com.sawcunha.dayoffmarker.entity.RequestParameter;
 import br.com.sawcunha.dayoffmarker.repository.RequestRepository;
+import br.com.sawcunha.dayoffmarker.scheduled.utils.RequestParametersUtils;
 import br.com.sawcunha.dayoffmarker.specification.validator.RequestValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
@@ -26,7 +27,6 @@ import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -104,7 +104,7 @@ public class RequestJobServiceBean {
 						.toJobParameters();
 
 				jobLauncher.run(jobCreatesDays, jobParameters);
-				logService.logError("Starting batch for day creation.");
+				logService.logInfor("Starting batch for day creation.");
 			}
 		}catch (Exception e){
 			logService.logError("Error starting batch for day creation.", e);
@@ -119,9 +119,9 @@ public class RequestJobServiceBean {
 	public void createsRequestWithMonths(final Request request) throws Exception {
 		logService.logInfor("Starting the creation of the requests to create the Days.");
 
-		Long countryID = getCountry(request.getRequestParameter());
-		Integer startYear = getStartYear(request.getRequestParameter());
-		Integer endYear = getEndYear(request.getRequestParameter());
+		Long countryID = RequestParametersUtils.getCountry(request.getRequestParameter());
+		Integer startYear = RequestParametersUtils.getStartYear(request.getRequestParameter());
+		Integer endYear = RequestParametersUtils.getEndYear(request.getRequestParameter());
 
 		while (startYear <= endYear) {
 
@@ -158,7 +158,9 @@ public class RequestJobServiceBean {
 						newRequest,
 						countryID.toString(),
 						month.toString(),
-						year.toString());
+						year.toString(),
+						request.getId().toString()
+				);
 
 		newRequest.setRequestParameter(requestParameters);
 
@@ -169,7 +171,8 @@ public class RequestJobServiceBean {
 			final Request request,
 			final String countryID,
 			final String month,
-			final String year
+			final String year,
+			final String requestID
 	) throws Exception {
 
 		Set<RequestParameter> requestParameters = new HashSet<>();
@@ -182,6 +185,9 @@ public class RequestJobServiceBean {
 		);
 		requestParameters.add(
 				createRequestParameter(request, eTypeParameter.YEAR, eTypeValue.INT, year)
+		);
+		requestParameters.add(
+				createRequestParameter(request, eTypeParameter.REQUEST_ORIGINAL, eTypeValue.STRING, requestID)
 		);
 
 		requestValidator.validRequestCreateDate(requestParameters);
@@ -203,30 +209,6 @@ public class RequestJobServiceBean {
 				.build();
 	}
 
-	private String getParameter(
-			final Set<RequestParameter> requestParameters,
-			eTypeParameter typeParameter
-	) throws ParameterNotExistException {
-		Optional<RequestParameter> requestParameterOptional =
-				requestParameters.stream().filter(requestParameter ->
-						requestParameter.getTypeParameter().equals(typeParameter)
-				).findAny();
-		return requestParameterOptional.orElseThrow(ParameterNotExistException::new).getValue();
-	}
 
-	private Integer getStartYear(final Set<RequestParameter> requestParameters) throws ParameterNotExistException {
-		String year = getParameter(requestParameters, eTypeParameter.START_YEAR);
-		return Integer.parseInt(year);
-	}
-
-	private Integer getEndYear(final Set<RequestParameter> requestParameters) throws ParameterNotExistException {
-		String year = getParameter(requestParameters, eTypeParameter.END_YEAR);
-		return Integer.parseInt(year);
-	}
-
-	private Long getCountry(final Set<RequestParameter> requestParameters) throws ParameterNotExistException {
-		String country = getParameter(requestParameters, eTypeParameter.COUNTRY);
-		return Long.parseLong(country);
-	}
 
 }

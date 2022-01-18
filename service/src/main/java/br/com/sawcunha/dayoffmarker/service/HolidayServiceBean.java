@@ -111,6 +111,8 @@ public class HolidayServiceBean implements HolidayService {
                 .holidayType(holidayRequestDTO.getHolidayType())
                 .fromTime(holidayRequestDTO.getFromTime())
                 .day(day)
+				.optional(holidayRequestDTO.isOptional())
+				.automaticUpdate(false)
                 .build();
 
         holiday = holidayRepository.save(holiday);
@@ -146,7 +148,8 @@ public class HolidayServiceBean implements HolidayService {
         holiday.setDescription(holidayRequestDTO.getDescription());
         holiday.setHolidayType(holidayRequestDTO.getHolidayType());
         holiday.setFromTime(holidayRequestDTO.getFromTime());
-
+		holiday.setAutomaticUpdate(false);
+		holiday.setOptional(holidayRequestDTO.isOptional());
         holiday = holidayRepository.save(holiday);
 
         dayService.setDayHoliday(holidayRequestDTO.getDayId(), true);

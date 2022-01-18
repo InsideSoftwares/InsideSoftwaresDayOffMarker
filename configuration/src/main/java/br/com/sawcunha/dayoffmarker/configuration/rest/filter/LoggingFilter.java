@@ -16,17 +16,19 @@ import java.io.IOException;
 
 @Slf4j
 @Component
-@Order(3)
-public class LoggingFilter  implements Filter {
+@Order(2)
+public class LoggingFilter implements Filter {
 
 	@Override
 	public void doFilter(
 			ServletRequest request,
 			ServletResponse response,
-			FilterChain chain) throws IOException, ServletException {
+			FilterChain chain
+	) throws IOException, ServletException {
 
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
+
 		log.info(
 				"Logging Request  {} : {}. Time: {}",
 				req.getMethod(),

@@ -26,8 +26,16 @@ databaseChangeLog:
   - property:
       dbms: postgresql
       name: defaultValueBoolean
-      value: false
+      value: 'false'
   - property:
       dbms: 'mysql, h2'
       name: defaultValueBoolean
-      value: 0
+      value: '0'
+  - property:
+      dbms: postgresql
+      name: trueValueBoolean
+      value: 'true'
+  - property:
+      dbms: 'mysql, h2'
+      name: trueValueBoolean
+      value: '1'

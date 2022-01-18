@@ -2,7 +2,7 @@ package br.com.sawcunha.dayoffmarker.batch.reader;
 
 import br.com.sawcunha.dayoffmarker.commons.dto.batch.RequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.eStatusRequest;
-import br.com.sawcunha.dayoffmarker.specification.batch.BatchCreationDayService;
+import br.com.sawcunha.dayoffmarker.specification.service.RequestService;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
@@ -18,7 +18,7 @@ import java.util.List;
 public class ReaderRequestDTOStatusRunning implements ItemReader<RequestDTO> {
 
     @Autowired
-    private BatchCreationDayService batchCreationDayService;
+    private RequestService requestService;
 
     private int nextRequest;
     private List<RequestDTO> requestDTOs;
@@ -34,7 +34,7 @@ public class ReaderRequestDTOStatusRunning implements ItemReader<RequestDTO> {
     @Override
     public RequestDTO read() throws Exception {
         if(requestDTOs == null){
-            requestDTOs = batchCreationDayService.findAllRequestDTOForBatch(jobId, eStatusRequest.RUNNING);
+            requestDTOs = requestService.findAllRequestDTOForBatch(jobId, eStatusRequest.RUNNING);
         }
         RequestDTO nextRequestDto = null;
 

@@ -115,6 +115,42 @@ public class RequestValidatorBean implements RequestValidator {
 		}
 	}
 
+	@Transactional(readOnly = true)
+	@Override
+	public void validRequestUpdateHoliday(final Set<RequestParameter> requestParametersToValidate) throws Exception {
+		try {
+			List<Request> requests =
+					requestRepository.findAllRequestByTypeRequestAndStatusRequest(
+							eTypeRequest.UPDATE_HOLIDAY,
+							List.of(
+									eStatusRequest.CREATED,
+									eStatusRequest.WAITING,
+									eStatusRequest.RUNNING
+							)
+					);
+
+			Long fixedHolidayIDToValidate = getLong(requestParametersToValidate, eTypeParameter.FIXED_HOLIDAY_ID);
+
+			for (Request request : requests) {
+				Set<RequestParameter> requestParameters = request.getRequestParameter();
+				Long fixedHolidayID = getLong(requestParameters, eTypeParameter.FIXED_HOLIDAY_ID);
+				if(fixedHolidayID.equals(fixedHolidayIDToValidate)){
+					throw new RequestConflitParametersException();
+				}
+			}
+		} catch (ParameterNotExistException | RequestConflitParametersException parameterNotExistExeption){
+			logService.logError(
+					parameterNotExistExeption.getCode(),
+					parameterNotExistExeption.getMessage(),
+					parameterNotExistExeption.getCause()
+			);
+			throw parameterNotExistExeption;
+		} catch (Exception e){
+			logService.logError(eExceptionCode.GENERIC.getCode(), e.getMessage(), e.getCause());
+			throw e;
+		}
+	}
+
     private String getParameter(
             final Set<RequestParameter> requestParameters,
             eTypeParameter typeParameter

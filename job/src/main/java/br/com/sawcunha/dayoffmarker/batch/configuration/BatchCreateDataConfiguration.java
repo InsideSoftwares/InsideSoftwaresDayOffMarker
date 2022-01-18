@@ -7,8 +7,8 @@ import br.com.sawcunha.dayoffmarker.batch.process.ProcessorDayBatchStatusProcess
 import br.com.sawcunha.dayoffmarker.batch.process.ProcessorRequestStatusFinalized;
 import br.com.sawcunha.dayoffmarker.batch.process.ProcessorRequestStatusRunning;
 import br.com.sawcunha.dayoffmarker.batch.reader.ReaderDayBatch;
+import br.com.sawcunha.dayoffmarker.batch.reader.ReaderRequestCreateDateStatusCreated;
 import br.com.sawcunha.dayoffmarker.batch.reader.ReaderRequestDTOStatusRunning;
-import br.com.sawcunha.dayoffmarker.batch.reader.ReaderRequestStatusCreated;
 import br.com.sawcunha.dayoffmarker.batch.reader.ReaderRequestStatusRunning;
 import br.com.sawcunha.dayoffmarker.batch.write.WriteDay;
 import br.com.sawcunha.dayoffmarker.batch.write.WriteDayBatch;
@@ -24,13 +24,9 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
-import org.springframework.batch.core.launch.support.SimpleJobLauncher;
-import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.task.SimpleAsyncTaskExecutor;
 
 import java.util.List;
 
@@ -41,10 +37,9 @@ public class BatchCreateDataConfiguration {
 
     public final JobBuilderFactory jobBuilderFactory;
     public final StepBuilderFactory stepBuilderFactory;
-    private final JobRepository jobRepository;
 
     private final ReaderDayBatch readerDayBatch;
-    private final ReaderRequestStatusCreated readerRequestStatusCreated;
+    private final ReaderRequestCreateDateStatusCreated readerRequestCreateDateStatusCreated;
     private final ReaderRequestDTOStatusRunning readerRequestDTOStatusRunning;
     private final ReaderRequestStatusRunning readerRequestStatusRunning;
 
@@ -60,21 +55,21 @@ public class BatchCreateDataConfiguration {
     private final WriteRequest writeRequest;
 
     @Bean
-    public Step setsRequestToRunning () {
-        return this.stepBuilderFactory.get("setsRequestToRunning")
+    public Step setsRequestToRunningCreateDate () {
+        return this.stepBuilderFactory.get("setsRequestToRunningCreateDate")
                 .<Request, Request>chunk(25)
-				.listener(jobCreateDaysListener())
-                .reader(readerRequestStatusCreated)
+				.listener(jobCreateDaysListenerCreateDate())
+                .reader(readerRequestCreateDateStatusCreated)
                 .processor(processorRequestStatusRunning)
                 .writer(writeRequest)
                 .build();
     }
 
     @Bean
-    public Step executesRequests() {
-        return this.stepBuilderFactory.get("executesRequests")
+    public Step executesRequestsCreateDate() {
+        return this.stepBuilderFactory.get("executesRequestsCreateDate")
                 .<RequestDTO, List<DayBatch>>chunk(25)
-				.listener(jobCreateDaysListener())
+				.listener(jobCreateDaysListenerCreateDate())
                 .reader(readerRequestDTOStatusRunning)
                 .processor(processorDayBatch)
                 .writer(writeDayBatchList)
@@ -82,10 +77,10 @@ public class BatchCreateDataConfiguration {
     }
 
     @Bean
-    public Step updatesRequestToFinalized() {
-        return this.stepBuilderFactory.get("updatesRequestToFinalized")
+    public Step updatesRequestToFinalizedCreateDate() {
+        return this.stepBuilderFactory.get("updatesRequestToFinalizedCreateDate")
                 .<Request, Request>chunk(25)
-				.listener(jobCreateDaysListener())
+				.listener(jobCreateDaysListenerCreateDate())
                 .reader(readerRequestStatusRunning)
                 .processor(processorRequestStatusFinalized)
                 .writer(writeRequest)
@@ -93,10 +88,10 @@ public class BatchCreateDataConfiguration {
     }
 
     @Bean
-    public Step savesDaysCreated() {
-        return this.stepBuilderFactory.get("savesDaysCreated")
+    public Step savesDaysCreatedCreateDate() {
+        return this.stepBuilderFactory.get("savesDaysCreatedCreateDate")
                 .<DayBatch, Day>chunk(100)
-				.listener(jobCreateDaysListener())
+				.listener(jobCreateDaysListenerCreateDate())
                 .reader(readerDayBatch)
                 .processor(processorDay)
                 .writer(writeDay)
@@ -104,10 +99,10 @@ public class BatchCreateDataConfiguration {
     }
 
     @Bean
-    public Step updatesDayBatchToProcessed() {
-        return this.stepBuilderFactory.get("updatesDayBatchToProcessed")
+    public Step updatesDayBatchToProcessedCreateDate() {
+        return this.stepBuilderFactory.get("updatesDayBatchToProcessedCreateDate")
                 .<DayBatch, DayBatch>chunk(100)
-				.listener(jobCreateDaysListener())
+				.listener(jobCreateDaysListenerCreateDate())
                 .reader(readerDayBatch)
                 .processor(processorDayBatchStatusProcessed)
                 .writer(writeDayBatch)
@@ -115,7 +110,7 @@ public class BatchCreateDataConfiguration {
     }
 
     @Bean
-    public JobCreateDaysListener jobCreateDaysListener(){
+    public JobCreateDaysListener jobCreateDaysListenerCreateDate(){
         return new JobCreateDaysListener();
     }
 
@@ -123,22 +118,13 @@ public class BatchCreateDataConfiguration {
     public Job jobCreatesDays() {
         return this.jobBuilderFactory.get("jobCreatesDays")
                 .incrementer(new RunIdIncrementer())
-                .listener(jobCreateDaysListener())
-                .start(setsRequestToRunning())
-                .next(executesRequests())
-                .next(savesDaysCreated())
-                .next(updatesDayBatchToProcessed())
-                .next(updatesRequestToFinalized())
+                .listener(jobCreateDaysListenerCreateDate())
+                .start(setsRequestToRunningCreateDate())
+                .next(executesRequestsCreateDate())
+                .next(savesDaysCreatedCreateDate())
+                .next(updatesDayBatchToProcessedCreateDate())
+                .next(updatesRequestToFinalizedCreateDate())
                 .build();
-    }
-
-    @Bean
-    public JobLauncher jobLaucherCreatesDays() throws Exception {
-        SimpleJobLauncher jobLauncher = new SimpleJobLauncher();
-        jobLauncher.setJobRepository(jobRepository);
-        jobLauncher.setTaskExecutor(new SimpleAsyncTaskExecutor());
-        jobLauncher.afterPropertiesSet();
-        return jobLauncher;
     }
 
 }

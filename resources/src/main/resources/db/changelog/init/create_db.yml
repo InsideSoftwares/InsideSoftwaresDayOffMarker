@@ -379,6 +379,13 @@ databaseChangeLog:
                   constraints:
                     nullable: true
               - column:
+                  name: AUTOMATIC_UPDATE
+                  autoIncrement: false
+                  type: ${typeBoolean}
+                  defaultValue: ${trueValueBoolean}
+                  constraints:
+                    nullable: false
+              - column:
                   name: COUNTRY_ID
                   autoIncrement: false
                   type: BIGINT

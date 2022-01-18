@@ -106,11 +106,10 @@ application:
       clear:
         fixedRateInMilliseconds: 43200000
     holiday:
-      initialDelayInMilliseconds: 180000
-      create:
-        fixedRateInMilliseconds: 180000
       update:
-        fixedRateInMilliseconds: 180000
+        cron: "* 30 0 * * *"
+      batch:
+        cron: "* */3 * * * *"
 
 jdempotent:
   enable: true

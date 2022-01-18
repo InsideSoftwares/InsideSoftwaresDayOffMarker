@@ -1,8 +1,9 @@
 package br.com.sawcunha.dayoffmarker.batch.reader;
 
 import br.com.sawcunha.dayoffmarker.commons.enums.eStatusRequest;
+import br.com.sawcunha.dayoffmarker.commons.enums.eTypeRequest;
 import br.com.sawcunha.dayoffmarker.entity.Request;
-import br.com.sawcunha.dayoffmarker.specification.batch.BatchCreationDayService;
+import br.com.sawcunha.dayoffmarker.specification.service.RequestService;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,10 @@ import java.util.List;
 
 @Component
 @StepScope
-public class ReaderRequestStatusCreated implements ItemReader<Request> {
+public class ReaderRequestCreateDateStatusCreated implements ItemReader<Request> {
 
     @Autowired
-    private BatchCreationDayService batchCreationDayService;
+    private RequestService requestService;
 
     private int nextRequestIndex;
     private List<Request> requests;
@@ -23,7 +24,7 @@ public class ReaderRequestStatusCreated implements ItemReader<Request> {
     @Override
     public Request read() {
         if(requests == null){
-            requests = batchCreationDayService.findAllRequestForBatch(eStatusRequest.CREATED);
+            requests = requestService.findAllRequestForBatch(eTypeRequest.CREATE_DATE, eStatusRequest.CREATED);
         }
         Request nextRequest = null;
 

@@ -33,4 +33,9 @@ public class RequestParametersUtils {
 		RequestParameterDTO requestParameterDTO = getParameter(requestParameterDTOS, eTypeParameter.COUNTRY);
 		return Objects.nonNull(requestParameterDTO) ? Long.parseLong(requestParameterDTO.getValue()) : null;
     }
+
+	public static Long getFixedHolidayID(Set<RequestParameterDTO> requestParameterDTOS){
+		RequestParameterDTO requestParameterDTO = getParameter(requestParameterDTOS, eTypeParameter.FIXED_HOLIDAY_ID);
+		return Objects.nonNull(requestParameterDTO) ? Long.parseLong(requestParameterDTO.getValue()) : null;
+	}
 }

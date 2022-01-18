@@ -30,5 +30,6 @@ public interface FixedHolidayService {
     DayOffMarkerResponse<FixedHolidayResponseDTO> update(final Long fixedHolidayID, final @Valid FixedHolidayUpdateRequestDTO fixedHolidayRequestDTO) throws Exception;
 
 	List<FixedHoliday> findAllByCountry() throws Exception;
+	FixedHoliday findFixedHolidayById(final Long fixedHolidayID) throws FixedHolidayNotExistException;
 
 }

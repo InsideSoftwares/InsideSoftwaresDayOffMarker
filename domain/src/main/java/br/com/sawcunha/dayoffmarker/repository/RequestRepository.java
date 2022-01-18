@@ -35,4 +35,7 @@ public interface RequestRepository extends JpaRepository<Request, UUID> {
 
 	@Query(" SELECT r FROM Request r WHERE r.typeRequest = :typeRequest AND r.statusRequest = :statusRequest")
 	List<Request> findAllRequestByTypeRequestAndStatusRequest(eTypeRequest typeRequest, eStatusRequest statusRequest);
+
+	@Query(" SELECT r FROM Request r WHERE r.typeRequest = :typeRequest AND r.statusRequest in :statusRequest")
+	List<Request> findAllRequestByTypeRequestAndStatusRequest(eTypeRequest typeRequest, List<eStatusRequest> statusRequest);
 }

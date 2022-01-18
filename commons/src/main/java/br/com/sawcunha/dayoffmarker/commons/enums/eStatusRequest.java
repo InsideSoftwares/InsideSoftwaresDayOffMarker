@@ -1,10 +1,10 @@
 package br.com.sawcunha.dayoffmarker.commons.enums;
 
 public enum eStatusRequest {
+    CREATED,
     WAITING,
-    ERROR,
-    SUCCESS,
-    FINALIZED,
     RUNNING,
-    CREATED;
+    SUCCESS,
+    ERROR,
+    FINALIZED;
 }

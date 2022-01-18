@@ -141,4 +141,10 @@ public class FixedHolidayServiceBean implements FixedHolidayService {
 		Country country = countryService.findCountryDefault();
 		return fixedHolidayRepository.findAllByCountry(country);
 	}
+
+	@Override
+	public FixedHoliday findFixedHolidayById(Long fixedHolidayID) throws FixedHolidayNotExistException {
+		return fixedHolidayRepository.findById(fixedHolidayID)
+				.orElseThrow(FixedHolidayNotExistException::new);
+	}
 }

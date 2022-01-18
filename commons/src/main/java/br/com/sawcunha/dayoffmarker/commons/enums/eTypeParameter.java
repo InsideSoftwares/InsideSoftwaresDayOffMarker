@@ -6,5 +6,6 @@ public enum eTypeParameter {
     START_YEAR,
     END_YEAR,
     COUNTRY,
-    REQUEST_ORIGINAL;
+    REQUEST_ORIGINAL,
+	FIXED_HOLIDAY_ID;
 }

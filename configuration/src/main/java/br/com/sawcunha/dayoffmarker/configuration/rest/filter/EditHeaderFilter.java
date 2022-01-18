@@ -16,7 +16,7 @@ import java.io.IOException;
 
 @Slf4j
 @Component
-@Order(2)
+@Order(1)
 public class EditHeaderFilter implements Filter {
 
 	private static final String START_TIME_HEADER = "StartTime";
