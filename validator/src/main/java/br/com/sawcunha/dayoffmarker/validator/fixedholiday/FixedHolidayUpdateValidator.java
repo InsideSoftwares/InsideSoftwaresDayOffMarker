@@ -8,8 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.el.MethodNotFoundException;
-
 @Component
 @RequiredArgsConstructor
 public class FixedHolidayUpdateValidator implements Validator<Long, FixedHolidayUpdateRequestDTO> {
@@ -19,7 +17,7 @@ public class FixedHolidayUpdateValidator implements Validator<Long, FixedHoliday
     @Transactional(readOnly = true)
     @Override
     public void validator(FixedHolidayUpdateRequestDTO fixedHolidayRequestDTO) throws Exception {
-        throw new MethodNotFoundException();
+        throw new NoSuchMethodException();
     }
 
     @Transactional(readOnly = true)

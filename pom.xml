@@ -15,7 +15,9 @@
 			<module>job</module>
 			<module>specification</module>
 			<module>validator</module>
-    </modules>
+        <module>repository</module>
+			<module>controller</module>
+		</modules>
 
     <parent>
 			<groupId>org.springframework.boot</groupId>
@@ -52,42 +54,42 @@
 			<dependencies>
 				<!-- Spring Start -->
 				<dependency>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-starter-data-jpa</artifactId>
-						<version>${spring.version}</version>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-data-jpa</artifactId>
+					<version>${spring.version}</version>
 				</dependency>
 				<dependency>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-starter-web</artifactId>
-						<version>${spring.version}</version>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-web</artifactId>
+					<version>${spring.version}</version>
 				</dependency>
 				<dependency>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-starter-mail</artifactId>
-						<version>${spring.version}</version>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-mail</artifactId>
+					<version>${spring.version}</version>
 				</dependency>
 				<dependency>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-starter-security</artifactId>
-						<version>${spring.version}</version>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-security</artifactId>
+					<version>${spring.version}</version>
 				</dependency>
 				<dependency>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-starter-validation</artifactId>
-						<version>${spring.version}</version>
-						<scope>compile</scope>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-validation</artifactId>
+					<version>${spring.version}</version>
+					<scope>compile</scope>
 				</dependency>
 				<dependency>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-starter</artifactId>
-						<version>${spring.version}</version>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter</artifactId>
+					<version>${spring.version}</version>
 				</dependency>
 				<dependency>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-devtools</artifactId>
-						<version>${spring.version}</version>
-						<scope>runtime</scope>
-						<optional>true</optional>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-devtools</artifactId>
+					<version>${spring.version}</version>
+					<scope>runtime</scope>
+					<optional>true</optional>
 				</dependency>
 				<dependency>
 					<groupId>org.springframework.boot</groupId>
@@ -219,6 +221,16 @@
 				<dependency>
 					<groupId>br.com.sawcunha.dayoffmarker</groupId>
 					<artifactId>validator</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>br.com.sawcunha.dayoffmarker</groupId>
+					<artifactId>repository</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>br.com.sawcunha.dayoffmarker</groupId>
+					<artifactId>controller</artifactId>
 					<version>${project.version}</version>
 				</dependency>
 				<!-- Idempotent -->
