@@ -23,7 +23,7 @@ public class CityValidator implements Validator<Long, CityRequestDTO> {
 
     @Transactional(readOnly = true)
     @Override
-    public void validator(CityRequestDTO cityRequestDTO) throws DayOffMarkerGenericException {
+    public void validator(final CityRequestDTO cityRequestDTO) throws DayOffMarkerGenericException {
         if(!stateRepository.existsById(cityRequestDTO.getStateID())) throw new StateNotExistException();
         if(
                 cityRepository.existsByCodeAndAcronymAndStateID(
@@ -48,7 +48,7 @@ public class CityValidator implements Validator<Long, CityRequestDTO> {
 
     @Transactional(readOnly = true)
     @Override
-    public void validator(Long cityID, CityRequestDTO cityRequestDTO) throws DayOffMarkerGenericException {
+    public void validator(final Long cityID, final CityRequestDTO cityRequestDTO) throws DayOffMarkerGenericException {
         if(!cityRepository.existsById(cityID)) throw new CityNotExistException();
         if(!stateRepository.existsById(cityRequestDTO.getStateID())) throw new StateNotExistException();
         if(
@@ -74,6 +74,12 @@ public class CityValidator implements Validator<Long, CityRequestDTO> {
                 )
         ) throw new CityNameStateExistException();
     }
+
+	@Transactional(readOnly = true)
+	@Override
+	public void validator(final Long cityID) throws DayOffMarkerGenericException {
+		if(!cityRepository.existsById(cityID)) throw new CityNotExistException();
+	}
 
 
 }

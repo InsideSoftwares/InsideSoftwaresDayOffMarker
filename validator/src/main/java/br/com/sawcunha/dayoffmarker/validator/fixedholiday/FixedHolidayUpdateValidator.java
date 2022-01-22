@@ -18,14 +18,20 @@ public class FixedHolidayUpdateValidator implements Validator<Long, FixedHoliday
 
     @Transactional(readOnly = true)
     @Override
-    public void validator(FixedHolidayUpdateRequestDTO fixedHolidayRequestDTO) throws DayOffMarkerGenericException {
+    public void validator(final FixedHolidayUpdateRequestDTO fixedHolidayRequestDTO) throws DayOffMarkerGenericException {
         throw new MethodNotImplementedException();
     }
 
     @Transactional(readOnly = true)
     @Override
-    public void validator(Long fixedHolidayId, FixedHolidayUpdateRequestDTO fixedHolidayRequestDTO) throws DayOffMarkerGenericException {
+    public void validator(final Long fixedHolidayId, final FixedHolidayUpdateRequestDTO fixedHolidayRequestDTO) throws DayOffMarkerGenericException {
         if(!fixedHolidayRepository.existsById(fixedHolidayId)) throw new FixedHolidayNotExistException();
     }
+
+	@Transactional(readOnly = true)
+	@Override
+	public void validator(final Long fixedHolidayId) throws DayOffMarkerGenericException {
+		if(!fixedHolidayRepository.existsById(fixedHolidayId)) throw new FixedHolidayNotExistException();
+	}
 
 }

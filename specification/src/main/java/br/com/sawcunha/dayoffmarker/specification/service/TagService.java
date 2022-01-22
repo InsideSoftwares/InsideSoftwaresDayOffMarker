@@ -1,7 +1,8 @@
 package br.com.sawcunha.dayoffmarker.specification.service;
 
 import br.com.sawcunha.dayoffmarker.commons.dto.DayOffMarkerResponse;
-import br.com.sawcunha.dayoffmarker.commons.dto.request.TagRequestDTO;
+import br.com.sawcunha.dayoffmarker.commons.dto.request.link.LinkDayRequestDTO;
+import br.com.sawcunha.dayoffmarker.commons.dto.request.tag.TagRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.tag.TagResponseDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.sort.eOrderTag;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
@@ -25,4 +26,6 @@ public interface TagService {
 
     DayOffMarkerResponse<TagResponseDTO> save(final @Valid TagRequestDTO tagRequestDTO) throws DayOffMarkerGenericException;
     DayOffMarkerResponse<TagResponseDTO> update(final Long tagID, final @Valid TagRequestDTO tagRequestDTO) throws DayOffMarkerGenericException;
+
+	void linkDay(final Long tagID, final @Valid LinkDayRequestDTO linkDayRequestDTO) throws DayOffMarkerGenericException;
 }

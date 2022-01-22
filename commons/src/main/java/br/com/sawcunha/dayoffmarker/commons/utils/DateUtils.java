@@ -14,7 +14,8 @@ public class DateUtils {
 	private static final int FEBRUARY_DAY = 29;
 	private static final List<Integer> MONTHS_31_DAYS = List.of(1,3,5,7,8,10,12);
 	private static final List<Integer> MONTHS_30_DAYS = List.of(4,6,9,11);
-	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SSS");
+	private static final DateTimeFormatter FORMATER_TIME = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+	private static final DateTimeFormatter FORMATER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public static boolean isWeenkend(LocalDate ld) {
         DayOfWeek d = ld.getDayOfWeek();
@@ -53,6 +54,10 @@ public class DateUtils {
     }
 
 	public static String returnDateCurrent(){
-		return LocalDateTime.now().format(FORMATTER);
+		return LocalDateTime.now().format(FORMATER_TIME);
+	}
+
+	public static String returnDate(final LocalDate date){
+		return date.format(FORMATER);
 	}
 }

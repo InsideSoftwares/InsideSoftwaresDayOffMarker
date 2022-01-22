@@ -1,5 +1,6 @@
 package br.com.sawcunha.dayoffmarker.commons.dto.request;
 
+import br.com.sawcunha.dayoffmarker.commons.dto.DayOffMarkerDTO;
 import lombok.Getter;
 
 import javax.validation.constraints.NotEmpty;
@@ -9,7 +10,7 @@ import java.io.Serial;
 import java.io.Serializable;
 
 @Getter
-public class CountryRequestDTO implements Serializable {
+public class CountryRequestDTO extends DayOffMarkerDTO implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,12 +13,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Year;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -25,6 +31,7 @@ import java.time.Year;
 @NoArgsConstructor
 @Entity
 @Table(name = "DOM_DAY")
+@ToString
 public class Day {
 
     @Id
@@ -48,6 +55,13 @@ public class Day {
 	@OneToOne(mappedBy = "day")
 	private Holiday holiday;
 
+	@Column(name = "DAY_TAG")
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name="DOM_DAY_TAG", joinColumns=
+			{@JoinColumn(name="DAY_ID")}, inverseJoinColumns=
+			{@JoinColumn(name="TAG_ID")})
+	private Set<Tag> tags;
+
     public DayOfWeek getDiaSemana() {
         return date.getDayOfWeek();
     }
@@ -56,13 +70,10 @@ public class Day {
         return Year.isLeap(this.date.getYear());
     }
 
-    @Override
-    public String toString() {
-        return "Day{" +
-                "id=" + id +
-                ", date=" + date +
-                ", isWeekend=" + isWeekend +
-                ", isHoliday=" + isHoliday +
-                '}';
-    }
+	public void addTag(Tag tag){
+		if(Objects.isNull(tags)){
+			tags = new HashSet<>();
+		}
+		tags.add(tag);
+	}
 }

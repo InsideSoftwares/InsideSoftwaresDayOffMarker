@@ -40,7 +40,13 @@ public class HolidayValidator implements Validator<Long, HolidayRequestDTO> {
         validTypeHoliday(holidayRequestDTO);
     }
 
-    private void validTypeHoliday(final HolidayRequestDTO holidayRequestDTO) throws HolidayFromTimeNotInformedException {
+	@Transactional(readOnly = true)
+	@Override
+	public void validator(final Long holidayId) throws DayOffMarkerGenericException {
+		if(!holidayRepository.existsById(holidayId)) throw new HolidayNotExistException();
+	}
+
+	private void validTypeHoliday(final HolidayRequestDTO holidayRequestDTO) throws HolidayFromTimeNotInformedException {
 		if (holidayRequestDTO.getHolidayType() == eTypeHoliday.HALF_PERIOD) {
 			if (Objects.isNull(holidayRequestDTO.getFromTime()))
 				throw new HolidayFromTimeNotInformedException();

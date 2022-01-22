@@ -1,10 +1,12 @@
 package br.com.sawcunha.dayoffmarker.service;
 
+import br.com.sawcunha.dayoffmarker.commons.dto.request.link.LinkTagRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.day.DayNotExistException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.day.DaysNotConfiguredException;
 import br.com.sawcunha.dayoffmarker.entity.Country;
 import br.com.sawcunha.dayoffmarker.entity.Day;
+import br.com.sawcunha.dayoffmarker.entity.Tag;
 import br.com.sawcunha.dayoffmarker.repository.DayRepository;
 import br.com.sawcunha.dayoffmarker.specification.service.DayService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +23,29 @@ public class DayServiceBean implements DayService {
     private final DayRepository dayRepository;
 	private static final LocalDate CUT_OFF_DATE = LocalDate.now();
 
-    @Transactional(readOnly = true)
+	@Override
+	public void linkTag(Long dayID, LinkTagRequestDTO linkTagRequestDTO) throws DayOffMarkerGenericException {
+
+	}
+
+	@Transactional(rollbackFor = {
+			DayNotExistException.class,
+			DayOffMarkerGenericException.class
+	})
+	@Override
+	public void linkTagDay(
+			final LocalDate date,
+			final Tag tag,
+			final Country country
+	) throws DayOffMarkerGenericException {
+		Optional<Day> optionalDay = dayRepository.findByDateAndCountry(date, country);
+		optionalDay.ifPresentOrElse(day -> {
+			day.addTag(tag);
+			dayRepository.save(day);
+		}, DayNotExistException::new);
+	}
+
+	@Transactional(readOnly = true)
     @Override
     public Day findDayByID(final Long dayID) throws DayOffMarkerGenericException {
         Optional<Day> optionalDay = dayRepository.findById(dayID);
