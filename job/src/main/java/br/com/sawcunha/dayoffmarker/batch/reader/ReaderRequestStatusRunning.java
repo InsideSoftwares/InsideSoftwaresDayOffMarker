@@ -1,6 +1,7 @@
 package br.com.sawcunha.dayoffmarker.batch.reader;
 
 import br.com.sawcunha.dayoffmarker.commons.enums.eStatusRequest;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.entity.Request;
 import br.com.sawcunha.dayoffmarker.specification.service.RequestService;
 import org.springframework.batch.core.JobExecution;
@@ -32,9 +33,9 @@ public class ReaderRequestStatusRunning implements ItemReader<Request> {
 	}
 
     @Override
-    public Request read() throws Exception {
+    public Request read() throws DayOffMarkerGenericException {
         if(requests == null){
-            requests = requestService.findAllRequestForBatch(jobId, eStatusRequest.RUNNING);
+            requests = requestService.findAllRequestByJobIDAndStatus(jobId, eStatusRequest.RUNNING);
         }
         Request nextRequest = null;
 

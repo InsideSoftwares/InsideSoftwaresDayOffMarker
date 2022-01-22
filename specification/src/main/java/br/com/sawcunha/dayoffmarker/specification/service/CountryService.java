@@ -4,6 +4,7 @@ import br.com.sawcunha.dayoffmarker.commons.dto.DayOffMarkerResponse;
 import br.com.sawcunha.dayoffmarker.commons.dto.request.CountryRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.country.CountryResponseDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.sort.eOrderCountry;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.country.CountryNameInvalidException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.country.CountryNotExistException;
 import br.com.sawcunha.dayoffmarker.entity.Country;
@@ -25,12 +26,12 @@ public interface CountryService {
 
     DayOffMarkerResponse<CountryResponseDTO> findById(final Long countryID) throws CountryNotExistException;
 
-    DayOffMarkerResponse<CountryResponseDTO> save(final @Valid CountryRequestDTO countryRequestDTO) throws Exception;
-    DayOffMarkerResponse<CountryResponseDTO> update(final Long countryID, final @Valid CountryRequestDTO countryRequestDTO) throws Exception;
+    DayOffMarkerResponse<CountryResponseDTO> save(final @Valid CountryRequestDTO countryRequestDTO) throws DayOffMarkerGenericException;
+    DayOffMarkerResponse<CountryResponseDTO> update(final Long countryID, final @Valid CountryRequestDTO countryRequestDTO) throws DayOffMarkerGenericException;
 
     boolean validCountry(final String name);
     Country findCountryByName(final String name) throws CountryNameInvalidException;
-    Country findCountryDefault() throws Exception;
-    Country findCountryByNameOrDefault(final String name) throws Exception;
-    Country findCountryByCountryId(final Long countryId) throws Exception;
+    Country findCountryDefault() throws DayOffMarkerGenericException;
+    Country findCountryByNameOrDefault(final String name) throws DayOffMarkerGenericException;
+    Country findCountryByCountryId(final Long countryId) throws DayOffMarkerGenericException;
 }

@@ -4,6 +4,7 @@ import br.com.sawcunha.dayoffmarker.commons.dto.DayOffMarkerResponse;
 import br.com.sawcunha.dayoffmarker.commons.dto.request.TagRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.tag.TagResponseDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.sort.eOrderTag;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.tag.TagCodeExistException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.tag.TagNotExistException;
 import br.com.sawcunha.dayoffmarker.commons.utils.PaginationUtils;
@@ -36,7 +37,7 @@ public class TagServiceBean implements TagService {
             final int sizePerPage,
             final Sort.Direction direction,
             final eOrderTag orderTag
-    ) throws Exception {
+    ) throws DayOffMarkerGenericException {
 
 		Pageable pageable = PaginationUtils.createPageable(page, sizePerPage, direction, orderTag);
 
@@ -56,7 +57,7 @@ public class TagServiceBean implements TagService {
 
 	@Transactional(readOnly = true)
     @Override
-    public DayOffMarkerResponse<TagResponseDTO> findById(final Long tagID) throws Exception {
+    public DayOffMarkerResponse<TagResponseDTO> findById(final Long tagID) throws DayOffMarkerGenericException {
 		Tag tag = tagRepository.findById(tagID).orElseThrow(TagNotExistException::new);
 		return DayOffMarkerResponse.<TagResponseDTO>builder()
 				.data(tagMapper.toDTO(tag))
@@ -68,7 +69,7 @@ public class TagServiceBean implements TagService {
 			TagCodeExistException.class
 	})
     @Override
-    public DayOffMarkerResponse<TagResponseDTO> save(final TagRequestDTO tagRequestDTO) throws Exception {
+    public DayOffMarkerResponse<TagResponseDTO> save(final TagRequestDTO tagRequestDTO) throws DayOffMarkerGenericException {
 		tagValidator.validator(tagRequestDTO);
 
 		Tag tag = tagMapper.toEntity(tagRequestDTO);
@@ -87,7 +88,7 @@ public class TagServiceBean implements TagService {
     public DayOffMarkerResponse<TagResponseDTO> update(
             final Long tagID,
             final TagRequestDTO tagRequestDTO
-    ) throws Exception {
+    ) throws DayOffMarkerGenericException {
 		tagValidator.validator(tagID, tagRequestDTO);
 
 		Tag tag = tagRepository.getById(tagID);

@@ -24,7 +24,7 @@ public class ReaderRequestCreateDateStatusCreated implements ItemReader<Request>
     @Override
     public Request read() {
         if(requests == null){
-            requests = requestService.findAllRequestForBatch(eTypeRequest.CREATE_DATE, eStatusRequest.CREATED);
+            requests = requestService.findAllRequestByTypeAndStatus(eTypeRequest.CREATE_DATE, eStatusRequest.CREATED);
         }
         Request nextRequest = null;
 

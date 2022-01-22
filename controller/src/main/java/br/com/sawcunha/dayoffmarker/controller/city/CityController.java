@@ -4,6 +4,7 @@ import br.com.sawcunha.dayoffmarker.commons.dto.DayOffMarkerResponse;
 import br.com.sawcunha.dayoffmarker.commons.dto.request.CityRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.city.CityResponseDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.sort.eOrderCity;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.specification.service.CityService;
 import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
 import com.trendyol.jdempotent.core.annotation.JdempotentResource;
@@ -47,7 +48,7 @@ public class CityController {
             @RequestParam(value = "sizePerPage", required = false, defaultValue = "10") int sizePerPage,
             @RequestParam(value = "direction", required = false, defaultValue = "ASC") Sort.Direction direction,
             @RequestParam(value = "orderBy", required = false, defaultValue = "ID") eOrderCity orderCity
-    ) throws Exception {
+    ) throws DayOffMarkerGenericException {
         return cityService.findAll(stateID, page, sizePerPage, direction, orderCity);
     }
 
@@ -55,7 +56,7 @@ public class CityController {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ADMIN')")
     @Cacheable("DAYOFF_MARKER_CITY")
-    public DayOffMarkerResponse<CityResponseDTO> findById(@PathVariable Long id) throws Exception {
+    public DayOffMarkerResponse<CityResponseDTO> findById(@PathVariable Long id) throws DayOffMarkerGenericException {
         return cityService.findById(id);
     }
 
@@ -66,7 +67,7 @@ public class CityController {
     @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_CITY", ttl = 1, ttlTimeUnit = TimeUnit.DAYS)
     public DayOffMarkerResponse<CityResponseDTO> save(
             @JdempotentRequestPayload @RequestBody CityRequestDTO cityRequestDTO
-    ) throws Exception {
+    ) throws DayOffMarkerGenericException {
         return cityService.save(cityRequestDTO);
     }
 
@@ -77,7 +78,7 @@ public class CityController {
     public DayOffMarkerResponse<CityResponseDTO> update(
             @PathVariable Long id,
             @RequestBody CityRequestDTO cityRequestDTO
-    ) throws Exception {
+    ) throws DayOffMarkerGenericException {
         return cityService.update(id, cityRequestDTO);
     }
 }

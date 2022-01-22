@@ -4,6 +4,7 @@ import br.com.sawcunha.dayoffmarker.commons.enums.eStatusRequest;
 import br.com.sawcunha.dayoffmarker.commons.enums.eTypeParameter;
 import br.com.sawcunha.dayoffmarker.commons.enums.eTypeRequest;
 import br.com.sawcunha.dayoffmarker.commons.exception.enums.eExceptionCode;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.request.ParameterNotExistException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.request.RequestConflitParametersException;
 import br.com.sawcunha.dayoffmarker.commons.logger.LogService;
@@ -42,7 +43,7 @@ public class RequestValidatorBean implements RequestValidator {
 
     @Transactional(readOnly = true)
     @Override
-    public void validRequestInitial(final Set<RequestParameter> requestParametersToValidate) throws Exception {
+    public void validRequestInitial(final Set<RequestParameter> requestParametersToValidate) throws DayOffMarkerGenericException {
         try {
             List<Request> requests =
                     requestRepository.findAllRequestByTypeRequestAndNotStatusRequest(
@@ -80,7 +81,7 @@ public class RequestValidatorBean implements RequestValidator {
 
 	@Transactional(readOnly = true)
 	@Override
-	public void validRequestCreateDate(final Set<RequestParameter> requestParametersToValidate) throws Exception {
+	public void validRequestCreateDate(final Set<RequestParameter> requestParametersToValidate) throws DayOffMarkerGenericException {
 		try {
 			List<Request> requests =
 					requestRepository.findAllRequestByTypeRequestAndNotStatusRequest(
@@ -117,7 +118,7 @@ public class RequestValidatorBean implements RequestValidator {
 
 	@Transactional(readOnly = true)
 	@Override
-	public void validRequestUpdateHoliday(final Set<RequestParameter> requestParametersToValidate) throws Exception {
+	public void validRequestUpdateHoliday(final Set<RequestParameter> requestParametersToValidate) throws DayOffMarkerGenericException {
 		try {
 			List<Request> requests =
 					requestRepository.findAllRequestByTypeRequestAndStatusRequest(

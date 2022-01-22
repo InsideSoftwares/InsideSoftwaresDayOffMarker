@@ -36,7 +36,7 @@ public class AuthenticationServiceBean implements AuthenticationService {
 
     @Override
     @Transactional
-    public DayOffMarkerResponse<AuthResponseDTO> login(final @Valid AuthRequestDTO authDTO) throws Exception {
+    public DayOffMarkerResponse<AuthResponseDTO> login(final @Valid AuthRequestDTO authDTO) throws DayOffMarkerGenericException {
         try {
             eConfigurationkey key = configurationRepository.findConfigurationKeyByValue(authDTO.getKey().toString());
 

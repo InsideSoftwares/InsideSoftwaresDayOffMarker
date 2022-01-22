@@ -4,6 +4,7 @@ import br.com.sawcunha.dayoffmarker.commons.dto.DayOffMarkerResponse;
 import br.com.sawcunha.dayoffmarker.commons.dto.request.CountryRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.country.CountryResponseDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.sort.eOrderCountry;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.country.CountryNotExistException;
 import br.com.sawcunha.dayoffmarker.specification.service.CountryService;
 import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
@@ -66,7 +67,7 @@ public class CountryController {
     @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_COUNTRY", ttl = 1, ttlTimeUnit = TimeUnit.DAYS)
     public DayOffMarkerResponse<CountryResponseDTO> save(
             @JdempotentRequestPayload @RequestBody CountryRequestDTO countryRequestDTO
-    ) throws Exception {
+    ) throws DayOffMarkerGenericException {
         return countryService.save(countryRequestDTO);
     }
 
@@ -77,7 +78,7 @@ public class CountryController {
     public DayOffMarkerResponse<CountryResponseDTO> update(
             @PathVariable Long id,
             @RequestBody CountryRequestDTO countryRequestDTO
-    ) throws Exception {
+    ) throws DayOffMarkerGenericException {
         return countryService.update(id, countryRequestDTO);
     }
 

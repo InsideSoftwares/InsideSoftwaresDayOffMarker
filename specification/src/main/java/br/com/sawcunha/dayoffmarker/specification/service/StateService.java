@@ -4,6 +4,7 @@ import br.com.sawcunha.dayoffmarker.commons.dto.DayOffMarkerResponse;
 import br.com.sawcunha.dayoffmarker.commons.dto.request.StateRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.state.StateResponseDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.sort.eOrderState;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.entity.State;
 import org.springframework.data.domain.Sort;
 import org.springframework.validation.annotation.Validated;
@@ -20,13 +21,13 @@ public interface StateService {
             final int sizePerPage,
             final Sort.Direction direction,
             final eOrderState orderState
-    ) throws Exception;
+    ) throws DayOffMarkerGenericException;
 
-    DayOffMarkerResponse<StateResponseDTO> findById(Long stateID) throws Exception;
+    DayOffMarkerResponse<StateResponseDTO> findById(Long stateID) throws DayOffMarkerGenericException;
 
-    DayOffMarkerResponse<StateResponseDTO> save(final @Valid StateRequestDTO stateRequestDTO) throws Exception;
-    DayOffMarkerResponse<StateResponseDTO> update(final Long stateID, final @Valid StateRequestDTO stateRequestDTO) throws Exception;
+    DayOffMarkerResponse<StateResponseDTO> save(final @Valid StateRequestDTO stateRequestDTO) throws DayOffMarkerGenericException;
+    DayOffMarkerResponse<StateResponseDTO> update(final Long stateID, final @Valid StateRequestDTO stateRequestDTO) throws DayOffMarkerGenericException;
 
-    State findStateByStateId(final Long stateId) throws Exception;
+    State findStateByStateId(final Long stateId) throws DayOffMarkerGenericException;
 
 }

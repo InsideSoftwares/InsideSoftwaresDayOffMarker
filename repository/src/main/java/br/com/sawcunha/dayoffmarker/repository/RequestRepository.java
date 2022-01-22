@@ -27,7 +27,7 @@ public interface RequestRepository extends JpaRepository<Request, UUID> {
 	List<Request> findAllByStatusRequest(eStatusRequest statusRequest, eTypeRequest typeRequest);
 
 	@Query(" SELECT count(r) > 0 FROM Request r WHERE statusRequest = :statusRequest AND r.typeRequest = :typeRequest")
-	boolean existRequestByStatusRequest(eStatusRequest statusRequest, eTypeRequest typeRequest);
+	boolean existRequestByTypeRequestAndStatusRequest(eTypeRequest typeRequest, eStatusRequest statusRequest);
 
     @Query(" SELECT r FROM Request r WHERE r.typeRequest = :typeRequest AND r.statusRequest != :statusRequest")
     List<Request> findAllRequestByTypeRequestAndNotStatusRequest(eTypeRequest typeRequest, eStatusRequest statusRequest);

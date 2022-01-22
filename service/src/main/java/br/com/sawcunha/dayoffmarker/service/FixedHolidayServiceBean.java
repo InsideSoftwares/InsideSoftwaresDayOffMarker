@@ -6,6 +6,7 @@ import br.com.sawcunha.dayoffmarker.commons.dto.request.FixedHolidayUpdateReques
 import br.com.sawcunha.dayoffmarker.commons.dto.response.fixedholiday.FixedHolidayResponseDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.sort.eOrderFixedHoliday;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.DayMonthInvalidException;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.country.CountryNotExistException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.fixedholiday.FixedHolidayDayMonthCountryExistException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.fixedholiday.FixedHolidayNotExistException;
@@ -46,7 +47,7 @@ public class FixedHolidayServiceBean implements FixedHolidayService {
             final int sizePerPage,
             final Sort.Direction direction,
             final eOrderFixedHoliday orderFixedHoliday
-    ) throws Exception {
+    ) throws DayOffMarkerGenericException {
 
         Pageable pageable = PaginationUtils.createPageable(page, sizePerPage, direction, orderFixedHoliday);
 
@@ -84,7 +85,7 @@ public class FixedHolidayServiceBean implements FixedHolidayService {
             FixedHolidayDayMonthCountryExistException.class
     })
     @Override
-    public DayOffMarkerResponse<FixedHolidayResponseDTO> save(final @Valid FixedHolidayRequestDTO fixedHolidayRequestDTO) throws Exception {
+    public DayOffMarkerResponse<FixedHolidayResponseDTO> save(final @Valid FixedHolidayRequestDTO fixedHolidayRequestDTO) throws DayOffMarkerGenericException {
         fixedHolidayValidator.validator(fixedHolidayRequestDTO);
 
         Country country = countryService.findCountryByCountryId(fixedHolidayRequestDTO.getCountryId());
@@ -119,7 +120,7 @@ public class FixedHolidayServiceBean implements FixedHolidayService {
     public DayOffMarkerResponse<FixedHolidayResponseDTO> update(
             Long fixedHolidayID,
             final @Valid FixedHolidayUpdateRequestDTO fixedHolidayRequestDTO
-    ) throws Exception {
+    ) throws DayOffMarkerGenericException {
 	fixedHolidayUpdateValidator.validator(fixedHolidayID,fixedHolidayRequestDTO);
 
         FixedHoliday fixedHoliday = fixedHolidayRepository.getById(fixedHolidayID);
@@ -137,7 +138,7 @@ public class FixedHolidayServiceBean implements FixedHolidayService {
     }
 
 	@Override
-	public List<FixedHoliday> findAllByCountry() throws Exception {
+	public List<FixedHoliday> findAllByCountry() throws DayOffMarkerGenericException {
 		Country country = countryService.findCountryDefault();
 		return fixedHolidayRepository.findAllByCountry(country);
 	}

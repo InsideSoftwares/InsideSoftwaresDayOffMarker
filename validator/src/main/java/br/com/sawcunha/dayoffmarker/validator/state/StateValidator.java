@@ -1,6 +1,7 @@
 package br.com.sawcunha.dayoffmarker.validator.state;
 
 import br.com.sawcunha.dayoffmarker.commons.dto.request.StateRequestDTO;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.country.CountryNotExistException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.state.StateCountryAcronymExistException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.state.StateNameCountryAcronymExistException;
@@ -21,7 +22,7 @@ public class StateValidator implements Validator<Long, StateRequestDTO> {
 
     @Transactional(readOnly = true)
     @Override
-    public void validator(StateRequestDTO stateRequestDTO) throws Exception {
+    public void validator(StateRequestDTO stateRequestDTO) throws DayOffMarkerGenericException {
         if(!countryRepository.existsById(stateRequestDTO.getCountryId())) throw new CountryNotExistException();
         if(
                 stateRepository.existsByNameAndCountryIdAndAcronym(
@@ -41,7 +42,7 @@ public class StateValidator implements Validator<Long, StateRequestDTO> {
 
     @Transactional(readOnly = true)
     @Override
-    public void validator(Long stateId, StateRequestDTO stateRequestDTO) throws Exception {
+    public void validator(Long stateId, StateRequestDTO stateRequestDTO) throws DayOffMarkerGenericException {
         if(!countryRepository.existsById(stateRequestDTO.getCountryId())) throw new CountryNotExistException();
         if(!stateRepository.existsById(stateId)) throw new StateNotExistException();
         if(

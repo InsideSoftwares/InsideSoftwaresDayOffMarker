@@ -7,7 +7,12 @@ import lombok.Getter;
 public class DayOffMarkerGenericException extends Exception{
 
     private final String code;
-    public DayOffMarkerGenericException() {
+	public DayOffMarkerGenericException(String code) {
+		super();
+		this.code = code;
+	}
+
+	public DayOffMarkerGenericException() {
         super();
         this.code = eExceptionCode.GENERIC.getCode();
     }

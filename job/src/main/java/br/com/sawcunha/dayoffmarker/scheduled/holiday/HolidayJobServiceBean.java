@@ -4,13 +4,14 @@ import br.com.sawcunha.dayoffmarker.commons.enums.eStatusRequest;
 import br.com.sawcunha.dayoffmarker.commons.enums.eTypeParameter;
 import br.com.sawcunha.dayoffmarker.commons.enums.eTypeRequest;
 import br.com.sawcunha.dayoffmarker.commons.enums.eTypeValue;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.commons.logger.LogService;
 import br.com.sawcunha.dayoffmarker.entity.FixedHoliday;
 import br.com.sawcunha.dayoffmarker.entity.Request;
 import br.com.sawcunha.dayoffmarker.entity.RequestParameter;
-import br.com.sawcunha.dayoffmarker.repository.RequestRepository;
 import br.com.sawcunha.dayoffmarker.specification.service.DayService;
 import br.com.sawcunha.dayoffmarker.specification.service.FixedHolidayService;
+import br.com.sawcunha.dayoffmarker.specification.service.RequestService;
 import br.com.sawcunha.dayoffmarker.specification.validator.RequestValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
@@ -36,7 +37,7 @@ public class HolidayJobServiceBean {
 	private final DayService dayService;
 	private final FixedHolidayService fixedHolidayService;
 	private final LogService<HolidayJobServiceBean> logService;
-	private final RequestRepository requestRepository;
+	private final RequestService requestService;
 	private final RequestValidator requestValidator;
 	private final JobLauncher jobLauncher;
 	private final JobExplorer jobExplorer;
@@ -63,7 +64,7 @@ public class HolidayJobServiceBean {
 				fixedHolidays.forEach(fixedHoliday -> {
 					try {
 						Request newRequest = createRequest(fixedHoliday.getId());
-						requestRepository.save(newRequest);
+						requestService.saveRequest(newRequest);
 					}catch (Exception e){
 						logService.logError("It was not possible to update the Holidays.", e);
 					} finally {
@@ -81,7 +82,7 @@ public class HolidayJobServiceBean {
 
 	public void schedulingRunBatch(){
 		try {
-			if(requestRepository.existRequestByStatusRequest(eStatusRequest.CREATED, eTypeRequest.UPDATE_HOLIDAY)) {
+			if(requestService.existRequestByByTypeAndStatusRequest(eTypeRequest.UPDATE_HOLIDAY, eStatusRequest.CREATED)) {
 				JobParameters jobParameters = new JobParametersBuilder(this.jobExplorer)
 						.getNextJobParameters(jobUpdateHoliday)
 						.toJobParameters();
@@ -96,7 +97,7 @@ public class HolidayJobServiceBean {
 
 	private Request createRequest(
 			final Long fixedHolidayID
-	) throws Exception {
+	) throws DayOffMarkerGenericException {
 		UUID keyRequest = UUID.randomUUID();
 
 		Request newRequest =  Request.builder()
@@ -121,7 +122,7 @@ public class HolidayJobServiceBean {
 	private Set<RequestParameter> createRequestParameter(
 			final Request request,
 			final String fixedHolidayID
-	) throws Exception {
+	) throws DayOffMarkerGenericException {
 
 		Set<RequestParameter> requestParameters = new HashSet<>();
 

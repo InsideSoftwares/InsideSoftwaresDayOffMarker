@@ -33,20 +33,6 @@
 			</dependency>
 			<dependency>
 				<groupId>br.com.sawcunha.dayoffmarker</groupId>
-				<artifactId>repository</artifactId>
-				<exclusions>
-					<exclusion>
-						<groupId>org.postgresql</groupId>
-						<artifactId>postgresql</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>mysql</groupId>
-						<artifactId>mysql-connector-java</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>br.com.sawcunha.dayoffmarker</groupId>
 				<artifactId>commons</artifactId>
 				<exclusions>
 					<exclusion>
@@ -68,6 +54,20 @@
 					<exclusion>
 						<groupId>org.liquibase</groupId>
 						<artifactId>liquibase-core</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>br.com.sawcunha.dayoffmarker</groupId>
+				<artifactId>domain</artifactId>
+				<exclusions>
+					<exclusion>
+						<groupId>br.com.sawcunha.dayoffmarker</groupId>
+						<artifactId>commons</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-starter-data-jpa</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>

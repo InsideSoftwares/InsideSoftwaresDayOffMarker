@@ -24,7 +24,7 @@ public class ReaderRequestUpdateHolidayStatusCreated implements ItemReader<Reque
     @Override
     public Request read() {
         if(requests == null){
-            requests = requestService.findAllRequestForBatch(eTypeRequest.UPDATE_HOLIDAY, eStatusRequest.CREATED);
+            requests = requestService.findAllRequestByTypeAndStatus(eTypeRequest.UPDATE_HOLIDAY, eStatusRequest.CREATED);
         }
         Request nextRequest = null;
 

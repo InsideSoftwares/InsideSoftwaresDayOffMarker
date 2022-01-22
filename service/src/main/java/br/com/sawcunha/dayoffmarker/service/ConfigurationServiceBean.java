@@ -2,6 +2,7 @@ package br.com.sawcunha.dayoffmarker.service;
 
 import br.com.sawcunha.dayoffmarker.commons.enums.eConfigurationkey;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.ConfigurationNotExistException;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.entity.Configuration;
 import br.com.sawcunha.dayoffmarker.repository.ConfigurationRepository;
 import lombok.RequiredArgsConstructor;
@@ -45,14 +46,14 @@ class ConfigurationServiceBean {
     }
 
     @Transactional(rollbackFor = ConfigurationNotExistException.class)
-    public void updateConfiguration(final eConfigurationkey configurationkey, String value) throws Exception {
+    public void updateConfiguration(final eConfigurationkey configurationkey, String value) throws DayOffMarkerGenericException {
         Configuration configuration = findConfigurationByKey(configurationkey);
         configuration.setValue(value);
         configurationRepository.save(configuration);
     }
 
     @Transactional(readOnly = true)
-    public boolean isInitializedApplication() throws Exception {
+    public boolean isInitializedApplication() throws DayOffMarkerGenericException {
         Configuration configuration = findConfigurationByKey(eConfigurationkey.INITIAL_CONFIGURATION);
         return Objects.nonNull(configuration.getValue()) && configuration.getValue().equals(INIT_TRUE);
     }

@@ -1,14 +1,9 @@
 package br.com.sawcunha.dayoffmarker.commons.exception.error.fixedholiday;
 
-import lombok.Getter;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 
-@Getter
-public class FixedHolidayException extends Exception {
-
-    private final String code;
+public class FixedHolidayException extends DayOffMarkerGenericException {
     public FixedHolidayException(final String code) {
-        super();
-        this.code = code;
-
+        super(code);
     }
 }

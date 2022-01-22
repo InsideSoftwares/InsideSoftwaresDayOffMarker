@@ -4,13 +4,14 @@ import br.com.sawcunha.dayoffmarker.commons.enums.eStatusRequest;
 import br.com.sawcunha.dayoffmarker.commons.enums.eTypeParameter;
 import br.com.sawcunha.dayoffmarker.commons.enums.eTypeRequest;
 import br.com.sawcunha.dayoffmarker.commons.enums.eTypeValue;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.request.ParameterNotExistException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.request.RequestConflitParametersException;
 import br.com.sawcunha.dayoffmarker.commons.logger.LogService;
 import br.com.sawcunha.dayoffmarker.entity.Request;
 import br.com.sawcunha.dayoffmarker.entity.RequestParameter;
-import br.com.sawcunha.dayoffmarker.repository.RequestRepository;
 import br.com.sawcunha.dayoffmarker.scheduled.utils.RequestUtils;
+import br.com.sawcunha.dayoffmarker.specification.service.RequestService;
 import br.com.sawcunha.dayoffmarker.specification.validator.RequestValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
@@ -34,7 +35,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RequestJobServiceBean {
 
-	private final RequestRepository requestRepository;
+	private final RequestService requestService;
 	private final RequestValidator requestValidator;
 	private final JobLauncher jobLauncher;
 	private final JobExplorer jobExplorer;
@@ -55,12 +56,12 @@ public class RequestJobServiceBean {
 	})
 	public void findRequestForCreatingDays() {
 
-		List<Request> requests = requestRepository
-				.findAllRequestByTypeRequestAndStatusRequest(eTypeRequest.REQUEST_CREATION_DATE, eStatusRequest.CREATED);
+		List<Request> requests = requestService
+				.findAllRequestByTypeAndStatus(eTypeRequest.REQUEST_CREATION_DATE, eStatusRequest.CREATED);
 
 		requests.forEach(request -> {
 			request.setStatusRequest(eStatusRequest.WAITING);
-			requestRepository.saveAndFlush(request);
+			requestService.saveAndFlushRequest(request);
 		});
 		logService.logInfor("Updating request to be status WAITING.");
 	}
@@ -71,13 +72,13 @@ public class RequestJobServiceBean {
 			Exception.class
 	})
 	public void runRequestForCreatingDays() {
-		List<Request> requests = requestRepository
-				.findAllRequestByTypeRequestAndStatusRequest(eTypeRequest.REQUEST_CREATION_DATE, eStatusRequest.WAITING);
+		List<Request> requests = requestService
+				.findAllRequestByTypeAndStatus(eTypeRequest.REQUEST_CREATION_DATE, eStatusRequest.WAITING);
 
 		requests.forEach(request -> {
 			request.setStatusRequest(eStatusRequest.RUNNING);
 			request.setStartDate(LocalDateTime.now());
-			requestRepository.saveAndFlush(request);
+			requestService.saveAndFlushRequest(request);
 		});
 		logService.logInfor("Updating request to be status RUNNING.");
 
@@ -91,14 +92,14 @@ public class RequestJobServiceBean {
 				request.setStatusRequest(eStatusRequest.ERROR);
 				request.setEndDate(LocalDateTime.now());
 			} finally {
-				requestRepository.saveAndFlush(request);
+				requestService.saveAndFlushRequest(request);
 			}
 		});
 	}
 
 	public void schedulingRunBatch(){
 		try {
-			if(requestRepository.existRequestByStatusRequest(eStatusRequest.CREATED, eTypeRequest.CREATE_DATE)) {
+			if(requestService.existRequestByByTypeAndStatusRequest(eTypeRequest.CREATE_DATE, eStatusRequest.CREATED)) {
 				JobParameters jobParameters = new JobParametersBuilder(this.jobExplorer)
 						.getNextJobParameters(jobCreatesDays)
 						.toJobParameters();
@@ -116,7 +117,7 @@ public class RequestJobServiceBean {
 			RequestConflitParametersException.class,
 			Exception.class
 	})
-	public void createsRequestWithMonths(final Request request) throws Exception {
+	public void createsRequestWithMonths(final Request request) throws DayOffMarkerGenericException {
 		logService.logInfor("Starting the creation of the requests to create the Days.");
 
 		Long countryID = RequestUtils.getCountry(request.getRequestParameter());
@@ -129,7 +130,7 @@ public class RequestJobServiceBean {
 
 			while (month <= 12){
 				Request newRequest = createRequest(request, month, startYear, countryID);
-				requestRepository.save(newRequest);
+				requestService.saveRequest(newRequest);
 				month++;
 			}
 			startYear++;
@@ -142,7 +143,7 @@ public class RequestJobServiceBean {
 			final Integer month,
 			final Integer year,
 			final Long countryID
-	) throws Exception {
+	) throws DayOffMarkerGenericException {
 		UUID keyRequest = UUID.randomUUID();
 
 		Request newRequest =  Request.builder()
@@ -173,7 +174,7 @@ public class RequestJobServiceBean {
 			final String month,
 			final String year,
 			final String requestID
-	) throws Exception {
+	) throws DayOffMarkerGenericException {
 
 		Set<RequestParameter> requestParameters = new HashSet<>();
 

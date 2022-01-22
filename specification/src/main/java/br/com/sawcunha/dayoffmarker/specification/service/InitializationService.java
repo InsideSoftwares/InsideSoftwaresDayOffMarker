@@ -4,6 +4,7 @@ import br.com.sawcunha.dayoffmarker.commons.dto.DayOffMarkerResponse;
 import br.com.sawcunha.dayoffmarker.commons.dto.request.InitRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.initialization.InitResponseDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.initialization.InitializationDTO;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
@@ -11,7 +12,7 @@ import javax.validation.Valid;
 @Validated
 public interface InitializationService {
 
-    DayOffMarkerResponse<InitResponseDTO> initializationApplication(final @Valid InitRequestDTO initRequestDTO) throws Exception;
-    DayOffMarkerResponse<InitializationDTO> isInitApplication() throws Exception;
+    DayOffMarkerResponse<InitResponseDTO> initializationApplication(final @Valid InitRequestDTO initRequestDTO) throws DayOffMarkerGenericException;
+    DayOffMarkerResponse<InitializationDTO> isInitApplication() throws DayOffMarkerGenericException;
 
 }

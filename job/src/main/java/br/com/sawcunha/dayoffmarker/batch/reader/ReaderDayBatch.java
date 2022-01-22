@@ -29,7 +29,7 @@ public class ReaderDayBatch implements ItemReader<DayBatch> {
 		this.jobId = jobExecution.getJobId();
 	}
     @Override
-    public DayBatch read() throws Exception {
+    public DayBatch read() {
         if(dayBatches == null){
             dayBatches = batchCreationDayService.findAllDayBatchForBatch(jobId);
         }
