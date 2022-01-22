@@ -1,14 +1,9 @@
 package br.com.sawcunha.dayoffmarker.commons.exception.error.city;
 
-import lombok.Getter;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 
-@Getter
-public class CityException extends Exception {
-
-    private final String code;
+public class CityException extends DayOffMarkerGenericException {
     public CityException(final String code) {
-        super();
-        this.code = code;
-
+        super(code);
     }
 }

@@ -4,6 +4,7 @@ import br.com.sawcunha.dayoffmarker.commons.dto.DayOffMarkerResponse;
 import br.com.sawcunha.dayoffmarker.commons.dto.request.StateRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.state.StateResponseDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.sort.eOrderState;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.country.CountryNameInvalidException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.state.StateCountryAcronymExistException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.state.StateNameCountryAcronymExistException;
@@ -43,7 +44,7 @@ public class StateServiceBean implements StateService {
             final int sizePerPage,
             final Sort.Direction direction,
             final eOrderState orderState
-    ) throws Exception {
+    ) throws DayOffMarkerGenericException {
 
         Pageable pageable = PaginationUtils.createPageable(page, sizePerPage, direction, orderState);
 
@@ -65,7 +66,7 @@ public class StateServiceBean implements StateService {
 
     @Transactional(readOnly = true)
     @Override
-    public DayOffMarkerResponse<StateResponseDTO> findById(final Long stateID) throws Exception {
+    public DayOffMarkerResponse<StateResponseDTO> findById(final Long stateID) throws DayOffMarkerGenericException {
         State state = stateRepository.findById(stateID).orElseThrow(StateNotExistException::new);
         return DayOffMarkerResponse.<StateResponseDTO>builder()
                 .data(stateMapper.toDTO(state))
@@ -79,7 +80,7 @@ public class StateServiceBean implements StateService {
             StateNotExistException.class
     })
     @Override
-    public DayOffMarkerResponse<StateResponseDTO> save(StateRequestDTO stateRequestDTO) throws Exception {
+    public DayOffMarkerResponse<StateResponseDTO> save(StateRequestDTO stateRequestDTO) throws DayOffMarkerGenericException {
         stateValidator.validator(stateRequestDTO);
 
         Country country = countryService.findCountryByCountryId(stateRequestDTO.getCountryId());
@@ -103,7 +104,7 @@ public class StateServiceBean implements StateService {
             StateCountryAcronymExistException.class
     })
     @Override
-    public DayOffMarkerResponse<StateResponseDTO> update(Long stateID, StateRequestDTO stateRequestDTO) throws Exception {
+    public DayOffMarkerResponse<StateResponseDTO> update(Long stateID, StateRequestDTO stateRequestDTO) throws DayOffMarkerGenericException {
         stateValidator.validator(stateID, stateRequestDTO);
         State state = stateRepository.getById(stateID);
 
@@ -123,7 +124,7 @@ public class StateServiceBean implements StateService {
 
     @Transactional(readOnly = true)
     @Override
-    public State findStateByStateId(final Long stateId) throws Exception {
+    public State findStateByStateId(final Long stateId) throws DayOffMarkerGenericException {
         Optional<State> optionalState = stateRepository.findById(stateId);
         return optionalState.orElseThrow(StateNotExistException::new);
     }

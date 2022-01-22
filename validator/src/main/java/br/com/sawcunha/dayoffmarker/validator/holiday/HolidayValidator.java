@@ -2,6 +2,7 @@ package br.com.sawcunha.dayoffmarker.validator.holiday;
 
 import br.com.sawcunha.dayoffmarker.commons.dto.request.HolidayRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.eTypeHoliday;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.day.DayNotExistException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.holiday.HolidayDayExistException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.holiday.HolidayFromTimeNotInformedException;
@@ -24,7 +25,7 @@ public class HolidayValidator implements Validator<Long, HolidayRequestDTO> {
 
     @Transactional(readOnly = true)
     @Override
-    public void validator(final HolidayRequestDTO holidayRequestDTO) throws Exception {
+    public void validator(final HolidayRequestDTO holidayRequestDTO) throws DayOffMarkerGenericException {
         if(!dayRepository.existsById(holidayRequestDTO.getDayId())) throw new DayNotExistException();
         if(holidayRepository.existsByDayID(holidayRequestDTO.getDayId())) throw new HolidayDayExistException();
         validTypeHoliday(holidayRequestDTO);
@@ -32,14 +33,14 @@ public class HolidayValidator implements Validator<Long, HolidayRequestDTO> {
 
     @Transactional(readOnly = true)
     @Override
-    public void validator(final Long holidayId,final  HolidayRequestDTO holidayRequestDTO) throws Exception {
+    public void validator(final Long holidayId,final  HolidayRequestDTO holidayRequestDTO) throws DayOffMarkerGenericException {
         if(!holidayRepository.existsById(holidayId)) throw new HolidayNotExistException();
         if(!dayRepository.existsById(holidayRequestDTO.getDayId())) throw new DayNotExistException();
         if(holidayRepository.existsByDayIDAndNotId(holidayRequestDTO.getDayId(),holidayId)) throw new HolidayDayExistException();
         validTypeHoliday(holidayRequestDTO);
     }
 
-    private void validTypeHoliday(final HolidayRequestDTO holidayRequestDTO) throws Exception{
+    private void validTypeHoliday(final HolidayRequestDTO holidayRequestDTO) throws HolidayFromTimeNotInformedException {
 		if (holidayRequestDTO.getHolidayType() == eTypeHoliday.HALF_PERIOD) {
 			if (Objects.isNull(holidayRequestDTO.getFromTime()))
 				throw new HolidayFromTimeNotInformedException();

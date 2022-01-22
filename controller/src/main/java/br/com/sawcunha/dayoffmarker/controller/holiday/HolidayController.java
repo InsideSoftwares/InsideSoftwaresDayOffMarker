@@ -4,6 +4,7 @@ import br.com.sawcunha.dayoffmarker.commons.dto.DayOffMarkerResponse;
 import br.com.sawcunha.dayoffmarker.commons.dto.request.HolidayRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.holiday.HolidayResponseDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.sort.eOrderHoliday;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.specification.service.HolidayService;
 import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
 import com.trendyol.jdempotent.core.annotation.JdempotentResource;
@@ -51,7 +52,7 @@ public class HolidayController {
             @RequestParam(value = "sizePerPage", required = false, defaultValue = "10") int sizePerPage,
             @RequestParam(value = "direction", required = false, defaultValue = "ASC") Sort.Direction direction,
             @RequestParam(value = "orderBy", required = false, defaultValue = "DAY") eOrderHoliday orderHoliday
-    ) throws Exception {
+    ) throws DayOffMarkerGenericException {
         return holidayService.findAll(startDate, endDate, nameCountry, page, sizePerPage, direction, orderHoliday);
     }
 
@@ -59,7 +60,7 @@ public class HolidayController {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ADMIN')")
     @Cacheable("DAYOFF_MARKER_HOLIDAY")
-    public DayOffMarkerResponse<HolidayResponseDTO> findById(@PathVariable Long id) throws Exception {
+    public DayOffMarkerResponse<HolidayResponseDTO> findById(@PathVariable Long id) throws DayOffMarkerGenericException {
         return holidayService.findById(id);
     }
 
@@ -70,7 +71,7 @@ public class HolidayController {
     @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_HOLIDAY", ttl = 1, ttlTimeUnit = TimeUnit.DAYS)
     public DayOffMarkerResponse<HolidayResponseDTO> save(
             @JdempotentRequestPayload @RequestBody HolidayRequestDTO holidayRequestDTO
-    ) throws Exception {
+    ) throws DayOffMarkerGenericException {
         return holidayService.save(holidayRequestDTO);
     }
 
@@ -81,7 +82,7 @@ public class HolidayController {
     public DayOffMarkerResponse<HolidayResponseDTO> update(
             @PathVariable Long id,
             @RequestBody HolidayRequestDTO holidayRequestDTO
-    ) throws Exception {
+    ) throws DayOffMarkerGenericException {
         return holidayService.update(id, holidayRequestDTO);
     }
 

@@ -21,19 +21,29 @@ public class RequestServiceBean implements RequestService {
 	private final RequestMapper requestMapper;
 
 	@Override
-	public void saveRequest(Request request) {
+	public void saveRequest(final Request request) {
+		requestRepository.save(request);
+	}
+
+	@Override
+	public void saveAndFlushRequest(final Request request) {
 		requestRepository.saveAndFlush(request);
 	}
 
 	@Transactional(readOnly = true)
 	@Override
-	public List<Request> findAllRequestForBatch(final eTypeRequest typeRequest, final eStatusRequest statusRequest) {
+	public List<Request> findAllRequestByTypeAndStatus(final eTypeRequest typeRequest, final eStatusRequest statusRequest) {
 		return requestRepository.findAllByStatusRequest(statusRequest, typeRequest);
 	}
 	@Transactional(readOnly = true)
 	@Override
-	public List<Request> findAllRequestForBatch(final Long jobId, final eStatusRequest statusRequest) {
+	public List<Request> findAllRequestByJobIDAndStatus(final Long jobId, final eStatusRequest statusRequest) {
 		return requestRepository.findAllByJobIdAndStatusRequest(jobId, statusRequest);
+	}
+
+	@Override
+	public boolean existRequestByByTypeAndStatusRequest(eTypeRequest typeRequest, eStatusRequest statusRequest) {
+		return requestRepository.existRequestByTypeRequestAndStatusRequest(eTypeRequest.CREATE_DATE, eStatusRequest.CREATED);
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import br.com.sawcunha.dayoffmarker.commons.dto.response.initialization.Initiali
 import br.com.sawcunha.dayoffmarker.commons.enums.eConfigurationkey;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.ApplicationAlreadyInitializedException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.ConfigurationNotExistException;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.country.CountryNameInvalidException;
 import br.com.sawcunha.dayoffmarker.specification.service.CountryService;
 import br.com.sawcunha.dayoffmarker.specification.service.InitializationService;
@@ -28,7 +29,7 @@ public class InitializationServiceBean implements InitializationService {
 
     @Transactional(rollbackFor={ConfigurationNotExistException.class, CountryNameInvalidException.class, Exception.class})
     @Override
-    public DayOffMarkerResponse<InitResponseDTO> initializationApplication(final InitRequestDTO initRequestDTO) throws Exception {
+    public DayOffMarkerResponse<InitResponseDTO> initializationApplication(final InitRequestDTO initRequestDTO) throws DayOffMarkerGenericException {
         boolean initConfig = configurationServiceBean.isInitializedApplication();
         if(initConfig) throw new ApplicationAlreadyInitializedException();
 
@@ -60,7 +61,7 @@ public class InitializationServiceBean implements InitializationService {
 
     @Transactional(readOnly = true)
     @Override
-    public DayOffMarkerResponse<InitializationDTO> isInitApplication() throws Exception {
+    public DayOffMarkerResponse<InitializationDTO> isInitApplication() throws DayOffMarkerGenericException {
         boolean initConfig = configurationServiceBean.isInitializedApplication();
         return DayOffMarkerResponse.<InitializationDTO>builder()
                 .data(
@@ -71,7 +72,7 @@ public class InitializationServiceBean implements InitializationService {
                 .build();
     }
 
-    private void updateKeyAccess(final InitRequestDTO initRequestDTO) throws Exception {
+    private void updateKeyAccess(final InitRequestDTO initRequestDTO) throws DayOffMarkerGenericException {
         String adminKey = getKeyUUID(initRequestDTO.getAdminKey());
         String viewKey = getKeyUUID(initRequestDTO.getViewKey());
 
@@ -80,7 +81,7 @@ public class InitializationServiceBean implements InitializationService {
 
     }
 
-    private void updateLimit(final InitRequestDTO initRequestDTO) throws Exception {
+    private void updateLimit(final InitRequestDTO initRequestDTO) throws DayOffMarkerGenericException {
         String limitBackYears = getLimitDaysYears(initRequestDTO.getNumberBackYears());
         String limitForwardYears = getLimitDaysYears(initRequestDTO.getNumberForwardYears());
         configurationServiceBean.updateConfiguration(
@@ -91,7 +92,7 @@ public class InitializationServiceBean implements InitializationService {
         );
     }
 
-    private void updateCountryDefault(final InitRequestDTO initRequestDTO) throws Exception {
+    private void updateCountryDefault(final InitRequestDTO initRequestDTO) throws DayOffMarkerGenericException {
         if(Objects.nonNull(initRequestDTO.getCountryDefault())){
 
             boolean isValid = countryService.validCountry(initRequestDTO.getCountryDefault());

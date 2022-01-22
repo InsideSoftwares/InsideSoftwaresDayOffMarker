@@ -1,6 +1,7 @@
 package br.com.sawcunha.dayoffmarker.validator.city;
 
 import br.com.sawcunha.dayoffmarker.commons.dto.request.CityRequestDTO;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.city.CityCodeAcronymStateExistException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.city.CityCodeStateExistException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.city.CityNameStateExistException;
@@ -22,7 +23,7 @@ public class CityValidator implements Validator<Long, CityRequestDTO> {
 
     @Transactional(readOnly = true)
     @Override
-    public void validator(CityRequestDTO cityRequestDTO) throws Exception {
+    public void validator(CityRequestDTO cityRequestDTO) throws DayOffMarkerGenericException {
         if(!stateRepository.existsById(cityRequestDTO.getStateID())) throw new StateNotExistException();
         if(
                 cityRepository.existsByCodeAndAcronymAndStateID(
@@ -47,7 +48,7 @@ public class CityValidator implements Validator<Long, CityRequestDTO> {
 
     @Transactional(readOnly = true)
     @Override
-    public void validator(Long cityID, CityRequestDTO cityRequestDTO) throws Exception {
+    public void validator(Long cityID, CityRequestDTO cityRequestDTO) throws DayOffMarkerGenericException {
         if(!cityRepository.existsById(cityID)) throw new CityNotExistException();
         if(!stateRepository.existsById(cityRequestDTO.getStateID())) throw new StateNotExistException();
         if(

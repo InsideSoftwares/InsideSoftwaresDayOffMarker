@@ -32,7 +32,7 @@ public class ReaderRequestDTOStatusRunning implements ItemReader<RequestDTO> {
 	}
 
     @Override
-    public RequestDTO read() throws Exception {
+    public RequestDTO read() {
         if(requestDTOs == null){
             requestDTOs = requestService.findAllRequestDTOForBatch(jobId, eStatusRequest.RUNNING);
         }

@@ -4,6 +4,7 @@ import br.com.sawcunha.dayoffmarker.commons.dto.DayOffMarkerResponse;
 import br.com.sawcunha.dayoffmarker.commons.dto.request.CityRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.city.CityResponseDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.sort.eOrderCity;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import org.springframework.data.domain.Sort;
 import org.springframework.validation.annotation.Validated;
 
@@ -19,10 +20,10 @@ public interface CityService {
             final int sizePerPage,
             final Sort.Direction direction,
             final eOrderCity orderCity
-    ) throws Exception;
+    ) throws DayOffMarkerGenericException;
 
-    DayOffMarkerResponse<CityResponseDTO> findById(final Long cityID) throws Exception;
+    DayOffMarkerResponse<CityResponseDTO> findById(final Long cityID) throws DayOffMarkerGenericException;
 
-    DayOffMarkerResponse<CityResponseDTO> save(final @Valid CityRequestDTO cityRequestDTO) throws Exception;
-    DayOffMarkerResponse<CityResponseDTO> update(final Long cityID, final @Valid CityRequestDTO cityRequestDTO) throws Exception;
+    DayOffMarkerResponse<CityResponseDTO> save(final @Valid CityRequestDTO cityRequestDTO) throws DayOffMarkerGenericException;
+    DayOffMarkerResponse<CityResponseDTO> update(final Long cityID, final @Valid CityRequestDTO cityRequestDTO) throws DayOffMarkerGenericException;
 }

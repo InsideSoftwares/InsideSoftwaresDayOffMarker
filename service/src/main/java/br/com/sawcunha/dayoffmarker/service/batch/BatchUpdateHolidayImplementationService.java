@@ -1,6 +1,7 @@
 package br.com.sawcunha.dayoffmarker.service.batch;
 
 import br.com.sawcunha.dayoffmarker.commons.dto.request.HolidayRequestDTO;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.fixedholiday.FixedHolidayNotExistException;
 import br.com.sawcunha.dayoffmarker.commons.logger.LogService;
 import br.com.sawcunha.dayoffmarker.entity.Country;
@@ -41,12 +42,12 @@ public class BatchUpdateHolidayImplementationService implements BatchUpdateHolid
 	}
 
 	@Override
-	public int getMinDateYear() throws Exception {
+	public int getMinDateYear() throws DayOffMarkerGenericException {
 		return dayService.getMinDate().getYear();
 	}
 
 	@Override
-	public int getMaxDateYear() throws Exception {
+	public int getMaxDateYear() throws DayOffMarkerGenericException {
 		return dayService.getMaxDate().getYear();
 	}
 
@@ -56,7 +57,7 @@ public class BatchUpdateHolidayImplementationService implements BatchUpdateHolid
 	}
 
 	@Override
-	public Day findDayIDByDateAndCountry(LocalDate daySearch, Country country) throws Exception {
+	public Day findDayIDByDateAndCountry(LocalDate daySearch, Country country) throws DayOffMarkerGenericException {
 		return  dayService.findDayIDByDateAndCountry(daySearch, country);
 	}
 }

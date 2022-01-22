@@ -4,6 +4,7 @@ import br.com.sawcunha.dayoffmarker.commons.dto.DayOffMarkerResponse;
 import br.com.sawcunha.dayoffmarker.commons.dto.request.InitRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.initialization.InitResponseDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.initialization.InitializationDTO;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.specification.service.InitializationService;
 import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
 import lombok.RequiredArgsConstructor;
@@ -33,14 +34,14 @@ public class InitializationController {
     @PreAuthorize("hasAnyRole('ADMIN')")
     public DayOffMarkerResponse<InitResponseDTO> init(
             @JdempotentRequestPayload @RequestBody final InitRequestDTO initRequestDTO
-    ) throws Exception {
+    ) throws DayOffMarkerGenericException {
         return initializationService.initializationApplication(initRequestDTO);
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public DayOffMarkerResponse<InitializationDTO> isInit() throws Exception {
+    public DayOffMarkerResponse<InitializationDTO> isInit() throws DayOffMarkerGenericException {
         return initializationService.isInitApplication();
     }
 

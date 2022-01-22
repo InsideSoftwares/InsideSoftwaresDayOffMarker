@@ -4,6 +4,7 @@ import br.com.sawcunha.dayoffmarker.commons.dto.DayOffMarkerResponse;
 import br.com.sawcunha.dayoffmarker.commons.dto.request.HolidayRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.holiday.HolidayResponseDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.sort.eOrderHoliday;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.StartDateAfterEndDateException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.day.DayNotExistException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.holiday.HolidayDayExistException;
@@ -51,7 +52,7 @@ public class HolidayServiceBean implements HolidayService {
 			final int sizePerPage,
 			final Sort.Direction direction,
 			final eOrderHoliday orderHoliday
-	) throws Exception {
+	) throws DayOffMarkerGenericException {
 
 		Pageable pageable = PaginationUtils.createPageable(page, sizePerPage, direction, orderHoliday);
 
@@ -88,7 +89,7 @@ public class HolidayServiceBean implements HolidayService {
 
 	@Transactional(readOnly = true)
     @Override
-    public DayOffMarkerResponse<HolidayResponseDTO> findById(final Long holidayID) throws Exception {
+    public DayOffMarkerResponse<HolidayResponseDTO> findById(final Long holidayID) throws DayOffMarkerGenericException {
         Holiday holiday = holidayRepository.findById(holidayID).orElseThrow(HolidayNotExistException::new);
         return DayOffMarkerResponse.<HolidayResponseDTO>builder()
                 .data(holidayMapper.toDTO(holiday))
@@ -101,7 +102,7 @@ public class HolidayServiceBean implements HolidayService {
             HolidayFromTimeNotInformedException.class
     })
     @Override
-    public DayOffMarkerResponse<HolidayResponseDTO> save(final HolidayRequestDTO holidayRequestDTO) throws Exception {
+    public DayOffMarkerResponse<HolidayResponseDTO> save(final HolidayRequestDTO holidayRequestDTO) throws DayOffMarkerGenericException {
         holidayValidator.validator(holidayRequestDTO);
 
         Day day = dayService.findDayByID(holidayRequestDTO.getDayId());
@@ -135,7 +136,7 @@ public class HolidayServiceBean implements HolidayService {
     public DayOffMarkerResponse<HolidayResponseDTO> update(
             final Long holidayID,
             final HolidayRequestDTO holidayRequestDTO
-    ) throws Exception {
+    ) throws DayOffMarkerGenericException {
         holidayValidator.validator(holidayID, holidayRequestDTO);
 
         Holiday holiday = holidayRepository.getById(holidayID);
@@ -166,7 +167,7 @@ public class HolidayServiceBean implements HolidayService {
 			HolidayFromTimeNotInformedException.class
 	})
 	@Override
-	public void saveHoliday(final HolidayRequestDTO holidayRequestDTO) throws Exception {
+	public void saveHoliday(final HolidayRequestDTO holidayRequestDTO) throws DayOffMarkerGenericException {
 
 		Optional<Holiday> optionalHoliday = holidayRepository.findByDayID(holidayRequestDTO.getDayId());
 		Day day = dayService.findDayByID(holidayRequestDTO.getDayId());

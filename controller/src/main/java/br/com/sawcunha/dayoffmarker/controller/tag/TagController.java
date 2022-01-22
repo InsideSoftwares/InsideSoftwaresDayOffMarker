@@ -4,6 +4,7 @@ import br.com.sawcunha.dayoffmarker.commons.dto.DayOffMarkerResponse;
 import br.com.sawcunha.dayoffmarker.commons.dto.request.TagRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.tag.TagResponseDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.sort.eOrderTag;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.specification.service.TagService;
 import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
 import com.trendyol.jdempotent.core.annotation.JdempotentResource;
@@ -46,7 +47,7 @@ public class TagController {
 			@RequestParam(value = "sizePerPage", required = false, defaultValue = "10") int sizePerPage,
 			@RequestParam(value = "direction", required = false, defaultValue = "ASC") Sort.Direction direction,
 			@RequestParam(value = "orderBy", required = false, defaultValue = "ID") eOrderTag orderTag
-	) throws Exception {
+	) throws DayOffMarkerGenericException {
 		return tagService.findAll(page, sizePerPage, direction, orderTag);
 	}
 
@@ -54,7 +55,7 @@ public class TagController {
 	@ResponseStatus(HttpStatus.OK)
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@Cacheable("DAYOFF_MARKER_TAG")
-	public DayOffMarkerResponse<TagResponseDTO> findById(@PathVariable Long id) throws Exception {
+	public DayOffMarkerResponse<TagResponseDTO> findById(@PathVariable Long id) throws DayOffMarkerGenericException {
 		return tagService.findById(id);
 	}
 
@@ -65,7 +66,7 @@ public class TagController {
 	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_TAG", ttl = 1, ttlTimeUnit = TimeUnit.DAYS)
 	public DayOffMarkerResponse<TagResponseDTO> save(
 			@JdempotentRequestPayload @RequestBody TagRequestDTO tagRequestDTO
-	) throws Exception {
+	) throws DayOffMarkerGenericException {
 		return tagService.save(tagRequestDTO);
 	}
 
@@ -76,7 +77,7 @@ public class TagController {
 	public DayOffMarkerResponse<TagResponseDTO> update(
 			@PathVariable Long id,
 			@RequestBody TagRequestDTO tagRequestDTO
-	) throws Exception {
+	) throws DayOffMarkerGenericException {
 		return tagService.update(id, tagRequestDTO);
 	}
 

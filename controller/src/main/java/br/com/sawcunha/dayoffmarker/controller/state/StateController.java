@@ -4,6 +4,7 @@ import br.com.sawcunha.dayoffmarker.commons.dto.DayOffMarkerResponse;
 import br.com.sawcunha.dayoffmarker.commons.dto.request.StateRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.state.StateResponseDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.sort.eOrderState;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.specification.service.StateService;
 import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
 import com.trendyol.jdempotent.core.annotation.JdempotentResource;
@@ -47,7 +48,7 @@ public class StateController {
             @RequestParam(value = "sizePerPage", required = false, defaultValue = "10") int sizePerPage,
             @RequestParam(value = "direction", required = false, defaultValue = "ASC") Sort.Direction direction,
             @RequestParam(value = "orderBy", required = false, defaultValue = "ID") eOrderState orderState
-    ) throws Exception {
+    ) throws DayOffMarkerGenericException {
         return stateService.findAll(nameCountry, page, sizePerPage, direction, orderState);
     }
 
@@ -55,7 +56,7 @@ public class StateController {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ADMIN')")
     @Cacheable("DAYOFF_MARKER_STATE")
-    public DayOffMarkerResponse<StateResponseDTO> findById(@PathVariable Long id) throws Exception {
+    public DayOffMarkerResponse<StateResponseDTO> findById(@PathVariable Long id) throws DayOffMarkerGenericException {
         return stateService.findById(id);
     }
 
@@ -66,7 +67,7 @@ public class StateController {
     @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_STATE", ttl = 1, ttlTimeUnit = TimeUnit.DAYS)
     public DayOffMarkerResponse<StateResponseDTO> save(
             @JdempotentRequestPayload @RequestBody StateRequestDTO stateRequestDTO
-    ) throws Exception {
+    ) throws DayOffMarkerGenericException {
         return stateService.save(stateRequestDTO);
     }
 
@@ -77,7 +78,7 @@ public class StateController {
     public DayOffMarkerResponse<StateResponseDTO> update(
             @PathVariable Long id,
             @RequestBody StateRequestDTO stateRequestDTO
-    ) throws Exception {
+    ) throws DayOffMarkerGenericException {
         return stateService.update(id, stateRequestDTO);
     }
 

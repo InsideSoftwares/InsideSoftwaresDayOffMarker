@@ -1,5 +1,6 @@
 package br.com.sawcunha.dayoffmarker.service;
 
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.day.DayNotExistException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.day.DaysNotConfiguredException;
 import br.com.sawcunha.dayoffmarker.entity.Country;
@@ -22,13 +23,13 @@ public class DayServiceBean implements DayService {
 
     @Transactional(readOnly = true)
     @Override
-    public Day findDayByID(final Long dayID) throws Exception {
+    public Day findDayByID(final Long dayID) throws DayOffMarkerGenericException {
         Optional<Day> optionalDay = dayRepository.findById(dayID);
         return optionalDay.orElseThrow(DayNotExistException::new);
     }
 
 	@Override
-	public Day findDayIDByDateAndCountry(final LocalDate date, final Country country) throws Exception {
+	public Day findDayIDByDateAndCountry(final LocalDate date, final Country country) throws DayOffMarkerGenericException {
 		Optional<Day> optionalDay = dayRepository.findByDateAndCountry(date,country);
 		return optionalDay.orElseThrow(DayNotExistException::new);
 	}
@@ -37,7 +38,7 @@ public class DayServiceBean implements DayService {
             DayNotExistException.class,
     })
     @Override
-    public void setDayHoliday(final Long dayID, final boolean isHoliday) throws Exception {
+    public void setDayHoliday(final Long dayID, final boolean isHoliday) throws DayOffMarkerGenericException {
         Day day = findDayByID(dayID);
         day.setHoliday(isHoliday);
         dayRepository.save(day);
@@ -45,13 +46,13 @@ public class DayServiceBean implements DayService {
 
 	@Transactional(readOnly = true)
 	@Override
-	public LocalDate getMaxDate() throws Exception {
+	public LocalDate getMaxDate() throws DayOffMarkerGenericException {
 		return dayRepository.findMaxDateByDate(CUT_OFF_DATE).orElseThrow(DaysNotConfiguredException::new);
 	}
 
 	@Transactional(readOnly = true)
 	@Override
-	public LocalDate getMinDate() throws Exception {
+	public LocalDate getMinDate() throws DayOffMarkerGenericException {
 		return dayRepository.findMinDateByDate(CUT_OFF_DATE).orElseThrow(DaysNotConfiguredException::new);
 	}
 

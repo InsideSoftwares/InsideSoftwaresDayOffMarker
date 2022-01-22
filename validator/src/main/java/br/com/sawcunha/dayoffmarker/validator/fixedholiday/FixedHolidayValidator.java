@@ -2,6 +2,7 @@ package br.com.sawcunha.dayoffmarker.validator.fixedholiday;
 
 import br.com.sawcunha.dayoffmarker.commons.dto.request.FixedHolidayRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.DayMonthInvalidException;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.country.CountryNotExistException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.fixedholiday.FixedHolidayDayMonthCountryExistException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.fixedholiday.FixedHolidayNotExistException;
@@ -22,7 +23,7 @@ public class FixedHolidayValidator implements Validator<Long, FixedHolidayReques
 
     @Transactional(readOnly = true)
     @Override
-    public void validator(FixedHolidayRequestDTO fixedHolidayRequestDTO) throws Exception {
+    public void validator(FixedHolidayRequestDTO fixedHolidayRequestDTO) throws DayOffMarkerGenericException {
         if(!countryRepository.existsById(fixedHolidayRequestDTO.getCountryId())) throw new CountryNotExistException();
         if(
                 DateUtils.isDateValid(
@@ -42,7 +43,7 @@ public class FixedHolidayValidator implements Validator<Long, FixedHolidayReques
 
     @Transactional(readOnly = true)
     @Override
-    public void validator(Long fixedHolidayId, FixedHolidayRequestDTO fixedHolidayRequestDTO) throws Exception {
+    public void validator(Long fixedHolidayId, FixedHolidayRequestDTO fixedHolidayRequestDTO) throws DayOffMarkerGenericException {
         if(!fixedHolidayRepository.existsById(fixedHolidayId)) throw new FixedHolidayNotExistException();
         if(!countryRepository.existsById(fixedHolidayRequestDTO.getCountryId())) throw new CountryNotExistException();
         if(

@@ -12,11 +12,15 @@ import java.util.List;
 public interface RequestService {
 
 	void saveRequest(final Request request);
+	void saveAndFlushRequest(Request request);
 
-	List<Request> findAllRequestForBatch(final eTypeRequest typeRequest, final eStatusRequest statusRequest);
-	List<Request> findAllRequestForBatch(final Long jobId, final eStatusRequest statusRequest);
+	List<Request> findAllRequestByTypeAndStatus(final eTypeRequest typeRequest, final eStatusRequest statusRequest);
+	List<Request> findAllRequestByJobIDAndStatus(final Long jobId, final eStatusRequest statusRequest);
+
+	boolean existRequestByByTypeAndStatusRequest(final eTypeRequest typeRequest, final eStatusRequest statusRequest);
 
 	List<RequestDTO> findAllRequestDTOForBatch(final eTypeRequest typeRequest, final eStatusRequest statusRequest);
 	List<RequestDTO> findAllRequestDTOForBatch(final Long jobId, final eStatusRequest statusRequest);
+
 
 }

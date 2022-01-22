@@ -5,6 +5,7 @@ import br.com.sawcunha.dayoffmarker.commons.enums.eStatusRequest;
 import br.com.sawcunha.dayoffmarker.commons.enums.eTypeParameter;
 import br.com.sawcunha.dayoffmarker.commons.enums.eTypeRequest;
 import br.com.sawcunha.dayoffmarker.commons.enums.eTypeValue;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.country.CountryNameInvalidException;
 import br.com.sawcunha.dayoffmarker.commons.utils.DateUtils;
 import br.com.sawcunha.dayoffmarker.entity.Country;
@@ -37,7 +38,7 @@ public class RequestCreationServiceBean implements RequestCreationService {
             CountryNameInvalidException.class
     })
     @Override
-    public String createInitialApplication(final String countryName) throws Exception{
+    public String createInitialApplication(final String countryName) throws DayOffMarkerGenericException {
         UUID keyRequest = UUID.randomUUID();
         Country country = countryService.findCountryByName(countryName);
 
@@ -57,7 +58,7 @@ public class RequestCreationServiceBean implements RequestCreationService {
         return keyRequest.toString();
     }
 
-    private Set<RequestParameter> createRequestParameterInitial(final Request request, final Country country) throws Exception {
+    private Set<RequestParameter> createRequestParameterInitial(final Request request, final Country country) throws DayOffMarkerGenericException {
         String limitBackYears = configurationServiceBean.findValueConfigurationByKey(eConfigurationkey.LIMIT_BACK_DAYS_YEARS);
         String limitForwardYears = configurationServiceBean.findValueConfigurationByKey(eConfigurationkey.LIMIT_FORWARD_DAYS_YEARS);
         LocalDate baseDate = LocalDate.now();

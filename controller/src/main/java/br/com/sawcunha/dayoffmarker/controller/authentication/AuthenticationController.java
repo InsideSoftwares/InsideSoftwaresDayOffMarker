@@ -3,6 +3,7 @@ package br.com.sawcunha.dayoffmarker.controller.authentication;
 import br.com.sawcunha.dayoffmarker.commons.dto.DayOffMarkerResponse;
 import br.com.sawcunha.dayoffmarker.commons.dto.request.AuthRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.AuthResponseDTO;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.specification.service.AuthenticationService;
 import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
 import com.trendyol.jdempotent.core.annotation.JdempotentResource;
@@ -29,7 +30,7 @@ public class AuthenticationController {
     @JdempotentResource(cachePrefix = "dayoff_marker_auth", ttl = 60, ttlTimeUnit = TimeUnit.MINUTES)
     public DayOffMarkerResponse<AuthResponseDTO> login(
             @JdempotentRequestPayload @RequestBody final AuthRequestDTO authRequestDTO
-    ) throws Exception {
+    ) throws DayOffMarkerGenericException {
         return authenticationService.login(authRequestDTO);
     }
 

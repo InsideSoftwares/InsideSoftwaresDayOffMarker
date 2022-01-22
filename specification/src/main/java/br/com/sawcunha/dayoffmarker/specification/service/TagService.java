@@ -4,6 +4,7 @@ import br.com.sawcunha.dayoffmarker.commons.dto.DayOffMarkerResponse;
 import br.com.sawcunha.dayoffmarker.commons.dto.request.TagRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.tag.TagResponseDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.sort.eOrderTag;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import org.springframework.data.domain.Sort;
 import org.springframework.validation.annotation.Validated;
 
@@ -18,10 +19,10 @@ public interface TagService {
             final int sizePerPage,
             final Sort.Direction direction,
             final eOrderTag orderTag
-    ) throws Exception;
+    ) throws DayOffMarkerGenericException;
 
-    DayOffMarkerResponse<TagResponseDTO> findById(final Long tagID) throws Exception;
+    DayOffMarkerResponse<TagResponseDTO> findById(final Long tagID) throws DayOffMarkerGenericException;
 
-    DayOffMarkerResponse<TagResponseDTO> save(final @Valid TagRequestDTO tagRequestDTO) throws Exception;
-    DayOffMarkerResponse<TagResponseDTO> update(final Long tagID, final @Valid TagRequestDTO tagRequestDTO) throws Exception;
+    DayOffMarkerResponse<TagResponseDTO> save(final @Valid TagRequestDTO tagRequestDTO) throws DayOffMarkerGenericException;
+    DayOffMarkerResponse<TagResponseDTO> update(final Long tagID, final @Valid TagRequestDTO tagRequestDTO) throws DayOffMarkerGenericException;
 }

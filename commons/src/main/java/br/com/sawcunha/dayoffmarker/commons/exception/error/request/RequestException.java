@@ -1,13 +1,9 @@
 package br.com.sawcunha.dayoffmarker.commons.exception.error.request;
 
-import lombok.Getter;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 
-@Getter
-public class RequestException extends Exception{
-
-    private final String code;
+public class RequestException extends DayOffMarkerGenericException {
     public RequestException(final String code) {
-        super();
-        this.code = code;
+        super(code);
     }
 }

@@ -4,6 +4,7 @@ import br.com.sawcunha.dayoffmarker.commons.dto.DayOffMarkerResponse;
 import br.com.sawcunha.dayoffmarker.commons.dto.request.CityRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.city.CityResponseDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.sort.eOrderCity;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.city.CityCodeAcronymStateExistException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.city.CityCodeStateExistException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.city.CityNameStateExistException;
@@ -48,7 +49,7 @@ public class CityServiceBean implements CityService {
             final int sizePerPage,
             final Sort.Direction direction,
             final eOrderCity orderCity
-    ) throws Exception {
+    ) throws DayOffMarkerGenericException {
 
         Pageable pageable = PaginationUtils.createPageable(page, sizePerPage, direction, orderCity);
 
@@ -74,7 +75,7 @@ public class CityServiceBean implements CityService {
 
     @Transactional(readOnly = true)
     @Override
-    public DayOffMarkerResponse<CityResponseDTO> findById(final Long cityID) throws Exception {
+    public DayOffMarkerResponse<CityResponseDTO> findById(final Long cityID) throws DayOffMarkerGenericException {
         City city = cityRepository.findById(cityID).orElseThrow(CityNotExistException::new);
         return DayOffMarkerResponse.<CityResponseDTO>builder()
                 .data(cityMapper.toDTO(city))
@@ -88,7 +89,7 @@ public class CityServiceBean implements CityService {
             CityNameStateExistException.class
     })
     @Override
-    public DayOffMarkerResponse<CityResponseDTO> save(final @Valid CityRequestDTO cityRequestDTO) throws Exception {
+    public DayOffMarkerResponse<CityResponseDTO> save(final @Valid CityRequestDTO cityRequestDTO) throws DayOffMarkerGenericException {
         cityValidator.validator(cityRequestDTO);
 
         State state = stateService.findStateByStateId(cityRequestDTO.getStateID());
@@ -119,7 +120,7 @@ public class CityServiceBean implements CityService {
     public DayOffMarkerResponse<CityResponseDTO> update(
             final Long cityID,
             final @Valid CityRequestDTO cityRequestDTO
-    ) throws Exception {
+    ) throws DayOffMarkerGenericException {
         cityValidator.validator(cityID, cityRequestDTO);
 
         City city = cityRepository.getById(cityID);

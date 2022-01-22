@@ -5,6 +5,7 @@ import br.com.sawcunha.dayoffmarker.commons.dto.request.CountryRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.country.CountryResponseDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.eConfigurationkey;
 import br.com.sawcunha.dayoffmarker.commons.enums.sort.eOrderCountry;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.country.CountryAcronymExistExpetion;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.country.CountryCodeExistExpetion;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.country.CountryNameExistExpetion;
@@ -72,7 +73,7 @@ public class CountryServiceBean implements CountryService {
 
     @Transactional(rollbackFor = {CountryNameExistExpetion.class,CountryCodeExistExpetion.class,CountryAcronymExistExpetion.class})
     @Override
-    public DayOffMarkerResponse<CountryResponseDTO> save(final @Valid CountryRequestDTO countryRequestDTO) throws Exception {
+    public DayOffMarkerResponse<CountryResponseDTO> save(final @Valid CountryRequestDTO countryRequestDTO) throws DayOffMarkerGenericException {
         countryValidator.validator(countryRequestDTO);
 
         Country country = Country.builder()
@@ -92,7 +93,7 @@ public class CountryServiceBean implements CountryService {
     public DayOffMarkerResponse<CountryResponseDTO> update(
             final Long countryID,
             final @Valid CountryRequestDTO countryRequestDTO
-    ) throws Exception {
+    ) throws DayOffMarkerGenericException {
         countryValidator.validator(countryID, countryRequestDTO);
 
         Country country = countryRepository.getById(countryID);
@@ -118,14 +119,14 @@ public class CountryServiceBean implements CountryService {
     }
 
     @Override
-    public Country findCountryDefault() throws Exception {
+    public Country findCountryDefault() throws DayOffMarkerGenericException {
         String countryDefault = configurationService.findValueConfigurationByKey(eConfigurationkey.COUNTRY_DEFAULT);
         Optional<Country> countryOptional = countryRepository.findCountryByName(countryDefault);
         return countryOptional.orElseThrow(CountryNameInvalidException::new);
     }
 
     @Override
-    public Country findCountryByNameOrDefault(final String name) throws Exception {
+    public Country findCountryByNameOrDefault(final String name) throws DayOffMarkerGenericException {
         String nameCountry = Objects.nonNull(name) ?
                 name :
                 configurationService.findValueConfigurationByKey(eConfigurationkey.COUNTRY_DEFAULT);
@@ -135,7 +136,7 @@ public class CountryServiceBean implements CountryService {
     }
 
     @Override
-    public Country findCountryByCountryId(Long countryId) throws Exception {
+    public Country findCountryByCountryId(Long countryId) throws DayOffMarkerGenericException {
         Optional<Country> countryOptional = countryRepository.findById(countryId);
         return countryOptional.orElseThrow(CountryNameInvalidException::new);
     }
