@@ -34,4 +34,5 @@ public interface CountryService {
     Country findCountryDefault() throws DayOffMarkerGenericException;
     Country findCountryByNameOrDefault(final String name) throws DayOffMarkerGenericException;
     Country findCountryByCountryId(final Long countryId) throws DayOffMarkerGenericException;
+    Country findCountryByCountryIdOrDefault(final Long countryId) throws DayOffMarkerGenericException;
 }

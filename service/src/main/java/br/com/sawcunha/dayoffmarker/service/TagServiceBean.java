@@ -34,7 +34,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class TagServiceBean implements TagService {
+class TagServiceBean implements TagService {
 
     private final TagRepository tagRepository;
 	private final DayService dayService;
@@ -98,7 +98,7 @@ public class TagServiceBean implements TagService {
     public DayOffMarkerResponse<TagResponseDTO> update(
             final Long tagID,
             final TagRequestDTO tagRequestDTO
-    ) throws DayOffMarkerGenericException {
+			) throws DayOffMarkerGenericException {
 		tagValidator.validator(tagID, tagRequestDTO);
 
 		Tag tag = tagRepository.getById(tagID);
@@ -121,11 +121,15 @@ public class TagServiceBean implements TagService {
 			CountryNameInvalidException.class
 	})
 	@Override
-	public void linkDay(final Long tagID, final LinkDayRequestDTO linkDayRequestDTO) throws DayOffMarkerGenericException {
+	public void linkDay(
+			final Long tagID,
+			final LinkDayRequestDTO linkDayRequestDTO,
+			final Long countryID
+	) throws DayOffMarkerGenericException {
 		tagValidator.validator(tagID);
-		linkValidator.validateLink(tagID, linkDayRequestDTO);
+		Country country = countryService.findCountryByCountryIdOrDefault(countryID);
+		linkValidator.validateLink(tagID, linkDayRequestDTO, country.getId());
 		Tag tag = tagRepository.getById(tagID);
-		Country country = countryService.findCountryByNameOrDefault("Brazil");
 		linkDayRequestDTO.getDaysID().forEach(date -> {
 			try {
 				dayService.linkTagDay(date, tag, country);

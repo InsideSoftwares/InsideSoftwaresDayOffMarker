@@ -27,5 +27,5 @@ public interface TagService {
     DayOffMarkerResponse<TagResponseDTO> save(final @Valid TagRequestDTO tagRequestDTO) throws DayOffMarkerGenericException;
     DayOffMarkerResponse<TagResponseDTO> update(final Long tagID, final @Valid TagRequestDTO tagRequestDTO) throws DayOffMarkerGenericException;
 
-	void linkDay(final Long tagID, final @Valid LinkDayRequestDTO linkDayRequestDTO) throws DayOffMarkerGenericException;
+	void linkDay(final Long tagID, final @Valid LinkDayRequestDTO linkDayRequestDTO, final Long countryID) throws DayOffMarkerGenericException;
 }

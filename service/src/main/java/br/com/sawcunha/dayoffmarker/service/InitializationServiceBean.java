@@ -21,7 +21,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class InitializationServiceBean implements InitializationService {
+class InitializationServiceBean implements InitializationService {
 
     private final ConfigurationServiceBean configurationServiceBean;
     private final RequestCreationService requestCreationService;

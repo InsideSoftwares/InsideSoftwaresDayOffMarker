@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 class ConfigurationServiceBean {
 
     private final ConfigurationRepository configurationRepository;
@@ -24,7 +25,6 @@ class ConfigurationServiceBean {
         return INIT_TRUE;
     }
 
-    @Transactional(readOnly = true)
     public Configuration findConfigurationByKey(final eConfigurationkey configurationkey) throws ConfigurationNotExistException {
         Optional<Configuration> configurationOptional = configurationRepository.findConfigurationByKey(configurationkey);
         if(configurationOptional.isPresent()){
@@ -34,7 +34,6 @@ class ConfigurationServiceBean {
         }
     }
 
-    @Transactional(readOnly = true)
     public String findValueConfigurationByKey(final eConfigurationkey configurationkey) throws ConfigurationNotExistException {
         Optional<Configuration> configurationOptional = configurationRepository.findConfigurationByKey(configurationkey);
         if(configurationOptional.isPresent()){
@@ -52,12 +51,9 @@ class ConfigurationServiceBean {
         configurationRepository.save(configuration);
     }
 
-    @Transactional(readOnly = true)
     public boolean isInitializedApplication() throws DayOffMarkerGenericException {
         Configuration configuration = findConfigurationByKey(eConfigurationkey.INITIAL_CONFIGURATION);
         return Objects.nonNull(configuration.getValue()) && configuration.getValue().equals(INIT_TRUE);
     }
-
-
 
 }

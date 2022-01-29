@@ -32,7 +32,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class CountryServiceBean implements CountryService {
+class CountryServiceBean implements CountryService {
 
     private final CountryRepository countryRepository;
     private final CountryMapper countryMapper;
@@ -137,9 +137,21 @@ public class CountryServiceBean implements CountryService {
     }
 
     @Override
-    public Country findCountryByCountryId(Long countryId) throws DayOffMarkerGenericException {
+    public Country findCountryByCountryId(final Long countryId) throws DayOffMarkerGenericException {
         Optional<Country> countryOptional = countryRepository.findById(countryId);
         return countryOptional.orElseThrow(CountryNameInvalidException::new);
     }
+
+	@Override
+	public Country findCountryByCountryIdOrDefault(final Long countryId) throws DayOffMarkerGenericException {
+		Optional<Country> countryOptional = countryRepository.findById(countryId);
+
+		if(countryOptional.isEmpty()){
+			String nameCountry = configurationService.findValueConfigurationByKey(eConfigurationkey.COUNTRY_DEFAULT);
+			countryOptional = countryRepository.findCountryByName(nameCountry);
+		}
+
+		return countryOptional.orElseThrow(CountryNameInvalidException::new);
+	}
 
 }

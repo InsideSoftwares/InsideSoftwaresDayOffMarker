@@ -6,6 +6,6 @@ import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericE
 public interface ValidatorLink<I extends Number, D extends DayOffMarkerDTO> {
 
 
-	void validateLink(I id, D dto) throws DayOffMarkerGenericException;
+	void validateLink(final I id, final D dto, final Long countryID) throws DayOffMarkerGenericException;
 
 }

@@ -13,6 +13,7 @@ import java.time.LocalDate;
 public interface DayService {
 
 	void linkTag(final Long dayID, final @Valid LinkTagRequestDTO linkTagRequestDTO) throws DayOffMarkerGenericException;
+	void unlinkTag(final Long dayID, final @Valid LinkTagRequestDTO linkTagRequestDTO) throws DayOffMarkerGenericException;
 	void linkTagDay(final LocalDate date, final Tag tag, final Country country) throws DayOffMarkerGenericException;
 
 	Day findDayByID(final Long dayID) throws DayOffMarkerGenericException;

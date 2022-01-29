@@ -31,7 +31,8 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class FixedHolidayServiceBean implements FixedHolidayService {
+@Transactional(readOnly = true)
+class FixedHolidayServiceBean implements FixedHolidayService {
 
     private final CountryService countryService;
     private final FixedHolidayRepository fixedHolidayRepository;
@@ -40,7 +41,6 @@ public class FixedHolidayServiceBean implements FixedHolidayService {
     private final FixedHolidayMapper fixedHolidayMapper;
 
     @Override
-    @Transactional(readOnly = true)
     public DayOffMarkerResponse<List<FixedHolidayResponseDTO>> findAll(
             final String nameCountry,
             final int page,
@@ -67,7 +67,6 @@ public class FixedHolidayServiceBean implements FixedHolidayService {
 
     }
 
-    @Transactional(readOnly = true)
     @Override
     public DayOffMarkerResponse<FixedHolidayResponseDTO> findById(final Long fixedHolidayID) throws FixedHolidayNotExistException {
         FixedHoliday fixedHoliday = fixedHolidayRepository

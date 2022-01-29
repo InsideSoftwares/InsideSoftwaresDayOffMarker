@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -21,5 +21,5 @@ public class LinkTagRequestDTO extends DayOffMarkerDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@NotEmpty(message = "DOMV-003")
-	private List<Long> tagsID;
+	private Set<Long> tagsID;
 }

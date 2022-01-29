@@ -82,15 +82,16 @@ public class TagController {
 		return tagService.update(id, tagRequestDTO);
 	}
 
-	@PutMapping(value = "/v1/tag/{id}/link-days", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/v1/tag/{id}/link-days", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@CacheEvict(value="DAYOFF_MARKER_TAG", allEntries=true)
 	public DayOffMarkerResponse<Void> linkDay(
 			@PathVariable Long id,
-			@RequestBody LinkDayRequestDTO linkDayRequestDTO
+			@RequestBody LinkDayRequestDTO linkDayRequestDTO,
+			@RequestParam(value = "countryID", required = false, defaultValue = "0") Long countryID
 	) throws DayOffMarkerGenericException {
-		tagService.linkDay(id, linkDayRequestDTO);
+		tagService.linkDay(id, linkDayRequestDTO, countryID);
 		return DayOffMarkerResponse.<Void>builder().build();
 	}
 

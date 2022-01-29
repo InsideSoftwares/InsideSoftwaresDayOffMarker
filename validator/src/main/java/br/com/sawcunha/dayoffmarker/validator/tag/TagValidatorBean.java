@@ -19,38 +19,39 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 
 @Component
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class TagValidatorBean implements Validator<Long, TagRequestDTO>, ValidatorLink<Long, LinkDayRequestDTO> {
+class TagValidatorBean implements Validator<Long, TagRequestDTO>, ValidatorLink<Long, LinkDayRequestDTO> {
 
 	private final TagRepository tagRepository;
 	private final DayRepository dayRepository;
 
-	@Transactional(readOnly = true)
 	@Override
 	public void validator(final TagRequestDTO tagRequestDTO) throws DayOffMarkerGenericException {
 		if(tagRepository.existsByCode(tagRequestDTO.getCode())) throw new TagCodeExistException();
 	}
 
-	@Transactional(readOnly = true)
 	@Override
 	public void validator(final Long tagID, final TagRequestDTO tagRequestDTO) throws DayOffMarkerGenericException {
 		if(!tagRepository.existsById(tagID)) throw new TagNotExistException();
 		if(tagRepository.existsByCodeAndNotId(tagRequestDTO.getCode(),tagID)) throw new TagCodeExistException();
 	}
 
-	@Transactional(readOnly = true)
 	@Override
 	public void validator(final Long tagID) throws DayOffMarkerGenericException {
 		if(!tagRepository.existsById(tagID)) throw new TagNotExistException();
 	}
 
-	@Transactional(readOnly = true)
 	@Override
-	public void validateLink(final Long tagID, final LinkDayRequestDTO linkDayRequestDTO) throws DayOffMarkerGenericException {
+	public void validateLink(
+			final Long tagID,
+			final LinkDayRequestDTO linkDayRequestDTO,
+			final Long countryID
+	) throws DayOffMarkerGenericException {
 		Long sizeDays = (long) linkDayRequestDTO.getDaysID().size();
-		if(!dayRepository.existsByDates(sizeDays , linkDayRequestDTO.getDaysID())) throw new DayNotExistException();
+		if(!dayRepository.existsByDates(sizeDays , linkDayRequestDTO.getDaysID(), countryID)) throw new DayNotExistException();
 		for (LocalDate date : linkDayRequestDTO.getDaysID()) {
-			if(dayRepository.existsByDateAndTag(date, tagID)) throw new TagExistDayException(DateUtils.returnDate(date));
+			if(dayRepository.existsByDateAndTag(date, tagID, countryID)) throw new TagExistDayException(DateUtils.returnDate(date));
 		}
 	}
 }

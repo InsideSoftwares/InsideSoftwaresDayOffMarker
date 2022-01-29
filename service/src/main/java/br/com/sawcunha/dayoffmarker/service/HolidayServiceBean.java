@@ -34,7 +34,8 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class HolidayServiceBean implements HolidayService {
+@Transactional(readOnly = true)
+class HolidayServiceBean implements HolidayService {
     
     private final HolidayRepository holidayRepository;
     private final CountryService countryService;
@@ -42,7 +43,6 @@ public class HolidayServiceBean implements HolidayService {
     private final Validator<Long, HolidayRequestDTO> holidayValidator;
     private final DayService dayService;
 
-	@Transactional(readOnly = true)
 	@Override
 	public DayOffMarkerResponse<List<HolidayResponseDTO>> findAll(
 			final LocalDate startDate,
@@ -87,7 +87,6 @@ public class HolidayServiceBean implements HolidayService {
 				.build();
 	}
 
-	@Transactional(readOnly = true)
     @Override
     public DayOffMarkerResponse<HolidayResponseDTO> findById(final Long holidayID) throws DayOffMarkerGenericException {
         Holiday holiday = holidayRepository.findById(holidayID).orElseThrow(HolidayNotExistException::new);

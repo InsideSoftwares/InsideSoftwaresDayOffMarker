@@ -22,7 +22,7 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationServiceBean implements AuthenticationService {
+class AuthenticationServiceBean implements AuthenticationService {
 
     private final ConfigurationRepository configurationRepository;
     private final JwtTokenUtil jwtTokenUtil;

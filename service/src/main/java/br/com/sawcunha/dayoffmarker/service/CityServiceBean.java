@@ -33,7 +33,8 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class CityServiceBean implements CityService {
+@Transactional(readOnly = true)
+class CityServiceBean implements CityService {
 
     private final CityRepository cityRepository;
     private final CountryService countryService;
@@ -41,7 +42,6 @@ public class CityServiceBean implements CityService {
     private final CityMapper cityMapper;
     private final Validator<Long, CityRequestDTO> cityValidator;
 
-    @Transactional(readOnly = true)
     @Override
     public DayOffMarkerResponse<List<CityResponseDTO>> findAll(
             final Long stateID,
@@ -73,7 +73,6 @@ public class CityServiceBean implements CityService {
                 .build();
     }
 
-    @Transactional(readOnly = true)
     @Override
     public DayOffMarkerResponse<CityResponseDTO> findById(final Long cityID) throws DayOffMarkerGenericException {
         City city = cityRepository.findById(cityID).orElseThrow(CityNotExistException::new);

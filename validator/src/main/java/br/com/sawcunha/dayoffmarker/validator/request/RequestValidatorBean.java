@@ -24,8 +24,9 @@ import java.util.Optional;
 import java.util.Set;
 
 @Component
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class RequestValidatorBean implements RequestValidator {
+class RequestValidatorBean implements RequestValidator {
 
     private final RequestRepository requestRepository;
     private final LogService<RequestValidatorBean> logService;
@@ -41,7 +42,6 @@ public class RequestValidatorBean implements RequestValidator {
         logService.logInfor("End RequestValidatorBean");
     }
 
-    @Transactional(readOnly = true)
     @Override
     public void validRequestInitial(final Set<RequestParameter> requestParametersToValidate) throws DayOffMarkerGenericException {
         try {
@@ -78,8 +78,7 @@ public class RequestValidatorBean implements RequestValidator {
             throw e;
         }
     }
-
-	@Transactional(readOnly = true)
+	
 	@Override
 	public void validRequestCreateDate(final Set<RequestParameter> requestParametersToValidate) throws DayOffMarkerGenericException {
 		try {
@@ -116,7 +115,6 @@ public class RequestValidatorBean implements RequestValidator {
 		}
 	}
 
-	@Transactional(readOnly = true)
 	@Override
 	public void validRequestUpdateHoliday(final Set<RequestParameter> requestParametersToValidate) throws DayOffMarkerGenericException {
 		try {

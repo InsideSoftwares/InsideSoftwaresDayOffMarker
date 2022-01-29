@@ -19,7 +19,7 @@ import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
-public class BatchUpdateHolidayImplementationService implements BatchUpdateHolidayService {
+class BatchUpdateHolidayImplementationService implements BatchUpdateHolidayService {
 
 	private final HolidayService holidayService;
 	private final DayService dayService;

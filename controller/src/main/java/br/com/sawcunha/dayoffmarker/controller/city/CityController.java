@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping(
-        value = "/api",
+        value = "/api/",
         produces = MediaType.APPLICATION_JSON_VALUE
 )
 @RequiredArgsConstructor

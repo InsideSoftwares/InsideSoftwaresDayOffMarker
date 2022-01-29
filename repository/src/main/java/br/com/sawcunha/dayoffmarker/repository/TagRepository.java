@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Set;
+
 @Repository
 public interface TagRepository extends JpaRepository<Tag, Long> {
 
@@ -22,5 +24,12 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
             t.id != :tagId
             """)
 	boolean existsByCodeAndNotId(String code, Long tagId);
+
+	@Query("""
+			SELECT count(t) = :total
+			FROM Tag t
+			WHERE t.id IN :tags
+			""")
+	boolean existsByTags(Long total, Set<Long> tags);
 
 }
