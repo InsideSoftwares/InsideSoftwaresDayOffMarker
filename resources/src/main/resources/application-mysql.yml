@@ -91,6 +91,7 @@ dayoff-marker-cache:
       name_cache_tag: DAYOFF_MARKER_TAG
 
 application:
+  view_response_json: true
   scheduling:
     request:
       create_date:
@@ -106,11 +107,10 @@ application:
       clear:
         fixedRateInMilliseconds: 43200000
     holiday:
-      initialDelayInMilliseconds: 180000
-      create:
-        fixedRateInMilliseconds: 180000
       update:
-        fixedRateInMilliseconds: 180000
+        cron: "0 */15 * * * *"
+      batch:
+        cron: "0 */20 * * * *"
 
 jdempotent:
   enable: true

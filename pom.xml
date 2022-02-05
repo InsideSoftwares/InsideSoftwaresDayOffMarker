@@ -45,7 +45,7 @@
 			<spring.version.redis>2.6.1</spring.version.redis>
 			<h2database.version>2.1.210</h2database.version>
 			<javafaker.version>1.0.2</javafaker.version>
-			<spring.context.version>5.3.9</spring.context.version>
+			<spring.context.version>5.3.15</spring.context.version>
 			<postgres.version>42.3.1</postgres.version>
 			<mysql.version>8.0.28</mysql.version>
 			<liquibase.version>4.5.0</liquibase.version>
@@ -173,7 +173,7 @@
 					<artifactId>fusionauth-jwt</artifactId>
 					<version>${fusionauth.version}</version>
 				</dependency>
-				<!-- Modules Startt -->
+				<!-- Modules Start -->
 				<dependency>
 					<groupId>br.com.sawcunha.dayoffmarker</groupId>
 					<artifactId>domain</artifactId>
@@ -316,5 +316,4 @@
 				</plugin>
 			</plugins>
     </build>
-
 </project>
