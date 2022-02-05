@@ -17,13 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Objects;
 
 @Component
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class HolidayValidator implements Validator<Long, HolidayRequestDTO> {
+class HolidayValidatorBean implements Validator<Long, HolidayRequestDTO> {
 
     private final HolidayRepository holidayRepository;
     private final DayRepository dayRepository;
 
-    @Transactional(readOnly = true)
     @Override
     public void validator(final HolidayRequestDTO holidayRequestDTO) throws DayOffMarkerGenericException {
         if(!dayRepository.existsById(holidayRequestDTO.getDayId())) throw new DayNotExistException();
@@ -31,7 +31,6 @@ public class HolidayValidator implements Validator<Long, HolidayRequestDTO> {
         validTypeHoliday(holidayRequestDTO);
     }
 
-    @Transactional(readOnly = true)
     @Override
     public void validator(final Long holidayId,final  HolidayRequestDTO holidayRequestDTO) throws DayOffMarkerGenericException {
         if(!holidayRepository.existsById(holidayId)) throw new HolidayNotExistException();
@@ -40,10 +39,17 @@ public class HolidayValidator implements Validator<Long, HolidayRequestDTO> {
         validTypeHoliday(holidayRequestDTO);
     }
 
-    private void validTypeHoliday(final HolidayRequestDTO holidayRequestDTO) throws HolidayFromTimeNotInformedException {
-		if (holidayRequestDTO.getHolidayType() == eTypeHoliday.HALF_PERIOD) {
-			if (Objects.isNull(holidayRequestDTO.getFromTime()))
-				throw new HolidayFromTimeNotInformedException();
+	@Override
+	public void validator(final Long holidayId) throws DayOffMarkerGenericException {
+		if(!holidayRepository.existsById(holidayId)) throw new HolidayNotExistException();
+	}
+
+	private void validTypeHoliday(final HolidayRequestDTO holidayRequestDTO) throws HolidayFromTimeNotInformedException {
+		if (
+				holidayRequestDTO.getHolidayType() == eTypeHoliday.HALF_PERIOD &&
+						Objects.isNull(holidayRequestDTO.getFromTime())
+		) {
+			throw new HolidayFromTimeNotInformedException();
 		}
     }
 }

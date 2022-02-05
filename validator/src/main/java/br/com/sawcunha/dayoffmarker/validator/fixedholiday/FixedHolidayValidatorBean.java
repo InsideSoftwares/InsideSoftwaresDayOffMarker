@@ -15,15 +15,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class FixedHolidayValidator implements Validator<Long, FixedHolidayRequestDTO> {
+class FixedHolidayValidatorBean implements Validator<Long, FixedHolidayRequestDTO> {
 
     private final FixedHolidayRepository fixedHolidayRepository;
     private final CountryRepository countryRepository;
-
-    @Transactional(readOnly = true)
+    
     @Override
-    public void validator(FixedHolidayRequestDTO fixedHolidayRequestDTO) throws DayOffMarkerGenericException {
+    public void validator(final FixedHolidayRequestDTO fixedHolidayRequestDTO) throws DayOffMarkerGenericException {
         if(!countryRepository.existsById(fixedHolidayRequestDTO.getCountryId())) throw new CountryNotExistException();
         if(
                 DateUtils.isDateValid(
@@ -41,9 +41,8 @@ public class FixedHolidayValidator implements Validator<Long, FixedHolidayReques
 
     }
 
-    @Transactional(readOnly = true)
     @Override
-    public void validator(Long fixedHolidayId, FixedHolidayRequestDTO fixedHolidayRequestDTO) throws DayOffMarkerGenericException {
+    public void validator(final Long fixedHolidayId, final FixedHolidayRequestDTO fixedHolidayRequestDTO) throws DayOffMarkerGenericException {
         if(!fixedHolidayRepository.existsById(fixedHolidayId)) throw new FixedHolidayNotExistException();
         if(!countryRepository.existsById(fixedHolidayRequestDTO.getCountryId())) throw new CountryNotExistException();
         if(
@@ -61,5 +60,10 @@ public class FixedHolidayValidator implements Validator<Long, FixedHolidayReques
                 )
         ) throw new FixedHolidayDayMonthCountryExistException();
     }
+
+	@Override
+	public void validator(final Long fixedHolidayId) throws DayOffMarkerGenericException {
+		if(!fixedHolidayRepository.existsById(fixedHolidayId)) throw new FixedHolidayNotExistException();
+	}
 
 }

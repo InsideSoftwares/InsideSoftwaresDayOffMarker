@@ -1,18 +1,27 @@
 package br.com.sawcunha.dayoffmarker.service;
 
 import br.com.sawcunha.dayoffmarker.commons.dto.DayOffMarkerResponse;
-import br.com.sawcunha.dayoffmarker.commons.dto.request.TagRequestDTO;
+import br.com.sawcunha.dayoffmarker.commons.dto.request.link.LinkDayRequestDTO;
+import br.com.sawcunha.dayoffmarker.commons.dto.request.tag.TagRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.tag.TagResponseDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.sort.eOrderTag;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericRuntimeException;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.country.CountryNameInvalidException;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.day.DayNotExistException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.tag.TagCodeExistException;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.tag.TagExistDayException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.tag.TagNotExistException;
 import br.com.sawcunha.dayoffmarker.commons.utils.PaginationUtils;
+import br.com.sawcunha.dayoffmarker.entity.Country;
 import br.com.sawcunha.dayoffmarker.entity.Tag;
 import br.com.sawcunha.dayoffmarker.mapper.TagMapper;
 import br.com.sawcunha.dayoffmarker.repository.TagRepository;
+import br.com.sawcunha.dayoffmarker.specification.service.CountryService;
+import br.com.sawcunha.dayoffmarker.specification.service.DayService;
 import br.com.sawcunha.dayoffmarker.specification.service.TagService;
 import br.com.sawcunha.dayoffmarker.specification.validator.Validator;
+import br.com.sawcunha.dayoffmarker.specification.validator.ValidatorLink;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,13 +33,16 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class TagServiceBean implements TagService {
+@Transactional(readOnly = true)
+class TagServiceBean implements TagService {
 
     private final TagRepository tagRepository;
+	private final DayService dayService;
+	private final CountryService countryService;
     private final TagMapper tagMapper;
-    private final Validator<Long, TagRequestDTO> tagValidator;
+	private final Validator<Long, TagRequestDTO> tagValidator;
+	private final ValidatorLink<Long, LinkDayRequestDTO> linkValidator;
 
-	@Transactional(readOnly = true)
     @Override
     public DayOffMarkerResponse<List<TagResponseDTO>> findAll(
 			final int page,
@@ -55,7 +67,6 @@ public class TagServiceBean implements TagService {
 				.build();
     }
 
-	@Transactional(readOnly = true)
     @Override
     public DayOffMarkerResponse<TagResponseDTO> findById(final Long tagID) throws DayOffMarkerGenericException {
 		Tag tag = tagRepository.findById(tagID).orElseThrow(TagNotExistException::new);
@@ -63,7 +74,6 @@ public class TagServiceBean implements TagService {
 				.data(tagMapper.toDTO(tag))
 				.build();
     }
-
 
 	@Transactional(rollbackFor = {
 			TagCodeExistException.class
@@ -88,7 +98,7 @@ public class TagServiceBean implements TagService {
     public DayOffMarkerResponse<TagResponseDTO> update(
             final Long tagID,
             final TagRequestDTO tagRequestDTO
-    ) throws DayOffMarkerGenericException {
+			) throws DayOffMarkerGenericException {
 		tagValidator.validator(tagID, tagRequestDTO);
 
 		Tag tag = tagRepository.getById(tagID);
@@ -102,4 +112,31 @@ public class TagServiceBean implements TagService {
 				.data(tagMapper.toDTO(tag))
 				.build();
     }
+
+	@Transactional(rollbackFor = {
+			TagNotExistException.class,
+			TagExistDayException.class,
+			DayNotExistException.class,
+			DayOffMarkerGenericRuntimeException.class,
+			CountryNameInvalidException.class
+	})
+	@Override
+	public void linkDay(
+			final Long tagID,
+			final LinkDayRequestDTO linkDayRequestDTO,
+			final Long countryID
+	) throws DayOffMarkerGenericException {
+		tagValidator.validator(tagID);
+		Country country = countryService.findCountryByCountryIdOrDefault(countryID);
+		linkValidator.validateLink(tagID, linkDayRequestDTO, country.getId());
+		Tag tag = tagRepository.getById(tagID);
+		linkDayRequestDTO.getDaysID().forEach(date -> {
+			try {
+				dayService.linkTagDay(date, tag, country);
+			} catch (DayOffMarkerGenericException e) {
+				e.printStackTrace();
+				throw new DayOffMarkerGenericRuntimeException(e.getCode());
+			}
+		});
+	}
 }

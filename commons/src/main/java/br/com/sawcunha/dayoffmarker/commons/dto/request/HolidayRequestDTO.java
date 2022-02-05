@@ -1,5 +1,6 @@
 package br.com.sawcunha.dayoffmarker.commons.dto.request;
 
+import br.com.sawcunha.dayoffmarker.commons.dto.DayOffMarkerDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.eTypeHoliday;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,7 @@ import java.time.LocalTime;
 
 @Builder
 @Data
-public class HolidayRequestDTO implements Serializable {
+public class HolidayRequestDTO extends DayOffMarkerDTO implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

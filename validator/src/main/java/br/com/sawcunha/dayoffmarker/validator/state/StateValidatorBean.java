@@ -14,15 +14,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class StateValidator implements Validator<Long, StateRequestDTO> {
+class StateValidatorBean implements Validator<Long, StateRequestDTO> {
 
     private final StateRepository stateRepository;
     private final CountryRepository countryRepository;
 
-    @Transactional(readOnly = true)
     @Override
-    public void validator(StateRequestDTO stateRequestDTO) throws DayOffMarkerGenericException {
+    public void validator(final StateRequestDTO stateRequestDTO) throws DayOffMarkerGenericException {
         if(!countryRepository.existsById(stateRequestDTO.getCountryId())) throw new CountryNotExistException();
         if(
                 stateRepository.existsByNameAndCountryIdAndAcronym(
@@ -40,11 +40,10 @@ public class StateValidator implements Validator<Long, StateRequestDTO> {
 
     }
 
-    @Transactional(readOnly = true)
     @Override
-    public void validator(Long stateId, StateRequestDTO stateRequestDTO) throws DayOffMarkerGenericException {
-        if(!countryRepository.existsById(stateRequestDTO.getCountryId())) throw new CountryNotExistException();
+    public void validator(final Long stateId, final StateRequestDTO stateRequestDTO) throws DayOffMarkerGenericException {
         if(!stateRepository.existsById(stateId)) throw new StateNotExistException();
+        if(!countryRepository.existsById(stateRequestDTO.getCountryId())) throw new CountryNotExistException();
         if(
                 stateRepository.existsByNameAndCountryIdAndAcronymAndNotId(
                         stateRequestDTO.getName(),
@@ -61,4 +60,9 @@ public class StateValidator implements Validator<Long, StateRequestDTO> {
                 )
         ) throw new StateCountryAcronymExistException();
     }
+
+	@Override
+	public void validator(final Long stateId) throws DayOffMarkerGenericException {
+		if(!stateRepository.existsById(stateId)) throw new StateNotExistException();
+	}
 }

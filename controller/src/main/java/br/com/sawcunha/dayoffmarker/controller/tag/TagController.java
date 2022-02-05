@@ -1,7 +1,8 @@
 package br.com.sawcunha.dayoffmarker.controller.tag;
 
 import br.com.sawcunha.dayoffmarker.commons.dto.DayOffMarkerResponse;
-import br.com.sawcunha.dayoffmarker.commons.dto.request.TagRequestDTO;
+import br.com.sawcunha.dayoffmarker.commons.dto.request.link.LinkDayRequestDTO;
+import br.com.sawcunha.dayoffmarker.commons.dto.request.tag.TagRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.tag.TagResponseDTO;
 import br.com.sawcunha.dayoffmarker.commons.enums.sort.eOrderTag;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
@@ -79,6 +80,19 @@ public class TagController {
 			@RequestBody TagRequestDTO tagRequestDTO
 	) throws DayOffMarkerGenericException {
 		return tagService.update(id, tagRequestDTO);
+	}
+
+	@PostMapping(value = "/v1/tag/{id}/link-days", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(HttpStatus.ACCEPTED)
+	@PreAuthorize("hasAnyRole('ADMIN')")
+	@CacheEvict(value="DAYOFF_MARKER_TAG", allEntries=true)
+	public DayOffMarkerResponse<Void> linkDay(
+			@PathVariable Long id,
+			@RequestBody LinkDayRequestDTO linkDayRequestDTO,
+			@RequestParam(value = "countryID", required = false, defaultValue = "0") Long countryID
+	) throws DayOffMarkerGenericException {
+		tagService.linkDay(id, linkDayRequestDTO, countryID);
+		return DayOffMarkerResponse.<Void>builder().build();
 	}
 
 }

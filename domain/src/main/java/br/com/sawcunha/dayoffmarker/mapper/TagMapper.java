@@ -1,6 +1,6 @@
 package br.com.sawcunha.dayoffmarker.mapper;
 
-import br.com.sawcunha.dayoffmarker.commons.dto.request.TagRequestDTO;
+import br.com.sawcunha.dayoffmarker.commons.dto.request.tag.TagRequestDTO;
 import br.com.sawcunha.dayoffmarker.commons.dto.response.tag.TagResponseDTO;
 import br.com.sawcunha.dayoffmarker.entity.Tag;
 import org.mapstruct.Mapper;

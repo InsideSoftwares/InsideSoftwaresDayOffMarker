@@ -5,6 +5,7 @@ import br.com.sawcunha.dayoffmarker.commons.exception.error.ApplicationAlreadyIn
 import br.com.sawcunha.dayoffmarker.commons.exception.error.ConfigurationNotExistException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.DayMonthInvalidException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericException;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.DayOffMarkerGenericRuntimeException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.InvalidKeyAccessException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.StartDateAfterEndDateException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.TokenJWTException;
@@ -16,6 +17,7 @@ import br.com.sawcunha.dayoffmarker.commons.exception.error.holiday.HolidayExcep
 import br.com.sawcunha.dayoffmarker.commons.exception.error.request.RequestException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.state.StateException;
 import br.com.sawcunha.dayoffmarker.commons.exception.error.tag.TagException;
+import br.com.sawcunha.dayoffmarker.commons.exception.error.tag.TagExistDayException;
 import br.com.sawcunha.dayoffmarker.commons.exception.model.AttributeNotValid;
 import br.com.sawcunha.dayoffmarker.commons.exception.model.ExceptionResponse;
 import br.com.sawcunha.dayoffmarker.commons.exception.utils.ExceptionUtils;
@@ -246,6 +248,20 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
 	@ResponseBody
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	protected ExceptionResponse handleSecurity(StartDateAfterEndDateException exception){
+		return createResponse(exception.getCode());
+	}
+
+	@ExceptionHandler(TagExistDayException.class)
+	@ResponseBody
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	protected ExceptionResponse handleSecurity(TagExistDayException exception){
+		return createResponse(exception.getCode(), exception.getArgs());
+	}
+
+	@ExceptionHandler(DayOffMarkerGenericRuntimeException.class)
+	@ResponseBody
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	protected ExceptionResponse handleSecurity(DayOffMarkerGenericRuntimeException exception){
 		return createResponse(exception.getCode());
 	}
 

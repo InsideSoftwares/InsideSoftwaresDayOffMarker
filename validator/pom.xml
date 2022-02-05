@@ -2,19 +2,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-			<artifactId>init</artifactId>
-			<groupId>br.com.sawcunha.dayoffmarker</groupId>
-			<version>0.0.1-SNAPSHOT</version>
-    </parent>
-    <modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>init</artifactId>
+		<groupId>br.com.sawcunha.dayoffmarker</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
 
-    <artifactId>validator</artifactId>
+	<artifactId>validator</artifactId>
+	<packaging>jar</packaging>
 
-    <properties>
-			<maven.compiler.source>17</maven.compiler.source>
-			<maven.compiler.target>17</maven.compiler.target>
-    </properties>
+	<properties>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+		<testSourceDirectory>src/test</testSourceDirectory>
+	</properties>
 
     <dependencies>
 			<dependency>
@@ -76,10 +78,6 @@
 						<artifactId>spring-boot-starter-web</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>com.github.javafaker</groupId>
-						<artifactId>javafaker</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>com.google.code.gson</groupId>
 						<artifactId>gson</artifactId>
 					</exclusion>
@@ -105,19 +103,69 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
-    </dependencies>
+			<!-- Unit Test Dependencies-->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-test</artifactId>
+				<scope>test</scope>
+				<exclusions>
+					<exclusion>
+						<groupId>org.junit.vintage</groupId>
+						<artifactId>junit-vintage-engine</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-all</artifactId>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.junit.vintage</groupId>
+				<artifactId>junit-vintage-engine</artifactId>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
 
-    <build>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<configuration>
-						<source>17</source>
-						<target>17</target>
-					</configuration>
-				</plugin>
-			</plugins>
-    </build>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>17</source>
+					<target>17</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.7</version>
+				<executions>
+					<execution>
+						<id>default-prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>default-report</id>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

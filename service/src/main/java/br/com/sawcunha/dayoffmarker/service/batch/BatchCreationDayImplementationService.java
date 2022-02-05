@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class BatchCreationDayImplementationService implements BatchCreationDayService {
+class BatchCreationDayImplementationService implements BatchCreationDayService {
 
     private final RequestRepository requestRepository;
     private final DayBatchRepository dayBatchRepository;

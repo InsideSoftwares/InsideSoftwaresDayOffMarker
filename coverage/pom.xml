@@ -11,7 +11,7 @@
 
 	<artifactId>coverage</artifactId>
 	<description>Compute aggregated test code coverage</description>
-
+	<packaging>pom</packaging>
 
 	<properties>
 		<maven.compiler.source>17</maven.compiler.source>
@@ -22,11 +22,23 @@
 	<dependencies>
 		<dependency>
 			<groupId>br.com.sawcunha.dayoffmarker</groupId>
+			<artifactId>domain</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>br.com.sawcunha.dayoffmarker</groupId>
 			<artifactId>commons</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>br.com.sawcunha.dayoffmarker</groupId>
 			<artifactId>service</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>br.com.sawcunha.dayoffmarker</groupId>
+			<artifactId>resources</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>br.com.sawcunha.dayoffmarker</groupId>
+			<artifactId>configuration</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>br.com.sawcunha.dayoffmarker</groupId>
@@ -38,7 +50,15 @@
 		</dependency>
 		<dependency>
 			<groupId>br.com.sawcunha.dayoffmarker</groupId>
+			<artifactId>specification</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>br.com.sawcunha.dayoffmarker</groupId>
 			<artifactId>validator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>br.com.sawcunha.dayoffmarker</groupId>
+			<artifactId>repository</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>br.com.sawcunha.dayoffmarker</groupId>
@@ -60,13 +80,6 @@
 							<goal>report-aggregate</goal>
 						</goals>
 					</execution>
-					<execution>
-						<id>report-test</id>
-						<phase>test</phase>
-						<goals>
-							<goal>report-aggregate</goal>
-						</goals>
-					</execution>
 				</executions>
 				<configuration>
 					<excludes>
@@ -79,7 +92,37 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.owasp</groupId>
+				<artifactId>dependency-check-maven</artifactId>
+				<version>6.5.3</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.owasp</groupId>
+				<artifactId>dependency-check-maven</artifactId>
+				<version>6.5.3</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>aggregate</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+
+		</plugins>
+	</reporting>
 
 </project>

@@ -15,7 +15,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class RequestServiceBean implements RequestService {
+class RequestServiceBean implements RequestService {
 
 	private final RequestRepository requestRepository;
 	private final RequestMapper requestMapper;
@@ -35,17 +35,20 @@ public class RequestServiceBean implements RequestService {
 	public List<Request> findAllRequestByTypeAndStatus(final eTypeRequest typeRequest, final eStatusRequest statusRequest) {
 		return requestRepository.findAllByStatusRequest(statusRequest, typeRequest);
 	}
+
 	@Transactional(readOnly = true)
 	@Override
 	public List<Request> findAllRequestByJobIDAndStatus(final Long jobId, final eStatusRequest statusRequest) {
 		return requestRepository.findAllByJobIdAndStatusRequest(jobId, statusRequest);
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public boolean existRequestByByTypeAndStatusRequest(eTypeRequest typeRequest, eStatusRequest statusRequest) {
 		return requestRepository.existRequestByTypeRequestAndStatusRequest(eTypeRequest.CREATE_DATE, eStatusRequest.CREATED);
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public List<RequestDTO> findAllRequestDTOForBatch(final eTypeRequest typeRequest, final eStatusRequest statusRequest) {
 		return requestMapper.toDTOs(
@@ -53,6 +56,7 @@ public class RequestServiceBean implements RequestService {
 		);
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public List<RequestDTO> findAllRequestDTOForBatch(final Long jobId, eStatusRequest statusRequest){
 		return requestMapper.toDTOs(

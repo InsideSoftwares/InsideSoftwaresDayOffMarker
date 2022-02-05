@@ -29,14 +29,14 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class StateServiceBean implements StateService {
+@Transactional(readOnly = true)
+class StateServiceBean implements StateService {
 
     private final StateRepository stateRepository;
     private final CountryService countryService;
     private final Validator<Long, StateRequestDTO> stateValidator;
     private final StateMapper stateMapper;
 
-    @Transactional(readOnly = true)
     @Override
     public DayOffMarkerResponse<List<StateResponseDTO>> findAll(
             final String nameCountry,
@@ -64,7 +64,6 @@ public class StateServiceBean implements StateService {
                 .build();
     }
 
-    @Transactional(readOnly = true)
     @Override
     public DayOffMarkerResponse<StateResponseDTO> findById(final Long stateID) throws DayOffMarkerGenericException {
         State state = stateRepository.findById(stateID).orElseThrow(StateNotExistException::new);
@@ -122,7 +121,6 @@ public class StateServiceBean implements StateService {
                 .build();
     }
 
-    @Transactional(readOnly = true)
     @Override
     public State findStateByStateId(final Long stateId) throws DayOffMarkerGenericException {
         Optional<State> optionalState = stateRepository.findById(stateId);

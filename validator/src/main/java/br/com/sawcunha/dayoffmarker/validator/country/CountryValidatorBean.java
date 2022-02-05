@@ -13,25 +13,30 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class CountryValidator implements Validator<Long, CountryRequestDTO> {
+class CountryValidatorBean implements Validator<Long, CountryRequestDTO> {
 
     private final CountryRepository countryRepository;
 
-    @Transactional(readOnly = true)
     @Override
-    public void validator(CountryRequestDTO countryRequestDTO) throws DayOffMarkerGenericException {
+    public void validator(final CountryRequestDTO countryRequestDTO) throws DayOffMarkerGenericException {
         if(countryRepository.existsByName(countryRequestDTO.getName())) throw new CountryNameExistExpetion();
         if(countryRepository.existsByCode(countryRequestDTO.getCode())) throw new CountryCodeExistExpetion();
         if(countryRepository.existsByAcronym(countryRequestDTO.getAcronym())) throw new CountryAcronymExistExpetion();
     }
 
-    @Transactional(readOnly = true)
     @Override
-    public void validator(Long countryId, CountryRequestDTO countryRequestDTO) throws DayOffMarkerGenericException {
+    public void validator(final Long countryId, final CountryRequestDTO countryRequestDTO) throws DayOffMarkerGenericException {
         if(!countryRepository.existsById(countryId)) throw new CountryNotExistException();
         if(countryRepository.existsByNameAndNotId(countryRequestDTO.getName(), countryId)) throw new CountryNameExistExpetion();
         if(countryRepository.existsByCodeAndNotId(countryRequestDTO.getCode(), countryId)) throw new CountryCodeExistExpetion();
         if(countryRepository.existsByAcronymAndNotId(countryRequestDTO.getAcronym(), countryId)) throw new CountryAcronymExistExpetion();
     }
+
+	@Override
+	public void validator(final Long countryId) throws DayOffMarkerGenericException {
+		if(!countryRepository.existsById(countryId)) throw new CountryNotExistException();
+
+	}
 }

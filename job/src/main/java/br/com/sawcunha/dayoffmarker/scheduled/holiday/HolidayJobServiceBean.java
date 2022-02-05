@@ -57,7 +57,11 @@ public class HolidayJobServiceBean {
 	public void updateHolidayFromFixedHoliday(){
 		try {
 			logService.logInfor("Starting the update of holidays.");
-			if(dayService.ownsDays()) {
+			if(
+					dayService.ownsDays() &&
+					!requestService.existRequestByByTypeAndStatusRequest(eTypeRequest.UPDATE_HOLIDAY, eStatusRequest.CREATED)
+			) {
+
 				logService.logInfor("Update the Holidays.");
 				List<FixedHoliday> fixedHolidays = fixedHolidayService.findAllByCountry();
 
@@ -65,12 +69,13 @@ public class HolidayJobServiceBean {
 					try {
 						Request newRequest = createRequest(fixedHoliday.getId());
 						requestService.saveRequest(newRequest);
-					}catch (Exception e){
+					} catch (Exception e) {
 						logService.logError("It was not possible to update the Holidays.", e);
 					} finally {
 						logService.logInfor("Finishing the update of Holidays.");
 					}
 				});
+
 			}
 
 		}catch (Exception e){

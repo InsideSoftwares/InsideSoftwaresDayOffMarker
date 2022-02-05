@@ -27,7 +27,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class RequestCreationServiceBean implements RequestCreationService {
+class RequestCreationServiceBean implements RequestCreationService {
 
     private final ConfigurationServiceBean configurationServiceBean;
     private final RequestRepository requestRepository;

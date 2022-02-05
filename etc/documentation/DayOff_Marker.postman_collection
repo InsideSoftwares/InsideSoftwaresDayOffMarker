@@ -120,7 +120,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"key\": \"d1e23cb6-77b9-40af-805b-a72e633a9205\",\r\n    \"name\": \"aaaa\",\r\n    \"mail\": \"test@test.com\"\r\n}",
+							"raw": "{\r\n    \"key\": \"a1811e2c-f8d6-455b-a9e2-9e21ac54356d\",\r\n    \"name\": \"aaaa\",\r\n    \"mail\": \"test@test.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -324,7 +324,7 @@
 							"query": [
 								{
 									"key": "sizePerPage",
-									"value": "3",
+									"value": "2",
 									"disabled": true
 								},
 								{
@@ -349,7 +349,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"TBSSAW\",\r\n    \"code\": \"2352\",\r\n    \"acronym\": \"SBAV3\"\r\n}",
+							"raw": "{\r\n    \"name\": \"TBSS@AW\",\r\n    \"code\": \"2351\",\r\n    \"acronym\": \"SCAV3\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -707,7 +707,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"description\": \"1\",\r\n    \"code\": \"BlaS\"\r\n}",
+							"raw": "{\r\n    \"description\": \"Pode suspender clientes do tipo Pessoa Fisica\",\r\n    \"code\": \"PODE_SUSPENDER_PF\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -730,7 +730,44 @@
 					"response": []
 				},
 				{
-					"name": "Update",
+					"name": "Link Days",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"daysID\": [\r\n        \"2022-01-12\",\r\n        \"2022-01-13\",\r\n        \"2022-01-24\" \r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/tag/1/link-days?countryID=840",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"tag",
+								"1",
+								"link-days"
+							],
+							"query": [
+								{
+									"key": "countryID",
+									"value": "840"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Copy",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -800,7 +837,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}:{{port}}/{{base_url}}/v1/city?sizePerPage=100",
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/city?sizePerPage=3000",
 							"host": [
 								"{{url}}"
 							],
@@ -828,7 +865,7 @@
 								},
 								{
 									"key": "sizePerPage",
-									"value": "100"
+									"value": "3000"
 								}
 							]
 						}
@@ -992,6 +1029,16 @@
 									"key": "stateID",
 									"value": "1998",
 									"disabled": true
+								},
+								{
+									"key": "startDate",
+									"value": "2022-04-01",
+									"disabled": true
+								},
+								{
+									"key": "endDate",
+									"value": "2022-05-30",
+									"disabled": true
 								}
 							]
 						}
@@ -1080,6 +1127,103 @@
 								"v1",
 								"holiday",
 								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Day",
+			"item": [
+				{
+					"name": "Link Tags",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tagsID\": [\r\n        1,2,3,4\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/day/3401/link-tags",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"day",
+								"3401",
+								"link-tags"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unlink Tags",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tagsID\": [\r\n        1\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/day/3401/unlink-tags",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"day",
+								"3401",
+								"unlink-tags"
 							]
 						}
 					},
