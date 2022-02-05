@@ -46,7 +46,7 @@
 			<h2database.version>2.1.210</h2database.version>
 			<javafaker.version>1.0.2</javafaker.version>
 			<spring.context.version>5.3.9</spring.context.version>
-			<postgres.version>42.3.1</postgres.version>
+			<postgres.version>42.3.2</postgres.version>
 			<mysql.version>8.0.25</mysql.version>
 			<liquibase.version>4.5.0</liquibase.version>
 			<fusionauth.version>5.0.0</fusionauth.version>
