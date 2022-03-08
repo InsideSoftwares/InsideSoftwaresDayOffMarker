@@ -48,7 +48,7 @@
 			<spring.context.version>5.3.15</spring.context.version>
 			<postgres.version>42.3.3</postgres.version>
 			<mysql.version>8.0.28</mysql.version>
-			<liquibase.version>4.5.0</liquibase.version>
+			<liquibase.version>4.8.0</liquibase.version>
 			<fusionauth.version>5.0.0</fusionauth.version>
     </properties>
 
