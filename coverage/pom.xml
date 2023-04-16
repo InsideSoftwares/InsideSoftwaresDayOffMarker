@@ -4,7 +4,7 @@
 				 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
 		<artifactId>init</artifactId>
-		<groupId>br.com.sawcunha.dayoffmarker</groupId>
+		<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
@@ -21,47 +21,43 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>br.com.sawcunha.dayoffmarker</groupId>
-			<artifactId>domain</artifactId>
+			<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
+			<artifactId>entity</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>br.com.sawcunha.dayoffmarker</groupId>
+			<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
 			<artifactId>commons</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>br.com.sawcunha.dayoffmarker</groupId>
+			<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
 			<artifactId>service</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>br.com.sawcunha.dayoffmarker</groupId>
+			<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
 			<artifactId>resources</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>br.com.sawcunha.dayoffmarker</groupId>
+			<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
 			<artifactId>configuration</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>br.com.sawcunha.dayoffmarker</groupId>
-			<artifactId>security</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>br.com.sawcunha.dayoffmarker</groupId>
+			<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
 			<artifactId>job</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>br.com.sawcunha.dayoffmarker</groupId>
+			<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
 			<artifactId>specification</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>br.com.sawcunha.dayoffmarker</groupId>
+			<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
 			<artifactId>validator</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>br.com.sawcunha.dayoffmarker</groupId>
+			<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
 			<artifactId>repository</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>br.com.sawcunha.dayoffmarker</groupId>
+			<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
 			<artifactId>controller</artifactId>
 		</dependency>
 	</dependencies>
@@ -69,9 +65,16 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.7</version>
+				<version>0.8.8</version>
 				<executions>
 					<execution>
 						<id>report-aggregate</id>
@@ -92,18 +95,18 @@
 					</excludes>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.owasp</groupId>
-				<artifactId>dependency-check-maven</artifactId>
-				<version>6.5.3</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+<!--			<plugin>-->
+<!--				<groupId>org.owasp</groupId>-->
+<!--				<artifactId>dependency-check-maven</artifactId>-->
+<!--				<version>6.5.3</version>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<goals>-->
+<!--							<goal>check</goal>-->
+<!--						</goals>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
 		</plugins>
 	</build>
 

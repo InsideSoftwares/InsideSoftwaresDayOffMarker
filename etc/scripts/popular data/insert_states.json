@@ -1,0 +1,876 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "insert_states",
+        "author": "System",
+        "changes": [
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_STATE",
+              "columns": [
+                {
+                  "column": {
+                    "name": "STATE_ID",
+                    "value": "2012"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Acre"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ACRONYM",
+                    "value": "AC"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_STATE",
+              "columns": [
+                {
+                  "column": {
+                    "name": "STATE_ID",
+                    "value": "2007"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Alagoas"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ACRONYM",
+                    "value": "AL"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_STATE",
+              "columns": [
+                {
+                  "column": {
+                    "name": "STATE_ID",
+                    "value": "1999"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Amap\u00e1"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ACRONYM",
+                    "value": "AP"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_STATE",
+              "columns": [
+                {
+                  "column": {
+                    "name": "STATE_ID",
+                    "value": "2004"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Amazonas"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ACRONYM",
+                    "value": "AM"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_STATE",
+              "columns": [
+                {
+                  "column": {
+                    "name": "STATE_ID",
+                    "value": "2002"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Bahia"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ACRONYM",
+                    "value": "BA"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_STATE",
+              "columns": [
+                {
+                  "column": {
+                    "name": "STATE_ID",
+                    "value": "2016"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Cear\u00e1"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ACRONYM",
+                    "value": "CE"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_STATE",
+              "columns": [
+                {
+                  "column": {
+                    "name": "STATE_ID",
+                    "value": "2017"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Distrito Federal"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ACRONYM",
+                    "value": "DF"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_STATE",
+              "columns": [
+                {
+                  "column": {
+                    "name": "STATE_ID",
+                    "value": "2018"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Esp\u00edrito Santo"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ACRONYM",
+                    "value": "ES"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_STATE",
+              "columns": [
+                {
+                  "column": {
+                    "name": "STATE_ID",
+                    "value": "2000"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Goi\u00e1s"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ACRONYM",
+                    "value": "GO"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_STATE",
+              "columns": [
+                {
+                  "column": {
+                    "name": "STATE_ID",
+                    "value": "2015"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Maranh\u00e3o"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ACRONYM",
+                    "value": "MA"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_STATE",
+              "columns": [
+                {
+                  "column": {
+                    "name": "STATE_ID",
+                    "value": "2011"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Mato Grosso"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ACRONYM",
+                    "value": "MT"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_STATE",
+              "columns": [
+                {
+                  "column": {
+                    "name": "STATE_ID",
+                    "value": "2010"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Mato Grosso do Sul"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ACRONYM",
+                    "value": "MS"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_STATE",
+              "columns": [
+                {
+                  "column": {
+                    "name": "STATE_ID",
+                    "value": "1998"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Minas Gerais"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ACRONYM",
+                    "value": "MG"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_STATE",
+              "columns": [
+                {
+                  "column": {
+                    "name": "STATE_ID",
+                    "value": "2009"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Par\u00e1"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ACRONYM",
+                    "value": "PA"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_STATE",
+              "columns": [
+                {
+                  "column": {
+                    "name": "STATE_ID",
+                    "value": "2005"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Para\u00edba"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ACRONYM",
+                    "value": "PB"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_STATE",
+              "columns": [
+                {
+                  "column": {
+                    "name": "STATE_ID",
+                    "value": "2022"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Paran\u00e1"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ACRONYM",
+                    "value": "PR"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_STATE",
+              "columns": [
+                {
+                  "column": {
+                    "name": "STATE_ID",
+                    "value": "2006"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Pernambuco"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ACRONYM",
+                    "value": "PE"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_STATE",
+              "columns": [
+                {
+                  "column": {
+                    "name": "STATE_ID",
+                    "value": "2008"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Piau\u00ed"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ACRONYM",
+                    "value": "PI"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_STATE",
+              "columns": [
+                {
+                  "column": {
+                    "name": "STATE_ID",
+                    "value": "1997"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Rio de Janeiro"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ACRONYM",
+                    "value": "RJ"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_STATE",
+              "columns": [
+                {
+                  "column": {
+                    "name": "STATE_ID",
+                    "value": "2019"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Rio Grande do Norte"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ACRONYM",
+                    "value": "RN"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_STATE",
+              "columns": [
+                {
+                  "column": {
+                    "name": "STATE_ID",
+                    "value": "2001"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Rio Grande do Sul"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ACRONYM",
+                    "value": "RS"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_STATE",
+              "columns": [
+                {
+                  "column": {
+                    "name": "STATE_ID",
+                    "value": "2013"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Rond\u00f4nia"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ACRONYM",
+                    "value": "RO"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_STATE",
+              "columns": [
+                {
+                  "column": {
+                    "name": "STATE_ID",
+                    "value": "4858"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Roraima"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ACRONYM",
+                    "value": "RR"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_STATE",
+              "columns": [
+                {
+                  "column": {
+                    "name": "STATE_ID",
+                    "value": "2014"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Santa Catarina"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ACRONYM",
+                    "value": "SC"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_STATE",
+              "columns": [
+                {
+                  "column": {
+                    "name": "STATE_ID",
+                    "value": "2021"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "S\u00e3o Paulo"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ACRONYM",
+                    "value": "SP"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_STATE",
+              "columns": [
+                {
+                  "column": {
+                    "name": "STATE_ID",
+                    "value": "2003"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Sergipe"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ACRONYM",
+                    "value": "SE"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_STATE",
+              "columns": [
+                {
+                  "column": {
+                    "name": "STATE_ID",
+                    "value": "2020"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Tocantins"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ACRONYM",
+                    "value": "TO"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: InsideDayOffMarkerJob
+  main:
+    allow-bean-definition-overriding: true
+server:
+  servlet:
+    context-path: /dayoffmarkerjob
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+    health:
+      show-details: always

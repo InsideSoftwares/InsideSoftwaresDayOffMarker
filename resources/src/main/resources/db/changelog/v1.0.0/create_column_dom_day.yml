@@ -1,0 +1,49 @@
+databaseChangeLog:
+  - changeSet:
+      id: addColumn-DOM_DAY
+      author: System
+      changes:
+        - addColumn:
+            tableName: DOM_DAY
+            columns:
+              - column:
+                  name: DAY_OF_WEEK
+                  type: VARCHAR(50)
+              - column:
+                  name: DAY_OF_YEAR
+                  type: BIGINT
+  - changeSet:
+      id: create_index-DOM_DAY
+      author: System
+      changes:
+        - createIndex:
+            clustered: true
+            indexName: IDX_DD_DATE_OF_WEEK
+            schemaName: public
+            tableName: DOM_DAY
+            dbms: 'mysql, postgresql'
+            columns:
+              - column:
+                  name: DAY_OF_WEEK
+        - createIndex:
+            clustered: true
+            indexName: IDX_DD_DATE_WEEKEND
+            schemaName: public
+            tableName: DOM_DAY
+            dbms: 'mysql, postgresql'
+            columns:
+              - column:
+                  name: DATE
+              - column:
+                  name: WEEKEND
+        - createIndex:
+            clustered: true
+            indexName: IDX_DD_DATE_HOLIDAY
+            schemaName: public
+            tableName: DOM_DAY
+            dbms: 'mysql, postgresql'
+            columns:
+              - column:
+                  name: DATE
+              - column:
+                  name: HOLIDAY

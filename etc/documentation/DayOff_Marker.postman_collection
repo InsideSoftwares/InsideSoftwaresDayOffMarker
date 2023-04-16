@@ -2,20 +2,89 @@
 	"info": {
 		"_postman_id": "728f25f7-1f61-4e10-9a5e-9d2f65c4126f",
 		"name": "DayOff Marker",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8922415"
 	},
 	"item": [
 		{
-			"name": "Init",
+			"name": "City",
 			"item": [
 				{
-					"name": "Init",
+					"name": "Find All",
 					"request": {
-						"method": "POST",
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/city?sizePerPage=9998",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"city"
+							],
+							"query": [
+								{
+									"key": "orderBy",
+									"value": "CODED",
+									"disabled": true
+								},
+								{
+									"key": "direction",
+									"value": "DESC",
+									"disabled": true
+								},
+								{
+									"key": "stateID",
+									"value": "1998",
+									"disabled": true
+								},
+								{
+									"key": "sizePerPage",
+									"value": "9998"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/city/:id",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"city",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "10078"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"numberBackYears\": 15,\r\n    \"numberForwardYears\": 24,\r\n    \"countryDefault\": \"BRAZIL\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Raspaz\",\r\n    \"stateID\": \"1\",\r\n    \"acronym\": \"BlaS\",\r\n    \"code\": \"BlaS\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -23,55 +92,131 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/dayoffmarker/api/v1/initialization",
-							"protocol": "http",
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/city/:id",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"dayoffmarker",
-								"api",
+								"{{base_url}}",
 								"v1",
-								"initialization"
+								"city",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Is Init Application",
+					"name": "Save",
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Raspaz\",\r\n    \"stateID\": \"1\",\r\n    \"acronym\": \"BlaS\"\r\n   \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "http://localhost:8080/dayoffmarker/api/v1/initialization",
-							"protocol": "http",
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/city",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"dayoffmarker",
-								"api",
+								"{{base_url}}",
 								"v1",
-								"initialization"
+								"city"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Holiday in City",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"isHoliday\": false,\r\n    \"holidaysId\": [\r\n        61\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/city/:idCity/holiday",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"city",
+								":idCity",
+								"holiday"
+							],
+							"variable": [
+								{
+									"key": "idCity",
+									"value": "10078"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Holiday in City",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"holidaysId\": [\r\n        61\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/city/:idCity/holiday",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"city",
+								":idCity",
+								"holiday"
+							],
+							"variable": [
+								{
+									"key": "idCity",
+									"value": "10078"
+								}
 							]
 						}
 					},
 					"response": []
 				}
 			],
-			"auth": {
-				"type": "bearer",
-				"bearer": [
-					{
-						"key": "token",
-						"value": "{{token}}",
-						"type": "string"
-					}
-				]
-			},
 			"event": [
 				{
 					"listen": "prerequest",
@@ -94,33 +239,16 @@
 			]
 		},
 		{
-			"name": "Auth",
+			"name": "Configuration",
 			"item": [
 				{
-					"name": "Login",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"  pm.response.to.have.status(200);\r",
-									"  const responseJson = pm.response.json();\r",
-									"  pm.collectionVariables.set(\"token\", responseJson.data.token);\r",
-									"});\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
+					"name": "Configuration Limit Year",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"key\": \"a1811e2c-f8d6-455b-a9e2-9e21ac54356d\",\r\n    \"name\": \"aaaa\",\r\n    \"mail\": \"test@test.com\"\r\n}",
+							"raw": "{\r\n    \"numberBackYears\": 10,\r\n    \"numberForwardYears\": 25\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -128,32 +256,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}:{{port}}/{{base_url}}/authentication/login",
-							"host": [
-								"{{url}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"{{base_url}}",
-								"authentication",
-								"login"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Fixed Holiday",
-			"item": [
-				{
-					"name": "Find All",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{url}}:{{port}}/{{base_url}}/v1/fixed-holiday?sizePerPage=4&direction=ASC",
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/configuration/limit/year",
 							"host": [
 								"{{url}}"
 							],
@@ -161,64 +264,22 @@
 							"path": [
 								"{{base_url}}",
 								"v1",
-								"fixed-holiday"
-							],
-							"query": [
-								{
-									"key": "sizePerPage",
-									"value": "4"
-								},
-								{
-									"key": "direction",
-									"value": "ASC"
-								},
-								{
-									"key": "orderBy",
-									"value": "MONTH",
-									"disabled": true
-								},
-								{
-									"key": "country",
-									"value": "United States",
-									"disabled": true
-								}
+								"configuration",
+								"limit",
+								"year"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Find By Id",
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {}
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{url}}:{{port}}/{{base_url}}/v1/fixed-holiday/1111",
-							"host": [
-								"{{url}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"{{base_url}}",
-								"v1",
-								"fixed-holiday",
-								"1111"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Save",
+					"name": "Configuration country",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Raspaz\",\r\n    \"description\": \"1\",\r\n    \"day\": 2,\r\n    \"month\": 1,\r\n    \"countryId\": 76,\r\n    \"isOptional\": false,\r\n    \"fromTime\": \"15:25\"\r\n}",
+							"raw": "{\r\n    \"country\": \"EUA\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -226,7 +287,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}:{{port}}/{{base_url}}/v1/fixed-holiday",
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/configuration/country",
 							"host": [
 								"{{url}}"
 							],
@@ -234,53 +295,14 @@
 							"path": [
 								"{{base_url}}",
 								"v1",
-								"fixed-holiday"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Raspaz\",\r\n    \"description\": \"Resolvemos dar mais 1 dia\",\r\n    \"day\": 2,\r\n    \"month\": 1,\r\n    \"countryId\": 76,\r\n    \"isOptional\": false,\r\n    \"fromTime\": null\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}:{{port}}/{{base_url}}/v1/fixed-holiday/18",
-							"host": [
-								"{{url}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"{{base_url}}",
-								"v1",
-								"fixed-holiday",
-								"18"
+								"configuration",
+								"country"
 							]
 						}
 					},
 					"response": []
 				}
 			],
-			"auth": {
-				"type": "bearer",
-				"bearer": [
-					{
-						"key": "token",
-						"value": "{{token}}",
-						"type": "string"
-					}
-				]
-			},
 			"event": [
 				{
 					"listen": "prerequest",
@@ -407,7 +429,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}:{{port}}/{{base_url}}/v1/country/2",
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/country/:idCountry",
 							"host": [
 								"{{url}}"
 							],
@@ -416,7 +438,7 @@
 								"{{base_url}}",
 								"v1",
 								"country",
-								"2"
+								":idCountry"
 							],
 							"query": [
 								{
@@ -424,22 +446,672 @@
 									"value": "16",
 									"disabled": true
 								}
+							],
+							"variable": [
+								{
+									"key": "idCountry",
+									"value": "1"
+								}
 							]
 						}
 					},
 					"response": []
 				}
 			],
-			"auth": {
-				"type": "bearer",
-				"bearer": [
-					{
-						"key": "token",
-						"value": "{{token}}",
-						"type": "string"
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
 					}
-				]
-			},
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Day",
+			"item": [
+				{
+					"name": "Link Tags",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tagsID\": [\r\n        1\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/day/:idDay/link-tags",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"day",
+								":idDay",
+								"link-tags"
+							],
+							"variable": [
+								{
+									"key": "idDay",
+									"value": "1130"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unlink Tags",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tagsID\": [\r\n        1\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/day/:idDay/unlink-tags",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"day",
+								":idDay",
+								"unlink-tags"
+							],
+							"variable": [
+								{
+									"key": "idDay",
+									"value": "1094"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Day By Id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "pt-BR",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/day/:id",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"day",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "9681"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find All Day Current Month",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "pt-BR",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/day/current/month",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"day",
+								"current",
+								"month"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find All Day By Month",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "pt-BR",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/day/month/:month?year=2025",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"day",
+								"month",
+								":month"
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2025"
+								}
+							],
+							"variable": [
+								{
+									"key": "month",
+									"value": "JANUARY"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Day By Date",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "pt-BR",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/day/date/:date",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"day",
+								"date",
+								":date"
+							],
+							"query": [
+								{
+									"key": "tagID",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "tagCode",
+									"value": "PODE_SUSPENDER_PF",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "date",
+									"value": "2027-11-11"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Day By Date Id Tag",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "pt-BR",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/day/tag/:id",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"day",
+								"tag",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Day By Date Code Tag",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "pt-BR",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/day/tag/code/:code",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"day",
+								"tag",
+								"code",
+								":code"
+							],
+							"variable": [
+								{
+									"key": "code",
+									"value": "PODE_SUSPENDER_PF"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Fixed Holiday",
+			"item": [
+				{
+					"name": "Find All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/fixed-holiday?sizePerPage=20&direction=ASC&orderBy=MONTH",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"fixed-holiday"
+							],
+							"query": [
+								{
+									"key": "sizePerPage",
+									"value": "20"
+								},
+								{
+									"key": "direction",
+									"value": "ASC"
+								},
+								{
+									"key": "orderBy",
+									"value": "MONTH"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find By Id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/fixed-holiday/:idFixedHoliday",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"fixed-holiday",
+								":idFixedHoliday"
+							],
+							"variable": [
+								{
+									"key": "idFixedHoliday",
+									"value": "11"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Rapaz\",\r\n    \"description\": \"rapazzzzzzzzzz\",\r\n    \"day\": 29,\r\n    \"month\": 2,\r\n    \"isOptional\": false,\r\n    \"fromTime\": \"15:15\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/fixed-holiday",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"fixed-holiday"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Raspaz\",\r\n    \"description\": \"Resolvemos dar mais 1 dia\",\r\n    \"day\": 2,\r\n    \"month\": 1,\r\n    \"isOptional\": false,\r\n    \"fromTime\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/fixed-holiday/18",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"fixed-holiday",
+								"18"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Holiday",
+			"item": [
+				{
+					"name": "Find All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/holiday?startDate=2023-06-06&sizePerPage=10000",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"holiday"
+							],
+							"query": [
+								{
+									"key": "orderBy",
+									"value": "CODED",
+									"disabled": true
+								},
+								{
+									"key": "direction",
+									"value": "DESC",
+									"disabled": true
+								},
+								{
+									"key": "stateID",
+									"value": "1998",
+									"disabled": true
+								},
+								{
+									"key": "startDate",
+									"value": "2023-06-06"
+								},
+								{
+									"key": "endDate",
+									"value": "2022-05-30",
+									"disabled": true
+								},
+								{
+									"key": "sizePerPage",
+									"value": "10000"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/holiday/:id",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"holiday",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "61"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Terra Parou\",\r\n    \"description\": \"Esse dia e que a terra parou\",\r\n    \"holidayType\": \"MANDATORY\",\r\n    \"fromTime\": null,\r\n    \"optional\": false,\r\n    \"dayId\": 1130\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/holiday",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"holiday"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save in Batch",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Terra Parou\",\r\n    \"description\": \"Esse dia e que a terra parou\",\r\n    \"holidayType\": \"MANDATORY\",\r\n    \"fromTime\": null,\r\n    \"optional\": false,\r\n    \"daysId\": [5,6,7,99999999]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/holiday/batch",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"holiday",
+								"batch"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"AAAA\",\r\n    \"countryId\": \"21\",\r\n    \"acronym\": \"CCCC\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/holiday/1",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"holiday",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
 			"event": [
 				{
 					"listen": "prerequest",
@@ -477,7 +1149,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{url}}:{{port}}/{{base_url}}/v1/state?sizePerPage=100",
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/state?sizePerPage=9999",
 							"host": [
 								"{{url}}"
 							],
@@ -490,7 +1162,7 @@
 							"query": [
 								{
 									"key": "sizePerPage",
-									"value": "100"
+									"value": "9999"
 								},
 								{
 									"key": "orderBy",
@@ -513,7 +1185,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}:{{port}}/{{base_url}}/v1/state/1998",
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/state/:id",
 							"host": [
 								"{{url}}"
 							],
@@ -522,13 +1194,19 @@
 								"{{base_url}}",
 								"v1",
 								"state",
-								"1998"
+								":id"
 							],
 							"query": [
 								{
 									"key": "sizePerPage",
 									"value": "16",
 									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2012"
 								}
 							]
 						}
@@ -593,18 +1271,82 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Add Holiday in State",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"isHoliday\": true,\r\n    \"holidaysId\": [\r\n        61\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/state/:idState/holiday",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"state",
+								":idState",
+								"holiday"
+							],
+							"variable": [
+								{
+									"key": "idState",
+									"value": "2012"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Holiday in State",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"holidaysId\": [\r\n        1,2,3,4,5,6,7,8,9,10\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/state/:idState/holiday",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"state",
+								":idState",
+								"holiday"
+							],
+							"variable": [
+								{
+									"key": "idState",
+									"value": "2012"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			],
-			"auth": {
-				"type": "bearer",
-				"bearer": [
-					{
-						"key": "token",
-						"value": "{{token}}",
-						"type": "string"
-					}
-				]
-			},
 			"event": [
 				{
 					"listen": "prerequest",
@@ -678,7 +1420,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}:{{port}}/{{base_url}}/v1/tag/1",
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/tag/:id",
 							"host": [
 								"{{url}}"
 							],
@@ -687,13 +1429,12 @@
 								"{{base_url}}",
 								"v1",
 								"tag",
-								"1"
+								":id"
 							],
-							"query": [
+							"variable": [
 								{
-									"key": "sizePerPage",
-									"value": "16",
-									"disabled": true
+									"key": "id",
+									"value": "1"
 								}
 							]
 						}
@@ -730,44 +1471,7 @@
 					"response": []
 				},
 				{
-					"name": "Link Days",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"daysID\": [\r\n        \"2022-01-12\",\r\n        \"2022-01-13\",\r\n        \"2022-01-24\" \r\n    ]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}:{{port}}/{{base_url}}/v1/tag/1/link-days?countryID=840",
-							"host": [
-								"{{url}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"{{base_url}}",
-								"v1",
-								"tag",
-								"1",
-								"link-days"
-							],
-							"query": [
-								{
-									"key": "countryID",
-									"value": "840"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update Copy",
+					"name": "Update",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -797,16 +1501,6 @@
 					"response": []
 				}
 			],
-			"auth": {
-				"type": "bearer",
-				"bearer": [
-					{
-						"key": "token",
-						"value": "{{token}}",
-						"type": "string"
-					}
-				]
-			},
 			"event": [
 				{
 					"listen": "prerequest",
@@ -829,15 +1523,15 @@
 			]
 		},
 		{
-			"name": "City",
+			"name": "Working Day",
 			"item": [
 				{
-					"name": "Find All",
+					"name": "Working Day",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}:{{port}}/{{base_url}}/v1/city?sizePerPage=3000",
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/working/day/:date?numberOfDays=4",
 							"host": [
 								"{{url}}"
 							],
@@ -845,375 +1539,33 @@
 							"path": [
 								"{{base_url}}",
 								"v1",
-								"city"
-							],
-							"query": [
-								{
-									"key": "orderBy",
-									"value": "CODED",
-									"disabled": true
-								},
-								{
-									"key": "direction",
-									"value": "DESC",
-									"disabled": true
-								},
-								{
-									"key": "stateID",
-									"value": "1998",
-									"disabled": true
-								},
-								{
-									"key": "sizePerPage",
-									"value": "3000"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Find By Id",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{url}}:{{port}}/{{base_url}}/v1/city/105071",
-							"host": [
-								"{{url}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"{{base_url}}",
-								"v1",
-								"city",
-								"105071"
-							],
-							"query": [
-								{
-									"key": "sizePerPage",
-									"value": "16",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Raspaz\",\r\n    \"stateID\": \"1\",\r\n    \"acronym\": \"BlaS\",\r\n    \"code\": \"BlaS\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}:{{port}}/{{base_url}}/v1/city/1",
-							"host": [
-								"{{url}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"{{base_url}}",
-								"v1",
-								"city",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Save",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Raspaz\",\r\n    \"stateID\": \"1\",\r\n    \"acronym\": \"BlaS\",\r\n    \"code\": \"BSlaS\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}:{{port}}/{{base_url}}/v1/city",
-							"host": [
-								"{{url}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"{{base_url}}",
-								"v1",
-								"city"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"auth": {
-				"type": "bearer",
-				"bearer": [
-					{
-						"key": "token",
-						"value": "{{token}}",
-						"type": "string"
-					}
-				]
-			},
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			]
-		},
-		{
-			"name": "Holiday",
-			"item": [
-				{
-					"name": "Find All",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{url}}:{{port}}/{{base_url}}/v1/holiday?sizePerPage=100",
-							"host": [
-								"{{url}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"{{base_url}}",
-								"v1",
-								"holiday"
-							],
-							"query": [
-								{
-									"key": "sizePerPage",
-									"value": "100"
-								},
-								{
-									"key": "orderBy",
-									"value": "CODED",
-									"disabled": true
-								},
-								{
-									"key": "direction",
-									"value": "DESC",
-									"disabled": true
-								},
-								{
-									"key": "stateID",
-									"value": "1998",
-									"disabled": true
-								},
-								{
-									"key": "startDate",
-									"value": "2022-04-01",
-									"disabled": true
-								},
-								{
-									"key": "endDate",
-									"value": "2022-05-30",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Find By Id",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{url}}:{{port}}/{{base_url}}/v1/holiday/10507",
-							"host": [
-								"{{url}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"{{base_url}}",
-								"v1",
-								"holiday",
-								"10507"
-							],
-							"query": [
-								{
-									"key": "sizePerPage",
-									"value": "16",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Save",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Rapazzzz\",\r\n    \"countryId\": \"1\",\r\n    \"acronym\": \"BlaS\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}:{{port}}/{{base_url}}/v1/holiday",
-							"host": [
-								"{{url}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"{{base_url}}",
-								"v1",
-								"holiday"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"AAAA\",\r\n    \"countryId\": \"21\",\r\n    \"acronym\": \"CCCC\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}:{{port}}/{{base_url}}/v1/holiday/1",
-							"host": [
-								"{{url}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"{{base_url}}",
-								"v1",
-								"holiday",
-								"1"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"auth": {
-				"type": "bearer",
-				"bearer": [
-					{
-						"key": "token",
-						"value": "{{token}}",
-						"type": "string"
-					}
-				]
-			},
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			]
-		},
-		{
-			"name": "Day",
-			"item": [
-				{
-					"name": "Link Tags",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"tagsID\": [\r\n        1,2,3,4\r\n    ]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}:{{port}}/{{base_url}}/v1/day/3401/link-tags",
-							"host": [
-								"{{url}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"{{base_url}}",
-								"v1",
+								"working",
 								"day",
-								"3401",
-								"link-tags"
+								":date"
+							],
+							"query": [
+								{
+									"key": "numberOfDays",
+									"value": "4"
+								}
+							],
+							"variable": [
+								{
+									"key": "date",
+									"value": "2023-06-06"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Unlink Tags",
+					"name": "Working Current Day",
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"tagsID\": [\r\n        1\r\n    ]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "{{url}}:{{port}}/{{base_url}}/v1/day/3401/unlink-tags",
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/working/current/day",
 							"host": [
 								"{{url}}"
 							],
@@ -1221,47 +1573,235 @@
 							"path": [
 								"{{base_url}}",
 								"v1",
-								"day",
-								"3401",
-								"unlink-tags"
+								"working",
+								"current",
+								"day"
 							]
 						}
 					},
 					"response": []
-				}
-			],
-			"auth": {
-				"type": "bearer",
-				"bearer": [
-					{
-						"key": "token",
-						"value": "{{token}}",
-						"type": "string"
-					}
-				]
-			},
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
 				},
 				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
+					"name": "Working Current Day in State",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/working/current/day/state/:idState",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"working",
+								"current",
+								"day",
+								"state",
+								":idState"
+							],
+							"variable": [
+								{
+									"key": "idState",
+									"value": "2012"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Working Day in State By Date",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/working/day/:date/state/:idState",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"working",
+								"day",
+								":date",
+								"state",
+								":idState"
+							],
+							"variable": [
+								{
+									"key": "date",
+									"value": "2023-06-06"
+								},
+								{
+									"key": "idState",
+									"value": "2012"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Working Current Day in City",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/working/current/day/city/:idCity",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"working",
+								"current",
+								"day",
+								"city",
+								":idCity"
+							],
+							"variable": [
+								{
+									"key": "idCity",
+									"value": "10507"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Working Day in City By Date",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/working/day/:date/city/:idCity",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"working",
+								"day",
+								":date",
+								"city",
+								":idCity"
+							],
+							"variable": [
+								{
+									"key": "date",
+									"value": "2023-06-06"
+								},
+								{
+									"key": "idCity",
+									"value": "10078"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Working Day Previous",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}/{{base_url}}/v1/working/day/previous/:date?numberOfDays=4",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{base_url}}",
+								"v1",
+								"working",
+								"day",
+								"previous",
+								":date"
+							],
+							"query": [
+								{
+									"key": "numberOfDays",
+									"value": "4"
+								}
+							],
+							"variable": [
+								{
+									"key": "date",
+									"value": "2023-06-06"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
 	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "username",
+				"value": "DayOffMarker@samukasawwlive.onmicrosoft.com",
+				"type": "string"
+			},
+			{
+				"key": "client_authentication",
+				"value": "body",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "r)*5Z-4HKn4^",
+				"type": "string"
+			},
+			{
+				"key": "scope",
+				"value": "api://679ac8ef-7f4c-4301-aa17-e6c2c628f8b3/dayoff_marker",
+				"type": "string"
+			},
+			{
+				"key": "clientSecret",
+				"value": "q3o8Q~znLU5zbE8Pqp9S33VJysUOyXl_bfow4cbT",
+				"type": "string"
+			},
+			{
+				"key": "clientId",
+				"value": "api://679ac8ef-7f4c-4301-aa17-e6c2c628f8b3",
+				"type": "string"
+			},
+			{
+				"key": "accessTokenUrl",
+				"value": "https://login.microsoftonline.com/{{tenantId}}/oauth2/v2.0/token",
+				"type": "string"
+			},
+			{
+				"key": "grant_type",
+				"value": "password_credentials",
+				"type": "string"
+			},
+			{
+				"key": "tokenName",
+				"value": "TokenAzureAD",
+				"type": "string"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",
@@ -1285,7 +1825,7 @@
 	"variable": [
 		{
 			"key": "token",
-			"value": "aa",
+			"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODAwNDI5NDUsImlhdCI6MTY4MDAzOTM0NSwiaXNzIjoiRFlDIiwic3ViIjoiYWFhYSIsImp0aSI6InRlc3RAdGVzdC5jb20iLCJwZXJtaXNzaW9uIjoiQURNSU4ifQ.ATaCPjlAYBnCSoN1A7H5lYoB--JdJvA51gNiK2x76j_dq4jtEYim9DU9eifr-Kr11nBe-npnF3e0Q8olrTb7eA",
 			"type": "string"
 		},
 		{
@@ -1295,12 +1835,17 @@
 		},
 		{
 			"key": "port",
-			"value": "8080",
+			"value": "9010",
 			"type": "string"
 		},
 		{
 			"key": "base_url",
 			"value": "dayoffmarker/api",
+			"type": "string"
+		},
+		{
+			"key": "tenantId",
+			"value": "c51981f2-ff86-4fc1-b0fd-a38f5451e74c",
 			"type": "string"
 		}
 	]

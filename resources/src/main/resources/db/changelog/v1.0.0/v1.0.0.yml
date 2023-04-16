@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/v1.0.0/create_column_dom_day.yml
+

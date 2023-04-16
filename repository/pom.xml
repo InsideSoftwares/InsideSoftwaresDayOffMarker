@@ -4,7 +4,7 @@
 				 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
 		<artifactId>init</artifactId>
-		<groupId>br.com.sawcunha.dayoffmarker</groupId>
+		<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
@@ -18,21 +18,21 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>br.com.sawcunha.dayoffmarker</groupId>
-			<artifactId>domain</artifactId>
+			<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
+			<artifactId>entity</artifactId>
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-starter-data-jpa</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>br.com.sawcunha.dayoffmarker</groupId>
+					<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
 					<artifactId>commons</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>br.com.sawcunha.dayoffmarker</groupId>
+			<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
 			<artifactId>commons</artifactId>
 			<exclusions>
 				<exclusion>
@@ -60,10 +60,6 @@
 					<artifactId>gson</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>io.fusionauth</groupId>
-					<artifactId>fusionauth-jwt</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>org.liquibase</groupId>
 					<artifactId>liquibase-core</artifactId>
 				</exclusion>
@@ -77,20 +73,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>com.google.protobuf</groupId>
-					<artifactId>protobuf-java</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -101,6 +83,13 @@
 				<configuration>
 					<source>17</source>
 					<target>17</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
 				</configuration>
 			</plugin>
 		</plugins>

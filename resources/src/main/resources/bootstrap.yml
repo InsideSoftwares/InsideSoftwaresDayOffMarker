@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: InsideDayOffMarker
+  main:
+    allow-circular-references: true
+    allow-bean-definition-overriding: true
+  liquibase:
+    database-change-log-lock-table: DOM_DATABASECHANGELOGLOCK
+    database-change-log-table: DOM_DATABASECHANGELOG
+
+liquibase:
+  change-log: classpath:db.changelog-master.yaml
+
+server:
+  port: 8880
+  servlet:
+    context-path: /dayoffmarker
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+    health:
+      show-details: always
