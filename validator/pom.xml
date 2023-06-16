@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
 		<artifactId>init</artifactId>
-		<groupId>br.com.sawcunha.dayoffmarker</groupId>
+		<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
@@ -18,119 +18,106 @@
 		<testSourceDirectory>src/test</testSourceDirectory>
 	</properties>
 
-    <dependencies>
-			<dependency>
-				<groupId>br.com.sawcunha.dayoffmarker</groupId>
-				<artifactId>domain</artifactId>
+	<dependencies>
+		<dependency>
+			<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
+			<artifactId>entity</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
+					<artifactId>commons</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-data-jpa</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+				<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
+				<artifactId>specification</artifactId>
 				<exclusions>
 					<exclusion>
-						<groupId>br.com.sawcunha.dayoffmarker</groupId>
+						<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
+						<artifactId>entity</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
 						<artifactId>commons</artifactId>
 					</exclusion>
-					<exclusion>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-starter-data-jpa</artifactId>
-					</exclusion>
 				</exclusions>
-			</dependency>
-			<dependency>
-					<groupId>br.com.sawcunha.dayoffmarker</groupId>
-					<artifactId>specification</artifactId>
-					<exclusions>
-						<exclusion>
-							<groupId>br.com.sawcunha.dayoffmarker</groupId>
-							<artifactId>domain</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>br.com.sawcunha.dayoffmarker</groupId>
-							<artifactId>commons</artifactId>
-						</exclusion>
-					</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>br.com.sawcunha.dayoffmarker</groupId>
-				<artifactId>repository</artifactId>
-				<exclusions>
-					<exclusion>
-						<groupId>br.com.sawcunha.dayoffmarker</groupId>
-						<artifactId>domain</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>br.com.sawcunha.dayoffmarker</groupId>
-						<artifactId>commons</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.postgresql</groupId>
-						<artifactId>postgresql</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>mysql</groupId>
-						<artifactId>mysql-connector-java</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>br.com.sawcunha.dayoffmarker</groupId>
-				<artifactId>commons</artifactId>
-				<exclusions>
-					<exclusion>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-starter-web</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>com.google.code.gson</groupId>
-						<artifactId>gson</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>io.fusionauth</groupId>
-						<artifactId>fusionauth-jwt</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.liquibase</groupId>
-						<artifactId>liquibase-core</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.mapstruct</groupId>
-						<artifactId>mapstruct</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework.data</groupId>
-						<artifactId>spring-data-commons</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-starter-validation</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<!-- Unit Test Dependencies-->
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-test</artifactId>
-				<scope>test</scope>
-				<exclusions>
-					<exclusion>
-						<groupId>org.junit.vintage</groupId>
-						<artifactId>junit-vintage-engine</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.mockito</groupId>
-				<artifactId>mockito-all</artifactId>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.junit.vintage</groupId>
-				<artifactId>junit-vintage-engine</artifactId>
-				<scope>test</scope>
-			</dependency>
-		</dependencies>
+		</dependency>
+		<dependency>
+			<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
+			<artifactId>repository</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
+					<artifactId>entity</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
+					<artifactId>commons</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
+			<artifactId>commons</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-web</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.google.code.gson</groupId>
+					<artifactId>gson</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>io.fusionauth</groupId>
+					<artifactId>fusionauth-jwt</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.liquibase</groupId>
+					<artifactId>liquibase-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.mapstruct</groupId>
+					<artifactId>mapstruct</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework.data</groupId>
+					<artifactId>spring-data-commons</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-validation</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- Unit Test Dependencies-->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<plugins>
@@ -145,11 +132,14 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.7</version>
+				<version>0.8.8</version>
 				<executions>
 					<execution>
 						<id>default-prepare-agent</id>

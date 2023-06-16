@@ -1,0 +1,54 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_index
+      author: System
+      changes:
+        - createIndex:
+            clustered: true
+            indexName: IDX_DD_DATE
+            schemaName: public
+            tableName: DOM_DAY
+            dbms: 'mysql, postgresql'
+            columns:
+              - column:
+                  name: DATE
+        - createIndex:
+            clustered: true
+            indexName: IDX_DD_DATE_WEEKEND_HOLIDAY
+            schemaName: public
+            tableName: DOM_DAY
+            dbms: 'mysql, postgresql'
+            columns:
+              - column:
+                  name: DATE
+              - column:
+                  name: WEEKEND
+              - column:
+                  name: HOLIDAY
+        - createIndex:
+            clustered: true
+            indexName: IDX_DDB_PROCESSED
+            schemaName: public
+            tableName: DOM_DAY_BATCH
+            dbms: 'mysql, postgresql'
+            columns:
+              - column:
+                  name: PROCESSED
+        - createIndex:
+            clustered: true
+            indexName: IDX_DDB_DATE
+            schemaName: public
+            tableName: DOM_DAY_BATCH
+            dbms: 'mysql, postgresql'
+            columns:
+              - column:
+                  name: DATE
+        - createIndex:
+            clustered: true
+            indexName: IDX_DT_CODE
+            schemaName: public
+            tableName: DOM_TAG
+            dbms: 'mysql, postgresql'
+            columns:
+              - column:
+                  name: CODE

@@ -1,0 +1,44 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "insert_countries",
+        "author": "System",
+        "changes": [
+          {
+            "insert": {
+              "dbms": "h2, mysql, postgresql",
+              "tableName": "DOM_COUNTRY",
+              "columns": [
+                {
+                  "column": {
+                    "name": "COUNTRY_ID",
+                    "value": "76"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "value": "Brazil"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ACRONYM",
+                    "value": "BRA"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "CODE",
+                    "value": "076"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

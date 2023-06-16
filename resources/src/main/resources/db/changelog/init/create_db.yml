@@ -5,7 +5,7 @@ databaseChangeLog:
       changes:
         - createTable:
             tableName: DOM_COUNTRY
-            dbms: 'h2,  mysql, postgresql'
+            dbms: 'mysql, postgresql'
             columns:
               - column:
                   name: COUNTRY_ID
@@ -54,7 +54,7 @@ databaseChangeLog:
       changes:
         - createTable:
             tableName: DOM_DAY
-            dbms:  'h2,  mysql, postgresql'
+            dbms:  'mysql, postgresql'
             columns:
               - column:
                   name: DAY_ID
@@ -82,18 +82,8 @@ databaseChangeLog:
                   type: ${typeBoolean}
                   constraints:
                     nullable: false
-              - column:
-                  name: COUNTRY_ID
-                  autoIncrement: false
-                  type: BIGINT
-                  constraints:
-                    nullable: false
-                    foreignKeyName: FK_COUNTRY_ID_DOM_DAY
-                    validateForeignKey: true
-                    referencedColumnNames: COUNTRY_ID
-                    referencedTableName: DOM_COUNTRY
         - addUniqueConstraint:
-            columnNames: DATE,COUNTRY_ID
+            columnNames: DATE
             constraintName: UK_DATE_DOM_DAY
             tableName: DOM_DAY
             validate: true
@@ -103,7 +93,7 @@ databaseChangeLog:
       changes:
         - createTable:
             tableName: DOM_STATE
-            dbms:  'h2,  mysql, postgresql'
+            dbms:  'mysql, postgresql'
             columns:
               - column:
                   name: STATE_ID
@@ -151,7 +141,7 @@ databaseChangeLog:
       changes:
         - createTable:
             tableName: DOM_CITY
-            dbms: 'h2,  mysql, postgresql'
+            dbms: 'mysql, postgresql'
             columns:
               - column:
                   name: CITY_ID
@@ -210,7 +200,7 @@ databaseChangeLog:
       changes:
         - createTable:
             tableName: DOM_HOLIDAY
-            dbms: 'h2,  mysql, postgresql'
+            dbms: 'mysql, postgresql'
             columns:
               - column:
                   name: HOLIDAY_ID
@@ -279,7 +269,7 @@ databaseChangeLog:
       changes:
         - createTable:
             tableName: DOM_CITY_HOLIDAY
-            dbms: 'h2,  mysql, postgresql'
+            dbms: 'mysql, postgresql'
             columns:
               - column:
                   name: CITY_ID
@@ -301,6 +291,13 @@ databaseChangeLog:
                     validateForeignKey: true
                     referencedColumnNames: HOLIDAY_ID
                     referencedTableName: DOM_HOLIDAY
+              - column:
+                  name: HOLIDAY
+                  autoIncrement: false
+                  type: ${typeBoolean}
+                  defaultValue: ${defaultValueBoolean}
+                  constraints:
+                    nullable: false
         - addPrimaryKey:
             columnNames: CITY_ID, HOLIDAY_ID
             constraintName: PK_DOM_CITY_HOLIDAY
@@ -312,7 +309,7 @@ databaseChangeLog:
       changes:
         - createTable:
             tableName: DOM_STATE_HOLIDAY
-            dbms: 'h2,  mysql, postgresql'
+            dbms: 'mysql, postgresql'
             columns:
               - column:
                   name: STATE_ID
@@ -334,6 +331,13 @@ databaseChangeLog:
                     validateForeignKey: true
                     referencedColumnNames: HOLIDAY_ID
                     referencedTableName: DOM_HOLIDAY
+              - column:
+                  name: HOLIDAY
+                  autoIncrement: false
+                  type: ${typeBoolean}
+                  defaultValue: ${defaultValueBoolean}
+                  constraints:
+                    nullable: false
         - addPrimaryKey:
             columnNames: STATE_ID, HOLIDAY_ID
             constraintName: PK_DOM_STATE_HOLIDAY
@@ -345,7 +349,7 @@ databaseChangeLog:
       changes:
         - createTable:
             tableName: DOM_FIXED_HOLIDAY
-            dbms: 'h2,  mysql, postgresql'
+            dbms: 'mysql, postgresql'
             columns:
               - column:
                   name: FIXED_HOLIDAY_ID
@@ -392,18 +396,8 @@ databaseChangeLog:
                   type: TIME
                   constraints:
                     nullable: true
-              - column:
-                  name: COUNTRY_ID
-                  autoIncrement: false
-                  type: BIGINT
-                  constraints:
-                    nullable: false
-                    foreignKeyName: FK_COUNTRY_ID_DOM_FIXED_HOLIDAY
-                    validateForeignKey: true
-                    referencedColumnNames: COUNTRY_ID
-                    referencedTableName: DOM_COUNTRY
         - addUniqueConstraint:
-            columnNames: DAY_HOLIDAY,MONTH_HOLIDAY,COUNTRY_ID
+            columnNames: DAY_HOLIDAY,MONTH_HOLIDAY
             constraintName: UK_FIXED_HOLIDAY_COUNTRY
             tableName: DOM_FIXED_HOLIDAY
             validate: true
@@ -413,7 +407,7 @@ databaseChangeLog:
       changes:
         - createTable:
             tableName: DOM_CONFIGURATION
-            dbms: 'h2,  mysql, postgresql'
+            dbms: 'mysql, postgresql'
             columns:
               - column:
                   name: CONFIGURATION_ID
@@ -458,7 +452,7 @@ databaseChangeLog:
       changes:
         - createTable:
             tableName: DOM_REQUEST
-            dbms: 'h2,  mysql, postgresql'
+            dbms: 'mysql, postgresql'
             columns:
               - column:
                   name: REQUEST_ID
@@ -516,7 +510,7 @@ databaseChangeLog:
       changes:
         - createTable:
             tableName: DOM_REQUEST_PARAMETER
-            dbms: 'h2,  mysql, postgresql'
+            dbms: 'mysql, postgresql'
             columns:
               - column:
                   name: REQUEST_PARAMETER_ID
@@ -560,7 +554,7 @@ databaseChangeLog:
       changes:
         - createTable:
             tableName: DOM_DAY_BATCH
-            dbms: 'h2,  mysql, postgresql'
+            dbms: 'mysql, postgresql'
             columns:
               - column:
                   name: DAY_BATCH_ID
@@ -595,58 +589,15 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: COUNTRY_ID
-                  autoIncrement: false
-                  type: BIGINT
-                  constraints:
-                    nullable: false
-                    foreignKeyName: FK_COUNTRY_ID_DOM_DAY_BATCH
-                    validateForeignKey: true
-                    referencedColumnNames: COUNTRY_ID
-                    referencedTableName: DOM_COUNTRY
-              - column:
                   name: REQUEST_ID
                   autoIncrement: false
                   type: ${UUIDType}
                   constraints:
                     nullable: false
         - addUniqueConstraint:
-            columnNames: DATE,COUNTRY_ID
+            columnNames: DATE
             constraintName: UK_DATE_DOM_DAY_BATCH
             tableName: DOM_DAY_BATCH
-            validate: true
-  - changeSet:
-      id: create_DOM_CITY_NOT_HOLIDAY
-      author: System
-      changes:
-        - createTable:
-            tableName: DOM_CITY_NOT_HOLIDAY
-            dbms: 'h2,  mysql, postgresql'
-            columns:
-              - column:
-                  name: CITY_ID
-                  autoIncrement: false
-                  type: BIGINT
-                  constraints:
-                    nullable: false
-                    foreignKeyName: FK_CITY_ID_DOM_CITY_NOT_HOLIDAY
-                    validateForeignKey: true
-                    referencedColumnNames: CITY_ID
-                    referencedTableName: DOM_CITY
-              - column:
-                  name: HOLIDAY_ID
-                  autoIncrement: false
-                  type: BIGINT
-                  constraints:
-                    nullable: false
-                    foreignKeyName: FK_HOLIDAY_ID_DOM_CITY_NOT_HOLIDAY
-                    validateForeignKey: true
-                    referencedColumnNames: HOLIDAY_ID
-                    referencedTableName: DOM_HOLIDAY
-        - addPrimaryKey:
-            columnNames: CITY_ID, HOLIDAY_ID
-            constraintName: PK_DOM_CITY_NOT_HOLIDAY
-            tableName: DOM_CITY_NOT_HOLIDAY
             validate: true
   - changeSet:
       id: create_DOM_TAG
@@ -654,7 +605,7 @@ databaseChangeLog:
       changes:
         - createTable:
             tableName: DOM_TAG
-            dbms: 'h2,  mysql, postgresql'
+            dbms: 'mysql, postgresql'
             columns:
               - column:
                   name: TAG_ID
@@ -687,7 +638,7 @@ databaseChangeLog:
       changes:
         - createTable:
             tableName: DOM_DAY_TAG
-            dbms: 'h2,  mysql, postgresql'
+            dbms: 'mysql, postgresql'
             columns:
               - column:
                   name: DAY_ID
