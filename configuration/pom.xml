@@ -19,19 +19,11 @@
     <dependencies>
 			<dependency>
 				<groupId>br.com.insidesoftwares</groupId>
-<<<<<<< HEAD
-				<artifactId>commons</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>br.com.insidesoftwares</groupId>
-				<artifactId>execptioncommons</artifactId>
-=======
 				<artifactId>utils</artifactId>
 			</dependency>
 			<dependency>
 				<groupId>br.com.insidesoftwares</groupId>
 				<artifactId>exception</artifactId>
->>>>>>> 4f0d44c1ec1b3354be8d2a762038a62e6544ec14
 			</dependency>
 
 			<dependency>
