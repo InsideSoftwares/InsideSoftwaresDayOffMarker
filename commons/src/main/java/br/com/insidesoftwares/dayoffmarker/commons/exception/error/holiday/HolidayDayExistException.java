@@ -1,7 +1,7 @@
 package br.com.insidesoftwares.dayoffmarker.commons.exception.error.holiday;
 
 import br.com.insidesoftwares.dayoffmarker.commons.exception.enumeration.ExceptionCodeError;
-import br.com.insidesoftwares.execption.error.InsideSoftwaresException;
+import br.com.insidesoftwares.exception.error.InsideSoftwaresException;
 
 public class HolidayDayExistException extends InsideSoftwaresException {
     public HolidayDayExistException() {
