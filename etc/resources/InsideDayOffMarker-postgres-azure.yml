@@ -48,7 +48,6 @@ spring:
     redis:
       key-prefix: 'api::'
       time-to-live: 12000000
-<<<<<<<< HEAD:etc/resources/InsideDayOffMarker-postgres.yml
   cloud:
     azure:
       active-directory:
@@ -68,30 +67,6 @@ spring:
             roles: "" # no prefix
             scp: "" # no prefix
 
-========
-  security:
-    oauth2:
-      client:
-        registration:
-          keycloak:
-            client-id: DayOffMarker
-            authorization-grant-type: password
-            scope: openid
-        provider:
-          keycloak:
-            issuer-uri: http://localhost:7080/realms/InsideSoftwares
-            user-name-attribute: preferred_username
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:7080/realms/InsideSoftwares
-
-jwt:
-  auth:
-    converter:
-      resourceId: "DayOffMarker"
-      principalAttribute: "preferred_username"
-
->>>>>>>> 4f0d44c1ec1b3354be8d2a762038a62e6544ec14:etc/resources/InsideDayOffMarker-postgres-keycloak.yml
 insidesoftwares-cache:
   config:
     timeToLiveSeconds: 3600

@@ -20,7 +20,7 @@ import br.com.insidesoftwares.dayoffmarker.repository.DayRepository;
 import br.com.insidesoftwares.dayoffmarker.repository.TagRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.service.DayService;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.ValidatorLink;
-import br.com.insidesoftwares.execption.error.InsideSoftwaresException;
+import br.com.insidesoftwares.exception.error.InsideSoftwaresException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -16,18 +16,38 @@
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
+		<profiles>
+			<profile>
+				<id>azure</id>
+				<activation>
+					<activeByDefault>true</activeByDefault>
+				</activation>
+				<dependencies>
+					<dependency>
+						<groupId>br.com.insidesoftwares.securitycommons</groupId>
+						<artifactId>azure-active-directory</artifactId>
+					</dependency>
+				</dependencies>
+			</profile>
+			<profile>
+				<id>keycloak</id>
+				<dependencies>
+					<dependency>
+						<groupId>br.com.insidesoftwares.securitycommons</groupId>
+						<artifactId>keycloak</artifactId>
+					</dependency>
+				</dependencies>
+			</profile>
+		</profiles>
+
     <dependencies>
 			<dependency>
 				<groupId>br.com.insidesoftwares</groupId>
-				<artifactId>commons</artifactId>
+				<artifactId>utils</artifactId>
 			</dependency>
 			<dependency>
 				<groupId>br.com.insidesoftwares</groupId>
-				<artifactId>execptioncommons</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>br.com.insidesoftwares</groupId>
-				<artifactId>securitycommons</artifactId>
+				<artifactId>exception</artifactId>
 			</dependency>
 
 			<dependency>
