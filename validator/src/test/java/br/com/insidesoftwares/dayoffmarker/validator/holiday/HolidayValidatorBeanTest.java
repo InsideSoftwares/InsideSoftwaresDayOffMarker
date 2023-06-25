@@ -1,26 +1,27 @@
 package br.com.insidesoftwares.dayoffmarker.validator.holiday;
 
+import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeHoliday;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.day.DayNotExistException;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.holiday.HolidayDayExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.holiday.HolidayFromTimeNotInformedException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.holiday.HolidayNotExistException;
 import br.com.insidesoftwares.dayoffmarker.repository.DayRepository;
 import br.com.insidesoftwares.dayoffmarker.repository.HolidayRepository;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalTime;
 
-@RunWith(SpringRunner.class)
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {HolidayValidatorBeanTest.class, HolidayValidatorBean.class})
 public class HolidayValidatorBeanTest {
 
@@ -66,7 +67,7 @@ public class HolidayValidatorBeanTest {
 	public void shouldThrowExceptionDayNotExistExceptionByRunningMethodValidatorDTOParameter() {
 		Mockito.when(dayRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
 
-		Assert.assertThrows(
+		assertThrows(
 				DayNotExistException.class,
 				() -> holidayValidatorBean.validator(createHolidayRequestDTO(TypeHoliday.MANDATORY, null))
 		);
@@ -80,7 +81,7 @@ public class HolidayValidatorBeanTest {
 		Mockito.when(dayRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
 		Mockito.when(holidayRepository.existsByDayID(ArgumentMatchers.anyLong())).thenReturn(true);
 
-		Assert.assertThrows(
+		assertThrows(
 				HolidayDayExistException.class,
 				() -> holidayValidatorBean.validator(createHolidayRequestDTO(TypeHoliday.MANDATORY, null))
 		);
@@ -94,7 +95,7 @@ public class HolidayValidatorBeanTest {
 		Mockito.when(dayRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
 		Mockito.when(holidayRepository.existsByDayID(ArgumentMatchers.anyLong())).thenReturn(false);
 
-		Assert.assertThrows(
+		assertThrows(
 				HolidayFromTimeNotInformedException.class,
 				() -> holidayValidatorBean.validator(createHolidayRequestDTO(TypeHoliday.HALF_PERIOD, null))
 		);
@@ -134,7 +135,7 @@ public class HolidayValidatorBeanTest {
 	public void shouldThrowHolidayNotExistExceptionByRunningMethodValidatorLongAndDTOParameter() {
 		Mockito.when(holidayRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
 
-		Assert.assertThrows(
+		assertThrows(
 				HolidayNotExistException.class,
 				() -> holidayValidatorBean.validator(HOLIDAY_ID, createHolidayRequestDTO(TypeHoliday.MANDATORY, null))
 		);
@@ -149,7 +150,7 @@ public class HolidayValidatorBeanTest {
 		Mockito.when(holidayRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
 		Mockito.when(dayRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
 
-		Assert.assertThrows(
+		assertThrows(
 				DayNotExistException.class,
 				() -> holidayValidatorBean.validator(HOLIDAY_ID, createHolidayRequestDTO(TypeHoliday.MANDATORY, null))
 		);
@@ -165,7 +166,7 @@ public class HolidayValidatorBeanTest {
 		Mockito.when(dayRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
 		Mockito.when(holidayRepository.existsByDayIDAndNotId(ArgumentMatchers.anyLong(), ArgumentMatchers.anyLong())).thenReturn(true);
 
-		Assert.assertThrows(
+		assertThrows(
 				HolidayDayExistException.class,
 				() -> holidayValidatorBean.validator(HOLIDAY_ID, createHolidayRequestDTO(TypeHoliday.MANDATORY, null))
 		);
@@ -182,7 +183,7 @@ public class HolidayValidatorBeanTest {
 		Mockito.when(dayRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
 		Mockito.when(holidayRepository.existsByDayIDAndNotId(ArgumentMatchers.anyLong(), ArgumentMatchers.anyLong())).thenReturn(false);
 
-		Assert.assertThrows(
+		assertThrows(
 				HolidayFromTimeNotInformedException.class,
 				() -> holidayValidatorBean.validator(HOLIDAY_ID, createHolidayRequestDTO(TypeHoliday.HALF_PERIOD, null))
 		);
@@ -205,7 +206,7 @@ public class HolidayValidatorBeanTest {
 	public void shouldThrowExceptionHolidayNotExistExceptionByRunningMethodValidatorLongParameter() {
 		Mockito.when(holidayRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
 
-		Assert.assertThrows(
+		assertThrows(
 				HolidayNotExistException.class,
 				() -> holidayValidatorBean.validator(HOLIDAY_ID)
 		);

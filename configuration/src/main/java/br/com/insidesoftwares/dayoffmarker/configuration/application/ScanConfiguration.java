@@ -7,7 +7,13 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @Configuration
 @ConfigurationPropertiesScan(basePackages ={"br.com.insidesoftwares.dayoffmarker", "br.com.insidesoftwares.commons"})
-@ComponentScan(basePackages={"br.com.insidesoftwares.dayoffmarker", "br.com.insidesoftwares.commons", "br.com.insidesoftwares.execption", "com.trendyol.jdempotent.redis"})
+@ComponentScan(
+	basePackages= {
+		"br.com.insidesoftwares.dayoffmarker",
+		"br.com.insidesoftwares.commons",
+		"br.com.insidesoftwares.execption"
+	}
+)
 @EnableAspectJAutoProxy
 public class ScanConfiguration {
 }

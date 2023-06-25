@@ -1,22 +1,23 @@
 package br.com.insidesoftwares.dayoffmarker.validator.country;
 
+import br.com.insidesoftwares.dayoffmarker.commons.dto.request.CountryRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.country.CountryAcronymExistExpetion;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.country.CountryCodeExistExpetion;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.country.CountryNameExistExpetion;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.country.CountryNotExistException;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.CountryRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.repository.CountryRepository;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@RunWith(SpringRunner.class)
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {CountryValidatorBeanBeanTest.class, CountryValidatorBean.class})
 public class CountryValidatorBeanBeanTest {
 
@@ -48,7 +49,7 @@ public class CountryValidatorBeanBeanTest {
 	public void shouldThrowExceptionCountryNameExistExpetionByRunningMethodValidatorDTOParameter() {
 		Mockito.when(countryRepository.existsByName(ArgumentMatchers.anyString())).thenReturn(true);
 
-		Assert.assertThrows(
+		assertThrows(
 				CountryNameExistExpetion.class,
 				() -> countryValidatorBean.validator(createCountryRequestDTO())
 		);
@@ -63,7 +64,7 @@ public class CountryValidatorBeanBeanTest {
 		Mockito.when(countryRepository.existsByName(ArgumentMatchers.anyString())).thenReturn(false);
 		Mockito.when(countryRepository.existsByCode(ArgumentMatchers.anyString())).thenReturn(true);
 
-		Assert.assertThrows(
+		assertThrows(
 				CountryCodeExistExpetion.class,
 				() -> countryValidatorBean.validator(createCountryRequestDTO())
 		);
@@ -79,7 +80,7 @@ public class CountryValidatorBeanBeanTest {
 		Mockito.when(countryRepository.existsByCode(ArgumentMatchers.anyString())).thenReturn(false);
 		Mockito.when(countryRepository.existsByAcronym(ArgumentMatchers.anyString())).thenReturn(true);
 
-		Assert.assertThrows(
+		assertThrows(
 				CountryAcronymExistExpetion.class,
 				() -> countryValidatorBean.validator(createCountryRequestDTO())
 		);
@@ -117,7 +118,7 @@ public class CountryValidatorBeanBeanTest {
 	public void shouldThrowExceptionCountryNotExistExceptionByRunningMethodValidatorLongAndDTOParameter() {
 		Mockito.when(countryRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
 
-		Assert.assertThrows(
+		assertThrows(
 				CountryNotExistException.class,
 				() -> countryValidatorBean.validator(COUNTRY_ID, createCountryRequestDTO())
 		);
@@ -138,7 +139,7 @@ public class CountryValidatorBeanBeanTest {
 				countryRepository.existsByNameAndNotId(ArgumentMatchers.anyString(), ArgumentMatchers.anyLong())
 		).thenReturn(true);
 
-		Assert.assertThrows(
+		assertThrows(
 				CountryNameExistExpetion.class,
 				() -> countryValidatorBean.validator(COUNTRY_ID, createCountryRequestDTO())
 		);
@@ -162,7 +163,7 @@ public class CountryValidatorBeanBeanTest {
 				countryRepository.existsByCodeAndNotId(ArgumentMatchers.anyString(), ArgumentMatchers.anyLong())
 		).thenReturn(true);
 
-		Assert.assertThrows(
+		assertThrows(
 				CountryCodeExistExpetion.class,
 				() -> countryValidatorBean.validator(COUNTRY_ID, createCountryRequestDTO())
 		);
@@ -189,7 +190,7 @@ public class CountryValidatorBeanBeanTest {
 				countryRepository.existsByAcronymAndNotId(ArgumentMatchers.anyString(), ArgumentMatchers.anyLong())
 		).thenReturn(true);
 
-		Assert.assertThrows(
+		assertThrows(
 				CountryAcronymExistExpetion.class,
 				() -> countryValidatorBean.validator(COUNTRY_ID, createCountryRequestDTO())
 		);
@@ -218,7 +219,7 @@ public class CountryValidatorBeanBeanTest {
 	@Test
 	public void shouldThrowExceptionByRunningMethodValidatorLongParameter() {
 		Mockito.when(countryRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
-		Assert.assertThrows(
+		assertThrows(
 				CountryNotExistException.class,
 				() -> countryValidatorBean.validator(COUNTRY_ID)
 		);

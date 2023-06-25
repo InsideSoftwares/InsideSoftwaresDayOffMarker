@@ -22,13 +22,13 @@
     <parent>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-parent</artifactId>
-			<version>3.0.5</version>
+			<version>3.0.8</version>
 			<relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>br.com.insidesoftwares.dayoffmarker</groupId>
     <artifactId>init</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>DayOff Marker</name>
     <description>System to manage birthdays, including Holidays and Weekends</description>
 
@@ -36,14 +36,15 @@
 			<maven.compiler.source>17</maven.compiler.source>
 			<maven.compiler.target>17</maven.compiler.target>
 
-			<spring-boot.version>3.0.5</spring-boot.version>
+			<spring-boot.version>3.0.8</spring-boot.version>
+			<spring.framework.version>6.0.10</spring.framework.version>
+			<spring-data-redis.version>3.1.1</spring-data-redis.version>
 
 			<checkstyle-maven-plugin.version>3.0.0</checkstyle-maven-plugin.version>
 			<org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
 			<lombok.version>1.18.28</lombok.version>
 			<gson.version>2.10.1</gson.version>
 
-			<h2database.version>2.1.214</h2database.version>
 			<javafaker.version>1.0.2</javafaker.version>
 
 			<postgres.version>42.6.0</postgres.version>
@@ -52,9 +53,11 @@
 
 			<mockito.version>5.3.1</mockito.version>
 			<mockito-inline.version>5.2.0</mockito-inline.version>
+			<junit-jupiter.version>5.9.3</junit-jupiter.version>
+
 			<spring-cloud-starter-netflix-eureka-client.version>4.0.2</spring-cloud-starter-netflix-eureka-client.version>
 			<spring-cloud-starter.version>4.0.3</spring-cloud-starter.version>
-			<spring-boot-admin-starter-client.version>3.0.4</spring-boot-admin-starter-client.version>
+			<spring-boot-admin-starter-client.version>3.1.0</spring-boot-admin-starter-client.version>
     </properties>
 
 		<profiles>
@@ -132,6 +135,12 @@
 					<scope>test</scope>
 				</dependency>
 				<dependency>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-test</artifactId>
+					<version>${spring.framework.version}</version>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-starter-cache</artifactId>
 					<version>${spring-boot.version}</version>
@@ -149,7 +158,7 @@
 				<dependency>
 					<groupId>org.springframework.data</groupId>
 					<artifactId>spring-data-redis</artifactId>
-					<version>${spring-boot.version}</version>
+					<version>${spring-data-redis.version}</version>
 				</dependency>
 				<dependency>
 					<groupId>org.springframework.cloud</groupId>
@@ -178,12 +187,6 @@
 				</dependency>
 				<!-- Spring End -->
 				<!-- Database Start -->
-				<dependency>
-					<groupId>com.h2database</groupId>
-					<artifactId>h2</artifactId>
-					<version>${h2database.version}</version>
-					<scope>runtime</scope>
-				</dependency>
 				<dependency>
 					<groupId>org.postgresql</groupId>
 					<artifactId>postgresql</artifactId>
@@ -279,8 +282,8 @@
 				<!-- test -->
 				<dependency>
 					<groupId>org.junit.jupiter</groupId>
-					<artifactId>junit-jupiter-api</artifactId>
-					<version>5.9.3</version>
+					<artifactId>junit-jupiter</artifactId>
+					<version>${junit-jupiter.version}</version>
 					<scope>test</scope>
 				</dependency>
 				<dependency>
@@ -290,11 +293,19 @@
 					<scope>test</scope>
 				</dependency>
 				<dependency>
-					<groupId>org.junit.vintage</groupId>
-					<artifactId>junit-vintage-engine</artifactId>
-					<version>5.9.3</version>
+					<groupId>org.mockito</groupId>
+					<artifactId>mockito-inline</artifactId>
+					<version>${mockito-inline.version}</version>
 					<scope>test</scope>
 				</dependency>
+
+				<!-- Swagger -->
+				<dependency>
+					<groupId>org.springdoc</groupId>
+					<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+					<version>2.1.0</version>
+				</dependency>
+
 			</dependencies>
     </dependencyManagement>
 
@@ -315,7 +326,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
-					<version>3.0.0</version>
+					<version>3.1.2</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
