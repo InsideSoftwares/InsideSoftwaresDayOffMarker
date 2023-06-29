@@ -1,7 +1,7 @@
 package br.com.insidesoftwares.dayoffmarker.mapper;
 
 import br.com.insidesoftwares.dayoffmarker.commons.dto.batch.RequestDTO;
-import br.com.insidesoftwares.dayoffmarker.entity.Request;
+import br.com.insidesoftwares.dayoffmarker.entity.request.Request;
 import org.mapstruct.Mapper;
 
 import java.util.List;

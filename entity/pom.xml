@@ -26,10 +26,6 @@
 						<artifactId>spring-boot-starter-web</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>com.github.javafaker</groupId>
-						<artifactId>javafaker</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>com.google.code.gson</groupId>
 						<artifactId>gson</artifactId>
 					</exclusion>

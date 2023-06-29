@@ -1,6 +1,6 @@
 package br.com.insidesoftwares.dayoffmarker.entity.state;
 
-import br.com.insidesoftwares.dayoffmarker.entity.Holiday;
+import br.com.insidesoftwares.dayoffmarker.entity.holiday.Holiday;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;

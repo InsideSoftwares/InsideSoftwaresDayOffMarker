@@ -1,6 +1,6 @@
 package br.com.insidesoftwares.dayoffmarker.specification.validator;
 
-import br.com.insidesoftwares.dayoffmarker.entity.RequestParameter;
+import br.com.insidesoftwares.dayoffmarker.entity.request.RequestParameter;
 
 import java.util.Set;
 

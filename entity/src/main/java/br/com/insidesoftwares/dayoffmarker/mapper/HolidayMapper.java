@@ -3,7 +3,7 @@ package br.com.insidesoftwares.dayoffmarker.mapper;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayBatchRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.holiday.HolidayResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.entity.Holiday;
+import br.com.insidesoftwares.dayoffmarker.entity.holiday.Holiday;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;

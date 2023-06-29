@@ -1,6 +1,6 @@
 package br.com.insidesoftwares.dayoffmarker.repository;
 
-import br.com.insidesoftwares.dayoffmarker.entity.FixedHoliday;
+import br.com.insidesoftwares.dayoffmarker.entity.holiday.FixedHoliday;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

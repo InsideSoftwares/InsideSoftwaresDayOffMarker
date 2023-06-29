@@ -8,8 +8,8 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.error.request.Param
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.request.RequestConflictParametersException;
 import br.com.insidesoftwares.dayoffmarker.specification.service.RequestService;
 import br.com.insidesoftwares.dayoffmarker.commons.logger.LogService;
-import br.com.insidesoftwares.dayoffmarker.entity.Request;
-import br.com.insidesoftwares.dayoffmarker.entity.RequestParameter;
+import br.com.insidesoftwares.dayoffmarker.entity.request.Request;
+import br.com.insidesoftwares.dayoffmarker.entity.request.RequestParameter;
 import br.com.insidesoftwares.dayoffmarker.job.scheduled.utils.RequestUtils;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.RequestValidator;
 import lombok.RequiredArgsConstructor;

@@ -11,8 +11,8 @@ import br.com.insidesoftwares.dayoffmarker.specification.service.ConfigurationSe
 import br.com.insidesoftwares.dayoffmarker.specification.service.CountryService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.RequestCreationService;
 import br.com.insidesoftwares.dayoffmarker.entity.Country;
-import br.com.insidesoftwares.dayoffmarker.entity.Request;
-import br.com.insidesoftwares.dayoffmarker.entity.RequestParameter;
+import br.com.insidesoftwares.dayoffmarker.entity.request.Request;
+import br.com.insidesoftwares.dayoffmarker.entity.request.RequestParameter;
 import br.com.insidesoftwares.dayoffmarker.repository.RequestRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.RequestValidator;
 import lombok.RequiredArgsConstructor;

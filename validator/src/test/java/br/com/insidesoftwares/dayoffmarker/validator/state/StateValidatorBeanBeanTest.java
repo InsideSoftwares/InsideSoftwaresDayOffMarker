@@ -19,7 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {StateValidatorBeanBeanTest.class, StateValidatorBean.class})
+@ContextConfiguration(classes = { StateValidatorBean.class })
 public class StateValidatorBeanBeanTest {
 
 	@MockBean

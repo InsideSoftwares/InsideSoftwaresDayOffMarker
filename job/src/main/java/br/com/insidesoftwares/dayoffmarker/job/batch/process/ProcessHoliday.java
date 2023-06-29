@@ -5,9 +5,9 @@ import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayRe
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeHoliday;
 import br.com.insidesoftwares.dayoffmarker.commons.logger.LogService;
 import br.com.insidesoftwares.dayoffmarker.entity.Day;
-import br.com.insidesoftwares.dayoffmarker.entity.FixedHoliday;
-import br.com.insidesoftwares.dayoffmarker.entity.Holiday;
-import br.com.insidesoftwares.dayoffmarker.entity.Request;
+import br.com.insidesoftwares.dayoffmarker.entity.holiday.FixedHoliday;
+import br.com.insidesoftwares.dayoffmarker.entity.holiday.Holiday;
+import br.com.insidesoftwares.dayoffmarker.entity.request.Request;
 import br.com.insidesoftwares.dayoffmarker.job.utils.request.RequestParametersUtils;
 import br.com.insidesoftwares.dayoffmarker.specification.batch.BatchCreationDayService;
 import br.com.insidesoftwares.dayoffmarker.specification.batch.BatchUpdateHolidayService;

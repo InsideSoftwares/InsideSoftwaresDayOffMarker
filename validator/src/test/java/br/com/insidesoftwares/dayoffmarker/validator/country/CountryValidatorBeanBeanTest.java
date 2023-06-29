@@ -18,7 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {CountryValidatorBeanBeanTest.class, CountryValidatorBean.class})
+@ContextConfiguration(classes = { CountryValidatorBean.class })
 public class CountryValidatorBeanBeanTest {
 
 	@MockBean

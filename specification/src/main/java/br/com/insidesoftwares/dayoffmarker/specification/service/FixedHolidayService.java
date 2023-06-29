@@ -7,7 +7,7 @@ import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.FixedHoli
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.FixedHolidayUpdateRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.fixedholiday.FixedHolidayResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.sort.eOrderFixedHoliday;
-import br.com.insidesoftwares.dayoffmarker.entity.FixedHoliday;
+import br.com.insidesoftwares.dayoffmarker.entity.holiday.FixedHoliday;
 import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
 

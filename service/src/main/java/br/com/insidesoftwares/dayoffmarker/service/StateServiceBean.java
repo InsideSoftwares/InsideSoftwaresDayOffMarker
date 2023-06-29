@@ -15,7 +15,7 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.error.state.StateCo
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.state.StateNameCountryAcronymExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.state.StateNotExistException;
 import br.com.insidesoftwares.dayoffmarker.entity.Country;
-import br.com.insidesoftwares.dayoffmarker.entity.Holiday;
+import br.com.insidesoftwares.dayoffmarker.entity.holiday.Holiday;
 import br.com.insidesoftwares.dayoffmarker.entity.state.State;
 import br.com.insidesoftwares.dayoffmarker.entity.state.StateHoliday;
 import br.com.insidesoftwares.dayoffmarker.entity.state.StateHolidayPK;

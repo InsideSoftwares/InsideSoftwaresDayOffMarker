@@ -17,7 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {TagValidatorBeanTest.class, TagValidatorBean.class})
+@ContextConfiguration(classes = {TagValidatorBean.class, TagRepository.class, DayRepository.class})
 public class TagValidatorBeanTest {
 
 	@MockBean

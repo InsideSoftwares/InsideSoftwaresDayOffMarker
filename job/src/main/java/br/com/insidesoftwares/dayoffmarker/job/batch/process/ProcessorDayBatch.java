@@ -2,7 +2,7 @@ package br.com.insidesoftwares.dayoffmarker.job.batch.process;
 
 import br.com.insidesoftwares.commons.utils.DateUtils;
 import br.com.insidesoftwares.dayoffmarker.entity.DayBatch;
-import br.com.insidesoftwares.dayoffmarker.entity.Request;
+import br.com.insidesoftwares.dayoffmarker.entity.request.Request;
 import br.com.insidesoftwares.dayoffmarker.job.utils.request.RequestParametersUtils;
 import br.com.insidesoftwares.dayoffmarker.specification.batch.BatchCreationDayService;
 import lombok.RequiredArgsConstructor;

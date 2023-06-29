@@ -22,7 +22,7 @@ import java.time.LocalTime;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {HolidayValidatorBeanTest.class, HolidayValidatorBean.class})
+@ContextConfiguration(classes = { HolidayValidatorBean.class })
 public class HolidayValidatorBeanTest {
 
 	@MockBean

@@ -1,4 +1,4 @@
-package br.com.insidesoftwares.dayoffmarker.entity;
+package br.com.insidesoftwares.dayoffmarker.entity.holiday;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

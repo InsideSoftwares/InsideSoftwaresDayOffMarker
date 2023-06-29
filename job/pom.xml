@@ -71,20 +71,12 @@
 			<artifactId>commons</artifactId>
 			<exclusions>
 				<exclusion>
-					<groupId>com.github.javafaker</groupId>
-					<artifactId>javafaker</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>org.liquibase</groupId>
 					<artifactId>liquibase-core</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>br.com.insidesoftwares</groupId>
-					<artifactId>securitycommons</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>br.com.insidesoftwares.securitycommons</groupId>
-					<artifactId>azure-active-directory</artifactId>
+					<artifactId>security</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>

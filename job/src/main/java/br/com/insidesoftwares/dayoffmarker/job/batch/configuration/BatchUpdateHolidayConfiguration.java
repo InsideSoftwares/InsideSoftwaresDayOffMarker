@@ -7,7 +7,7 @@ import br.com.insidesoftwares.dayoffmarker.job.batch.process.ProcessorRequestSta
 import br.com.insidesoftwares.dayoffmarker.job.batch.write.WriteHolidayRequestDTOList;
 import br.com.insidesoftwares.dayoffmarker.job.batch.write.WriteRequest;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayRequestDTO;
-import br.com.insidesoftwares.dayoffmarker.entity.Request;
+import br.com.insidesoftwares.dayoffmarker.entity.request.Request;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;

@@ -4,7 +4,7 @@ import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayRe
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.fixedholiday.FixedHolidayNotExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.logger.LogService;
 import br.com.insidesoftwares.dayoffmarker.entity.Day;
-import br.com.insidesoftwares.dayoffmarker.entity.FixedHoliday;
+import br.com.insidesoftwares.dayoffmarker.entity.holiday.FixedHoliday;
 import br.com.insidesoftwares.dayoffmarker.specification.batch.BatchUpdateHolidayService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.DayService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.FixedHolidayService;

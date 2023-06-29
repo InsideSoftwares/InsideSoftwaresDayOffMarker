@@ -6,7 +6,7 @@ import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayBa
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.holiday.HolidayResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.sort.eOrderHoliday;
-import br.com.insidesoftwares.dayoffmarker.entity.Holiday;
+import br.com.insidesoftwares.dayoffmarker.entity.holiday.Holiday;
 import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
 

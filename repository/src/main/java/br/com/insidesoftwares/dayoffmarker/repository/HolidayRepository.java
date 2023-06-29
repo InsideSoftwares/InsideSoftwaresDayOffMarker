@@ -1,6 +1,6 @@
 package br.com.insidesoftwares.dayoffmarker.repository;
 
-import br.com.insidesoftwares.dayoffmarker.entity.Holiday;
+import br.com.insidesoftwares.dayoffmarker.entity.holiday.Holiday;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;

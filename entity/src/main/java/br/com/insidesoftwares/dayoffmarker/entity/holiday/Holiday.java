@@ -1,6 +1,7 @@
-package br.com.insidesoftwares.dayoffmarker.entity;
+package br.com.insidesoftwares.dayoffmarker.entity.holiday;
 
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeHoliday;
+import br.com.insidesoftwares.dayoffmarker.entity.Day;
 import jakarta.persistence.NamedAttributeNode;
 import jakarta.persistence.NamedEntityGraph;
 import lombok.AllArgsConstructor;

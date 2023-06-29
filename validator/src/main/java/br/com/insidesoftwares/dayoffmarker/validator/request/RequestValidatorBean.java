@@ -7,8 +7,8 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.enumeration.Excepti
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.request.ParameterNotExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.request.RequestConflictParametersException;
 import br.com.insidesoftwares.dayoffmarker.commons.logger.LogService;
-import br.com.insidesoftwares.dayoffmarker.entity.Request;
-import br.com.insidesoftwares.dayoffmarker.entity.RequestParameter;
+import br.com.insidesoftwares.dayoffmarker.entity.request.Request;
+import br.com.insidesoftwares.dayoffmarker.entity.request.RequestParameter;
 import br.com.insidesoftwares.dayoffmarker.repository.RequestRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.RequestValidator;
 import lombok.RequiredArgsConstructor;

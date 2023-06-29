@@ -11,7 +11,7 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.error.DayMonthInval
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.country.CountryNotExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.fixedholiday.FixedHolidayDayMonthCountryExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.fixedholiday.FixedHolidayNotExistException;
-import br.com.insidesoftwares.dayoffmarker.entity.FixedHoliday;
+import br.com.insidesoftwares.dayoffmarker.entity.holiday.FixedHoliday;
 import br.com.insidesoftwares.dayoffmarker.mapper.FixedHolidayMapper;
 import br.com.insidesoftwares.dayoffmarker.repository.FixedHolidayRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.service.FixedHolidayService;

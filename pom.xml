@@ -38,7 +38,7 @@
 
 			<spring-boot.version>3.0.8</spring-boot.version>
 			<spring.framework.version>6.0.10</spring.framework.version>
-			<spring-data-redis.version>3.1.1</spring-data-redis.version>
+			<spring-data-redis.version>3.0.7</spring-data-redis.version>
 
 			<checkstyle-maven-plugin.version>3.0.0</checkstyle-maven-plugin.version>
 			<org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
@@ -82,6 +82,11 @@
 				<dependency>
 					<groupId>br.com.insidesoftwares</groupId>
 					<artifactId>exception</artifactId>
+					<version>1.0-SNAPSHOT</version>
+				</dependency>
+				<dependency>
+					<groupId>br.com.insidesoftwares.securitycommons</groupId>
+					<artifactId>security</artifactId>
 					<version>1.0-SNAPSHOT</version>
 				</dependency>
 				<dependency>
@@ -214,11 +219,6 @@
 					<version>${gson.version}</version>
 				</dependency>
 				<dependency>
-					<groupId>com.github.javafaker</groupId>
-					<artifactId>javafaker</artifactId>
-					<version>${javafaker.version}</version>
-				</dependency>
-				<dependency>
 					<groupId>org.projectlombok</groupId>
 					<artifactId>lombok</artifactId>
 					<version>${lombok.version}</version>
@@ -296,6 +296,12 @@
 					<groupId>org.mockito</groupId>
 					<artifactId>mockito-inline</artifactId>
 					<version>${mockito-inline.version}</version>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.junit.platform</groupId>
+					<artifactId>junit-platform-launcher</artifactId>
+					<version>1.9.3</version>
 					<scope>test</scope>
 				</dependency>
 

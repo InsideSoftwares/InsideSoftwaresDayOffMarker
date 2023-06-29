@@ -20,7 +20,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {CityValidatorBeanBeanTest.class, CityValidatorBean.class})
+@ContextConfiguration(classes = { CityValidatorBean.class })
 public class CityValidatorBeanBeanTest {
 
 	@MockBean
