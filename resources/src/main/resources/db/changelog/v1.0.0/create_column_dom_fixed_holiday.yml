@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: addColumn-DOM_FIXED_HOLIDAY
+      author: System
+      changes:
+        - addColumn:
+            tableName: DOM_FIXED_HOLIDAY
+            columns:
+              - column:
+                  name: ENABLE
+                  autoIncrement: false
+                  type: ${typeBoolean}
+  - changeSet:
+      id: update-DOM_FIXED_HOLIDAY
+      author: System
+      changes:
+        - update:
+            columns:
+              - column:
+                  name: ENABLE
+                  value: 1
+            tableName: DOM_FIXED_HOLIDAY

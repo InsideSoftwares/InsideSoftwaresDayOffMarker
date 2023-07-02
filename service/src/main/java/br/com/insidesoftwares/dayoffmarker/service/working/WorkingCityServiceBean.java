@@ -84,7 +84,7 @@ public class WorkingCityServiceBean implements WorkingCityService {
 				})
 				.anyMatch(cityHoliday -> !cityHoliday.isCityHoliday());
 
-			if(!isWorkingDay) {
+			if(!isWorkingDay && city.getCityHolidays().isEmpty()) {
 				isWorkingDay = dayService.isDayByDateAndIsWeekend(date, false);
 			}
 		}

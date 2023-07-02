@@ -25,7 +25,7 @@ public interface FixedHolidayService {
     void save(final @Valid FixedHolidayRequestDTO fixedHolidayRequestDTO);
     void update(final Long fixedHolidayID, final @Valid FixedHolidayUpdateRequestDTO fixedHolidayRequestDTO);
 
-	List<FixedHoliday> findAll();
+	List<FixedHoliday> findAllByEnable(final boolean enable);
 	FixedHoliday findFixedHolidayById(final Long fixedHolidayID) throws FixedHolidayNotExistException;
 
 }

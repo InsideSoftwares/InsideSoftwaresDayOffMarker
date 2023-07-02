@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface FixedHolidayRepository extends JpaRepository<FixedHoliday, Long> {
 
@@ -25,4 +27,5 @@ public interface FixedHolidayRepository extends JpaRepository<FixedHoliday, Long
             """)
     boolean existsByDayAndMonthAndNotId(Integer day, Integer month, Long fixedHolidayId);
 
+	List<FixedHoliday> findAllByIsEnable(boolean isEnable);
 }

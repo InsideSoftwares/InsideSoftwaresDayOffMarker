@@ -61,13 +61,13 @@ class RequestValidatorBean implements RequestValidator {
 				if(startYearToValidate >= startYear && startYearToValidate <= endYear ) throw new RequestConflictParametersException();
 				if(endYearToValidate >= startYear && endYearToValidate <= endYear ) throw new RequestConflictParametersException();
             }
-        } catch (ParameterNotExistException | RequestConflictParametersException parameterNotExistExeption){
+        } catch (ParameterNotExistException | RequestConflictParametersException exeption){
             logService.logError(
-                    parameterNotExistExeption.getCode(),
-                    parameterNotExistExeption.getMessage(),
-                    parameterNotExistExeption.getCause()
+				exeption.getCode(),
+				exeption.getMessage(),
+				exeption.getCause()
             );
-            throw parameterNotExistExeption;
+            throw exeption;
         } catch (Exception e){
             logService.logError(ExceptionCodeError.GENERIC.getCode(), e.getMessage(), e.getCause());
             throw e;
@@ -107,11 +107,11 @@ class RequestValidatorBean implements RequestValidator {
 	}
 
 	@Override
-	public void validRequestUpdateHoliday(final Set<RequestParameter> requestParametersToValidate)  {
+	public void validRequestCreateHoliday(final Set<RequestParameter> requestParametersToValidate)  {
 		try {
 			List<Request> requests =
 					requestRepository.findAllRequestByTypeRequestAndStatusRequest(
-							TypeRequest.UPDATE_HOLIDAY,
+							TypeRequest.CREATE_HOLIDAY,
 							List.of(
 									StatusRequest.CREATED,
 									StatusRequest.WAITING,

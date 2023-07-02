@@ -1,12 +1,12 @@
 package br.com.insidesoftwares.dayoffmarker.job.batch.configuration;
 
+import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayCreateRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.job.batch.listener.DayOffMarkerJobListener;
 import br.com.insidesoftwares.dayoffmarker.job.batch.process.ProcessHoliday;
 import br.com.insidesoftwares.dayoffmarker.job.batch.process.ProcessorRequestStatusFinalized;
 import br.com.insidesoftwares.dayoffmarker.job.batch.process.ProcessorRequestStatusRunning;
 import br.com.insidesoftwares.dayoffmarker.job.batch.write.WriteHolidayRequestDTOList;
 import br.com.insidesoftwares.dayoffmarker.job.batch.write.WriteRequest;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.entity.request.Request;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
@@ -26,7 +26,7 @@ import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
-public class BatchUpdateHolidayConfiguration {
+public class BatchCreateHolidayConfiguration {
 
 	private final JobRepository jobRepository;
 	private final PlatformTransactionManager platformTransactionManager;
@@ -67,7 +67,7 @@ public class BatchUpdateHolidayConfiguration {
     @Bean
     public Step executesRequestsUpdateHoliday() {
         return new StepBuilder("executesRequestsUpdateHoliday", jobRepository)
-                .<Request, List<HolidayRequestDTO>>chunk(dayOffMarkerJobProperties.getExecutesRequestsUpdateHoliday(), platformTransactionManager)
+                .<Request, List<HolidayCreateRequestDTO>>chunk(dayOffMarkerJobProperties.getExecutesRequestsUpdateHoliday(), platformTransactionManager)
 				.listener(dayOffMarkerJobListener)
                 .reader(readerRequestsUpdateHoliday)
                 .processor(processHoliday)
@@ -86,9 +86,9 @@ public class BatchUpdateHolidayConfiguration {
                 .build();
     }
 
-    @Bean("jobUpdateHoliday")
-    public Job jobUpdateHoliday() {
-        return new JobBuilder("jobUpdateHoliday", jobRepository)
+    @Bean("jobCreateHoliday")
+    public Job jobCreateHoliday() {
+        return new JobBuilder("jobCreateHoliday", jobRepository)
                 .incrementer(new RunIdIncrementer())
                 .listener(dayOffMarkerJobListener)
                 .start(setsRequestToRunningUpdateHoliday())

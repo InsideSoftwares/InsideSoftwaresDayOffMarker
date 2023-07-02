@@ -1,4 +1,4 @@
-package br.com.insidesoftwares.dayoffmarker.service;
+package br.com.insidesoftwares.dayoffmarker.service.request;
 
 import br.com.insidesoftwares.commons.utils.DateUtils;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.Configurationkey;
@@ -6,14 +6,13 @@ import br.com.insidesoftwares.dayoffmarker.commons.enumeration.StatusRequest;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeParameter;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeRequest;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeValue;
-import br.com.insidesoftwares.dayoffmarker.commons.exception.error.country.CountryNameInvalidException;
-import br.com.insidesoftwares.dayoffmarker.specification.service.ConfigurationService;
-import br.com.insidesoftwares.dayoffmarker.specification.service.CountryService;
-import br.com.insidesoftwares.dayoffmarker.specification.service.RequestCreationService;
-import br.com.insidesoftwares.dayoffmarker.entity.Country;
+import br.com.insidesoftwares.dayoffmarker.commons.exception.error.request.ParameterNotExistException;
+import br.com.insidesoftwares.dayoffmarker.commons.exception.error.request.RequestConflictParametersException;
 import br.com.insidesoftwares.dayoffmarker.entity.request.Request;
 import br.com.insidesoftwares.dayoffmarker.entity.request.RequestParameter;
-import br.com.insidesoftwares.dayoffmarker.repository.RequestRepository;
+import br.com.insidesoftwares.dayoffmarker.specification.service.ConfigurationService;
+import br.com.insidesoftwares.dayoffmarker.specification.service.RequestCreationService;
+import br.com.insidesoftwares.dayoffmarker.specification.service.RequestService;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.RequestValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,35 +29,56 @@ import java.util.UUID;
 class RequestCreationServiceBean implements RequestCreationService {
 
     private final ConfigurationService configurationService;
-    private final RequestRepository requestRepository;
-    private final CountryService countryService;
+    private final RequestService requestService;
     private final RequestValidator requestValidator;
 
+	private final static String REQUESTING = "System";
+
     @Transactional(rollbackFor = {
-            CountryNameInvalidException.class
+		RequestConflictParametersException.class,
+		ParameterNotExistException.class
     })
     @Override
-    public String createInitialApplication(final String countryName) {
+    public String createInitialApplication() {
         UUID keyRequest = UUID.randomUUID();
-        Country country = countryService.findCountryByName(countryName);
 
         Request request = Request.builder()
                 .id(keyRequest)
                 .createDate(LocalDateTime.now())
                 .typeRequest(TypeRequest.REQUEST_CREATION_DATE)
                 .statusRequest(StatusRequest.CREATED)
-                .requesting("System")
+                .requesting(REQUESTING)
                 .build();
 
         request.setRequestParameter(
                 createRequestParameterInitial(request)
         );
 
-        requestRepository.save(request);
+		requestService.saveRequest(request);
         return keyRequest.toString();
     }
 
-    private Set<RequestParameter> createRequestParameterInitial(final Request request) {
+	@Override
+	public String createLinkTagsInDays(final String user) {
+		UUID keyRequest = UUID.randomUUID();
+
+		Request request = Request.builder()
+			.id(keyRequest)
+			.createDate(LocalDateTime.now())
+			.typeRequest(TypeRequest.UPDATE_TAG)
+			.statusRequest(StatusRequest.CREATED)
+			.requesting(user)
+			.build();
+
+		request.setRequestParameter(
+			createRequestParameterInitial(request)
+		);
+
+		requestService.saveRequest(request);
+		return keyRequest.toString();
+	}
+
+	private Set<RequestParameter> createRequestParameterInitial(final Request request) {
         String limitBackYears = configurationService.findValueConfigurationByKey(Configurationkey.LIMIT_BACK_DAYS_YEARS);
         String limitForwardYears = configurationService.findValueConfigurationByKey(Configurationkey.LIMIT_FORWARD_DAYS_YEARS);
         LocalDate baseDate = LocalDate.now();
@@ -79,6 +99,8 @@ class RequestCreationServiceBean implements RequestCreationService {
 
         return requestParameters;
     }
+
+
 
     private RequestParameter createRequestParameter(
             final Request request,

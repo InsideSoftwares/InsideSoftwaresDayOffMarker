@@ -160,4 +160,20 @@ public interface DayRepository extends JpaRepository<Day, Long> {
 		final boolean isHoliday,
 		final boolean isWeekend
 	);
+
+	@Query("""
+		SELECT count(d) > 0
+		 FROM Day d
+		 LEFT JOIN Holiday h ON h.day = d
+		 WHERE ( h is null OR h.fixedHolidayID <> :fixedHolidayID)
+		 AND DAY(d.date) = :day
+		 AND MONTH(d.date) = :month
+		 AND YEAR(d.date) >= :year
+		""")
+	boolean isDaysWithoutHolidaysByByDayAndMonthAndYearAndFixedHolidayIDOrNotHoliday(
+		final Integer day,
+		final Integer month,
+		final Integer year,
+		final Long fixedHolidayID
+	);
 }

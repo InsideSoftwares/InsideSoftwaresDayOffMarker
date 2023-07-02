@@ -1,4 +1,4 @@
-package br.com.insidesoftwares.dayoffmarker.service;
+package br.com.insidesoftwares.dayoffmarker.service.request;
 
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.StatusRequest;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeRequest;

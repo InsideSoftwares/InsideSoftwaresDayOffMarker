@@ -1,16 +1,15 @@
 package br.com.insidesoftwares.dayoffmarker.job.batch.process;
 
 import br.com.insidesoftwares.commons.utils.DateUtils;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayCreateRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeHoliday;
 import br.com.insidesoftwares.dayoffmarker.commons.logger.LogService;
 import br.com.insidesoftwares.dayoffmarker.entity.Day;
 import br.com.insidesoftwares.dayoffmarker.entity.holiday.FixedHoliday;
-import br.com.insidesoftwares.dayoffmarker.entity.holiday.Holiday;
 import br.com.insidesoftwares.dayoffmarker.entity.request.Request;
 import br.com.insidesoftwares.dayoffmarker.job.utils.request.RequestParametersUtils;
 import br.com.insidesoftwares.dayoffmarker.specification.batch.BatchCreationDayService;
-import br.com.insidesoftwares.dayoffmarker.specification.batch.BatchUpdateHolidayService;
+import br.com.insidesoftwares.dayoffmarker.specification.batch.BatchHolidayService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.ItemProcessor;
@@ -24,10 +23,10 @@ import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
-public class ProcessHoliday implements ItemProcessor<Request, List<HolidayRequestDTO>> {
+public class ProcessHoliday implements ItemProcessor<Request, List<HolidayCreateRequestDTO>> {
 
 	private final LogService<ProcessHoliday> logService;
-	private final BatchUpdateHolidayService batchUpdateHolidayService;
+	private final BatchHolidayService batchHolidayService;
 	private final BatchCreationDayService batchCreationDayService;
 
 	@PostConstruct
@@ -37,37 +36,40 @@ public class ProcessHoliday implements ItemProcessor<Request, List<HolidayReques
 	}
 
 	@Override
-	public List<HolidayRequestDTO> process(final Request request) {
+	public List<HolidayCreateRequestDTO> process(final Request request) {
 
-		List<HolidayRequestDTO> holidays = new ArrayList<>();
+		List<HolidayCreateRequestDTO> holidays = new ArrayList<>();
 
 		Long fixedHolidayID = RequestParametersUtils.getFixedHolidayID(request.getRequestParameter());
 		try {
 
-			int yearMin = batchUpdateHolidayService.getMinDateYear();
-			int yearMax = batchUpdateHolidayService.getMaxDateYear();
+			int yearMin = batchHolidayService.getMinDateYear();
+			int yearMax = batchHolidayService.getMaxDateYear();
 
 			int yearIndex = yearMin;
 
-			FixedHoliday fixedHoliday = batchUpdateHolidayService.findFixedHolidayByID(fixedHolidayID);
+			FixedHoliday fixedHoliday = batchHolidayService.findFixedHolidayByID(fixedHolidayID);
 
 			while (yearIndex <= yearMax) {
 
 				if(DateUtils.isDateValid(fixedHoliday.getDay(), fixedHoliday.getMonth(), yearIndex)) {
 					LocalDate daySearch = LocalDate.of(yearIndex, fixedHoliday.getMonth(), fixedHoliday.getDay());
 					if(batchCreationDayService.existDayInDayBatch(daySearch)) {
-						Day day = batchUpdateHolidayService.findDayByDate(daySearch);
-						boolean isUpdate = Objects.nonNull(day.getHolidays()) && day.getHolidays().stream().anyMatch(Holiday::isAutomaticUpdate);
-						if (!day.isHoliday() || isUpdate) {
-							TypeHoliday typeHoliday = getTypeHoliday(fixedHoliday.getFromTime(), fixedHoliday.isOptional());
 
-							HolidayRequestDTO holidayRequestDTO = HolidayRequestDTO.builder()
+						Day day = batchHolidayService.findDayByDate(daySearch);
+						TypeHoliday typeHoliday = getTypeHoliday(fixedHoliday.getFromTime(), fixedHoliday.isOptional());
+
+						boolean isHoliday = day.getHolidays().stream().anyMatch(holiday -> holiday.getFixedHolidayID().equals(fixedHolidayID));
+
+						if(!isHoliday) {
+							HolidayCreateRequestDTO holidayRequestDTO = HolidayCreateRequestDTO.builder()
 								.dayId(day.getId())
 								.name(fixedHoliday.getName())
 								.description(fixedHoliday.getDescription())
 								.fromTime(fixedHoliday.getFromTime())
 								.holidayType(typeHoliday)
 								.optional(fixedHoliday.isOptional())
+								.fixedHolidayID(fixedHolidayID)
 								.build();
 
 							holidays.add(holidayRequestDTO);

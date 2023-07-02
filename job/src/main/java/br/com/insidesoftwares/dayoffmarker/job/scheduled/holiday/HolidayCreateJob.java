@@ -21,16 +21,16 @@ public class HolidayCreateJob {
 	}
 
 	@Scheduled(
-			cron = "${application.scheduling.holiday.update.cron:0 0 */1 * * *}"
+			cron = "${application.scheduling.holiday.create.cron:0 0 */1 * * *}"
 	)
-	public void schedulingRunRequestForUpdateDays() {
-		logService.logInfor("Starting the update of holidays");
-		holidayJobServiceBean.updateHolidayFromFixedHoliday();
-		logService.logInfor("Finalizing the update of holidays");
+	public void schedulingRunRequestForCreateDays() {
+		logService.logInfor("Starting the create of holidays");
+		holidayJobServiceBean.createHolidayFromFixedHoliday();
+		logService.logInfor("Finalizing the create of holidays");
 	}
 
 	@Scheduled(
-			cron = "${application.scheduling.holiday.batch.cron:0 10 */1 * * *}"
+			cron = "${application.scheduling.holiday.batch.create.cron:0 10 */1 * * *}"
 	)
 	public void schedulingRunBath() {
 		logService.logInfor("Starting the update holiday request run batch");

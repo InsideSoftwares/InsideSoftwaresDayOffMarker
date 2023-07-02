@@ -4,6 +4,7 @@ import br.com.insidesoftwares.commons.dto.request.PaginationFilter;
 import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponse;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayBatchRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayCreateRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.holiday.HolidayResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.sort.eOrderHoliday;
 import br.com.insidesoftwares.dayoffmarker.entity.holiday.Holiday;
@@ -29,6 +30,7 @@ public interface HolidayService {
     void update(final Long holidayID, final @Valid HolidayRequestDTO holidayRequestDTO);
 
 	void saveHoliday(final @Valid HolidayRequestDTO holidayRequestDTO);
+	void saveHoliday(final @Valid HolidayCreateRequestDTO holidayCreateRequestDTO);
 
 	Holiday findHolidayById(final Long holidayID);
 

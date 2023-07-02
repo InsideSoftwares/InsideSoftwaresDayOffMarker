@@ -46,4 +46,7 @@ public class FixedHoliday {
     @Column(name = "FROM_TIME")
     private LocalTime fromTime;
 
+	@Column(name = "ENABLE")
+	private boolean isEnable;
+
 }

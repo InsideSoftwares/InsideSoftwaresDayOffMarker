@@ -7,7 +7,7 @@ import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.FixedHoli
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.FixedHolidayUpdateRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.fixedholiday.FixedHolidayResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.sort.eOrderFixedHoliday;
-import br.com.insidesoftwares.dayoffmarker.commons.exception.error.DayMonthInvalidException;
+import br.com.insidesoftwares.dayoffmarker.commons.exception.error.day.DayMonthInvalidException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.country.CountryNotExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.fixedholiday.FixedHolidayDayMonthCountryExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.fixedholiday.FixedHolidayNotExistException;
@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -86,6 +87,7 @@ class FixedHolidayServiceBean implements FixedHolidayService {
                 .month(fixedHolidayRequestDTO.month())
                 .isOptional(isOptional)
                 .fromTime(fixedHolidayRequestDTO.fromTime())
+				.isEnable(Objects.nonNull(fixedHolidayRequestDTO.isEnable()) ? fixedHolidayRequestDTO.isEnable() : true)
                 .build();
 
         fixedHolidayRepository.save(fixedHoliday);
@@ -110,13 +112,14 @@ class FixedHolidayServiceBean implements FixedHolidayService {
         fixedHoliday.setDescription(fixedHolidayRequestDTO.description());
         fixedHoliday.setOptional(fixedHolidayRequestDTO.isOptional());
         fixedHoliday.setFromTime(fixedHolidayRequestDTO.fromTime());
+		fixedHoliday.setEnable(Objects.nonNull(fixedHolidayRequestDTO.isEnable()) ? fixedHolidayRequestDTO.isEnable() : fixedHoliday.isEnable());
 
         fixedHolidayRepository.save(fixedHoliday);
     }
 
 	@Override
-	public List<FixedHoliday> findAll() {
-		return fixedHolidayRepository.findAll();
+	public List<FixedHoliday> findAllByEnable(final boolean isEnable) {
+		return fixedHolidayRepository.findAllByIsEnable(isEnable);
 	}
 
 	@Override

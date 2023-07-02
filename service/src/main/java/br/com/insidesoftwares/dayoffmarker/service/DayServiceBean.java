@@ -40,7 +40,7 @@ class DayServiceBean implements DayService {
 
     private final DayRepository dayRepository;
 	private final TagRepository tagRepository;
-	private final ValidatorLink<Long,LinkTagRequestDTO> validateLink;
+	private final ValidatorLink<LinkTagRequestDTO> validateLink;
 	private final DayMapper dayMapper;
 
 	@Transactional(rollbackFor = {
@@ -220,6 +220,16 @@ class DayServiceBean implements DayService {
 	@Override
 	public boolean isDayByDateAndIsWeekend(final LocalDate date, final boolean isWeekend) {
 		return dayRepository.isWorkingDayByDateAndIsWeekend(date, isWeekend);
+	}
+
+	@Override
+	public boolean isDaysWithoutHolidaysByByDayAndMonthAndFixedHolidayIDOrNotHoliday(
+		final Integer day,
+		final Integer month,
+		final Long fixedHolidayID
+	) {
+		Integer year = DateUtils.getDateCurrent().getYear();
+		return dayRepository.isDaysWithoutHolidaysByByDayAndMonthAndYearAndFixedHolidayIDOrNotHoliday(day, month, year, fixedHolidayID);
 	}
 
 	@Override

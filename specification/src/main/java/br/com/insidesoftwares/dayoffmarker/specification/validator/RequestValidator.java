@@ -7,5 +7,5 @@ import java.util.Set;
 public interface RequestValidator {
 	void validRequestInitial(final Set<RequestParameter> requestParametersToValidate);
 	void validRequestCreateDate(final Set<RequestParameter> requestParametersToValidate);
-	void validRequestUpdateHoliday(final Set<RequestParameter> requestParametersToValidate);
+	void validRequestCreateHoliday(final Set<RequestParameter> requestParametersToValidate);
 }

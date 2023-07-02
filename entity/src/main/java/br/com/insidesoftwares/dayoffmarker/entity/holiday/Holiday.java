@@ -66,4 +66,6 @@ public class Holiday {
 	@Column(name = "AUTOMATIC_UPDATE")
 	private boolean automaticUpdate;
 
+	@Column(name = "FIXED_HOLIDAY_ID")
+	private Long fixedHolidayID;
 }

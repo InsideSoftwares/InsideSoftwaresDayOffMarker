@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: addColumn-DOM_HOLIDAY
+      author: System
+      changes:
+        - addColumn:
+            tableName: DOM_HOLIDAY
+            columns:
+              - column:
+                  name: FIXED_HOLIDAY_ID
+                  autoIncrement: false
+                  type: BIGINT

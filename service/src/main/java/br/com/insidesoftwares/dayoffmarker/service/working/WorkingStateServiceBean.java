@@ -69,7 +69,7 @@ public class WorkingStateServiceBean implements WorkingStateService {
 				false,
 				date
 			);
-			if(!isWorkingDay) {
+			if(!isWorkingDay && state.getStateHolidays().isEmpty()) {
 				isWorkingDay = dayService.isDayByDateAndIsWeekend(date, false);
 			}
 		}

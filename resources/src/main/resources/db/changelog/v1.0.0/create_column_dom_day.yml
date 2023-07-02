@@ -19,7 +19,6 @@ databaseChangeLog:
         - createIndex:
             clustered: true
             indexName: IDX_DD_DATE_OF_WEEK
-            schemaName: public
             tableName: DOM_DAY
             dbms: 'mysql, postgresql'
             columns:
@@ -28,7 +27,6 @@ databaseChangeLog:
         - createIndex:
             clustered: true
             indexName: IDX_DD_DATE_WEEKEND
-            schemaName: public
             tableName: DOM_DAY
             dbms: 'mysql, postgresql'
             columns:
@@ -39,7 +37,6 @@ databaseChangeLog:
         - createIndex:
             clustered: true
             indexName: IDX_DD_DATE_HOLIDAY
-            schemaName: public
             tableName: DOM_DAY
             dbms: 'mysql, postgresql'
             columns:

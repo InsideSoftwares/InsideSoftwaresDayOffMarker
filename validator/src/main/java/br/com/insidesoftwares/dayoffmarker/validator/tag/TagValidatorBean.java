@@ -1,13 +1,10 @@
 package br.com.insidesoftwares.dayoffmarker.validator.tag;
 
-import br.com.insidesoftwares.commons.utils.DateUtils;
-import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagCodeExistException;
-import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagExistDayException;
-import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagNotExistException;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.link.LinkDayRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagLinkRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagRequestDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.exception.error.day.DayNotExistException;
-import br.com.insidesoftwares.dayoffmarker.repository.DayRepository;
+import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagCodeExistException;
+import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagLinkOneParameterNotNullException;
+import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagNotExistException;
 import br.com.insidesoftwares.dayoffmarker.repository.TagRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.Validator;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.ValidatorLink;
@@ -15,25 +12,24 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.util.Objects;
 
 @Component
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-class TagValidatorBean implements Validator<Long, TagRequestDTO>, ValidatorLink<Long, LinkDayRequestDTO> {
+class TagValidatorBean implements Validator<Long, TagRequestDTO>, ValidatorLink<TagLinkRequestDTO> {
 
 	private final TagRepository tagRepository;
-	private final DayRepository dayRepository;
 
 	@Override
 	public void validator(final TagRequestDTO tagRequestDTO) {
-		if(tagRepository.existsByCode(tagRequestDTO.getCode())) throw new TagCodeExistException();
+		if(tagRepository.existsByCode(tagRequestDTO.code())) throw new TagCodeExistException();
 	}
 
 	@Override
 	public void validator(final Long tagID, final TagRequestDTO tagRequestDTO) {
 		if(!tagRepository.existsById(tagID)) throw new TagNotExistException();
-		if(tagRepository.existsByCodeAndNotId(tagRequestDTO.getCode(),tagID)) throw new TagCodeExistException();
+		if(tagRepository.existsByCodeAndNotId(tagRequestDTO.code(),tagID)) throw new TagCodeExistException();
 	}
 
 	@Override
@@ -42,14 +38,17 @@ class TagValidatorBean implements Validator<Long, TagRequestDTO>, ValidatorLink<
 	}
 
 	@Override
-	public void validateLink(
-			final Long tagID,
-			final LinkDayRequestDTO linkDayRequestDTO
-	) {
-		Long sizeDays = (long) linkDayRequestDTO.getDaysID().size();
-		if(!dayRepository.existsByDates(sizeDays , linkDayRequestDTO.getDaysID())) throw new DayNotExistException();
-		for (LocalDate date : linkDayRequestDTO.getDaysID()) {
-			if(dayRepository.existsByDateAndTag(date, tagID)) throw new TagExistDayException(DateUtils.returnDate(date));
-		}
+	public void validateLink(final TagLinkRequestDTO linkDayRequestDTO) {
+
+		if(
+			Objects.isNull(linkDayRequestDTO.dayOfWeek()) &&
+			Objects.isNull(linkDayRequestDTO.dayOfYear()) &&
+			Objects.isNull(linkDayRequestDTO.day()) &&
+			Objects.isNull(linkDayRequestDTO.month()) &&
+			Objects.isNull(linkDayRequestDTO.year())
+		) throw new TagLinkOneParameterNotNullException();
+
+		if()
+
 	}
 }

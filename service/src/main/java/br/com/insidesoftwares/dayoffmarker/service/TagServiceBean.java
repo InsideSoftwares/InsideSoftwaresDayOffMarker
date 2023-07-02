@@ -3,6 +3,7 @@ package br.com.insidesoftwares.dayoffmarker.service;
 import br.com.insidesoftwares.commons.dto.request.PaginationFilter;
 import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponse;
 import br.com.insidesoftwares.commons.utils.PaginationUtils;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagLinkRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.tag.TagResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.sort.eOrderTag;
@@ -13,6 +14,7 @@ import br.com.insidesoftwares.dayoffmarker.mapper.TagMapper;
 import br.com.insidesoftwares.dayoffmarker.repository.TagRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.service.TagService;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.Validator;
+import br.com.insidesoftwares.dayoffmarker.specification.validator.ValidatorLink;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
@@ -31,6 +33,7 @@ class TagServiceBean implements TagService {
     private final TagRepository tagRepository;
     private final TagMapper tagMapper;
 	private final Validator<Long, TagRequestDTO> tagValidator;
+	private final ValidatorLink<TagLinkRequestDTO> tagLinkValidator;
 
     @Override
     public InsideSoftwaresResponse<List<TagResponseDTO>> findAll(final PaginationFilter<eOrderTag> paginationFilter) {
@@ -84,11 +87,19 @@ class TagServiceBean implements TagService {
 
 		Tag tag = findTagById(tagID);
 
-		tag.setCode(tagRequestDTO.getCode());
-		tag.setDescription(tagRequestDTO.getDescription());
+		tag.setCode(tagRequestDTO.code());
+		tag.setDescription(tagRequestDTO.description());
 
 		tagRepository.save(tag);
     }
+
+	@Override
+	public void linkTagByDay(final TagLinkRequestDTO tagLinkRequestDTO) {
+
+		tagLinkValidator.validateLink(tagLinkRequestDTO);
+
+
+	}
 
 	private Tag findTagById(final Long tagID) {
 		return tagRepository.findById(tagID).orElseThrow(TagNotExistException::new);
