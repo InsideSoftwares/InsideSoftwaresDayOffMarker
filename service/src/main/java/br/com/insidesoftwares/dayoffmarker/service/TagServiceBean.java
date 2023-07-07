@@ -95,7 +95,6 @@ class TagServiceBean implements TagService {
 
 	@Override
 	public void linkTagByDay(final TagLinkRequestDTO tagLinkRequestDTO) {
-
 		tagLinkValidator.validateLink(tagLinkRequestDTO);
 
 

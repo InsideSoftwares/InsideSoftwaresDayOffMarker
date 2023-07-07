@@ -4,11 +4,10 @@ import br.com.insidesoftwares.commons.dto.request.PaginationFilter;
 import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponse;
 import br.com.insidesoftwares.commons.utils.PaginationUtils;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayBatchRequestDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayCreateRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.holiday.HolidayResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.sort.eOrderHoliday;
-import br.com.insidesoftwares.dayoffmarker.commons.exception.error.StartDateAfterEndDateException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.day.DayNotExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.holiday.HolidayDayExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.holiday.HolidayFromTimeNotInformedException;
@@ -17,18 +16,19 @@ import br.com.insidesoftwares.dayoffmarker.entity.Day;
 import br.com.insidesoftwares.dayoffmarker.entity.holiday.Holiday;
 import br.com.insidesoftwares.dayoffmarker.mapper.HolidayMapper;
 import br.com.insidesoftwares.dayoffmarker.repository.HolidayRepository;
+import br.com.insidesoftwares.dayoffmarker.specification.HolidaySpecification;
 import br.com.insidesoftwares.dayoffmarker.specification.service.DayService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.HolidayService;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.Validator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -50,21 +50,9 @@ class HolidayServiceBean implements HolidayService {
 
 		Pageable pageable = PaginationUtils.createPageable(paginationFilter);
 
-		Page<Holiday> holidays;
-		if(Objects.nonNull(startDate) && Objects.nonNull(endDate)) {
+		Specification<Holiday> holidaySpecification = HolidaySpecification.findAllByStartDateAndEndDate(startDate, endDate);
 
-			if (startDate.isAfter(endDate)) {
-				throw new StartDateAfterEndDateException();
-			}
-
-			holidays = holidayRepository.findAllByStartDateAndEndDate(
-					startDate,
-					endDate,
-					pageable
-			);
-		} else {
-			holidays = holidayRepository.findAll(pageable);
-		}
+		Page<Holiday> holidays = holidayRepository.findAll(holidaySpecification, pageable);
 
 		return InsideSoftwaresResponse.<List<HolidayResponseDTO>>builder()
 				.data(holidayMapper.toDTOs(holidays.getContent()))

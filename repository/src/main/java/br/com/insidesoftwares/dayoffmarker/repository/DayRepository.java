@@ -3,8 +3,10 @@ package br.com.insidesoftwares.dayoffmarker.repository;
 import br.com.insidesoftwares.dayoffmarker.entity.Day;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -14,44 +16,20 @@ import java.util.Optional;
 import java.util.Set;
 
 @Repository
-public interface DayRepository extends JpaRepository<Day, Long> {
+public interface DayRepository extends JpaRepository<Day, Long>, JpaSpecificationExecutor<Day> {
 
 	Optional<Day> findByDate(final LocalDate date);
 
 	@EntityGraph(value = "day-full")
 	Optional<Day> findDayByDate(final LocalDate date);
 
-	@Query("""
-            SELECT d FROM Day d
-            WHERE d.date BETWEEN :startDate AND :endDate
-            """)
-	@EntityGraph(value = "day-full")
-	Page<Day> findAllByStartDateAndEndDate(
-		LocalDate startDate,
-		LocalDate endDate,
-		Pageable pageable
-	);
 	@EntityGraph(value = "day-full")
 	@Override
-	Page<Day> findAll(Pageable pageable);
+	Page<Day> findAll(Specification<Day> daySpecification, Pageable pageable);
 
-	@Query("""
-			SELECT d
-			FROM Day d
-			INNER JOIN d.tags t
-			WHERE d.date = :date AND t.id = :tagID
-			""")
 	@EntityGraph(value = "day-full")
-	Optional<Day> findDayByDateAndTagId(final LocalDate date, final Long tagID);
-
-	@Query("""
-			SELECT d
-			FROM Day d
-			INNER JOIN d.tags t
-			WHERE d.date = :date AND LOWER(t.code) = LOWER(:tagCode)
-			""")
-	@EntityGraph(value = "day-full")
-	Optional<Day> findDayByDateAndTagCode(final LocalDate date, final String tagCode);
+	@Override
+	Optional<Day> findOne(Specification<Day> daySpecification);
 
 	@Query("SELECT MAX(d.date) FROM Day d WHERE d.date >= :date")
 	Optional<LocalDate> findMaxDateByDate(final LocalDate date);

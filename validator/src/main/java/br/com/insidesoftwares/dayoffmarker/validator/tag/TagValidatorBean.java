@@ -48,7 +48,14 @@ class TagValidatorBean implements Validator<Long, TagRequestDTO>, ValidatorLink<
 			Objects.isNull(linkDayRequestDTO.year())
 		) throw new TagLinkOneParameterNotNullException();
 
-		if()
+		if(
+				Objects.nonNull(linkDayRequestDTO.day()) &&
+				Objects.nonNull(linkDayRequestDTO.month()) &&
+				Objects.nonNull(linkDayRequestDTO.year())
+		) {
+
+		}
+
 
 	}
 }
