@@ -43,7 +43,7 @@
 			<lombok.version>1.18.28</lombok.version>
 			<gson.version>2.10.1</gson.version>
 
-			<h2database.version>2.1.214</h2database.version>
+			<h2database.version>2.2.220</h2database.version>
 			<javafaker.version>1.0.2</javafaker.version>
 
 			<postgres.version>42.6.0</postgres.version>
