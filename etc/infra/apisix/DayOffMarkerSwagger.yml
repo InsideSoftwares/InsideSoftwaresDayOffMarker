@@ -1,0 +1,17 @@
+uris:
+  - /dayoffmarker/swagger-ui/*
+  - /dayoffmarker/v3/api-docs/*
+  - /dayoffmarker/v3/api-docs
+name: Day Off Marker Swagger
+methods:
+  - GET
+  - POST
+  - PUT
+  - DELETE
+  - PATCH
+  - HEAD
+  - OPTIONS
+upstream_id: '468572754963071682'
+labels:
+  API_VERSION: v1.0.0
+status: 1

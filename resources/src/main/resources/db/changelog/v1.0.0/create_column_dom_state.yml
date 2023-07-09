@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: addColumn-DOM_STATE
+      author: System
+      changes:
+        - tagDatabase:
+            tag: v1.0.0
+        - addColumn:
+            tableName: DOM_STATE
+            columns:
+              - column:
+                  name: CODE
+                  autoIncrement: false
+                  type: VARCHAR(15)
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            columnNames: CODE
+            constraintName: UK_CODE_DOM_STATE
+            tableName: DOM_STATE
+            validate: true

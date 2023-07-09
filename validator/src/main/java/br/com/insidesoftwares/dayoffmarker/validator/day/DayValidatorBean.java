@@ -1,10 +1,10 @@
 package br.com.insidesoftwares.dayoffmarker.validator.day;
 
 import br.com.insidesoftwares.commons.utils.DateUtils;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.request.link.LinkTagRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.day.DayNotExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagExistDayException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagNotExistException;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.link.LinkTagRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.repository.DayRepository;
 import br.com.insidesoftwares.dayoffmarker.repository.TagRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.ValidatorLink;
@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @Component
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-class DayValidatorBean implements ValidatorLink<Long, LinkTagRequestDTO> {
+class DayValidatorBean implements ValidatorLink<LinkTagRequestDTO> {
 
 	private final DayRepository dayRepository;
 	private final TagRepository tagRepository;

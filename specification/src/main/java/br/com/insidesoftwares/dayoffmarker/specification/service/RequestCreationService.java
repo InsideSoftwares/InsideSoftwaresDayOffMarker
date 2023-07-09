@@ -6,6 +6,8 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public interface RequestCreationService {
 
-    String createInitialApplication(final String countryName);
+    String createInitialApplication();
+
+	String createLinkTagsInDays(final String user);
 
 }

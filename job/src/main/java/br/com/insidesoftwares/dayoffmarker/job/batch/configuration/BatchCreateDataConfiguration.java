@@ -2,7 +2,7 @@ package br.com.insidesoftwares.dayoffmarker.job.batch.configuration;
 
 import br.com.insidesoftwares.dayoffmarker.entity.Day;
 import br.com.insidesoftwares.dayoffmarker.entity.DayBatch;
-import br.com.insidesoftwares.dayoffmarker.entity.Request;
+import br.com.insidesoftwares.dayoffmarker.entity.request.Request;
 import br.com.insidesoftwares.dayoffmarker.job.batch.listener.DayOffMarkerJobListener;
 import br.com.insidesoftwares.dayoffmarker.job.batch.process.ProcessorDay;
 import br.com.insidesoftwares.dayoffmarker.job.batch.process.ProcessorDayBatch;

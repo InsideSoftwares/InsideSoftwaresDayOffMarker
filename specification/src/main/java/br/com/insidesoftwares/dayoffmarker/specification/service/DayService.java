@@ -33,6 +33,12 @@ public interface DayService {
 
 	boolean isDayByDateAndIsWeekend(final LocalDate date, final boolean isWeekend);
 
+	boolean isDaysWithoutHolidaysByByDayAndMonthAndFixedHolidayIDOrNotHoliday(
+		final Integer day,
+		final Integer month,
+		final Long fixedHolidayID
+	);
+
 	InsideSoftwaresResponse<List<DayDTO>> getAllDays(
 		final LocalDate startDate,
 		final LocalDate endDate,

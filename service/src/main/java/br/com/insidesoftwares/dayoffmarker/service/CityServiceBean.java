@@ -15,7 +15,7 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.error.city.CityNotE
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.holiday.HolidayNotExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.state.StateNotExistException;
 import br.com.insidesoftwares.dayoffmarker.entity.Country;
-import br.com.insidesoftwares.dayoffmarker.entity.Holiday;
+import br.com.insidesoftwares.dayoffmarker.entity.holiday.Holiday;
 import br.com.insidesoftwares.dayoffmarker.entity.city.City;
 import br.com.insidesoftwares.dayoffmarker.entity.city.CityHoliday;
 import br.com.insidesoftwares.dayoffmarker.entity.city.CityHolidayPK;

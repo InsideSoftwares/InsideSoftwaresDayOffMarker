@@ -149,5 +149,4 @@ public class WorkingDayServiceBean implements WorkingDayService {
 		return future ? data.plusDays(rangeAbs) : data.minusDays(rangeAbs);
 	}
 
-
 }

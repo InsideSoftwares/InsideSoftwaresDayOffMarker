@@ -3,6 +3,8 @@ databaseChangeLog:
       id: create_DOM_COUNTRY
       author: System
       changes:
+        - tagDatabase:
+            tag: INIT
         - createTable:
             tableName: DOM_COUNTRY
             dbms: 'mysql, postgresql'
@@ -52,6 +54,8 @@ databaseChangeLog:
       id: create_DOM_DAY
       author: System
       changes:
+        - tagDatabase:
+            tag: INIT
         - createTable:
             tableName: DOM_DAY
             dbms:  'mysql, postgresql'
@@ -91,6 +95,8 @@ databaseChangeLog:
       id: create_DOM_STATE
       author: System
       changes:
+        - tagDatabase:
+            tag: INIT
         - createTable:
             tableName: DOM_STATE
             dbms:  'mysql, postgresql'
@@ -139,6 +145,8 @@ databaseChangeLog:
       id: create_DOM_CITY
       author: System
       changes:
+        - tagDatabase:
+            tag: INIT
         - createTable:
             tableName: DOM_CITY
             dbms: 'mysql, postgresql'
@@ -198,6 +206,8 @@ databaseChangeLog:
       id: create_DOM_HOLIDAY
       author: System
       changes:
+        - tagDatabase:
+            tag: INIT
         - createTable:
             tableName: DOM_HOLIDAY
             dbms: 'mysql, postgresql'
@@ -267,6 +277,8 @@ databaseChangeLog:
       id: create_DOM_CITY_HOLIDAY
       author: System
       changes:
+        - tagDatabase:
+            tag: INIT
         - createTable:
             tableName: DOM_CITY_HOLIDAY
             dbms: 'mysql, postgresql'
@@ -307,6 +319,8 @@ databaseChangeLog:
       id: create_DOM_STATE_HOLIDAY
       author: System
       changes:
+        - tagDatabase:
+            tag: INIT
         - createTable:
             tableName: DOM_STATE_HOLIDAY
             dbms: 'mysql, postgresql'
@@ -347,6 +361,8 @@ databaseChangeLog:
       id: create_DOM_FIXED_HOLIDAY
       author: System
       changes:
+        - tagDatabase:
+            tag: INIT
         - createTable:
             tableName: DOM_FIXED_HOLIDAY
             dbms: 'mysql, postgresql'
@@ -405,6 +421,8 @@ databaseChangeLog:
       id: create_DOM_CONFIGURATION
       author: System
       changes:
+        - tagDatabase:
+            tag: INIT
         - createTable:
             tableName: DOM_CONFIGURATION
             dbms: 'mysql, postgresql'
@@ -450,6 +468,8 @@ databaseChangeLog:
       id: create_DOM_REQUEST
       author: System
       changes:
+        - tagDatabase:
+            tag: INIT
         - createTable:
             tableName: DOM_REQUEST
             dbms: 'mysql, postgresql'
@@ -508,6 +528,8 @@ databaseChangeLog:
       id: create_DOM_REQUEST_PARAMETER
       author: System
       changes:
+        - tagDatabase:
+            tag: INIT
         - createTable:
             tableName: DOM_REQUEST_PARAMETER
             dbms: 'mysql, postgresql'
@@ -552,6 +574,8 @@ databaseChangeLog:
       id: create_DOM_DAY_BATCH
       author: System
       changes:
+        - tagDatabase:
+            tag: INIT
         - createTable:
             tableName: DOM_DAY_BATCH
             dbms: 'mysql, postgresql'
@@ -603,6 +627,8 @@ databaseChangeLog:
       id: create_DOM_TAG
       author: System
       changes:
+        - tagDatabase:
+            tag: INIT
         - createTable:
             tableName: DOM_TAG
             dbms: 'mysql, postgresql'
@@ -636,6 +662,8 @@ databaseChangeLog:
       id: create_DOM_DAY_TAG
       author: System
       changes:
+        - tagDatabase:
+            tag: INIT
         - createTable:
             tableName: DOM_DAY_TAG
             dbms: 'mysql, postgresql'

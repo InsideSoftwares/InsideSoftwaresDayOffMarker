@@ -3,7 +3,7 @@ package br.com.insidesoftwares.dayoffmarker.service.working;
 import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponse;
 import br.com.insidesoftwares.commons.utils.InsideSoftwaresResponseUtils;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.working.WorkingCurrentDayResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.entity.Holiday;
+import br.com.insidesoftwares.dayoffmarker.entity.holiday.Holiday;
 import br.com.insidesoftwares.dayoffmarker.entity.city.City;
 import br.com.insidesoftwares.dayoffmarker.entity.city.CityHoliday;
 import br.com.insidesoftwares.dayoffmarker.entity.state.StateHoliday;
@@ -84,7 +84,7 @@ public class WorkingCityServiceBean implements WorkingCityService {
 				})
 				.anyMatch(cityHoliday -> !cityHoliday.isCityHoliday());
 
-			if(!isWorkingDay) {
+			if(!isWorkingDay && city.getCityHolidays().isEmpty()) {
 				isWorkingDay = dayService.isDayByDateAndIsWeekend(date, false);
 			}
 		}

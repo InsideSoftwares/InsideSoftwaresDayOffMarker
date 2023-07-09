@@ -5,7 +5,7 @@
     <parent>
         <artifactId>init</artifactId>
         <groupId>br.com.insidesoftwares.dayoffmarker</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -16,30 +16,6 @@
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
-		<profiles>
-			<profile>
-				<id>azure</id>
-				<activation>
-					<activeByDefault>true</activeByDefault>
-				</activation>
-				<dependencies>
-					<dependency>
-						<groupId>br.com.insidesoftwares.securitycommons</groupId>
-						<artifactId>azure-active-directory</artifactId>
-					</dependency>
-				</dependencies>
-			</profile>
-			<profile>
-				<id>keycloak</id>
-				<dependencies>
-					<dependency>
-						<groupId>br.com.insidesoftwares.securitycommons</groupId>
-						<artifactId>keycloak</artifactId>
-					</dependency>
-				</dependencies>
-			</profile>
-		</profiles>
-
     <dependencies>
 			<dependency>
 				<groupId>br.com.insidesoftwares</groupId>
@@ -48,6 +24,10 @@
 			<dependency>
 				<groupId>br.com.insidesoftwares</groupId>
 				<artifactId>exception</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>br.com.insidesoftwares.securitycommons</groupId>
+				<artifactId>security</artifactId>
 			</dependency>
 
 			<dependency>
@@ -68,11 +48,6 @@
 				<artifactId>mapstruct</artifactId>
 			</dependency>
 			<dependency>
-				<groupId>com.github.javafaker</groupId>
-				<artifactId>javafaker</artifactId>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
 				<groupId>com.google.code.gson</groupId>
 				<artifactId>gson</artifactId>
 			</dependency>
@@ -88,9 +63,34 @@
 				<groupId>org.springframework.data</groupId>
 				<artifactId>spring-data-commons</artifactId>
 			</dependency>
+			<!-- Unit Test Dependencies-->
+			<dependency>
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter</artifactId>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-core</artifactId>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-inline</artifactId>
+				<scope>test</scope>
+			</dependency>
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-test</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.junit.platform</groupId>
+				<artifactId>junit-platform-launcher</artifactId>
 				<scope>test</scope>
 			</dependency>
 		</dependencies>
@@ -115,7 +115,7 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.8</version>
+				<version>0.8.10</version>
 				<executions>
 					<execution>
 						<id>default-prepare-agent</id>

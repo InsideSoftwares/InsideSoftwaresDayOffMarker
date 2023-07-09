@@ -1,7 +1,7 @@
 package br.com.insidesoftwares.dayoffmarker.job.batch.write;
 
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayRequestDTO;
-import br.com.insidesoftwares.dayoffmarker.specification.batch.BatchUpdateHolidayService;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayCreateRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.specification.batch.BatchHolidayService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
@@ -11,12 +11,12 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class WriteHolidayRequestDTOList implements ItemWriter<List<HolidayRequestDTO>> {
+public class WriteHolidayRequestDTOList implements ItemWriter<List<HolidayCreateRequestDTO>> {
 
-    private final BatchUpdateHolidayService batchUpdateHolidayService;
+    private final BatchHolidayService batchHolidayService;
 
     @Override
-    public void write(Chunk<? extends List<HolidayRequestDTO>> lists)  {
-        lists.forEach(holidayRequestDTOS -> holidayRequestDTOS.forEach(batchUpdateHolidayService::updateHoliday));
+    public void write(Chunk<? extends List<HolidayCreateRequestDTO>> lists)  {
+        lists.forEach(holidayRequestDTOS -> holidayRequestDTOS.forEach(batchHolidayService::createHoliday));
     }
 }

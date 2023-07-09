@@ -8,7 +8,6 @@ import br.com.insidesoftwares.commons.utils.PaginationUtils;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.link.LinkTagRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.day.DayDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.sort.eOrderDay;
-import br.com.insidesoftwares.dayoffmarker.commons.exception.error.StartDateAfterEndDateException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.day.DayNotExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.day.DaysNotConfiguredException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagExistDayException;
@@ -18,12 +17,14 @@ import br.com.insidesoftwares.dayoffmarker.entity.Tag;
 import br.com.insidesoftwares.dayoffmarker.mapper.DayMapper;
 import br.com.insidesoftwares.dayoffmarker.repository.DayRepository;
 import br.com.insidesoftwares.dayoffmarker.repository.TagRepository;
+import br.com.insidesoftwares.dayoffmarker.specification.DaySpecification;
 import br.com.insidesoftwares.dayoffmarker.specification.service.DayService;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.ValidatorLink;
 import br.com.insidesoftwares.exception.error.InsideSoftwaresException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +41,7 @@ class DayServiceBean implements DayService {
 
     private final DayRepository dayRepository;
 	private final TagRepository tagRepository;
-	private final ValidatorLink<Long,LinkTagRequestDTO> validateLink;
+	private final ValidatorLink<LinkTagRequestDTO> validateLink;
 	private final DayMapper dayMapper;
 
 	@Transactional(rollbackFor = {
@@ -122,21 +123,7 @@ class DayServiceBean implements DayService {
 	) {
 		Pageable pageable = PaginationUtils.createPageable(paginationFilter);
 
-		Page<Day> days;
-		if(Objects.nonNull(startDate) && Objects.nonNull(endDate)) {
-
-			if (startDate.isAfter(endDate)) {
-				throw new StartDateAfterEndDateException();
-			}
-
-			days = dayRepository.findAllByStartDateAndEndDate(
-				startDate,
-				endDate,
-				pageable
-			);
-		} else {
-			days = dayRepository.findAll(pageable);
-		}
+		Page<Day> days = dayRepository.findAll(DaySpecification.findAllByStartDateAndEndDate(startDate, endDate), pageable);
 
 		return InsideSoftwaresResponse.<List<DayDTO>>builder()
 			.data(dayMapper.toDTOs(days.getContent()))
@@ -160,17 +147,9 @@ class DayServiceBean implements DayService {
 	@Override
 	public InsideSoftwaresResponse<DayDTO> getDayByDate(final LocalDate date, final Long tagID, final String tagCode) {
 
-		Day day;
+		Specification<Day> daySpecification = DaySpecification.findDayByDateOrTag(date, tagID, tagCode);
 
-		if(Objects.isNull(tagID) && Objects.isNull(tagCode)) {
-			day = dayRepository.findDayByDate(date).orElseThrow(DayNotExistException::new);
-		} else {
-			if (Objects.nonNull(tagID) && Objects.isNull(tagCode)) {
-				day = dayRepository.findDayByDateAndTagId(date, tagID).orElseThrow(DayNotExistException::new);
-			} else {
-				day = dayRepository.findDayByDateAndTagCode(date, tagCode).orElseThrow(DayNotExistException::new);
-			}
-		}
+		Day day = dayRepository.findOne(daySpecification).orElseThrow(DayNotExistException::new);
 
 		return InsideSoftwaresResponseUtils.wrapResponse(dayMapper.toDayDTO(day));
 	}
@@ -220,6 +199,16 @@ class DayServiceBean implements DayService {
 	@Override
 	public boolean isDayByDateAndIsWeekend(final LocalDate date, final boolean isWeekend) {
 		return dayRepository.isWorkingDayByDateAndIsWeekend(date, isWeekend);
+	}
+
+	@Override
+	public boolean isDaysWithoutHolidaysByByDayAndMonthAndFixedHolidayIDOrNotHoliday(
+		final Integer day,
+		final Integer month,
+		final Long fixedHolidayID
+	) {
+		Integer year = DateUtils.getDateCurrent().getYear();
+		return dayRepository.isDaysWithoutHolidaysByByDayAndMonthAndYearAndFixedHolidayIDOrNotHoliday(day, month, year, fixedHolidayID);
 	}
 
 	@Override

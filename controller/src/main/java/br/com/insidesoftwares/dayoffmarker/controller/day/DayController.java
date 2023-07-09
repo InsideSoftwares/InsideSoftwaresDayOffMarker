@@ -11,6 +11,12 @@ import br.com.insidesoftwares.dayoffmarker.commons.enumeration.sort.eOrderDay;
 import br.com.insidesoftwares.dayoffmarker.specification.service.DayService;
 import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
 import com.trendyol.jdempotent.core.annotation.JdempotentResource;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -23,12 +29,21 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 
+@Tag(name = "Day", description = "Performs a search on the days registered in the system")
 @InsideSoftwaresController
 @RequiredArgsConstructor
 public class DayController {
 
 	private final DayService dayService;
 
+	@Operation(
+		summary = "Get All Day",
+		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.Day.Read"}),
+		parameters = {
+			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+		}
+	)
 	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.Day.Read')")
 	@InsideRequestGet(uri = "/v1/day", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_DAY")
 	public InsideSoftwaresResponse<List<DayDTO>> findAll(
@@ -39,6 +54,14 @@ public class DayController {
 		return dayService.getAllDays(startDate, endDate, paginationFilter);
 	}
 
+	@Operation(
+		summary = "Link Tag on Day by Id",
+		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Write", "DayOff.Day.Write"}),
+		parameters = {
+			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+		}
+	)
 	@PreAuthorize("hasAnyRole('DayOff.Write','DayOff.Day.Write')")
 	@InsideRequestPost(uri = "/v1/day/{id}/link-tags", httpCode = HttpStatus.ACCEPTED,
 		nameCache = {"DAYOFF_MARKER_TAG", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_WORKING"}
@@ -52,6 +75,14 @@ public class DayController {
 		return InsideSoftwaresResponse.<Void>builder().build();
 	}
 
+	@Operation(
+		summary = "Unlink Tag on Day by Id",
+		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Write", "DayOff.Day.Write"}),
+		parameters = {
+			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+		}
+	)
 	@PreAuthorize("hasAnyRole('DayOff.Write','DayOff.Day.Write')")
 	@InsideRequestPost(uri = "/v1/day/{id}/unlink-tags", httpCode = HttpStatus.ACCEPTED,
 		nameCache = {"DAYOFF_MARKER_TAG", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_WORKING"}
@@ -65,12 +96,28 @@ public class DayController {
 		return InsideSoftwaresResponse.<Void>builder().build();
 	}
 
+	@Operation(
+		summary = "Get Day by Id",
+		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.Day.Read"}),
+		parameters = {
+			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+		}
+	)
 	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.Day.Read')")
 	@InsideRequestGet(uri = "/v1/day/{id}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_DAY")
 	public InsideSoftwaresResponse<DayDTO> findById(@PathVariable final Long id) {
 		return dayService.getDayByID(id);
 	}
 
+	@Operation(
+		summary = "Get Day by Date",
+		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.Day.Read"}),
+		parameters = {
+			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+		}
+	)
 	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.Day.Read')")
 	@InsideRequestGet(uri = "/v1/day/date/{date}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_DAY")
 	public InsideSoftwaresResponse<DayDTO> findDayByDate(
@@ -81,6 +128,14 @@ public class DayController {
 		return dayService.getDayByDate(date, tagID, tagCode);
 	}
 
+	@Operation(
+		summary = "Get Day by Tag Id",
+		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.Day.Read"}),
+		parameters = {
+			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+		}
+	)
 	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.Day.Read')")
 	@InsideRequestGet(uri = "/v1/day/tag/{tagID}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_DAY")
 	public InsideSoftwaresResponse<List<DayDTO>> findDaysByTag(
@@ -89,6 +144,14 @@ public class DayController {
 		return dayService.getDaysByTag(tagID);
 	}
 
+	@Operation(
+		summary = "Get Day by Tag Code",
+		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.Day.Read"}),
+		parameters = {
+			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+		}
+	)
 	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.Day.Read')")
 	@InsideRequestGet(uri = "/v1/day/tag/code/{codeTag}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_DAY")
 	public InsideSoftwaresResponse<List<DayDTO>> findDaysByTag(
@@ -97,12 +160,28 @@ public class DayController {
 		return dayService.getDaysByTag(codeTag);
 	}
 
+	@Operation(
+		summary = "Get All Day by Current Month",
+		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.Day.Read"}),
+		parameters = {
+			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+		}
+	)
 	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.Day.Read')")
 	@InsideRequestGet(uri = "/v1/day/current/month", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_DAY")
 	public InsideSoftwaresResponse<List<DayDTO>> findDaysOfCurrentMonth() {
 		return dayService.getDaysOfCurrentMonth();
 	}
 
+	@Operation(
+		summary = "Get All Day By Month",
+		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.Day.Read"}),
+		parameters = {
+			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+		}
+	)
 	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.Day.Read')")
 	@InsideRequestGet(uri = "/v1/day/month/{month}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_DAY")
 	public InsideSoftwaresResponse<List<DayDTO>> findDaysOfMonth(

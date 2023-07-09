@@ -8,9 +8,9 @@ import br.com.insidesoftwares.dayoffmarker.specification.service.DayService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.FixedHolidayService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.RequestService;
 import br.com.insidesoftwares.dayoffmarker.commons.logger.LogService;
-import br.com.insidesoftwares.dayoffmarker.entity.FixedHoliday;
-import br.com.insidesoftwares.dayoffmarker.entity.Request;
-import br.com.insidesoftwares.dayoffmarker.entity.RequestParameter;
+import br.com.insidesoftwares.dayoffmarker.entity.holiday.FixedHoliday;
+import br.com.insidesoftwares.dayoffmarker.entity.request.Request;
+import br.com.insidesoftwares.dayoffmarker.entity.request.RequestParameter;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.RequestValidator;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -42,8 +42,8 @@ public class HolidayJobServiceBean {
 	private final JobExplorer jobExplorer;
 
 	@Autowired
-	@Qualifier("jobUpdateHoliday")
-	private Job jobUpdateHoliday;
+	@Qualifier("jobCreateHoliday")
+	private Job jobCreateHoliday;
 
 	private static final String USER_REQUESTING = "System";
 
@@ -53,49 +53,59 @@ public class HolidayJobServiceBean {
 		logService.logInfor("Init HolidayJobServiceBean");
 	}
 
-	public void updateHolidayFromFixedHoliday(){
+	public void createHolidayFromFixedHoliday(){
 		try {
-			logService.logInfor("Starting the update of holidays.");
+			logService.logInfor("Starting the create of holidays.");
 			if(
 					dayService.ownsDays() &&
-					!requestService.existRequestByTypeAndStatusRequest(TypeRequest.UPDATE_HOLIDAY, StatusRequest.CREATED)
+					!requestService.existRequestByTypeAndStatusRequest(TypeRequest.CREATE_HOLIDAY, StatusRequest.CREATED)
 			) {
 
-				logService.logInfor("Update the Holidays.");
-				List<FixedHoliday> fixedHolidays = fixedHolidayService.findAll();
+				logService.logInfor("Create the Holidays.");
+				List<FixedHoliday> fixedHolidays = fixedHolidayService.findAllByEnable(true);
 
 				fixedHolidays.forEach(fixedHoliday -> {
 					try {
-						Request newRequest = createRequest(fixedHoliday.getId());
-						requestService.saveRequest(newRequest);
+ 						boolean isDayNotHoliday = dayService.isDaysWithoutHolidaysByByDayAndMonthAndFixedHolidayIDOrNotHoliday(
+							fixedHoliday.getDay(),
+							fixedHoliday.getMonth(),
+							fixedHoliday.getId()
+						);
+
+						if(isDayNotHoliday){
+							Request newRequest = createRequest(fixedHoliday.getId());
+							requestService.saveRequest(newRequest);
+						} else {
+							logService.logInfor("No days without holidays");
+						}
 					} catch (Exception e) {
-						logService.logError("It was not possible to update the Holidays.", e);
+						logService.logError("It was not possible to create the Holidays.", e);
 					} finally {
-						logService.logInfor("Finishing the update of Holidays.");
+						logService.logInfor("Finishing the create of Holidays.");
 					}
 				});
 
 			}
 
 		}catch (Exception e){
-			logService.logError("It was not possible to update the Holidays.", e);
+			logService.logError("It was not possible to create the Holidays.", e);
 		} finally {
-			logService.logInfor("Finishing the update of Holidays.");
+			logService.logInfor("Finishing the create of Holidays.");
 		}
 	}
 
 	public void schedulingRunBatch(){
 		try {
-			if(requestService.existRequestByTypeAndStatusRequest(TypeRequest.UPDATE_HOLIDAY, StatusRequest.CREATED)) {
+			if(requestService.existRequestByTypeAndStatusRequest(TypeRequest.CREATE_HOLIDAY, StatusRequest.CREATED)) {
 				JobParameters jobParameters = new JobParametersBuilder(this.jobExplorer)
-						.getNextJobParameters(jobUpdateHoliday)
+						.getNextJobParameters(jobCreateHoliday)
 						.toJobParameters();
 
-				jobLauncher.run(jobUpdateHoliday, jobParameters);
-				logService.logError("Starting batch for update holiday.");
+				jobLauncher.run(jobCreateHoliday, jobParameters);
+				logService.logError("Starting batch for create holiday.");
 			}
 		}catch (Exception e){
-			logService.logError("Error starting batch for update holiday.", e);
+			logService.logError("Error starting batch for create holiday.", e);
 		}
 	}
 
@@ -107,7 +117,7 @@ public class HolidayJobServiceBean {
 		Request newRequest =  Request.builder()
 				.id(keyRequest)
 				.statusRequest(StatusRequest.CREATED)
-				.typeRequest(TypeRequest.UPDATE_HOLIDAY)
+				.typeRequest(TypeRequest.CREATE_HOLIDAY)
 				.createDate(LocalDateTime.now())
 				.requesting(USER_REQUESTING)
 				.build();
@@ -139,7 +149,7 @@ public class HolidayJobServiceBean {
 						.build()
 		);
 
-		requestValidator.validRequestUpdateHoliday(requestParameters);
+		requestValidator.validRequestCreateHoliday(requestParameters);
 
 		return requestParameters;
 	}

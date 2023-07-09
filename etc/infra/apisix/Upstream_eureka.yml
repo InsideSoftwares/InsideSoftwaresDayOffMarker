@@ -1,0 +1,16 @@
+retries: 5
+timeout:
+  connect: 15
+  send: 10
+  read: 10
+type: roundrobin
+scheme: http
+discovery_type: eureka
+pass_host: node
+name: Day Off Marker
+service_name: INSIDEDAYOFFMARKER
+keepalive_pool:
+  idle_timeout: 0
+  requests: 5000
+  size: 4000
+retry_timeout: 5

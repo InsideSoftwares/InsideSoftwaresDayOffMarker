@@ -15,7 +15,7 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.error.state.StateCo
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.state.StateNameCountryAcronymExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.state.StateNotExistException;
 import br.com.insidesoftwares.dayoffmarker.entity.Country;
-import br.com.insidesoftwares.dayoffmarker.entity.Holiday;
+import br.com.insidesoftwares.dayoffmarker.entity.holiday.Holiday;
 import br.com.insidesoftwares.dayoffmarker.entity.state.State;
 import br.com.insidesoftwares.dayoffmarker.entity.state.StateHoliday;
 import br.com.insidesoftwares.dayoffmarker.entity.state.StateHolidayPK;
@@ -96,6 +96,7 @@ class StateServiceBean implements StateService {
         State state = State.builder()
                 .name(stateRequestDTO.name())
                 .acronym(stateRequestDTO.acronym())
+				.code(stateRequestDTO.code())
                 .country(country)
                 .build();
 
@@ -119,6 +120,7 @@ class StateServiceBean implements StateService {
 
         state.setName(stateRequestDTO.name());
         state.setAcronym(stateRequestDTO.acronym());
+		state.setCode(stateRequestDTO.code());
         stateRepository.save(state);
     }
 

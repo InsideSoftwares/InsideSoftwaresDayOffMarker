@@ -3,6 +3,8 @@ databaseChangeLog:
       id: insert_configuration
       author: System
       changes:
+        - tagDatabase:
+            tag: INIT
         - insert:
             dbms: 'mysql, postgresql'
             tableName: DOM_CONFIGURATION

@@ -1,22 +1,23 @@
 package br.com.insidesoftwares.dayoffmarker.validator.tag;
 
+import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagCodeExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagNotExistException;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.repository.DayRepository;
 import br.com.insidesoftwares.dayoffmarker.repository.TagRepository;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {TagValidatorBeanTest.class, TagValidatorBean.class})
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {TagValidatorBean.class, TagRepository.class, DayRepository.class})
 public class TagValidatorBeanTest {
 
 	@MockBean
@@ -42,7 +43,7 @@ public class TagValidatorBeanTest {
 	@Test
 	public void shouldThrowExceptionByRunningMethodValidatorDTOParameter() {
 		Mockito.when(tagRepository.existsByCode(ArgumentMatchers.anyString())).thenReturn(true);
-		Assert.assertThrows(
+		assertThrows(
 				TagCodeExistException.class,
 				() -> tagValidatorBean.validator(createTagRequestDTO(ERROR))
 		);
@@ -67,7 +68,7 @@ public class TagValidatorBeanTest {
 	public void shouldThrowExceptionTagNotExistExceptionByRunningMethodValidatorLongAndDTOParameter() {
 		Mockito.when(tagRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
 
-		Assert.assertThrows(
+		assertThrows(
 				TagNotExistException.class,
 				() -> tagValidatorBean.validator(TAG_ID, createTagRequestDTO(ERROR))
 		);
@@ -83,7 +84,7 @@ public class TagValidatorBeanTest {
 				tagRepository.existsByCodeAndNotId(ArgumentMatchers.anyString(), ArgumentMatchers.anyLong())
 		).thenReturn(true);
 
-		Assert.assertThrows(
+		assertThrows(
 				TagCodeExistException.class,
 				() -> tagValidatorBean.validator(TAG_ID, createTagRequestDTO(ERROR))
 		);
@@ -103,7 +104,7 @@ public class TagValidatorBeanTest {
 	@Test
 	public void shouldThrowExceptionByRunningMethodValidatorLongParameter() {
 		Mockito.when(tagRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
-		Assert.assertThrows(
+		assertThrows(
 				TagNotExistException.class,
 				() -> tagValidatorBean.validator(TAG_ID)
 		);

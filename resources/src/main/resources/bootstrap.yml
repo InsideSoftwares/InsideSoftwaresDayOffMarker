@@ -7,6 +7,8 @@ spring:
   liquibase:
     database-change-log-lock-table: DOM_DATABASECHANGELOGLOCK
     database-change-log-table: DOM_DATABASECHANGELOG
+  mvc:
+    locale: pt-BR
 
 liquibase:
   change-log: classpath:db.changelog-master.yaml
@@ -23,3 +25,12 @@ management:
         include: "*"
     health:
       show-details: always
+
+springdoc:
+  packages-to-scan: br.com.insidesoftwares.dayoffmarker.controller
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  swagger-ui:
+    operationsSorter: method
+    tagsSorter: alpha
+    filter: true

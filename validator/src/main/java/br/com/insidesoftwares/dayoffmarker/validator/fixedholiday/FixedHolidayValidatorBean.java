@@ -2,7 +2,7 @@ package br.com.insidesoftwares.dayoffmarker.validator.fixedholiday;
 
 import br.com.insidesoftwares.commons.utils.DateUtils;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.FixedHolidayRequestDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.exception.error.DayMonthInvalidException;
+import br.com.insidesoftwares.dayoffmarker.commons.exception.error.day.DayMonthInvalidException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.fixedholiday.FixedHolidayDayMonthCountryExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.fixedholiday.FixedHolidayNotExistException;
 import br.com.insidesoftwares.dayoffmarker.repository.FixedHolidayRepository;

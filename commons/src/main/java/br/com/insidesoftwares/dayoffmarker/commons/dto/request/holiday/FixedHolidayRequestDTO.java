@@ -29,7 +29,8 @@ public record FixedHolidayRequestDTO(
 	@NotNull(message = "DOMV-003")
 	Boolean isOptional,
 
-	LocalTime fromTime
+	LocalTime fromTime,
+	Boolean isEnable
 ) implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;

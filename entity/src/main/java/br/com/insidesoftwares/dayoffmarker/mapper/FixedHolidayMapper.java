@@ -1,7 +1,7 @@
 package br.com.insidesoftwares.dayoffmarker.mapper;
 
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.fixedholiday.FixedHolidayResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.entity.FixedHoliday;
+import br.com.insidesoftwares.dayoffmarker.entity.holiday.FixedHoliday;
 import org.mapstruct.Mapper;
 
 import java.util.List;

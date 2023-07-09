@@ -63,7 +63,6 @@ spring:
         size: 5
 
 application:
-  view_response_json: true
   scheduling:
     day:
       create_date:
@@ -74,10 +73,11 @@ application:
     cache:
       clean: "0 0 */12 * * *"
     holiday:
-      update:
+      create:
         cron: "0 0 */1 * * *"
       batch:
-        cron: "0 10 */1 * * *"
+        create:
+          cron: "0 10 */1 * * *"
 
 dom:
   taskexecutor:

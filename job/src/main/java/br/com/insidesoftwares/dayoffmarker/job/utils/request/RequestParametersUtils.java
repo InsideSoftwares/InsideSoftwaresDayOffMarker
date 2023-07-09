@@ -1,7 +1,7 @@
 package br.com.insidesoftwares.dayoffmarker.job.utils.request;
 
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeParameter;
-import br.com.insidesoftwares.dayoffmarker.entity.RequestParameter;
+import br.com.insidesoftwares.dayoffmarker.entity.request.RequestParameter;
 
 import java.util.Objects;
 import java.util.Optional;

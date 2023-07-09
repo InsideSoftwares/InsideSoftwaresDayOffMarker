@@ -1,25 +1,26 @@
 package br.com.insidesoftwares.dayoffmarker.validator.city;
 
+import br.com.insidesoftwares.dayoffmarker.commons.dto.request.city.CityRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.city.CityCodeAcronymStateExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.city.CityCodeStateExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.city.CityNameStateExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.city.CityNotExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.state.StateNotExistException;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.city.CityRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.repository.city.CityRepository;
 import br.com.insidesoftwares.dayoffmarker.repository.state.StateRepository;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {CityValidatorBeanBeanTest.class, CityValidatorBean.class})
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = { CityValidatorBean.class })
 public class CityValidatorBeanBeanTest {
 
 	@MockBean
@@ -73,7 +74,7 @@ public class CityValidatorBeanBeanTest {
 	@Test
 	public void shouldThrowExceptionStateNotExistExceptionByRunningMethodValidatorDTOParameter() {
 		Mockito.when(stateRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
-		Assert.assertThrows(
+		assertThrows(
 				StateNotExistException.class,
 				() -> cityValidatorBean.validator(createCityRequestDTO())
 		);
@@ -98,7 +99,7 @@ public class CityValidatorBeanBeanTest {
 				)
 		).thenReturn(true);
 
-		Assert.assertThrows(
+		assertThrows(
 				CityCodeAcronymStateExistException.class,
 				() -> cityValidatorBean.validator(createCityRequestDTO())
 		);
@@ -129,7 +130,7 @@ public class CityValidatorBeanBeanTest {
 				)
 		).thenReturn(true);
 
-		Assert.assertThrows(
+		assertThrows(
 				CityCodeStateExistException.class,
 				() -> cityValidatorBean.validator(createCityRequestDTO())
 		);
@@ -166,7 +167,7 @@ public class CityValidatorBeanBeanTest {
 				)
 		).thenReturn(true);
 
-		Assert.assertThrows(
+		assertThrows(
 				CityNameStateExistException.class,
 				() -> cityValidatorBean.validator(createCityRequestDTO())
 		);
@@ -222,7 +223,7 @@ public class CityValidatorBeanBeanTest {
 	@Test
 	public void shouldThrowExceptionCityNotExistExceptionByRunningMethodValidatorLongAndDTOParameter() {
 		Mockito.when(cityRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
-		Assert.assertThrows(
+		assertThrows(
 				CityNotExistException.class,
 				() -> cityValidatorBean.validator(CITY_ID, createCityRequestDTO())
 		);
@@ -241,7 +242,7 @@ public class CityValidatorBeanBeanTest {
 	public void shouldThrowExceptionStateNotExistExceptionByRunningMethodValidatorLongAndDTOParameter() {
 		Mockito.when(cityRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
 		Mockito.when(stateRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
-		Assert.assertThrows(
+		assertThrows(
 				StateNotExistException.class,
 				() -> cityValidatorBean.validator(CITY_ID, createCityRequestDTO())
 		);
@@ -269,7 +270,7 @@ public class CityValidatorBeanBeanTest {
 				)
 		).thenReturn(true);
 
-		Assert.assertThrows(
+		assertThrows(
 				CityCodeAcronymStateExistException.class,
 				() -> cityValidatorBean.validator(CITY_ID, createCityRequestDTO())
 		);
@@ -304,7 +305,7 @@ public class CityValidatorBeanBeanTest {
 				)
 		).thenReturn(true);
 
-		Assert.assertThrows(
+		assertThrows(
 				CityCodeStateExistException.class,
 				() -> cityValidatorBean.validator(CITY_ID, createCityRequestDTO())
 		);
@@ -346,7 +347,7 @@ public class CityValidatorBeanBeanTest {
 				)
 		).thenReturn(true);
 
-		Assert.assertThrows(
+		assertThrows(
 				CityNameStateExistException.class,
 				() -> cityValidatorBean.validator(CITY_ID, createCityRequestDTO())
 		);
@@ -371,7 +372,7 @@ public class CityValidatorBeanBeanTest {
 	@Test
 	public void shouldThrowExceptionByRunningMethodValidatorLongParameter() {
 		Mockito.when(cityRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
-		Assert.assertThrows(
+		assertThrows(
 				CityNotExistException.class,
 				() -> cityValidatorBean.validator(CITY_ID)
 		);

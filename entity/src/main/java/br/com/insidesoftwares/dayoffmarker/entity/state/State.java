@@ -70,6 +70,9 @@ public class State {
     @Column(name = "ACRONYM")
     private String acronym;
 
+	@Column(name = "CODE")
+	private String code;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "COUNTRY_ID")
     private Country country;

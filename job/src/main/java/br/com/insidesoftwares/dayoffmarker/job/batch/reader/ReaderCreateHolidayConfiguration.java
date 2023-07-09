@@ -2,7 +2,7 @@ package br.com.insidesoftwares.dayoffmarker.job.batch.reader;
 
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.StatusRequest;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeRequest;
-import br.com.insidesoftwares.dayoffmarker.entity.Request;
+import br.com.insidesoftwares.dayoffmarker.entity.request.Request;
 import br.com.insidesoftwares.dayoffmarker.job.batch.configuration.DayOffMarkerJobProperties;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ public class ReaderCreateHolidayConfiguration {
 			""");
 
 		Map<String, Object> parameterValues = new HashMap<>();
-		parameterValues.put("typeRequest", TypeRequest.UPDATE_HOLIDAY);
+		parameterValues.put("typeRequest", TypeRequest.CREATE_HOLIDAY);
 		parameterValues.put("statusRequest", StatusRequest.CREATED);
 		reader.setParameterValues(parameterValues);
 
@@ -51,7 +51,7 @@ public class ReaderCreateHolidayConfiguration {
 			""");
 
 		Map<String, Object> parameterValues = new HashMap<>();
-		parameterValues.put("typeRequest", TypeRequest.UPDATE_HOLIDAY);
+		parameterValues.put("typeRequest", TypeRequest.CREATE_HOLIDAY);
 		parameterValues.put("statusRequest", StatusRequest.RUNNING);
 		reader.setParameterValues(parameterValues);
 
@@ -71,7 +71,7 @@ public class ReaderCreateHolidayConfiguration {
 			""");
 
 		Map<String, Object> parameterValues = new HashMap<>();
-		parameterValues.put("typeRequest", TypeRequest.UPDATE_HOLIDAY);
+		parameterValues.put("typeRequest", TypeRequest.CREATE_HOLIDAY);
 		parameterValues.put("statusRequest", StatusRequest.RUNNING);
 		reader.setParameterValues(parameterValues);
 

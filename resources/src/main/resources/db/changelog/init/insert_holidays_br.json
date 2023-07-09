@@ -6,6 +6,11 @@
         "author": "System",
         "changes": [
           {
+            "tagDatabase":{
+              "tag":"INIT"
+            }
+          },
+          {
             "insert": {
               "dbms": "h2, mysql, postgresql",
               "tableName": "DOM_FIXED_HOLIDAY",

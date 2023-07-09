@@ -1,0 +1,10 @@
+package br.com.insidesoftwares.dayoffmarker.commons.exception.error.day;
+
+import br.com.insidesoftwares.exception.error.InsideSoftwaresException;
+import br.com.insidesoftwares.dayoffmarker.commons.exception.enumeration.ExceptionCodeError;
+
+public class DayMonthInvalidException extends InsideSoftwaresException {
+    public DayMonthInvalidException() {
+        super(ExceptionCodeError.DAY_MONTH_INVALID);
+    }
+}

@@ -1,8 +1,14 @@
 package br.com.insidesoftwares.dayoffmarker.specification.validator;
 
-public interface ValidatorLink<I extends Number, D> {
+import org.apache.commons.lang3.NotImplementedException;
 
+public interface ValidatorLink<D> {
 
-	void validateLink(final I id, final D dto);
+	default void validateLink(final Long id, final D dto) {
+		throw new NotImplementedException();
+	}
+	default void validateLink(final D dto) {
+		throw new NotImplementedException();
+	}
 
 }
