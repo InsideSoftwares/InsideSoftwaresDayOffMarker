@@ -89,9 +89,6 @@ insidesoftwares-cache:
       -  name: DAYOFF_MARKER_WORKING
          timeToLiveSeconds: 3600
 
-application:
-  view_response_json: true
-
 jdempotent:
   enable: true
   cache:

@@ -5,4 +5,5 @@ databaseChangeLog:
       file: db/changelog/v1.0.0/create_column_dom_fixed_holiday.yml
   - include:
       file: db/changelog/v1.0.0/create_column_dom_holiday.yml
-
+  - include:
+      file: db/changelog/v1.0.0/create_column_dom_state.yml

@@ -3,6 +3,8 @@ databaseChangeLog:
       id: addColumn-DOM_HOLIDAY
       author: System
       changes:
+        - tagDatabase:
+            tag: v1.0.0
         - addColumn:
             tableName: DOM_HOLIDAY
             columns:

@@ -11,6 +11,7 @@ public record StateResponseDTO(
 	Long id,
 	String name,
 	String acronym,
+	String code,
 	Long countryId,
 	String countryName,
 	List<StateHolidayResponseDTO> stateHolidays

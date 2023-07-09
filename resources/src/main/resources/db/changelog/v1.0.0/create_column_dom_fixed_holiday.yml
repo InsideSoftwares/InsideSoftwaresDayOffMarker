@@ -3,6 +3,8 @@ databaseChangeLog:
       id: addColumn-DOM_FIXED_HOLIDAY
       author: System
       changes:
+        - tagDatabase:
+            tag: v1.0.0
         - addColumn:
             tableName: DOM_FIXED_HOLIDAY
             columns:
@@ -14,9 +16,12 @@ databaseChangeLog:
       id: update-DOM_FIXED_HOLIDAY
       author: System
       changes:
+        - tagDatabase:
+            tag: v1.0.0
         - update:
             columns:
               - column:
                   name: ENABLE
                   value: 1
             tableName: DOM_FIXED_HOLIDAY
+      rollback: empty

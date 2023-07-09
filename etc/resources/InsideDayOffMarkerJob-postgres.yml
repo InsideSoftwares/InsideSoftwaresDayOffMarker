@@ -63,7 +63,6 @@ spring:
         size: 5
 
 application:
-  view_response_json: true
   scheduling:
     day:
       create_date:

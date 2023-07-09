@@ -3,6 +3,8 @@ databaseChangeLog:
       id: create_index
       author: System
       changes:
+        - tagDatabase:
+            tag: INIT
         - createIndex:
             clustered: true
             indexName: IDX_DD_DATE
@@ -47,3 +49,4 @@ databaseChangeLog:
             columns:
               - column:
                   name: CODE
+

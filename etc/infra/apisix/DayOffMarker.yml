@@ -1,0 +1,23 @@
+uri: /dayoffmarker/api/*
+name: Day Off Marker
+methods:
+  - GET
+  - POST
+  - PUT
+  - DELETE
+  - PATCH
+  - HEAD
+  - OPTIONS
+plugins:
+  response-rewrite:
+    _meta:
+      disable: false
+    headers:
+      remove:
+        - Server
+        - Date
+        - StartTime
+upstream_id: '468572754963071682'
+labels:
+  API_VERSION: v1.0.0
+status: 1

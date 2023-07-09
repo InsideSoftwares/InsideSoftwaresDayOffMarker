@@ -96,6 +96,7 @@ class StateServiceBean implements StateService {
         State state = State.builder()
                 .name(stateRequestDTO.name())
                 .acronym(stateRequestDTO.acronym())
+				.code(stateRequestDTO.code())
                 .country(country)
                 .build();
 
@@ -119,6 +120,7 @@ class StateServiceBean implements StateService {
 
         state.setName(stateRequestDTO.name());
         state.setAcronym(stateRequestDTO.acronym());
+		state.setCode(stateRequestDTO.code());
         stateRepository.save(state);
     }
 

@@ -3,6 +3,8 @@ databaseChangeLog:
       id: addColumn-DOM_DAY
       author: System
       changes:
+        - tagDatabase:
+            tag: v1.0.0
         - addColumn:
             tableName: DOM_DAY
             columns:
@@ -16,6 +18,8 @@ databaseChangeLog:
       id: create_index-DOM_DAY
       author: System
       changes:
+        - tagDatabase:
+            tag: v1.0.0
         - createIndex:
             clustered: true
             indexName: IDX_DD_DATE_OF_WEEK

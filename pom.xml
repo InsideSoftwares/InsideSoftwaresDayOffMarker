@@ -5,17 +5,17 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <modules>
-			<module>application</module>
 			<module>commons</module>
 			<module>entity</module>
-			<module>service</module>
 			<module>configuration</module>
-			<module>resources</module>
-			<module>job</module>
 			<module>specification</module>
+			<module>service</module>
 			<module>validator</module>
 			<module>repository</module>
 			<module>controller</module>
+			<module>resources</module>
+			<module>application</module>
+			<module>job</module>
 			<module>coverage</module>
 		</modules>
 
