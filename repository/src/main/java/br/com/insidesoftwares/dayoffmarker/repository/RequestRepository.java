@@ -13,28 +13,27 @@ import java.util.UUID;
 @Repository
 public interface RequestRepository extends JpaRepository<Request, UUID> {
 
-    @Query(" SELECT r.id FROM Request r WHERE r.jobId = :jobId AND r.typeRequest = :typeRequest")
-    List<UUID> findAllByJobId(Long jobId, TypeRequest typeRequest);
+	@Query(" SELECT r FROM Request r WHERE statusRequest = :statusRequest AND r.typeRequest = :typeRequest")
+	List<Request> findAllByStatusRequest(final StatusRequest statusRequest, final TypeRequest typeRequest);
+
+	@Query("""
+		SELECT count(r) > 0 FROM Request r
+		WHERE statusRequest = :statusRequest
+		AND r.typeRequest = :typeRequest
+		ORDER BY r.id LIMIT 1
+		""")
+	boolean existRequestByTypeRequestAndStatusRequest(final TypeRequest typeRequest, final StatusRequest statusRequest);
 
     @Query("""
-			SELECT r FROM Request r
-			WHERE r.jobId = :jobId AND
-			 statusRequest = :statusRequest
-			""")
-    List<Request> findAllByJobIdAndStatusRequest(Long jobId, StatusRequest statusRequest);
-
-	@Query(" SELECT r FROM Request r WHERE statusRequest = :statusRequest AND r.typeRequest = :typeRequest")
-	List<Request> findAllByStatusRequest(StatusRequest statusRequest, TypeRequest typeRequest);
-
-	@Query(" SELECT count(r) > 0 FROM Request r WHERE statusRequest = :statusRequest AND r.typeRequest = :typeRequest")
-	boolean existRequestByTypeRequestAndStatusRequest(TypeRequest typeRequest, StatusRequest statusRequest);
-
-    @Query(" SELECT r FROM Request r WHERE r.typeRequest = :typeRequest AND r.statusRequest != :statusRequest")
-    List<Request> findAllRequestByTypeRequestAndNotStatusRequest(TypeRequest typeRequest, StatusRequest statusRequest);
-
-	@Query(" SELECT r FROM Request r WHERE r.typeRequest = :typeRequest AND r.statusRequest = :statusRequest")
-	List<Request> findAllRequestByTypeRequestAndStatusRequest(TypeRequest typeRequest, StatusRequest statusRequest);
-
-	@Query(" SELECT r FROM Request r WHERE r.typeRequest = :typeRequest AND r.statusRequest in :statusRequest")
-	List<Request> findAllRequestByTypeRequestAndStatusRequest(TypeRequest typeRequest, List<StatusRequest> statusRequest);
+		SELECT COUNT(r) > 0 FROM Request r
+		WHERE r.typeRequest = :typeRequest
+		AND r.requestHash = :requestHash
+		AND r.statusRequest NOT IN :statusRequest
+		ORDER BY r.id LIMIT 1
+		""")
+    boolean existRequestByTypeRequestAndHashRequestAndNotStatusRequest(
+		final TypeRequest typeRequest,
+		final String requestHash,
+		final List<StatusRequest> statusRequest
+	);
 }

@@ -5,5 +5,6 @@ public enum TypeRequest {
     CREATE_DATE,
     UPDATE_DATE,
 	CREATE_HOLIDAY,
-	UPDATE_TAG;
+	LINK_TAG,
+	UNLINK_TAG;
 }

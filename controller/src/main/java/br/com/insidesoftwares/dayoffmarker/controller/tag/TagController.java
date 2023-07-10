@@ -7,6 +7,7 @@ import br.com.insidesoftwares.commons.dto.request.PaginationFilter;
 import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponse;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagLinkRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.response.tag.TagLinkResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.tag.TagResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.sort.eOrderTag;
 import br.com.insidesoftwares.dayoffmarker.specification.service.TagService;
@@ -97,15 +98,15 @@ public class TagController {
 	)
 	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_TAG", ttl = 1)
 	public InsideSoftwaresResponse<Void> update(
-			@PathVariable Long id,
-			@RequestBody TagRequestDTO tagRequestDTO
+		@JdempotentRequestPayload @PathVariable Long id,
+		@JdempotentRequestPayload @RequestBody TagRequestDTO tagRequestDTO
 	) {
 		tagService.update(id, tagRequestDTO);
 		return InsideSoftwaresResponse.<Void>builder().build();
 	}
 
 	@Operation(
-		summary = "Update Tag by Id",
+		summary = "Performs the linking of Tags in batch according to the informed parameters",
 		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Write", "DayOff.Tag.Write"}),
 		parameters = {
 			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
@@ -117,11 +118,29 @@ public class TagController {
 		nameCache = {"DAYOFF_MARKER_TAG", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_WORKING"}
 	)
 	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_TAG", ttl = 1)
-	public InsideSoftwaresResponse<Void> linkTagByDay(
-		@RequestBody TagLinkRequestDTO tagLinkRequestDTO
+	public InsideSoftwaresResponse<TagLinkResponseDTO> linkTagByDay(
+		@JdempotentRequestPayload @RequestBody TagLinkRequestDTO tagLinkRequestDTO
 	) {
-		tagService.linkTagByDay(tagLinkRequestDTO);
-		return InsideSoftwaresResponse.<Void>builder().build();
+		return tagService.linkTagByDay(tagLinkRequestDTO);
+	}
+
+	@Operation(
+		summary = "Performs the unlinking of Tags in batch according to the informed parameters",
+		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Write", "DayOff.Tag.Write"}),
+		parameters = {
+			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+		}
+	)
+	@PreAuthorize("hasAnyRole('DayOff.Write','DayOff.Tag.Write')")
+	@InsideRequestPost(uri = "/v1/tag/unlink/day", httpCode = HttpStatus.CREATED,
+		nameCache = {"DAYOFF_MARKER_TAG", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_WORKING"}
+	)
+	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_TAG", ttl = 1)
+	public InsideSoftwaresResponse<TagLinkResponseDTO> unlinkTagByDay(
+		@JdempotentRequestPayload @RequestBody TagLinkRequestDTO tagLinkRequestDTO
+	) {
+		return tagService.unlinkTagByDay(tagLinkRequestDTO);
 	}
 
 }

@@ -13,5 +13,5 @@ public record LinkTagRequestDTO(
 	Set<Long> tagsID
 ) implements Serializable {
 	@Serial
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 6539008299760592614L;
 }

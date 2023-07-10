@@ -10,5 +10,6 @@ public enum TypeParameter {
     END_YEAR,
     COUNTRY,
     REQUEST_ORIGINAL,
-	FIXED_HOLIDAY_ID;
+	FIXED_HOLIDAY_ID,
+	TAG_ID
 }

@@ -5,18 +5,26 @@ import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponse;
 import br.com.insidesoftwares.commons.utils.PaginationUtils;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagLinkRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.response.tag.TagLinkResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.tag.TagResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.sort.eOrderTag;
+import br.com.insidesoftwares.dayoffmarker.commons.exception.error.request.ParameterNotExistException;
+import br.com.insidesoftwares.dayoffmarker.commons.exception.error.request.RequestConflictParametersException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagCodeExistException;
+import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagLinkDateInvalidException;
+import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagLinkNotExistException;
+import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagLinkOneParameterNotNullException;
+import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagLinkParameterNotResultException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagNotExistException;
 import br.com.insidesoftwares.dayoffmarker.entity.Tag;
 import br.com.insidesoftwares.dayoffmarker.mapper.TagMapper;
 import br.com.insidesoftwares.dayoffmarker.repository.TagRepository;
+import br.com.insidesoftwares.dayoffmarker.specification.service.RequestCreationService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.TagService;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.Validator;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.ValidatorLink;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,13 +35,14 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-@Log4j2
+@Slf4j
 class TagServiceBean implements TagService {
 
     private final TagRepository tagRepository;
     private final TagMapper tagMapper;
 	private final Validator<Long, TagRequestDTO> tagValidator;
 	private final ValidatorLink<TagLinkRequestDTO> tagLinkValidator;
+	private final RequestCreationService requestCreationService;
 
     @Override
     public InsideSoftwaresResponse<List<TagResponseDTO>> findAll(final PaginationFilter<eOrderTag> paginationFilter) {
@@ -93,14 +102,46 @@ class TagServiceBean implements TagService {
 		tagRepository.save(tag);
     }
 
+	@Transactional(rollbackFor = {
+		TagLinkOneParameterNotNullException.class,
+		TagLinkDateInvalidException.class,
+		TagLinkParameterNotResultException.class,
+		TagLinkNotExistException.class,
+		RequestConflictParametersException.class,
+		ParameterNotExistException.class
+	})
 	@Override
-	public void linkTagByDay(final TagLinkRequestDTO tagLinkRequestDTO) {
-		tagLinkValidator.validateLink(tagLinkRequestDTO);
+	public InsideSoftwaresResponse<TagLinkResponseDTO> linkTagByDay(final TagLinkRequestDTO tagLinkRequestDTO) {
+		tagLinkValidator.validateLinkUnlink(tagLinkRequestDTO);
 
+		String requestID = requestCreationService.createLinkTagsInDays(tagLinkRequestDTO);
 
+		return InsideSoftwaresResponse.<TagLinkResponseDTO>builder()
+			.data(TagLinkResponseDTO.builder().requestID(requestID).build())
+			.build();
+	}
+
+	@Transactional(rollbackFor = {
+		TagLinkOneParameterNotNullException.class,
+		TagLinkDateInvalidException.class,
+		TagLinkParameterNotResultException.class,
+		TagLinkNotExistException.class,
+		RequestConflictParametersException.class,
+		ParameterNotExistException.class
+	})
+	@Override
+	public InsideSoftwaresResponse<TagLinkResponseDTO> unlinkTagByDay(final TagLinkRequestDTO tagLinkRequestDTO) {
+		tagLinkValidator.validateLinkUnlink(tagLinkRequestDTO);
+
+		String requestID = requestCreationService.createUnlinkTagsInDays(tagLinkRequestDTO);
+
+		return InsideSoftwaresResponse.<TagLinkResponseDTO>builder()
+			.data(TagLinkResponseDTO.builder().requestID(requestID).build())
+			.build();
 	}
 
 	private Tag findTagById(final Long tagID) {
 		return tagRepository.findById(tagID).orElseThrow(TagNotExistException::new);
 	}
+
 }

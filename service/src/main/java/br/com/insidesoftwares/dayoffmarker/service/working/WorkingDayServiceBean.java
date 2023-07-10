@@ -10,7 +10,7 @@ import br.com.insidesoftwares.dayoffmarker.mapper.DayMapper;
 import br.com.insidesoftwares.dayoffmarker.repository.DayRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.service.working.WorkingDayService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +22,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-@Log4j2
+@Slf4j
 public class WorkingDayServiceBean implements WorkingDayService {
 	private static final int LIMIT = 5;
 

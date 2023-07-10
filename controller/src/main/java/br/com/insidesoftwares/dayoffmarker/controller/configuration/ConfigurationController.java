@@ -38,7 +38,7 @@ public class ConfigurationController {
 	@InsideRequestPost(uri = "/v1/configuration/limit/year", httpCode = HttpStatus.ACCEPTED, nameCache = "ALL")
 	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP", ttl = 1)
     public InsideSoftwaresResponse<Void> configurationLimitYear(
-            @JdempotentRequestPayload @RequestBody final ConfigurationLimitYearRequestDTO configurationLimitYearRequestDTO
+		@JdempotentRequestPayload @RequestBody final ConfigurationLimitYearRequestDTO configurationLimitYearRequestDTO
     ) {
         configurationService.configurationLimitYear(configurationLimitYearRequestDTO);
 		return InsideSoftwaresResponse.<Void>builder().build();

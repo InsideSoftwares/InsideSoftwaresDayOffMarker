@@ -13,5 +13,5 @@ public record CountryResponseDTO(
 	String code
 ) implements Serializable {
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1526266160816424514L;
 }

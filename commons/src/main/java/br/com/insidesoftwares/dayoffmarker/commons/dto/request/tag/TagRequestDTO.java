@@ -19,5 +19,5 @@ public record TagRequestDTO(
 	String description
 ) implements Serializable {
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 5419965774511563760L;
 }

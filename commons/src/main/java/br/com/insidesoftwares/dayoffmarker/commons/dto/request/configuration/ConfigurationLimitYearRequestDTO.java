@@ -20,5 +20,5 @@ public record ConfigurationLimitYearRequestDTO(
 	Integer numberForwardYears
 ) implements Serializable {
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 5891167388638166940L;
 }

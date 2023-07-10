@@ -89,8 +89,8 @@ public class DayController {
 	)
 	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_UNLINK_TAG", ttl = 1)
 	public InsideSoftwaresResponse<Void> unlinkTag(
-			@JdempotentRequestPayload @PathVariable Long id,
-			@JdempotentRequestPayload @RequestBody LinkTagRequestDTO linkTagRequestDTO
+		@JdempotentRequestPayload @PathVariable Long id,
+		@JdempotentRequestPayload @RequestBody LinkTagRequestDTO linkTagRequestDTO
 	) {
 		dayService.unlinkTag(id, linkTagRequestDTO);
 		return InsideSoftwaresResponse.<Void>builder().build();

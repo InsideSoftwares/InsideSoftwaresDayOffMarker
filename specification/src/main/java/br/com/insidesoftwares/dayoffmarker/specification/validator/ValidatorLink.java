@@ -7,7 +7,7 @@ public interface ValidatorLink<D> {
 	default void validateLink(final Long id, final D dto) {
 		throw new NotImplementedException();
 	}
-	default void validateLink(final D dto) {
+	default void validateLinkUnlink(final D dto) {
 		throw new NotImplementedException();
 	}
 

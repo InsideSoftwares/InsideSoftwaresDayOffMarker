@@ -4,11 +4,11 @@ import br.com.insidesoftwares.commons.specification.InsideSoftwaresStartupListen
 import br.com.insidesoftwares.dayoffmarker.repository.DayRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.service.RequestCreationService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.stereotype.Component;
 
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class DayOffMarkerStartupListener implements InsideSoftwaresStartupListener {

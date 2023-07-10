@@ -17,11 +17,13 @@ class RequestServiceBean implements RequestService {
 
 	private final RequestRepository requestRepository;
 
+	@Transactional
 	@Override
 	public void saveRequest(final Request request) {
 		requestRepository.save(request);
 	}
 
+	@Transactional
 	@Override
 	public void saveAndFlushRequest(final Request request) {
 		requestRepository.saveAndFlush(request);

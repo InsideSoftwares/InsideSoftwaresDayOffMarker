@@ -3,16 +3,15 @@ package br.com.insidesoftwares.dayoffmarker.service.working;
 import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponse;
 import br.com.insidesoftwares.commons.utils.InsideSoftwaresResponseUtils;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.working.WorkingCurrentDayResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.entity.holiday.Holiday;
 import br.com.insidesoftwares.dayoffmarker.entity.city.City;
 import br.com.insidesoftwares.dayoffmarker.entity.city.CityHoliday;
+import br.com.insidesoftwares.dayoffmarker.entity.holiday.Holiday;
 import br.com.insidesoftwares.dayoffmarker.entity.state.StateHoliday;
-import br.com.insidesoftwares.dayoffmarker.repository.city.CityRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.service.CityService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.DayService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.working.WorkingCityService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,12 +21,11 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-@Log4j2
+@Slf4j
 public class WorkingCityServiceBean implements WorkingCityService {
 
 	private final CityService cityService;
 	private final DayService dayService;
-	private final CityRepository cityRepository;
 
 	@Override
 	public InsideSoftwaresResponse<WorkingCurrentDayResponseDTO> findWorkingCityByDay(

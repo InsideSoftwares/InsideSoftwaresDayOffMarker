@@ -2,6 +2,8 @@ package br.com.insidesoftwares.dayoffmarker.entity.request;
 
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.StatusRequest;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeRequest;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,6 +32,12 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "DOM_REQUEST")
+@NamedEntityGraph(
+	name = "request-full",
+	attributeNodes = {
+		@NamedAttributeNode("requestParameter")
+	}
+)
 public class Request {
 
     @Id
@@ -59,6 +67,9 @@ public class Request {
 
 	@Column(name = "JOB_ID")
 	private Long jobId;
+
+	@Column(name = "REQUEST_HASH")
+	private String requestHash;
 
     @OneToMany(mappedBy = "request", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<RequestParameter> requestParameter;

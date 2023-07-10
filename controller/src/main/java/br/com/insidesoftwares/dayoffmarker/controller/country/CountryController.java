@@ -79,7 +79,7 @@ public class CountryController {
 	)
     @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_COUNTRY", ttl = 1, ttlTimeUnit = TimeUnit.DAYS)
     public InsideSoftwaresResponse<Void> save(
-            @JdempotentRequestPayload @RequestBody CountryRequestDTO countryRequestDTO
+		@JdempotentRequestPayload @RequestBody CountryRequestDTO countryRequestDTO
     ) {
         countryService.save(countryRequestDTO);
 		return InsideSoftwaresResponse.<Void>builder().build();
@@ -99,8 +99,8 @@ public class CountryController {
 	)
 	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_COUNTRY", ttl = 1)
     public InsideSoftwaresResponse<Void> update(
-            @JdempotentRequestPayload @PathVariable Long id,
-            @JdempotentRequestPayload @RequestBody CountryRequestDTO countryRequestDTO
+		@JdempotentRequestPayload @PathVariable Long id,
+        @JdempotentRequestPayload @RequestBody CountryRequestDTO countryRequestDTO
     ) {
         countryService.update(id, countryRequestDTO);
 		return InsideSoftwaresResponse.<Void>builder().build();

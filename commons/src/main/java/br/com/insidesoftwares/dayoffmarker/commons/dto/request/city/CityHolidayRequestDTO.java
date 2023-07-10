@@ -13,5 +13,5 @@ public record CityHolidayRequestDTO(
 	@NotNull(message = "DOMV-003") @NotEmpty(message = "DOMV-001") Set<Long> holidaysId
 ) implements Serializable {
 	@Serial
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -6087025320187713555L;
 }

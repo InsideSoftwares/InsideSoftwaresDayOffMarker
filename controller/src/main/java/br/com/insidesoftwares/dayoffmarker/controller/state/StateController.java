@@ -102,8 +102,8 @@ public class StateController {
 	)
 	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_STATE", ttl = 1)
     public InsideSoftwaresResponse<Void> update(
-            @PathVariable Long id,
-            @RequestBody StateRequestDTO stateRequestDTO
+		@JdempotentRequestPayload @PathVariable Long id,
+		@JdempotentRequestPayload @RequestBody StateRequestDTO stateRequestDTO
     ) {
         stateService.update(id, stateRequestDTO);
 		return InsideSoftwaresResponse.<Void>builder().build();

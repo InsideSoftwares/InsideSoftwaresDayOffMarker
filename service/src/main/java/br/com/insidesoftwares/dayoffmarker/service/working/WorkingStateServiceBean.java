@@ -9,7 +9,7 @@ import br.com.insidesoftwares.dayoffmarker.specification.service.DayService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.StateService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.working.WorkingStateService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +18,7 @@ import java.time.LocalDate;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-@Log4j2
+@Slf4j
 public class WorkingStateServiceBean implements WorkingStateService {
 
 	private final StateService stateService;

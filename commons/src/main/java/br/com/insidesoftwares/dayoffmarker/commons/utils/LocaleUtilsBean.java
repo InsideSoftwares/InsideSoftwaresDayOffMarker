@@ -20,7 +20,7 @@ public class LocaleUtilsBean implements LocaleUtils {
 	}
 
 	@Override
-	public String getMessage(String code, String... args){
+	public String getMessage(String code, Object... args){
 		return messageSource.getMessage(code, args, getLocale());
 	}
 

@@ -18,5 +18,5 @@ public record HolidayCreateRequestDTO(
 	Long fixedHolidayID
 ) implements Serializable {
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 7948167387544767535L;
 }

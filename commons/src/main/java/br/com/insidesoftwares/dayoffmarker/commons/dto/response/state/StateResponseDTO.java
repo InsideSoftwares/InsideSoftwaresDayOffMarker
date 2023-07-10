@@ -17,5 +17,5 @@ public record StateResponseDTO(
 	List<StateHolidayResponseDTO> stateHolidays
 ) implements Serializable {
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 6726674871429137110L;
 }

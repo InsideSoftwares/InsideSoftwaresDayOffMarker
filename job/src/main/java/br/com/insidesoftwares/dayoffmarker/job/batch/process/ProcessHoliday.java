@@ -3,15 +3,14 @@ package br.com.insidesoftwares.dayoffmarker.job.batch.process;
 import br.com.insidesoftwares.commons.utils.DateUtils;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayCreateRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeHoliday;
-import br.com.insidesoftwares.dayoffmarker.commons.logger.LogService;
 import br.com.insidesoftwares.dayoffmarker.entity.Day;
 import br.com.insidesoftwares.dayoffmarker.entity.holiday.FixedHoliday;
 import br.com.insidesoftwares.dayoffmarker.entity.request.Request;
 import br.com.insidesoftwares.dayoffmarker.job.utils.request.RequestParametersUtils;
 import br.com.insidesoftwares.dayoffmarker.specification.batch.BatchCreationDayService;
 import br.com.insidesoftwares.dayoffmarker.specification.batch.BatchHolidayService;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.stereotype.Component;
 
@@ -23,17 +22,11 @@ import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class ProcessHoliday implements ItemProcessor<Request, List<HolidayCreateRequestDTO>> {
 
-	private final LogService<ProcessHoliday> logService;
 	private final BatchHolidayService batchHolidayService;
 	private final BatchCreationDayService batchCreationDayService;
-
-	@PostConstruct
-	public void init(){
-		logService.init(ProcessHoliday.class);
-		logService.logInfor("Init ProcessHoliday");
-	}
 
 	@Override
 	public List<HolidayCreateRequestDTO> process(final Request request) {
@@ -80,8 +73,8 @@ public class ProcessHoliday implements ItemProcessor<Request, List<HolidayCreate
 			}
 		} catch (Exception e) {
 			assert fixedHolidayID != null;
-			logService.logErrorByArgs("Could not create the holiday: {}", fixedHolidayID.toString());
-			logService.logError("Could not create the holiday", e);
+			log.error("Could not create the holiday: {}", fixedHolidayID);
+			log.error("Could not create the holiday", e);
 		}
 
 		return holidays;

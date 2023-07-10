@@ -154,4 +154,7 @@ public interface DayRepository extends JpaRepository<Day, Long>, JpaSpecificatio
 		final Integer year,
 		final Long fixedHolidayID
 	);
+
+	@Override
+	boolean exists(Specification<Day> daySpecification);
 }

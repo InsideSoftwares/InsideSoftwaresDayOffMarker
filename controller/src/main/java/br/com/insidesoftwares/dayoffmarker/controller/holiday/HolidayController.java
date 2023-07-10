@@ -120,8 +120,8 @@ public class HolidayController {
 		nameCache = { "DAYOFF_MARKER_HOLIDAY", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_CITY", "DAYOFF_MARKER_STATE", "DAYOFF_MARKER_WORKING" })
 	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_HOLIDAY", ttl = 1)
     public InsideSoftwaresResponse<Void> update(
-            @PathVariable Long id,
-            @RequestBody HolidayRequestDTO holidayRequestDTO
+		@JdempotentRequestPayload @PathVariable Long id,
+		@JdempotentRequestPayload @RequestBody HolidayRequestDTO holidayRequestDTO
     ) {
         holidayService.update(id, holidayRequestDTO);
 		return InsideSoftwaresResponse.<Void>builder().build();

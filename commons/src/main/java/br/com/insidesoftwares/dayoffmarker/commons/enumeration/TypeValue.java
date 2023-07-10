@@ -7,5 +7,6 @@ public enum TypeValue {
     STRING,
     DATE,
     DATETIME,
-    TIME;
+    TIME,
+	ARRAY;
 }
