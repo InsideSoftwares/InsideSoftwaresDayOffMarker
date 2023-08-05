@@ -22,7 +22,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
-			<artifactId>entity</artifactId>
+			<artifactId>domain</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
@@ -50,14 +50,6 @@
 		</dependency>
 		<dependency>
 			<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
-			<artifactId>validator</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
-			<artifactId>repository</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
 			<artifactId>controller</artifactId>
 		</dependency>
 	</dependencies>
@@ -71,61 +63,71 @@
 					<skip>true</skip>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.10</version>
-				<executions>
-					<execution>
-						<id>report-aggregate</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>report-aggregate</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<excludes>
-						<exclude>br/com/sawcunha/dayoffmarker/entity/**/*</exclude>
-						<exclude>br/com/sawcunha/dayoffmarker/mapper/**/*</exclude>
-						<exclude>br/com/sawcunha/dayoffmarker/commons/dto/**/*</exclude>
-						<exclude>br/com/sawcunha/dayoffmarker/commons/exception/**/*</exclude>
-						<exclude>br/com/sawcunha/dayoffmarker/commons/enums/**/*</exclude>
-						<exclude>br/com/sawcunha/dayoffmarker/batch/configuration/**/*</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-<!--			<plugin>-->
-<!--				<groupId>org.owasp</groupId>-->
-<!--				<artifactId>dependency-check-maven</artifactId>-->
-<!--				<version>6.5.3</version>-->
-<!--				<executions>-->
-<!--					<execution>-->
-<!--						<goals>-->
-<!--							<goal>check</goal>-->
-<!--						</goals>-->
-<!--					</execution>-->
-<!--				</executions>-->
-<!--			</plugin>-->
 		</plugins>
 	</build>
 
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.owasp</groupId>
-				<artifactId>dependency-check-maven</artifactId>
-				<version>6.5.3</version>
-				<reportSets>
-					<reportSet>
-						<reports>
-							<report>aggregate</report>
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
-
-		</plugins>
-	</reporting>
+	<profiles>
+		<profile>
+			<id>analyze</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.jacoco</groupId>
+						<artifactId>jacoco-maven-plugin</artifactId>
+						<version>0.8.10</version>
+						<executions>
+							<execution>
+								<id>report-aggregate</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>report-aggregate</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<excludes>
+								<exclude>br/com/insidesoftwares/dayoffmarker/entity/**/*</exclude>
+								<exclude>br/com/insidesoftwares/dayoffmarker/specification/**/*</exclude>
+								<exclude>br/com/insidesoftwares/dayoffmarker/commons/dto/**/*</exclude>
+								<exclude>br/com/insidesoftwares/dayoffmarker/commons/exception/**/*</exclude>
+								<exclude>br/com/insidesoftwares/dayoffmarker/commons/enumeration/**/*</exclude>
+								<exclude>br/com/insidesoftwares/dayoffmarker/commons/utils/LocaleUtilsBean.*</exclude>
+								<exclude>br/com/insidesoftwares/dayoffmarker/configuration/**/*</exclude>
+								<exclude>br/com/insidesoftwares/dayoffmarker/resources/**/*</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.owasp</groupId>
+						<artifactId>dependency-check-maven</artifactId>
+						<version>8.3.1</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>check</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			<reporting>
+				<plugins>
+					<plugin>
+						<groupId>org.owasp</groupId>
+						<artifactId>dependency-check-maven</artifactId>
+						<version>8.3.1</version>
+						<reportSets>
+							<reportSet>
+								<reports>
+									<report>aggregate</report>
+								</reports>
+							</reportSet>
+						</reportSets>
+					</plugin>
+				</plugins>
+			</reporting>
+		</profile>
+	</profiles>
 
 </project>

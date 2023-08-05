@@ -536,8 +536,8 @@ databaseChangeLog:
             columns:
               - column:
                   name: REQUEST_PARAMETER_ID
-                  autoIncrement: true
-                  type: BIGINT
+                  autoIncrement: false
+                  type: ${UUIDType}
                   constraints:
                     primaryKey: true
                     primaryKeyName: PK_DOM_REQUEST_PARAMETER

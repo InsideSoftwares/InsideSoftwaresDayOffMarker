@@ -16,9 +16,9 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagLinkNo
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagLinkOneParameterNotNullException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagLinkParameterNotResultException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagNotExistException;
-import br.com.insidesoftwares.dayoffmarker.entity.Tag;
+import br.com.insidesoftwares.dayoffmarker.entity.day.Tag;
 import br.com.insidesoftwares.dayoffmarker.mapper.TagMapper;
-import br.com.insidesoftwares.dayoffmarker.repository.TagRepository;
+import br.com.insidesoftwares.dayoffmarker.repository.day.TagRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.service.RequestCreationService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.TagService;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.Validator;

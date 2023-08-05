@@ -3,7 +3,7 @@ package br.com.insidesoftwares.dayoffmarker.job.batch.process;
 import br.com.insidesoftwares.commons.utils.DateUtils;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayCreateRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeHoliday;
-import br.com.insidesoftwares.dayoffmarker.entity.Day;
+import br.com.insidesoftwares.dayoffmarker.entity.day.Day;
 import br.com.insidesoftwares.dayoffmarker.entity.holiday.FixedHoliday;
 import br.com.insidesoftwares.dayoffmarker.entity.request.Request;
 import br.com.insidesoftwares.dayoffmarker.job.utils.request.RequestParametersUtils;

@@ -39,6 +39,44 @@
 					</dependency>
 				</dependencies>
 			</profile>
+			<profile>
+				<id>analyze</id>
+				<build>
+					<plugins>
+						<plugin>
+							<groupId>org.jacoco</groupId>
+							<artifactId>jacoco-maven-plugin</artifactId>
+							<version>0.8.10</version>
+							<executions>
+								<execution>
+									<id>default-prepare-agent</id>
+									<goals>
+										<goal>prepare-agent</goal>
+									</goals>
+								</execution>
+								<execution>
+									<id>default-report</id>
+									<goals>
+										<goal>report</goal>
+									</goals>
+								</execution>
+							</executions>
+						</plugin>
+						<plugin>
+							<groupId>org.owasp</groupId>
+							<artifactId>dependency-check-maven</artifactId>
+							<version>8.3.1</version>
+							<executions>
+								<execution>
+									<goals>
+										<goal>check</goal>
+									</goals>
+								</execution>
+							</executions>
+						</plugin>
+					</plugins>
+				</build>
+			</profile>
 		</profiles>
 
     <dependencies>
@@ -48,11 +86,7 @@
 			</dependency>
 			<dependency>
 				<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
-				<artifactId>entity</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
-				<artifactId>repository</artifactId>
+				<artifactId>domain</artifactId>
 			</dependency>
 			<dependency>
 				<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
@@ -69,10 +103,6 @@
 			<dependency>
 				<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
 				<artifactId>configuration</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
-				<artifactId>validator</artifactId>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>

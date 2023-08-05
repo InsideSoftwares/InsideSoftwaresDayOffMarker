@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.UUID;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,7 +17,7 @@ import lombok.ToString;
 @ToString
 public class RequestParameterDTO {
 
-    private Long id;
+    private UUID id;
     private TypeParameter typeParameter;
     private TypeValue typeValue;
     private String value;

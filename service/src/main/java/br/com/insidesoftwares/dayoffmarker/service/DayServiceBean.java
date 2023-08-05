@@ -12,11 +12,11 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.error.day.DayNotExi
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.day.DaysNotConfiguredException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagExistDayException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagNotExistException;
-import br.com.insidesoftwares.dayoffmarker.entity.Day;
-import br.com.insidesoftwares.dayoffmarker.entity.Tag;
+import br.com.insidesoftwares.dayoffmarker.entity.day.Day;
+import br.com.insidesoftwares.dayoffmarker.entity.day.Tag;
 import br.com.insidesoftwares.dayoffmarker.mapper.DayMapper;
-import br.com.insidesoftwares.dayoffmarker.repository.DayRepository;
-import br.com.insidesoftwares.dayoffmarker.repository.TagRepository;
+import br.com.insidesoftwares.dayoffmarker.repository.day.DayRepository;
+import br.com.insidesoftwares.dayoffmarker.repository.day.TagRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.DaySpecification;
 import br.com.insidesoftwares.dayoffmarker.specification.service.DayService;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.ValidatorLink;

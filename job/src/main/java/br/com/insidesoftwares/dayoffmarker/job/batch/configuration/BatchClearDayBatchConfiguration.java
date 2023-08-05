@@ -1,6 +1,6 @@
 package br.com.insidesoftwares.dayoffmarker.job.batch.configuration;
 
-import br.com.insidesoftwares.dayoffmarker.entity.DayBatch;
+import br.com.insidesoftwares.dayoffmarker.entity.day.DayBatch;
 import br.com.insidesoftwares.dayoffmarker.job.batch.listener.DayOffMarkerJobListener;
 import br.com.insidesoftwares.dayoffmarker.job.batch.process.ProcessDayBatchNotProcessed;
 import br.com.insidesoftwares.dayoffmarker.job.batch.write.DeleteDayBatchList;

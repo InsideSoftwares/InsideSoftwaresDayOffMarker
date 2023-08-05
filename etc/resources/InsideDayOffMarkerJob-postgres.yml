@@ -79,6 +79,27 @@ application:
         create:
           cron: "0 10 */1 * * *"
 
+insidesoftwares-cache:
+  config:
+    timeToLiveSeconds: 3600
+    caches:
+      -  name: DAYOFF_MARKER_CITY
+         timeToLiveSeconds: 3600
+      -  name: DAYOFF_MARKER_COUNTRY
+         timeToLiveSeconds: 3600
+      -  name: DAYOFF_MARKER_FIXEDHOLIDAY
+         timeToLiveSeconds: 3600
+      -  name: DAYOFF_MARKER_HOLIDAY
+         timeToLiveSeconds: 3600
+      -  name: DAYOFF_MARKER_STATE
+         timeToLiveSeconds: 3600
+      -  name: DAYOFF_MARKER_TAG
+         timeToLiveSeconds: 3600
+      -  name: DAYOFF_MARKER_WORKING
+         timeToLiveSeconds: 3600
+      -  name: DAYOFF_MARKER_DAY
+         timeToLiveSeconds: 3600
+
 dom:
   taskexecutor:
     corePoolSize: 500

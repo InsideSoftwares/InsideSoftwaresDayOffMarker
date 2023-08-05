@@ -19,7 +19,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
-			<artifactId>entity</artifactId>
+			<artifactId>domain</artifactId>
 			<exclusions>
 				<exclusion>
 					<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
@@ -37,21 +37,7 @@
 			<exclusions>
 				<exclusion>
 					<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
-					<artifactId>entity</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
-					<artifactId>commons</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
-			<artifactId>repository</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
-					<artifactId>entity</artifactId>
+					<artifactId>domain</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
@@ -126,26 +112,48 @@
 					<skip>true</skip>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.10</version>
-				<executions>
-					<execution>
-						<id>default-prepare-agent</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>default-report</id>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>analyze</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.jacoco</groupId>
+						<artifactId>jacoco-maven-plugin</artifactId>
+						<version>0.8.10</version>
+						<executions>
+							<execution>
+								<id>default-prepare-agent</id>
+								<goals>
+									<goal>prepare-agent</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>default-report</id>
+								<goals>
+									<goal>report</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.owasp</groupId>
+						<artifactId>dependency-check-maven</artifactId>
+						<version>8.3.1</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>check</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>

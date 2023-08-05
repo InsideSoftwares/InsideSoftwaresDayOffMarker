@@ -1,6 +1,6 @@
 package br.com.insidesoftwares.dayoffmarker.job.batch.reader;
 
-import br.com.insidesoftwares.dayoffmarker.entity.DayBatch;
+import br.com.insidesoftwares.dayoffmarker.entity.day.DayBatch;
 import br.com.insidesoftwares.dayoffmarker.job.batch.configuration.DayOffMarkerJobProperties;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;

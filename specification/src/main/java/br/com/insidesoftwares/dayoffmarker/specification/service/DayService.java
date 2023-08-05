@@ -5,7 +5,7 @@ import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponse;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.link.LinkTagRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.day.DayDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.sort.eOrderDay;
-import br.com.insidesoftwares.dayoffmarker.entity.Day;
+import br.com.insidesoftwares.dayoffmarker.entity.day.Day;
 import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
 

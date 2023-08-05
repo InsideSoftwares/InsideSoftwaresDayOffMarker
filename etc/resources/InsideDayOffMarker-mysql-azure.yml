@@ -85,6 +85,8 @@ insidesoftwares-cache:
          timeToLiveSeconds: 3600
       -  name: DAYOFF_MARKER_WORKING
          timeToLiveSeconds: 3600
+      -  name: DAYOFF_MARKER_DAY
+         timeToLiveSeconds: 3600
 
 jdempotent:
   enable: true

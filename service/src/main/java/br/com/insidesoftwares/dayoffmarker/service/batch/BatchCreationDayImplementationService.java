@@ -1,9 +1,9 @@
 package br.com.insidesoftwares.dayoffmarker.service.batch;
 
-import br.com.insidesoftwares.dayoffmarker.entity.Day;
-import br.com.insidesoftwares.dayoffmarker.entity.DayBatch;
-import br.com.insidesoftwares.dayoffmarker.repository.DayBatchRepository;
-import br.com.insidesoftwares.dayoffmarker.repository.DayRepository;
+import br.com.insidesoftwares.dayoffmarker.entity.day.Day;
+import br.com.insidesoftwares.dayoffmarker.entity.day.DayBatch;
+import br.com.insidesoftwares.dayoffmarker.repository.day.DayBatchRepository;
+import br.com.insidesoftwares.dayoffmarker.repository.day.DayRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.batch.BatchCreationDayService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -6,12 +6,10 @@
     <packaging>pom</packaging>
     <modules>
 			<module>commons</module>
-			<module>entity</module>
+			<module>domain</module>
 			<module>configuration</module>
 			<module>specification</module>
 			<module>service</module>
-			<module>validator</module>
-			<module>repository</module>
 			<module>controller</module>
 			<module>resources</module>
 			<module>application</module>
@@ -22,7 +20,7 @@
     <parent>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-parent</artifactId>
-			<version>3.1.1</version>
+			<version>3.1.2</version>
 			<relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -36,9 +34,9 @@
 			<maven.compiler.source>17</maven.compiler.source>
 			<maven.compiler.target>17</maven.compiler.target>
 
-			<spring-boot.version>3.1.1</spring-boot.version>
-			<spring.framework.version>6.0.10</spring.framework.version>
-			<spring-data-redis.version>3.1.1</spring-data-redis.version>
+			<spring-boot.version>3.1.2</spring-boot.version>
+			<spring.framework.version>6.0.11</spring.framework.version>
+			<spring-data-redis.version>3.1.2</spring-data-redis.version>
 
 			<checkstyle-maven-plugin.version>3.0.0</checkstyle-maven-plugin.version>
 			<org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
@@ -46,16 +44,16 @@
 			<gson.version>2.10.1</gson.version>
 
 			<postgres.version>42.6.0</postgres.version>
-			<mysql.version>8.0.33</mysql.version>
+			<mysql.version>8.1.0</mysql.version>
 			<liquibase.version>4.23.0</liquibase.version>
 
 			<mockito.version>5.3.1</mockito.version>
 			<mockito-inline.version>5.2.0</mockito-inline.version>
 			<junit-jupiter.version>5.9.3</junit-jupiter.version>
 
-			<spring-cloud-starter-netflix-eureka-client.version>4.0.2</spring-cloud-starter-netflix-eureka-client.version>
-			<spring-cloud-starter.version>4.0.3</spring-cloud-starter.version>
-			<spring-boot-admin-starter-client.version>3.1.0</spring-boot-admin-starter-client.version>
+			<spring-cloud-starter-netflix-eureka-client.version>4.0.3</spring-cloud-starter-netflix-eureka-client.version>
+			<spring-cloud-starter.version>4.0.4</spring-cloud-starter.version>
+			<spring-boot-admin-starter-client.version>3.1.4</spring-boot-admin-starter-client.version>
     </properties>
 
 		<profiles>
@@ -224,7 +222,7 @@
 				<!-- Modules Start -->
 				<dependency>
 					<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
-					<artifactId>entity</artifactId>
+					<artifactId>domain</artifactId>
 					<version>${project.version}</version>
 				</dependency>
 				<dependency>
@@ -264,16 +262,6 @@
 				</dependency>
 				<dependency>
 					<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
-					<artifactId>validator</artifactId>
-					<version>${project.version}</version>
-				</dependency>
-				<dependency>
-					<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
-					<artifactId>repository</artifactId>
-					<version>${project.version}</version>
-				</dependency>
-				<dependency>
-					<groupId>br.com.insidesoftwares.dayoffmarker</groupId>
 					<artifactId>controller</artifactId>
 					<version>${project.version}</version>
 				</dependency>
@@ -299,7 +287,7 @@
 				<dependency>
 					<groupId>org.junit.platform</groupId>
 					<artifactId>junit-platform-launcher</artifactId>
-					<version>1.9.3</version>
+					<version>1.10.0</version>
 					<scope>test</scope>
 				</dependency>
 

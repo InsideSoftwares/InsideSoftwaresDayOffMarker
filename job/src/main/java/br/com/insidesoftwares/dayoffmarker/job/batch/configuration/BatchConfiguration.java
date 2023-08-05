@@ -1,6 +1,7 @@
 package br.com.insidesoftwares.dayoffmarker.job.batch.configuration;
 
 import br.com.insidesoftwares.dayoffmarker.job.batch.listener.DayOffMarkerJobListener;
+import br.com.insidesoftwares.dayoffmarker.job.scheduled.cache.CacheJob;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.TaskExecutorJobLauncher;
@@ -18,6 +19,7 @@ public class BatchConfiguration {
 
 	private final JobRepository jobRepository;
 	private final DayOffMarkerJobProperties dayOffMarkerJobProperties;
+	private final CacheJob cacheJob;
 
 	@Bean
 	public TaskExecutor taskExecutor() {
@@ -40,7 +42,7 @@ public class BatchConfiguration {
 
 	@Bean("dayOffMarkerJobListener")
 	public DayOffMarkerJobListener jobListener(){
-		return new DayOffMarkerJobListener();
+		return new DayOffMarkerJobListener(cacheJob);
 	}
 
 

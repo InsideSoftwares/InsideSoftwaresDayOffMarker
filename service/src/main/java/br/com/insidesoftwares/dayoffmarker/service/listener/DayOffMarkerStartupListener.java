@@ -1,7 +1,7 @@
 package br.com.insidesoftwares.dayoffmarker.service.listener;
 
 import br.com.insidesoftwares.commons.specification.InsideSoftwaresStartupListener;
-import br.com.insidesoftwares.dayoffmarker.repository.DayRepository;
+import br.com.insidesoftwares.dayoffmarker.repository.day.DayRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.service.RequestCreationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

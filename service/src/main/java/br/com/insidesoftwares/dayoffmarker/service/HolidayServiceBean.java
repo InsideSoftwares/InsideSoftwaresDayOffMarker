@@ -12,10 +12,10 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.error.day.DayNotExi
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.holiday.HolidayDayExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.holiday.HolidayFromTimeNotInformedException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.holiday.HolidayNotExistException;
-import br.com.insidesoftwares.dayoffmarker.entity.Day;
+import br.com.insidesoftwares.dayoffmarker.entity.day.Day;
 import br.com.insidesoftwares.dayoffmarker.entity.holiday.Holiday;
 import br.com.insidesoftwares.dayoffmarker.mapper.HolidayMapper;
-import br.com.insidesoftwares.dayoffmarker.repository.HolidayRepository;
+import br.com.insidesoftwares.dayoffmarker.repository.holiday.HolidayRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.HolidaySpecification;
 import br.com.insidesoftwares.dayoffmarker.specification.service.DayService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.HolidayService;

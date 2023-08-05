@@ -1,33 +1,33 @@
 # Day Off Marker
 
-O objetivo do sistema é gerenciar os dias úteis e não úteis de uma empresa, levando em consideração feriados nacionais, municipais e recessos nas cidades em que a empresa atua. 
-Isso permite consultas e validações mais rápidas sobre os dias e possibilita processos automatizados, como geração de faturas e rotinas da empresa. 
+O objetivo do sistema é gerenciar os dias úteis e não úteis de uma empresa, levando em consideração feriados nacionais, municipais e recessos nas cidades em que a empresa atua.
+Isso permite consultas e validações mais rápidas sobre os dias e possibilita processos automatizados, como geração de faturas e rotinas da empresa.
 
-O sistema tem um foco maior em empresas de telecomunicações, as quais possuem diversos processos para o seu funcionamento, como geração de cobranças de clientes, agendamento de atendimento e instalação nos clientes, além da suspensão de clientes inadimplentes. 
+O sistema tem um foco maior em empresas de telecomunicações, as quais possuem diversos processos para o seu funcionamento, como geração de cobranças de clientes, agendamento de atendimento e instalação nos clientes, além da suspensão de clientes inadimplentes.
 Todos esses processos dependem de datas específicas para serem realizados, a fim de reduzir impactos na empresa.
 
 * Versão disponivel: 1.0.0-SNAPSHOT
+* [License](LICENSE.MD)
 
 ## Bibliotecas, Framework e Projetos utilizado para implementação do sistema
-
-* [Spring Boot]('https://spring.io/projects/spring-boot')
+* [Spring Boot](https://spring.io/projects/spring-boot)
   * Versão: 3.1.1
-* [Java]('https://www.java.com/pt-BR/')
+* [Java](https://www.java.com/pt-BR/)
   * Versão: 17 ou superior
-* [Liquibase]('https://www.liquibase.org/')
+* [Liquibase](https://www.liquibase.org/)
   * Versão: 4.23.0
-* [Jdempotent]('https://github.com/Trendyol/Jdempotent')
+* [Jdempotent](https://github.com/Trendyol/Jdempotent)
   * Versão: 3.0.0 (Em desenvolvimento)
-* [InsideSoftwaresCommons]('https://github.com/InsideSoftwares/InsideSoftwaresCommons')
+* [InsideSoftwaresCommons](https://github.com/InsideSoftwares/InsideSoftwaresCommons)
   * Versão: 1.0.0 (Em desenvolvimento)
-* [InsideSoftwaresSecurityCommons]('https://github.com/InsideSoftwares/InsideSoftwaresSecurityCommons')
+* [InsideSoftwaresSecurityCommons](https://github.com/InsideSoftwares/InsideSoftwaresSecurityCommons)
   * Versão: 1.0.0 (Em desenvolvimento)
 
 ## Build do projeto
 
 * Realizar o clone do projeto
 * Na pasta do clone rodar o seguinte comando ``` mvn clean install ``` projeto ira buildar como defeault ele ira utilizar
-Keycloak como provedor de acesso e o Postgresql como base de dados
+  Keycloak como provedor de acesso e o Postgresql como base de dados
 
 ### Build com profile
 
@@ -46,7 +46,7 @@ Ex:
 ## Arquivos Extras
 
 ### Documentação
-A pasta: ``etc/documentation`` possui todos os arquivos utilizados para documentar a arquitetura, database,
+A pasta: `etc/documentation` possui todos os arquivos utilizados para documentar a arquitetura, database,
 APIs.
 
 ### Arquivos de Configuração
@@ -58,7 +58,7 @@ Eles estão disponibilizados na pasta ``etc/resources``
 
 A pasta ``etc/infra`` possui os arquivos para configurar a infraestrutura de teste e homologação do sistema.
 
-#### Provedor de acessos - Keycloak 
+#### Provedor de acessos - Keycloak
 O arquivo base para importar o Realm no keycloak para obter todas as permissões e grupos, para utilizar o sistema.
 
 Eles estão disponibilizados na pasta ``etc/infra/keycloak``, com o nome: ``DayOffMarker_Realm.json``
@@ -73,7 +73,7 @@ Eles estão disponibilizados na pasta ``etc/infra/apisix``, os seguintes arquivo
 
 ### Scripts
 
-Na pasta: ``etc/scripts`` possui os arquivos utilizados para realizar a build do sistema e gerar os arquivos necessarios 
+Na pasta: ``etc/scripts`` possui os arquivos utilizados para realizar a build do sistema e gerar os arquivos necessarios
 para utiliza-lo.
 
 ### Testes

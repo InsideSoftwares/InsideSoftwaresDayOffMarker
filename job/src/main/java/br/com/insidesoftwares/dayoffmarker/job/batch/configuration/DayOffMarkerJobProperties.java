@@ -36,4 +36,8 @@ public class DayOffMarkerJobProperties {
 	private int processDayBatch;
 	@Value("${dom.job.chunk.deleteAllDaysBatch:5000}")
 	private int deleteAllDaysBatch;
+	@Value("${dom.job.chunk.readerLinkTagInDayStatusCreated:100}")
+	private int readerLinkTagInDayStatusCreated;
+	@Value("${dom.job.chunk.updatesRequestToFinalizedLinkTag:100}")
+	private int updatesRequestToFinalizedLinkTag;
 }
