@@ -17,19 +17,17 @@ public interface RequestRepository extends JpaRepository<Request, UUID> {
 	List<Request> findAllByStatusRequest(final StatusRequest statusRequest, final TypeRequest typeRequest);
 
 	@Query("""
-		SELECT count(r) > 0 FROM Request r
+		SELECT count(r.id) > 0 FROM Request r
 		WHERE statusRequest = :statusRequest
 		AND r.typeRequest = :typeRequest
-		ORDER BY r.id LIMIT 1
 		""")
 	boolean existRequestByTypeRequestAndStatusRequest(final TypeRequest typeRequest, final StatusRequest statusRequest);
 
     @Query("""
-		SELECT COUNT(r) > 0 FROM Request r
+		SELECT COUNT(r.id) > 0 FROM Request r
 		WHERE r.typeRequest = :typeRequest
 		AND r.requestHash = :requestHash
 		AND r.statusRequest NOT IN :statusRequest
-		ORDER BY r.id LIMIT 1
 		""")
     boolean existRequestByTypeRequestAndHashRequestAndNotStatusRequest(
 		final TypeRequest typeRequest,

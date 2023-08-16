@@ -1,0 +1,25 @@
+logging:
+  exception-conversion-word:
+  level:
+    liquibase: INFO
+    root: INFO
+
+spring:
+  application:
+    name: InsideDayOffMarker
+  main:
+    allow-circular-references: true
+    allow-bean-definition-overriding: true
+  liquibase:
+    database-change-log-lock-table: DOM_DATABASECHANGELOGLOCK
+    database-change-log-table: DOM_DATABASECHANGELOG
+  mvc:
+    locale: pt-BR
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+
+liquibase:
+  change-log: classpath:db.changelog-master.yaml
+
+jdempotent:
+  enable: false

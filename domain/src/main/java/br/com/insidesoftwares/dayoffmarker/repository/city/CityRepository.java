@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 @Repository
@@ -17,9 +16,6 @@ public interface CityRepository extends JpaRepository<City, Long> {
 
 	@EntityGraph(value = "city-full")
 	Optional<City> findCityById(Long cityID);
-
-	@EntityGraph(value = "city-holiday")
-	Optional<City> findCityHolidayById(Long cityID);
 
 	@EntityGraph(value = "city-full-holiday")
 	Optional<City> findCityFullHolidayById(Long cityID);
@@ -92,20 +88,4 @@ public interface CityRepository extends JpaRepository<City, Long> {
             c.id != :cityID
             """)
     boolean existsByCodeAndAcronymAndStateIDAndNotId(String code, String acronym, Long stateID, Long cityID);
-
-	@Query("""
-		SELECT count(c) > 0
-		FROM City c
-		INNER JOIN CityHoliday ch ON c.id =  ch.id.cityId
-		INNER JOIN Holiday h ON ch.id.holidayId = h.id
-		INNER JOIN Day d ON h.day.id = d.id
-		WHERE c = :city
-			AND ch.cityHoliday = :cityHoliday
-			AND d.date = :dateSearch
-		""")
-	boolean isCityHolidayByCityAndCityHolidayAndDate(
-		final City city,
-		final boolean cityHoliday,
-		final LocalDate dateSearch
-	);
 }
