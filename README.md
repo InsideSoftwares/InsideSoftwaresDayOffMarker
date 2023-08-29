@@ -11,7 +11,7 @@ Todos esses processos dependem de datas específicas para serem realizados, a fi
 
 ## Bibliotecas, Framework e Projetos utilizado para implementação do sistema
 * [Spring Boot](https://spring.io/projects/spring-boot)
-  * Versão: 3.1.1
+  * Versão: 3.1.3
 * [Java](https://www.java.com/pt-BR/)
   * Versão: 17 ou superior
 * [Liquibase](https://www.liquibase.org/)

@@ -1,31 +1,38 @@
 package br.com.insidesoftwares.dayoffmarker.validator.tag;
 
+import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagLinkRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagCodeExistException;
+import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagLinkDateInvalidException;
+import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagLinkNotExistException;
+import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagLinkOneParameterNotNullException;
+import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagLinkParameterNotResultException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagNotExistException;
 import br.com.insidesoftwares.dayoffmarker.repository.day.DayRepository;
 import br.com.insidesoftwares.dayoffmarker.repository.day.TagRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.jpa.domain.Specification;
+
+import java.time.DayOfWeek;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {TagValidatorBean.class, TagRepository.class, DayRepository.class})
-public class TagValidatorBeanTest {
+@ExtendWith(MockitoExtension.class)
+class TagValidatorBeanTest {
 
-	@MockBean
+	@Mock
 	private TagRepository tagRepository;
-	@MockBean
+	@Mock
 	private DayRepository dayRepository;
 
-	@Autowired
+	@InjectMocks
 	private TagValidatorBean tagValidatorBean;
 
 	private static final String SUCCESS = "SUCCESS";
@@ -33,7 +40,7 @@ public class TagValidatorBeanTest {
 	private static final Long TAG_ID = 1L;
 
 	@Test
-	public void shouldntThrowExceptionByRunningMethodValidatorDTOParameter() {
+	void shouldntThrowExceptionByRunningMethodValidatorDTOParameter() {
 		Mockito.when(tagRepository.existsByCode(ArgumentMatchers.anyString())).thenReturn(false);
 		tagValidatorBean.validator(createTagRequestDTO(SUCCESS));
 
@@ -41,7 +48,7 @@ public class TagValidatorBeanTest {
 	}
 
 	@Test
-	public void shouldThrowExceptionByRunningMethodValidatorDTOParameter() {
+	void shouldThrowExceptionByRunningMethodValidatorDTOParameter() {
 		Mockito.when(tagRepository.existsByCode(ArgumentMatchers.anyString())).thenReturn(true);
 		assertThrows(
 				TagCodeExistException.class,
@@ -52,7 +59,7 @@ public class TagValidatorBeanTest {
 	}
 
 	@Test
-	public void shouldntThrowExceptionByRunningMethodValidatorLongAndDTOParameter() {
+	void shouldntThrowExceptionByRunningMethodValidatorLongAndDTOParameter() {
 		Mockito.when(tagRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
 		Mockito.when(
 				tagRepository.existsByCodeAndNotId(ArgumentMatchers.anyString(), ArgumentMatchers.anyLong())
@@ -65,7 +72,7 @@ public class TagValidatorBeanTest {
 	}
 
 	@Test
-	public void shouldThrowExceptionTagNotExistExceptionByRunningMethodValidatorLongAndDTOParameter() {
+	void shouldThrowExceptionTagNotExistExceptionByRunningMethodValidatorLongAndDTOParameter() {
 		Mockito.when(tagRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
 
 		assertThrows(
@@ -78,7 +85,7 @@ public class TagValidatorBeanTest {
 	}
 
 	@Test
-	public void shouldThrowExceptionTagCodeExistExceptionByRunningMethodValidatorLongAndDTOParameter() {
+	void shouldThrowExceptionTagCodeExistExceptionByRunningMethodValidatorLongAndDTOParameter() {
 		Mockito.when(tagRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
 		Mockito.when(
 				tagRepository.existsByCodeAndNotId(ArgumentMatchers.anyString(), ArgumentMatchers.anyLong())
@@ -94,7 +101,7 @@ public class TagValidatorBeanTest {
 	}
 
 	@Test
-	public void shouldntThrowExceptionByRunningMethodValidatorLongParameter()  {
+	void shouldntThrowExceptionByRunningMethodValidatorLongParameter()  {
 		Mockito.when(tagRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
 		tagValidatorBean.validator(TAG_ID);
 
@@ -102,7 +109,7 @@ public class TagValidatorBeanTest {
 	}
 
 	@Test
-	public void shouldThrowExceptionByRunningMethodValidatorLongParameter() {
+	void shouldThrowExceptionByRunningMethodValidatorLongParameter() {
 		Mockito.when(tagRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
 		assertThrows(
 				TagNotExistException.class,
@@ -112,7 +119,96 @@ public class TagValidatorBeanTest {
 		Mockito.verify(tagRepository, Mockito.times(1)).existsById(TAG_ID);
 	}
 
+	@Test
+	void shouldntThrowExceptionByRunningMethodValidatorLinkUnlink() {
+		TagLinkRequestDTO tagLinkRequestDTO = createTagLinkRequestDTO();
+
+		Mockito.when(dayRepository.exists(ArgumentMatchers.any(Specification.class))).thenReturn(true);
+		Mockito.when(tagRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
+
+		tagValidatorBean.validateLinkUnlink(tagLinkRequestDTO);
+	}
+
+	@Test
+	void shouldThrowTagLinkDateInvalidExceptionByRunningMethodValidatorLinkUnlink() {
+		TagLinkRequestDTO tagLinkRequestDTO = createTagLinkRequestDTOInvalidDate();
+
+		assertThrows(
+			TagLinkDateInvalidException.class,
+			() -> tagValidatorBean.validateLinkUnlink(tagLinkRequestDTO)
+		);
+
+	}
+
+	@Test
+	void shouldThrowTagLinkOneParameterNotNullExceptionByRunningMethodValidatorLinkUnlink() {
+		TagLinkRequestDTO tagLinkRequestDTO = TagLinkRequestDTO.builder().build();
+
+		assertThrows(
+			TagLinkOneParameterNotNullException.class,
+			() -> tagValidatorBean.validateLinkUnlink(tagLinkRequestDTO)
+		);
+
+	}
+
+	@Test
+	void shouldThrowTagLinkDateInvalidExceptionByRunningMethodValidatorLinkUnlinkDayAndMonthInvalid() {
+		TagLinkRequestDTO tagLinkRequestDTO = TagLinkRequestDTO.builder().tagsID(Set.of(1L)).month(3).day(41).build();
+
+		assertThrows(
+			TagLinkDateInvalidException.class,
+			() -> tagValidatorBean.validateLinkUnlink(tagLinkRequestDTO)
+		);
+	}
+
+	@Test
+	void shouldTagLinkNotExistExceptionExceptionByRunningMethodValidatorLinkUnlink() {
+		TagLinkRequestDTO tagLinkRequestDTO = createTagLinkRequestDTO();
+
+		Mockito.when(dayRepository.exists(ArgumentMatchers.any(Specification.class))).thenReturn(true);
+		Mockito.when(tagRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
+
+		assertThrows(
+			TagLinkNotExistException.class,
+			() -> tagValidatorBean.validateLinkUnlink(tagLinkRequestDTO)
+		);
+	}
+
+	@Test
+	void shouldTagLinkParameterNotResultExceptionByRunningMethodValidatorLinkUnlink() {
+		TagLinkRequestDTO tagLinkRequestDTO = createTagLinkRequestDTO();
+
+		Mockito.when(dayRepository.exists(ArgumentMatchers.any(Specification.class))).thenReturn(false);
+
+		assertThrows(
+			TagLinkParameterNotResultException.class,
+			() -> tagValidatorBean.validateLinkUnlink(tagLinkRequestDTO)
+		);
+	}
+
 	private TagRequestDTO createTagRequestDTO(final String code){
 		return TagRequestDTO.builder().code(code).build();
+	}
+
+	private TagLinkRequestDTO createTagLinkRequestDTO() {
+		return TagLinkRequestDTO.builder()
+			.tagsID(Set.of(1L))
+			.day(5)
+			.month(5)
+			.year(2023)
+			.dayOfWeek(DayOfWeek.FRIDAY)
+			.dayOfYear(180)
+			.build();
+	}
+
+	private TagLinkRequestDTO createTagLinkRequestDTOInvalidDate() {
+		return TagLinkRequestDTO.builder()
+			.tagsID(Set.of(1L))
+			.day(32)
+			.month(2)
+			.year(2023)
+			.dayOfWeek(DayOfWeek.FRIDAY)
+			.dayOfYear(180)
+			.build();
 	}
 }

@@ -34,10 +34,6 @@
         </dependency>
         <dependency>
             <groupId>br.com.insidesoftwares.dayoffmarker</groupId>
-            <artifactId>resources</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>br.com.insidesoftwares.dayoffmarker</groupId>
             <artifactId>configuration</artifactId>
         </dependency>
         <dependency>

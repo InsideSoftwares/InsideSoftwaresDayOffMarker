@@ -2,7 +2,6 @@ package br.com.insidesoftwares.dayoffmarker.validator.request;
 
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.StatusRequest;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeRequest;
-import br.com.insidesoftwares.dayoffmarker.commons.exception.error.request.ParameterNotExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.request.RequestConflictParametersException;
 import br.com.insidesoftwares.dayoffmarker.repository.RequestRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.RequestValidator;
@@ -37,12 +36,12 @@ class RequestValidatorBean implements RequestValidator {
 
 			if(existRequest) throw new RequestConflictParametersException();
 
-        } catch (ParameterNotExistException | RequestConflictParametersException exeption){
-            log.error("Error: ParameterNotExistException or RequestConflictParametersException", exeption);
-            throw exeption;
-        } catch (Exception e){
-			log.error("Error: #validRequestInitial", e);
-            throw e;
+        } catch (RequestConflictParametersException requestConflictParametersException){
+            log.error("Error: RequestConflictParametersException", requestConflictParametersException);
+            throw requestConflictParametersException;
+        } catch (Exception exception){
+			log.error("Error: #validRequestInitial", exception);
+            throw exception;
         }
     }
 }

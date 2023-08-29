@@ -10,24 +10,22 @@ import br.com.insidesoftwares.dayoffmarker.repository.state.StateRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { StateValidatorBean.class })
-public class StateValidatorBeanBeanTest {
+@ExtendWith(MockitoExtension.class)
+class StateValidatorBeanBeanTest {
 
-	@MockBean
+	@Mock
 	private StateRepository stateRepository;
-	@MockBean
+	@Mock
 	private CountryRepository countryRepository;
 
-	@Autowired
+	@InjectMocks
 	private StateValidatorBean stateValidatorBean;
 
 	private static final String STATE_NAME = "state";
@@ -36,7 +34,7 @@ public class StateValidatorBeanBeanTest {
 	private static final Long COUNTRY_ID = 1L;
 
 	@Test
-	public void shouldntThrowExceptionByRunningMethodValidatorDTOParameter() {
+	void shouldntThrowExceptionByRunningMethodValidatorDTOParameter() {
 		Mockito.when(countryRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
 		Mockito.when(
 				stateRepository.existsByNameAndCountryIdAndAcronym(
@@ -62,7 +60,7 @@ public class StateValidatorBeanBeanTest {
 	}
 
 	@Test
-	public void shouldThrowExceptionCountryNotExistExceptionByRunningMethodValidatorDTOParameter() {
+	void shouldThrowExceptionCountryNotExistExceptionByRunningMethodValidatorDTOParameter() {
 		Mockito.when(countryRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
 		assertThrows(
 				CountryNotExistException.class,
@@ -77,7 +75,7 @@ public class StateValidatorBeanBeanTest {
 	}
 
 	@Test
-	public void shouldThrowExceptionStateNameCountryAcronymExistExceptionByRunningMethodValidatorDTOParameter() {
+	void shouldThrowExceptionStateNameCountryAcronymExistExceptionByRunningMethodValidatorDTOParameter() {
 		Mockito.when(countryRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
 		Mockito.when(
 				stateRepository.existsByNameAndCountryIdAndAcronym(
@@ -99,7 +97,7 @@ public class StateValidatorBeanBeanTest {
 	}
 
 	@Test
-	public void shouldThrowExceptionStateCountryAcronymExistExceptionByRunningMethodValidatorDTOParameter() {
+	void shouldThrowExceptionStateCountryAcronymExistExceptionByRunningMethodValidatorDTOParameter() {
 		Mockito.when(countryRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
 		Mockito.when(
 				stateRepository.existsByNameAndCountryIdAndAcronym(
@@ -127,7 +125,7 @@ public class StateValidatorBeanBeanTest {
 	}
 
 	@Test
-	public void shouldntThrowExceptionByRunningMethodValidatorLongAndDTOParameter()  {
+	void shouldntThrowExceptionByRunningMethodValidatorLongAndDTOParameter()  {
 		Mockito.when(stateRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
 		Mockito.when(countryRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
 		Mockito.when(
@@ -157,7 +155,7 @@ public class StateValidatorBeanBeanTest {
 	}
 
 	@Test
-	public void shouldThrowExceptionStateNotExistExceptionByRunningMethodValidatorLongAndDTOParameter() {
+	void shouldThrowExceptionStateNotExistExceptionByRunningMethodValidatorLongAndDTOParameter() {
 		Mockito.when(stateRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
 
 		assertThrows(
@@ -174,7 +172,7 @@ public class StateValidatorBeanBeanTest {
 	}
 
 	@Test
-	public void shouldThrowExceptionCountryNotExistExceptionByRunningMethodValidatorLongAndDTOParameter() {
+	void shouldThrowExceptionCountryNotExistExceptionByRunningMethodValidatorLongAndDTOParameter() {
 		Mockito.when(stateRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
 		Mockito.when(countryRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
 
@@ -192,7 +190,7 @@ public class StateValidatorBeanBeanTest {
 	}
 
 	@Test
-	public void shouldThrowExceptionStateNameCountryAcronymExistExceptionByRunningMethodValidatorLongAndDTOParameter() {
+	void shouldThrowExceptionStateNameCountryAcronymExistExceptionByRunningMethodValidatorLongAndDTOParameter() {
 		Mockito.when(stateRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
 		Mockito.when(countryRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
 		Mockito.when(
@@ -219,7 +217,7 @@ public class StateValidatorBeanBeanTest {
 	}
 
 	@Test
-	public void shouldThrowExceptionStateCountryAcronymExistExceptionByRunningMethodValidatorLongAndDTOParameter() {
+	void shouldThrowExceptionStateCountryAcronymExistExceptionByRunningMethodValidatorLongAndDTOParameter() {
 		Mockito.when(stateRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
 		Mockito.when(countryRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
 		Mockito.when(
@@ -251,14 +249,14 @@ public class StateValidatorBeanBeanTest {
 	}
 
 	@Test
-	public void shouldntThrowExceptionByRunningMethodValidatorLongParameter()  {
+	void shouldntThrowExceptionByRunningMethodValidatorLongParameter()  {
 		Mockito.when(stateRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
 		stateValidatorBean.validator(STATE_ID);
 		Mockito.verify(stateRepository, Mockito.times(1)).existsById(STATE_ID);
 	}
 
 	@Test
-	public void shouldThrowExceptionByRunningMethodValidatorLongParameter() {
+	void shouldThrowExceptionByRunningMethodValidatorLongParameter() {
 		Mockito.when(stateRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
 		assertThrows(
 				StateNotExistException.class,

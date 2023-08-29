@@ -9,22 +9,20 @@ import br.com.insidesoftwares.dayoffmarker.repository.CountryRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { CountryValidatorBean.class })
+@ExtendWith(MockitoExtension.class)
 public class CountryValidatorBeanBeanTest {
 
-	@MockBean
+	@Mock
 	private CountryRepository countryRepository;
 
-	@Autowired
+	@InjectMocks
 	private CountryValidatorBean countryValidatorBean;
 
 	private static final String COUNTRY_NAME = "state";

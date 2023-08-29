@@ -1,6 +1,7 @@
 package br.com.insidesoftwares.dayoffmarker.service.request;
 
 import br.com.insidesoftwares.commons.utils.DateUtils;
+import br.com.insidesoftwares.commons.utils.HashUtils;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagLinkRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.Configurationkey;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.StatusRequest;
@@ -189,7 +190,7 @@ class RequestCreationServiceBean implements RequestCreationService {
 				.build()
 		);
 
-		String requestParametersHash = getHashValues(requestParameters);
+		String requestParametersHash = getHashValues(requestParameters, request.getTypeRequest().name());
 		request.setRequestHash(requestParametersHash);
 
 		requestValidator.validateRequest(requestParametersHash, request.getTypeRequest());
@@ -216,7 +217,7 @@ class RequestCreationServiceBean implements RequestCreationService {
 			createRequestParameter(request, TypeParameter.REQUEST_ORIGINAL, TypeValue.STRING, requestID)
 		);
 
-		String requestParametersHash = getHashValues(requestParameters);
+		String requestParametersHash = getHashValues(requestParameters, request.getTypeRequest().name());
 		request.setRequestHash(requestParametersHash);
 
 		requestValidator.validateRequest(requestParametersHash, request.getTypeRequest());
@@ -241,7 +242,7 @@ class RequestCreationServiceBean implements RequestCreationService {
                 createRequestParameter(request, TypeParameter.END_YEAR, TypeValue.INT, endYear)
         );
 
-		String requestParametersHash = getHashValues(requestParameters);
+		String requestParametersHash = getHashValues(requestParameters, request.getTypeRequest().name());
 		request.setRequestHash(requestParametersHash);
 
 		requestValidator.validateRequest(requestParametersHash, request.getTypeRequest());
@@ -289,7 +290,7 @@ class RequestCreationServiceBean implements RequestCreationService {
 			);
 		}
 
-		String requestParametersHash = getHashValues(requestParameters);
+		String requestParametersHash = getHashValues(requestParameters, request.getTypeRequest().name());
 		request.setRequestHash(requestParametersHash);
 
 		requestValidator.validateRequest(requestParametersHash, request.getTypeRequest());
@@ -315,8 +316,9 @@ class RequestCreationServiceBean implements RequestCreationService {
 		return AuthenticationUtils.getUserNameAuthenticated();
 	}
 
-	private String getHashValues(final Set<RequestParameter> requestParameters) {
-		String values = requestParameters.stream().map(RequestParameter::getValue).collect(Collectors.joining(PIPE));
-		return String.format("%s",values.hashCode());
+	private String getHashValues(final Set<RequestParameter> requestParameters, final String typeRequest) {
+		String values = typeRequest + requestParameters.stream().map(RequestParameter::getValue).collect(Collectors.joining(PIPE));
+
+		return HashUtils.createHash(values);
 	}
 }

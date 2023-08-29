@@ -39,7 +39,7 @@ class FixedHolidayValidatorBean implements Validator<Long, FixedHolidayRequestDT
     public void validator(final Long fixedHolidayId, final FixedHolidayRequestDTO fixedHolidayRequestDTO) {
         if(!fixedHolidayRepository.existsById(fixedHolidayId)) throw new FixedHolidayNotExistException();
         if(
-                DateUtils.isDateValid(
+                !DateUtils.isDateValid(
                         fixedHolidayRequestDTO.day(),
                         fixedHolidayRequestDTO.month()
                 )

@@ -11,26 +11,24 @@ import br.com.insidesoftwares.dayoffmarker.repository.holiday.HolidayRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalTime;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { HolidayValidatorBean.class })
+@ExtendWith(MockitoExtension.class)
 public class HolidayValidatorBeanTest {
 
-	@MockBean
+	@Mock
 	private HolidayRepository holidayRepository;
-	@MockBean
+	@Mock
 	private DayRepository dayRepository;
 
-	@Autowired
+	@InjectMocks
 	private HolidayValidatorBean holidayValidatorBean;
 
 	private static final String HOLIDAY_NAME = "name";
