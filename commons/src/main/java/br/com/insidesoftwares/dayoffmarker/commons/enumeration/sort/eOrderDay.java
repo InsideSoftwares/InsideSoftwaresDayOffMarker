@@ -12,6 +12,7 @@ public enum eOrderDay implements PropertiesOrder {
     DATE("date"),
 	IS_WEEKEND("isWeekend"),
 	IS_HOLIDAY("isHoliday"),
+	DAY_OF_YEAR("dayOfYear"),
     COUNTRY_NAME("country.name"),
     HOLIDAY_NAME("holiday.name");
 

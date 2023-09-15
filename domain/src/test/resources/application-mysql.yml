@@ -1,0 +1,10 @@
+spring:
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
+        ddl-auto: none
+        dialect: org.hibernate.dialect.MySQLDialect
+        naming:
+          physical-strategy: br.com.insidesoftwares.commons.configuration.mysql.MySQLUpperCaseStrategy

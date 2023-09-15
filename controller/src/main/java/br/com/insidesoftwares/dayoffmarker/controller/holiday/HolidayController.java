@@ -4,8 +4,8 @@ import br.com.insidesoftwares.commons.annotation.InsideSoftwaresController;
 import br.com.insidesoftwares.commons.annotation.request.InsideRequestGet;
 import br.com.insidesoftwares.commons.annotation.request.InsideRequestPost;
 import br.com.insidesoftwares.commons.annotation.request.InsideRequestPut;
-import br.com.insidesoftwares.commons.dto.request.PaginationFilter;
-import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponse;
+import br.com.insidesoftwares.commons.dto.request.InsidePaginationFilterDTO;
+import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayBatchRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.holiday.HolidayResponseDTO;
@@ -47,10 +47,10 @@ public class HolidayController {
 	)
 	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.Holiday.Read')")
 	@InsideRequestGet(uri = "/v1/holiday", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_HOLIDAY")
-    public InsideSoftwaresResponse<List<HolidayResponseDTO>> findAll(
+    public InsideSoftwaresResponseDTO<List<HolidayResponseDTO>> findAll(
 			@RequestParam(value = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
 			@RequestParam(value = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
-			PaginationFilter<eOrderHoliday> paginationFilter
+			InsidePaginationFilterDTO<eOrderHoliday> paginationFilter
     ) {
         return holidayService.findAll(startDate, endDate, paginationFilter);
     }
@@ -65,7 +65,7 @@ public class HolidayController {
 	)
 	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.Holiday.Read')")
 	@InsideRequestGet(uri = "/v1/holiday/{id}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_HOLIDAY")
-    public InsideSoftwaresResponse<HolidayResponseDTO> findById(@PathVariable Long id) {
+    public InsideSoftwaresResponseDTO<HolidayResponseDTO> findById(@PathVariable Long id) {
         return holidayService.findById(id);
     }
 
@@ -81,11 +81,10 @@ public class HolidayController {
 	@InsideRequestPost(uri = "/v1/holiday", httpCode = HttpStatus.CREATED,
 		nameCache = { "DAYOFF_MARKER_HOLIDAY", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_CITY", "DAYOFF_MARKER_STATE" })
     @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_HOLIDAY", ttl = 1)
-    public InsideSoftwaresResponse<Void> save(
+    public InsideSoftwaresResponseDTO<Long> save(
             @JdempotentRequestPayload @RequestBody HolidayRequestDTO holidayRequestDTO
     ) {
-        holidayService.save(holidayRequestDTO);
-		return InsideSoftwaresResponse.<Void>builder().build();
+        return holidayService.save(holidayRequestDTO);
     }
 
 	@Operation(
@@ -100,11 +99,10 @@ public class HolidayController {
 	@InsideRequestPost(uri = "/v1/holiday/batch", httpCode = HttpStatus.CREATED,
 		nameCache = { "DAYOFF_MARKER_HOLIDAY", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_CITY", "DAYOFF_MARKER_STATE", "DAYOFF_MARKER_WORKING" })
 	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_HOLIDAY", ttl = 1)
-	public InsideSoftwaresResponse<Void> saveInBatch(
+	public InsideSoftwaresResponseDTO<List<Long>> saveInBatch(
 		@JdempotentRequestPayload @RequestBody HolidayBatchRequestDTO holidayBatchRequestDTO
 	) {
-		holidayService.saveInBatch(holidayBatchRequestDTO);
-		return InsideSoftwaresResponse.<Void>builder().build();
+		return holidayService.saveInBatch(holidayBatchRequestDTO);
 	}
 
 	@Operation(
@@ -119,12 +117,12 @@ public class HolidayController {
 	@InsideRequestPut(uri = "/v1/holiday/{id}", httpCode = HttpStatus.CREATED,
 		nameCache = { "DAYOFF_MARKER_HOLIDAY", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_CITY", "DAYOFF_MARKER_STATE", "DAYOFF_MARKER_WORKING" })
 	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_HOLIDAY", ttl = 1)
-    public InsideSoftwaresResponse<Void> update(
-            @PathVariable Long id,
-            @RequestBody HolidayRequestDTO holidayRequestDTO
+    public InsideSoftwaresResponseDTO<Void> update(
+		@JdempotentRequestPayload @PathVariable Long id,
+		@JdempotentRequestPayload @RequestBody HolidayRequestDTO holidayRequestDTO
     ) {
         holidayService.update(id, holidayRequestDTO);
-		return InsideSoftwaresResponse.<Void>builder().build();
+		return InsideSoftwaresResponseDTO.<Void>builder().build();
     }
 
 }

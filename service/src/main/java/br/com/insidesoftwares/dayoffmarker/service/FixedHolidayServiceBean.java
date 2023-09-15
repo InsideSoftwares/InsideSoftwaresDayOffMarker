@@ -1,19 +1,20 @@
 package br.com.insidesoftwares.dayoffmarker.service;
 
-import br.com.insidesoftwares.commons.dto.request.PaginationFilter;
-import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponse;
+import br.com.insidesoftwares.commons.annotation.InsideAudit;
+import br.com.insidesoftwares.commons.dto.request.InsidePaginationFilterDTO;
+import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
 import br.com.insidesoftwares.commons.utils.PaginationUtils;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.FixedHolidayRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.FixedHolidayUpdateRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.fixedholiday.FixedHolidayResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.sort.eOrderFixedHoliday;
-import br.com.insidesoftwares.dayoffmarker.commons.exception.error.day.DayMonthInvalidException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.country.CountryNotExistException;
+import br.com.insidesoftwares.dayoffmarker.commons.exception.error.day.DayMonthInvalidException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.fixedholiday.FixedHolidayDayMonthCountryExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.fixedholiday.FixedHolidayNotExistException;
-import br.com.insidesoftwares.dayoffmarker.entity.holiday.FixedHoliday;
-import br.com.insidesoftwares.dayoffmarker.mapper.FixedHolidayMapper;
-import br.com.insidesoftwares.dayoffmarker.repository.FixedHolidayRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.holiday.FixedHoliday;
+import br.com.insidesoftwares.dayoffmarker.domain.mapper.FixedHolidayMapper;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.holiday.FixedHolidayRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.service.FixedHolidayService;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.Validator;
 import jakarta.validation.Valid;
@@ -36,17 +37,18 @@ class FixedHolidayServiceBean implements FixedHolidayService {
 	private final Validator<Long, FixedHolidayUpdateRequestDTO> fixedHolidayUpdateValidator;
     private final FixedHolidayMapper fixedHolidayMapper;
 
+    @InsideAudit
     @Override
-    public InsideSoftwaresResponse<List<FixedHolidayResponseDTO>> findAll(
-			final PaginationFilter<eOrderFixedHoliday> paginationFilter
+    public InsideSoftwaresResponseDTO<List<FixedHolidayResponseDTO>> findAll(
+			final InsidePaginationFilterDTO<eOrderFixedHoliday> paginationFilter
     ) {
 
 		Pageable pageable = PaginationUtils.createPageable(paginationFilter);
 
         Page<FixedHoliday> fixedHolidays = fixedHolidayRepository.findAll(pageable);
-        return InsideSoftwaresResponse.<List<FixedHolidayResponseDTO>>builder()
+        return InsideSoftwaresResponseDTO.<List<FixedHolidayResponseDTO>>builder()
                 .data(fixedHolidayMapper.toDTOs(fixedHolidays.getContent()))
-                .paginatedDTO(
+                .insidePaginatedDTO(
                         PaginationUtils.createPaginated(
 							fixedHolidays.getTotalPages(),
 							fixedHolidays.getTotalElements(),
@@ -58,17 +60,19 @@ class FixedHolidayServiceBean implements FixedHolidayService {
 
     }
 
+    @InsideAudit
     @Override
-    public InsideSoftwaresResponse<FixedHolidayResponseDTO> findById(final Long fixedHolidayID) throws FixedHolidayNotExistException {
+    public InsideSoftwaresResponseDTO<FixedHolidayResponseDTO> findById(final Long fixedHolidayID) throws FixedHolidayNotExistException {
         FixedHoliday fixedHoliday = fixedHolidayRepository
                 .findById(fixedHolidayID)
                 .orElseThrow(FixedHolidayNotExistException::new);
 
-        return InsideSoftwaresResponse.<FixedHolidayResponseDTO>builder()
+        return InsideSoftwaresResponseDTO.<FixedHolidayResponseDTO>builder()
                 .data(fixedHolidayMapper.toDTO(fixedHoliday))
                 .build();
     }
 
+    @InsideAudit
     @Transactional(rollbackFor = {
             CountryNotExistException.class,
             DayMonthInvalidException.class,
@@ -93,6 +97,7 @@ class FixedHolidayServiceBean implements FixedHolidayService {
         fixedHolidayRepository.save(fixedHoliday);
     }
 
+    @InsideAudit
     @Transactional(rollbackFor = {
             CountryNotExistException.class,
             DayMonthInvalidException.class,
@@ -117,12 +122,14 @@ class FixedHolidayServiceBean implements FixedHolidayService {
         fixedHolidayRepository.save(fixedHoliday);
     }
 
-	@Override
+    @InsideAudit
+    @Override
 	public List<FixedHoliday> findAllByEnable(final boolean isEnable) {
 		return fixedHolidayRepository.findAllByIsEnable(isEnable);
 	}
 
-	@Override
+    @InsideAudit
+    @Override
 	public FixedHoliday findFixedHolidayById(Long fixedHolidayID) throws FixedHolidayNotExistException {
 		return fixedHolidayRepository.findById(fixedHolidayID)
 				.orElseThrow(FixedHolidayNotExistException::new);

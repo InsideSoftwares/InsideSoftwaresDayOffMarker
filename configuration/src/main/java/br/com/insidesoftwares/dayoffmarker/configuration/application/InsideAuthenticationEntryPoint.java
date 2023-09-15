@@ -2,7 +2,7 @@ package br.com.insidesoftwares.dayoffmarker.configuration.application;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.AuthenticationException;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 @Component
-@Log4j2
+@Slf4j
 public class InsideAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Autowired

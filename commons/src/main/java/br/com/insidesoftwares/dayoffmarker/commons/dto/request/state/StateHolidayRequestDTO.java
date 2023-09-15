@@ -8,10 +8,9 @@ import java.io.Serializable;
 import java.util.Set;
 
 public record StateHolidayRequestDTO(
-
 	boolean isHoliday,
 	@NotNull(message = "DOMV-003") @NotEmpty(message = "DOMV-001") Set<Long> holidaysId
 ) implements Serializable {
 	@Serial
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 486014930525211120L;
 }

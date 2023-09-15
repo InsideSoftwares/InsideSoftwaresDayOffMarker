@@ -28,6 +28,6 @@ public record HolidayBatchRequestDTO (
 ) implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 5545796669909211361L;
 
 }

@@ -1,16 +1,17 @@
 package br.com.insidesoftwares.dayoffmarker.service.working;
 
-import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponse;
+import br.com.insidesoftwares.commons.annotation.InsideAudit;
+import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
 import br.com.insidesoftwares.commons.utils.InsideSoftwaresResponseUtils;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.day.DayDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.working.WorkingCurrentDayResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.working.WorkingDayException;
-import br.com.insidesoftwares.dayoffmarker.entity.Day;
-import br.com.insidesoftwares.dayoffmarker.mapper.DayMapper;
-import br.com.insidesoftwares.dayoffmarker.repository.DayRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.day.Day;
+import br.com.insidesoftwares.dayoffmarker.domain.mapper.DayMapper;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.day.DayRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.service.working.WorkingDayService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,15 +23,16 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-@Log4j2
+@Slf4j
 public class WorkingDayServiceBean implements WorkingDayService {
 	private static final int LIMIT = 5;
 
 	private final DayRepository dayRepository;
 	private final DayMapper dayMapper;
 
-	@Override
-	public InsideSoftwaresResponse<DayDTO> findWorkingDay(
+    @InsideAudit
+    @Override
+	public InsideSoftwaresResponseDTO<DayDTO> findWorkingDay(
 		final LocalDate date,
 		final int numberOfDays
 	) {
@@ -39,8 +41,9 @@ public class WorkingDayServiceBean implements WorkingDayService {
 		return InsideSoftwaresResponseUtils.wrapResponse(dayDTO);
 	}
 
-	@Override
-	public InsideSoftwaresResponse<DayDTO> findPreviousWorkingDay(
+    @InsideAudit
+    @Override
+	public InsideSoftwaresResponseDTO<DayDTO> findPreviousWorkingDay(
 		final LocalDate date,
 		final int numberOfDays
 	) {
@@ -49,8 +52,9 @@ public class WorkingDayServiceBean implements WorkingDayService {
 		return InsideSoftwaresResponseUtils.wrapResponse(dayDTO);
 	}
 
-	@Override
-	public InsideSoftwaresResponse<WorkingCurrentDayResponseDTO> findWorkingCurrentDay() {
+    @InsideAudit
+    @Override
+	public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCurrentDay() {
 		LocalDate currentDay = LocalDate.now();
 
 		boolean isWorkingDay = dayRepository.isWorkingDayByDateAndIsHolidayAndIsWeekend(currentDay, false, false);

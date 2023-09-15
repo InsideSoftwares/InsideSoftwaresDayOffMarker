@@ -2,8 +2,8 @@ package br.com.insidesoftwares.dayoffmarker.service.request;
 
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.StatusRequest;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeRequest;
-import br.com.insidesoftwares.dayoffmarker.entity.request.Request;
-import br.com.insidesoftwares.dayoffmarker.repository.RequestRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.request.Request;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.RequestRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.service.RequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,11 +17,13 @@ class RequestServiceBean implements RequestService {
 
 	private final RequestRepository requestRepository;
 
+	@Transactional
 	@Override
 	public void saveRequest(final Request request) {
 		requestRepository.save(request);
 	}
 
+	@Transactional
 	@Override
 	public void saveAndFlushRequest(final Request request) {
 		requestRepository.saveAndFlush(request);

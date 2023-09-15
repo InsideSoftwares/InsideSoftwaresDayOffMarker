@@ -12,5 +12,5 @@ public record TagResponseDTO(
 	String description
 ) implements Serializable {
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -7923904950266131177L;
 }

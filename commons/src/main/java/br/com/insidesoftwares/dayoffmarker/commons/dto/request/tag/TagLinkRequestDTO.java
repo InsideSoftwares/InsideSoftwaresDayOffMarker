@@ -24,9 +24,9 @@ public record TagLinkRequestDTO(
 	@Min(value = 1, message = "DOMV-002")
 	@Max(value = 12, message = "DOMV-004")
 	Integer month,
-	@Min(value = 2000, message = "DOMV-002")
+	@Min(value = 2023, message = "DOMV-002")
 	Integer year
 ) implements Serializable {
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -5201890574726545927L;
 }

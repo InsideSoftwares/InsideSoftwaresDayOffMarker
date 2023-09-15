@@ -17,5 +17,5 @@ public record CityRequestDTO (
 
 ) implements Serializable {
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -3155842808516668192L;
 }

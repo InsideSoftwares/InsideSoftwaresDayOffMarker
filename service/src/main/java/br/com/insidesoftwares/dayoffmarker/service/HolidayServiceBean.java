@@ -1,7 +1,8 @@
 package br.com.insidesoftwares.dayoffmarker.service;
 
-import br.com.insidesoftwares.commons.dto.request.PaginationFilter;
-import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponse;
+import br.com.insidesoftwares.commons.annotation.InsideAudit;
+import br.com.insidesoftwares.commons.dto.request.InsidePaginationFilterDTO;
+import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
 import br.com.insidesoftwares.commons.utils.PaginationUtils;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayBatchRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayCreateRequestDTO;
@@ -12,11 +13,11 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.error.day.DayNotExi
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.holiday.HolidayDayExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.holiday.HolidayFromTimeNotInformedException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.holiday.HolidayNotExistException;
-import br.com.insidesoftwares.dayoffmarker.entity.Day;
-import br.com.insidesoftwares.dayoffmarker.entity.holiday.Holiday;
-import br.com.insidesoftwares.dayoffmarker.mapper.HolidayMapper;
-import br.com.insidesoftwares.dayoffmarker.repository.HolidayRepository;
-import br.com.insidesoftwares.dayoffmarker.specification.HolidaySpecification;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.day.Day;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.holiday.Holiday;
+import br.com.insidesoftwares.dayoffmarker.domain.mapper.HolidayMapper;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.holiday.HolidayRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.specification.HolidaySpecification;
 import br.com.insidesoftwares.dayoffmarker.specification.service.DayService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.HolidayService;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.Validator;
@@ -28,8 +29,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -41,11 +42,12 @@ class HolidayServiceBean implements HolidayService {
     private final Validator<Long, HolidayRequestDTO> holidayValidator;
     private final DayService dayService;
 
-	@Override
-	public InsideSoftwaresResponse<List<HolidayResponseDTO>> findAll(
+    @InsideAudit
+    @Override
+	public InsideSoftwaresResponseDTO<List<HolidayResponseDTO>> findAll(
 			final LocalDate startDate,
 			final LocalDate endDate,
-			PaginationFilter<eOrderHoliday> paginationFilter
+			InsidePaginationFilterDTO<eOrderHoliday> paginationFilter
 	) {
 
 		Pageable pageable = PaginationUtils.createPageable(paginationFilter);
@@ -54,9 +56,9 @@ class HolidayServiceBean implements HolidayService {
 
 		Page<Holiday> holidays = holidayRepository.findAll(holidaySpecification, pageable);
 
-		return InsideSoftwaresResponse.<List<HolidayResponseDTO>>builder()
+		return InsideSoftwaresResponseDTO.<List<HolidayResponseDTO>>builder()
 				.data(holidayMapper.toDTOs(holidays.getContent()))
-				.paginatedDTO(
+				.insidePaginatedDTO(
 						PaginationUtils.createPaginated(
 							holidays.getTotalPages(),
 							holidays.getTotalElements(),
@@ -67,35 +69,41 @@ class HolidayServiceBean implements HolidayService {
 				.build();
 	}
 
+    @InsideAudit
     @Override
-    public InsideSoftwaresResponse<HolidayResponseDTO> findById(final Long holidayID) {
+    public InsideSoftwaresResponseDTO<HolidayResponseDTO> findById(final Long holidayID) {
         Holiday holiday = findHolidayById(holidayID);
-        return InsideSoftwaresResponse.<HolidayResponseDTO>builder()
+        return InsideSoftwaresResponseDTO.<HolidayResponseDTO>builder()
                 .data(holidayMapper.toDTO(holiday))
                 .build();
     }
 
-	@Transactional(rollbackFor = {
+    @InsideAudit
+    @Transactional(rollbackFor = {
 		DayNotExistException.class,
 		HolidayDayExistException.class,
 		HolidayFromTimeNotInformedException.class
 	})
 	@Override
-	public void saveInBatch(final HolidayBatchRequestDTO holidayBatchRequestDTO) {
+	public InsideSoftwaresResponseDTO<List<Long>> saveInBatch(final HolidayBatchRequestDTO holidayBatchRequestDTO) {
+        List<Long> holidayIDs = new ArrayList<>();
 		holidayBatchRequestDTO.daysId().forEach(dayID -> {
 			HolidayRequestDTO holidayRequestDTO = holidayMapper.toHolidayResponseDTO(holidayBatchRequestDTO, dayID);
-			save(holidayRequestDTO);
+			InsideSoftwaresResponseDTO<Long> response = save(holidayRequestDTO);
+            holidayIDs.add(response.getData());
 		});
 
+        return InsideSoftwaresResponseDTO.<List<Long>>builder().data(holidayIDs).build();
 	}
 
+    @InsideAudit
     @Transactional(rollbackFor = {
             DayNotExistException.class,
             HolidayDayExistException.class,
             HolidayFromTimeNotInformedException.class
     })
     @Override
-    public void save(final HolidayRequestDTO holidayRequestDTO) {
+    public InsideSoftwaresResponseDTO<Long> save(final HolidayRequestDTO holidayRequestDTO) {
         holidayValidator.validator(holidayRequestDTO);
 
         Day day = dayService.findDayByID(holidayRequestDTO.dayId());
@@ -108,13 +116,17 @@ class HolidayServiceBean implements HolidayService {
                 .day(day)
 				.optional(holidayRequestDTO.optional())
 				.automaticUpdate(false)
+                .nationalHoliday(holidayRequestDTO.nationalHoliday())
                 .build();
 
-        holidayRepository.save(holiday);
+        holiday = holidayRepository.save(holiday);
 
-        dayService.setDayHoliday(holidayRequestDTO.dayId(), true);
+        dayService.defineDayIsHoliday(holidayRequestDTO.dayId());
+
+        return InsideSoftwaresResponseDTO.<Long>builder().data(holiday.getId()).build();
     }
 
+    @InsideAudit
     @Transactional(rollbackFor = {
             HolidayNotExistException.class,
             DayNotExistException.class,
@@ -130,7 +142,7 @@ class HolidayServiceBean implements HolidayService {
 
         Holiday holiday = holidayRepository.getReferenceById(holidayID);
         if(!holiday.getDay().getId().equals(holidayRequestDTO.dayId())) {
-            dayService.setDayHoliday(holiday.getDay().getId(), false);
+            dayService.defineDayIsHoliday(holiday.getDay().getId());
             Day day = dayService.findDayByID(holidayRequestDTO.dayId());
             holiday.setDay(day);
         }
@@ -141,51 +153,14 @@ class HolidayServiceBean implements HolidayService {
         holiday.setFromTime(holidayRequestDTO.fromTime());
 		holiday.setAutomaticUpdate(false);
 		holiday.setOptional(holidayRequestDTO.optional());
+        holiday.setNationalHoliday(holidayRequestDTO.nationalHoliday());
         holidayRepository.save(holiday);
 
-        dayService.setDayHoliday(holidayRequestDTO.dayId(), true);
+        dayService.defineDayIsHoliday(holidayRequestDTO.dayId());
     }
 
-	@Transactional(rollbackFor = {
-			DayNotExistException.class,
-			HolidayDayExistException.class,
-			HolidayFromTimeNotInformedException.class
-	})
-	@Override
-	public void saveHoliday(final HolidayRequestDTO holidayRequestDTO) {
-
-		Optional<Holiday> optionalHoliday = holidayRepository.findByDayID(holidayRequestDTO.dayId());
-		Day day = dayService.findDayByID(holidayRequestDTO.dayId());
-		Holiday holiday;
-		if(optionalHoliday.isPresent()){
-			holidayValidator.validator(optionalHoliday.get().getId(), holidayRequestDTO);
-			holiday = Holiday.builder()
-					.name(holidayRequestDTO.name())
-					.description(holidayRequestDTO.description())
-					.holidayType(holidayRequestDTO.holidayType())
-					.fromTime(holidayRequestDTO.fromTime())
-					.day(day)
-					.automaticUpdate(true)
-					.build();
-			holiday.setId(
-					optionalHoliday.get().getId()
-			);
-		} else {
-			holidayValidator.validator(holidayRequestDTO);
-			holiday = Holiday.builder()
-					.name(holidayRequestDTO.name())
-					.description(holidayRequestDTO.description())
-					.holidayType(holidayRequestDTO.holidayType())
-					.fromTime(holidayRequestDTO.fromTime())
-					.day(day)
-					.automaticUpdate(true)
-					.build();
-		}
-		holidayRepository.save(holiday);
-		dayService.setDayHoliday(holidayRequestDTO.dayId(), true);
-	}
-
-	@Transactional(rollbackFor = {
+    @InsideAudit
+    @Transactional(rollbackFor = {
 		DayNotExistException.class,
 		HolidayDayExistException.class,
 		HolidayFromTimeNotInformedException.class
@@ -202,13 +177,15 @@ class HolidayServiceBean implements HolidayService {
 			.day(day)
 			.automaticUpdate(true)
 			.fixedHolidayID(holidayCreateRequestDTO.fixedHolidayID())
+            .nationalHoliday(holidayCreateRequestDTO.nationalHoliday())
 			.build();
 		holidayRepository.save(holiday);
 
-		dayService.setDayHoliday(holidayCreateRequestDTO.dayId(), true);
+		dayService.defineDayIsHoliday(holidayCreateRequestDTO.dayId());
 	}
 
-	@Override
+    @InsideAudit
+    @Override
 	public Holiday findHolidayById(Long holidayID) {
 		return holidayRepository.findById(holidayID).orElseThrow(HolidayNotExistException::new);
 	}

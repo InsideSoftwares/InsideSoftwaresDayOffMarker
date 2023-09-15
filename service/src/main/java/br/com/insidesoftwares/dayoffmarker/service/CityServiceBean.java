@@ -1,7 +1,8 @@
 package br.com.insidesoftwares.dayoffmarker.service;
 
-import br.com.insidesoftwares.commons.dto.request.PaginationFilter;
-import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponse;
+import br.com.insidesoftwares.commons.annotation.InsideAudit;
+import br.com.insidesoftwares.commons.dto.request.InsidePaginationFilterDTO;
+import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
 import br.com.insidesoftwares.commons.utils.PaginationUtils;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.city.CityHolidayDeleteRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.city.CityHolidayRequestDTO;
@@ -14,15 +15,15 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.error.city.CityName
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.city.CityNotExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.holiday.HolidayNotExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.state.StateNotExistException;
-import br.com.insidesoftwares.dayoffmarker.entity.Country;
-import br.com.insidesoftwares.dayoffmarker.entity.holiday.Holiday;
-import br.com.insidesoftwares.dayoffmarker.entity.city.City;
-import br.com.insidesoftwares.dayoffmarker.entity.city.CityHoliday;
-import br.com.insidesoftwares.dayoffmarker.entity.city.CityHolidayPK;
-import br.com.insidesoftwares.dayoffmarker.entity.state.State;
-import br.com.insidesoftwares.dayoffmarker.mapper.city.CityMapper;
-import br.com.insidesoftwares.dayoffmarker.repository.city.CityHolidayRepository;
-import br.com.insidesoftwares.dayoffmarker.repository.city.CityRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.Country;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.city.City;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.city.CityHoliday;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.city.CityHolidayPK;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.holiday.Holiday;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.state.State;
+import br.com.insidesoftwares.dayoffmarker.domain.mapper.city.CityMapper;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.city.CityHolidayRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.city.CityRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.service.CityService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.CountryService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.HolidayService;
@@ -52,10 +53,11 @@ class CityServiceBean implements CityService {
     private final CityMapper cityMapper;
     private final Validator<Long, CityRequestDTO> cityValidator;
 
+    @InsideAudit(description = "Search all cities")
     @Override
-    public InsideSoftwaresResponse<List<CityResponseDTO>> findAll(
+    public InsideSoftwaresResponseDTO<List<CityResponseDTO>> findAll(
             final Long stateID,
-            final PaginationFilter<eOrderCity> paginationFilter
+            final InsidePaginationFilterDTO<eOrderCity> paginationFilter
     ) {
 
         Pageable pageable = PaginationUtils.createPageable(paginationFilter);
@@ -68,9 +70,9 @@ class CityServiceBean implements CityService {
             cities = cityRepository.findCityByCountry(country,pageable);
         }
 
-        return InsideSoftwaresResponse.<List<CityResponseDTO>>builder()
+        return InsideSoftwaresResponseDTO.<List<CityResponseDTO>>builder()
                 .data(cityMapper.toDTOs(cities.getContent()))
-                .paginatedDTO(
+                .insidePaginatedDTO(
                         PaginationUtils.createPaginated(
 							cities.getTotalPages(),
 							cities.getTotalElements(),
@@ -81,14 +83,16 @@ class CityServiceBean implements CityService {
                 .build();
     }
 
+    @InsideAudit(description = "Find City by ID")
     @Override
-    public InsideSoftwaresResponse<CityResponseDTO> findById(final Long cityID) {
+    public InsideSoftwaresResponseDTO<CityResponseDTO> findById(final Long cityID) {
         City city = findCityById(cityID);
-        return InsideSoftwaresResponse.<CityResponseDTO>builder()
+        return InsideSoftwaresResponseDTO.<CityResponseDTO>builder()
                 .data(cityMapper.toFullDTO(city))
                 .build();
     }
 
+    @InsideAudit(description = "Save the City")
     @Transactional(rollbackFor = {
             StateNotExistException.class,
             CityCodeStateExistException.class,
@@ -112,6 +116,8 @@ class CityServiceBean implements CityService {
         cityRepository.save(city);
     }
 
+
+    @InsideAudit(description = "Update the city by ID")
     @Transactional(rollbackFor = {
             StateNotExistException.class,
             CityNotExistException.class,
@@ -140,6 +146,7 @@ class CityServiceBean implements CityService {
         cityRepository.save(city);
     }
 
+    @InsideAudit(description = "Add holiday to city")
 	@Transactional(rollbackFor = {
 		CityNotExistException.class,
 		HolidayNotExistException.class,
@@ -167,6 +174,7 @@ class CityServiceBean implements CityService {
 		cityRepository.save(city);
 	}
 
+    @InsideAudit(description = "Remove holiday to city")
 	@Transactional(rollbackFor = {
 		CityNotExistException.class,
 		Exception.class
@@ -190,11 +198,13 @@ class CityServiceBean implements CityService {
 		cityRepository.save(city);
 	}
 
+    @InsideAudit(description = "Find City by ID")
 	@Override
 	public City findCityById(final Long cityID) {
 		return cityRepository.findCityById(cityID).orElseThrow(CityNotExistException::new);
 	}
 
+    @InsideAudit(description = "Search city with all its information by ID")
 	@Override
 	public City findCityFullHolidayById(final Long cityID) {
 		return cityRepository.findCityFullHolidayById(cityID).orElseThrow(CityNotExistException::new);

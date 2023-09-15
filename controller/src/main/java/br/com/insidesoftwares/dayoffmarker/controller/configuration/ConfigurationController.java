@@ -2,7 +2,7 @@ package br.com.insidesoftwares.dayoffmarker.controller.configuration;
 
 import br.com.insidesoftwares.commons.annotation.InsideSoftwaresController;
 import br.com.insidesoftwares.commons.annotation.request.InsideRequestPost;
-import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponse;
+import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.configuration.ConfigurationCountryRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.configuration.ConfigurationLimitYearRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.specification.service.ConfigurationService;
@@ -37,11 +37,11 @@ public class ConfigurationController {
 	@PreAuthorize("hasAnyRole('DayOff.Write')")
 	@InsideRequestPost(uri = "/v1/configuration/limit/year", httpCode = HttpStatus.ACCEPTED, nameCache = "ALL")
 	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP", ttl = 1)
-    public InsideSoftwaresResponse<Void> configurationLimitYear(
-            @JdempotentRequestPayload @RequestBody final ConfigurationLimitYearRequestDTO configurationLimitYearRequestDTO
+    public InsideSoftwaresResponseDTO<Void> configurationLimitYear(
+		@JdempotentRequestPayload @RequestBody final ConfigurationLimitYearRequestDTO configurationLimitYearRequestDTO
     ) {
         configurationService.configurationLimitYear(configurationLimitYearRequestDTO);
-		return InsideSoftwaresResponse.<Void>builder().build();
+		return InsideSoftwaresResponseDTO.<Void>builder().build();
     }
 
 	@Operation(
@@ -55,11 +55,11 @@ public class ConfigurationController {
 	@PreAuthorize("hasAnyRole('DayOff.Write')")
 	@InsideRequestPost(uri = "/v1/configuration/country", httpCode = HttpStatus.ACCEPTED, nameCache = "ALL")
 	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP", ttl = 1)
-	public InsideSoftwaresResponse<Void> configurationCountry(
+	public InsideSoftwaresResponseDTO<Void> configurationCountry(
 		@JdempotentRequestPayload @RequestBody final ConfigurationCountryRequestDTO configurationCountryRequestDTO
 	) {
 		configurationService.configurationCountry(configurationCountryRequestDTO);
-		return InsideSoftwaresResponse.<Void>builder().build();
+		return InsideSoftwaresResponseDTO.<Void>builder().build();
 	}
 
 

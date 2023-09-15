@@ -1,11 +1,7 @@
 package br.com.insidesoftwares.dayoffmarker.specification.validator;
 
-import br.com.insidesoftwares.dayoffmarker.entity.request.RequestParameter;
-
-import java.util.Set;
+import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeRequest;
 
 public interface RequestValidator {
-	void validRequestInitial(final Set<RequestParameter> requestParametersToValidate);
-	void validRequestCreateDate(final Set<RequestParameter> requestParametersToValidate);
-	void validRequestCreateHoliday(final Set<RequestParameter> requestParametersToValidate);
+	void validateRequest(final String requestHash, final TypeRequest typeRequest);
 }

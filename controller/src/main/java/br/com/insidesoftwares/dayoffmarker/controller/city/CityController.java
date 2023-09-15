@@ -5,8 +5,8 @@ import br.com.insidesoftwares.commons.annotation.request.InsideRequestDelete;
 import br.com.insidesoftwares.commons.annotation.request.InsideRequestGet;
 import br.com.insidesoftwares.commons.annotation.request.InsideRequestPost;
 import br.com.insidesoftwares.commons.annotation.request.InsideRequestPut;
-import br.com.insidesoftwares.commons.dto.request.PaginationFilter;
-import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponse;
+import br.com.insidesoftwares.commons.dto.request.InsidePaginationFilterDTO;
+import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.city.CityHolidayDeleteRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.city.CityHolidayRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.city.CityRequestDTO;
@@ -47,9 +47,9 @@ public class CityController {
 	)
 	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.City.Read')")
 	@InsideRequestGet(uri = "/v1/city", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_CITY")
-	public InsideSoftwaresResponse<List<CityResponseDTO>> findAll(
+	public InsideSoftwaresResponseDTO<List<CityResponseDTO>> findAll(
 		@RequestParam(value = "stateID", required = false) Long stateID,
-		PaginationFilter<eOrderCity> paginationFilter
+		InsidePaginationFilterDTO<eOrderCity> paginationFilter
     ) {
         return cityService.findAll(stateID, paginationFilter);
     }
@@ -64,7 +64,7 @@ public class CityController {
 	)
 	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.City.Read')")
 	@InsideRequestGet(uri = "/v1/city/{id}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_CITY")
-    public InsideSoftwaresResponse<CityResponseDTO> findById(@PathVariable Long id) {
+    public InsideSoftwaresResponseDTO<CityResponseDTO> findById(@PathVariable Long id) {
         return cityService.findById(id);
     }
 
@@ -81,11 +81,11 @@ public class CityController {
 		nameCache = {"DAYOFF_MARKER_CITY", "DAYOFF_MARKER_WORKING"}
 	)
     @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_CITY", ttl = 1)
-    public InsideSoftwaresResponse<Void> save(
+    public InsideSoftwaresResponseDTO<Void> save(
             @JdempotentRequestPayload @RequestBody CityRequestDTO cityRequestDTO
     ) {
         cityService.save(cityRequestDTO);
-		return InsideSoftwaresResponse.<Void>builder().build();
+		return InsideSoftwaresResponseDTO.<Void>builder().build();
     }
 
 	@Operation(
@@ -101,12 +101,12 @@ public class CityController {
 		nameCache = {"DAYOFF_MARKER_CITY", "DAYOFF_MARKER_WORKING"}
 	)
 	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_CITY", ttl = 1)
-    public InsideSoftwaresResponse<Void> update(
+    public InsideSoftwaresResponseDTO<Void> update(
 		@JdempotentRequestPayload @PathVariable Long id,
 		@JdempotentRequestPayload @RequestBody CityRequestDTO cityRequestDTO
     ) {
         cityService.update(id, cityRequestDTO);
-		return InsideSoftwaresResponse.<Void>builder().build();
+		return InsideSoftwaresResponseDTO.<Void>builder().build();
     }
 
 	@Operation(
@@ -122,12 +122,12 @@ public class CityController {
 		nameCache = {"DAYOFF_MARKER_CITY", "DAYOFF_MARKER_WORKING"}
 	)
 	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_CITY", ttl = 1)
-	public InsideSoftwaresResponse<Void> addCityHoliday(
+	public InsideSoftwaresResponseDTO<Void> addCityHoliday(
 		@JdempotentRequestPayload @PathVariable Long id,
 		@JdempotentRequestPayload @RequestBody CityHolidayRequestDTO cityHolidayRequestDTO
 	) {
 		cityService.addCityHoliday(id, cityHolidayRequestDTO);
-		return InsideSoftwaresResponse.<Void>builder().build();
+		return InsideSoftwaresResponseDTO.<Void>builder().build();
 	}
 
 	@Operation(
@@ -143,11 +143,11 @@ public class CityController {
 		nameCache = {"DAYOFF_MARKER_CITY", "DAYOFF_MARKER_WORKING"}
 	)
 	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_CITY", ttl = 1)
-	public InsideSoftwaresResponse<Void> deleteCityHoliday(
+	public InsideSoftwaresResponseDTO<Void> deleteCityHoliday(
 		@JdempotentRequestPayload @PathVariable Long id,
 		@JdempotentRequestPayload @RequestBody CityHolidayDeleteRequestDTO cityHolidayDeleteRequestDTO
 	) {
 		cityService.deleteCityHoliday(id, cityHolidayDeleteRequestDTO);
-		return InsideSoftwaresResponse.<Void>builder().build();
+		return InsideSoftwaresResponseDTO.<Void>builder().build();
 	}
 }

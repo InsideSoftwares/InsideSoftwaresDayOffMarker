@@ -1,15 +1,16 @@
 package br.com.insidesoftwares.dayoffmarker.service.working;
 
-import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponse;
+import br.com.insidesoftwares.commons.annotation.InsideAudit;
+import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
 import br.com.insidesoftwares.commons.utils.InsideSoftwaresResponseUtils;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.working.WorkingCurrentDayResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.entity.state.State;
-import br.com.insidesoftwares.dayoffmarker.repository.state.StateRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.state.State;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.state.StateRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.service.DayService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.StateService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.working.WorkingStateService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,15 +19,16 @@ import java.time.LocalDate;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-@Log4j2
+@Slf4j
 public class WorkingStateServiceBean implements WorkingStateService {
 
 	private final StateService stateService;
 	private final DayService dayService;
 	private final StateRepository stateRepository;
 
-	@Override
-	public InsideSoftwaresResponse<WorkingCurrentDayResponseDTO> findWorkingStateByDay(
+    @InsideAudit
+    @Override
+	public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingStateByDay(
 		final Long stateID,
 		final LocalDate date
 	) {
@@ -39,8 +41,9 @@ public class WorkingStateServiceBean implements WorkingStateService {
 		);
 	}
 
-	@Override
-	public InsideSoftwaresResponse<WorkingCurrentDayResponseDTO> findWorkingCurrentDayState(final Long stateID) {
+    @InsideAudit
+    @Override
+	public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCurrentDayState(final Long stateID) {
 
 		LocalDate currentDay = LocalDate.now();
 		boolean isWorkingDay = isWorkingStateByDay(stateID, currentDay);

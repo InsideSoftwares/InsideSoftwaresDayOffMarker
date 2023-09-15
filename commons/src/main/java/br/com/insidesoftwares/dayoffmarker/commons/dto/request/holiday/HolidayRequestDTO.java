@@ -24,10 +24,11 @@ public record HolidayRequestDTO(
 
 	LocalTime fromTime,
 	boolean optional,
+    boolean nationalHoliday,
 
 	@NotNull(message = "DOMV-003")
 	Long dayId
 ) implements Serializable {
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 7088171460921890362L;
 }

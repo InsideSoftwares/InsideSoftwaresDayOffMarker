@@ -1,7 +1,7 @@
 package br.com.insidesoftwares.dayoffmarker.specification.batch;
 
-import br.com.insidesoftwares.dayoffmarker.entity.Day;
-import br.com.insidesoftwares.dayoffmarker.entity.DayBatch;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.day.Day;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.day.DayBatch;
 
 import java.time.LocalDate;
 import java.util.List;

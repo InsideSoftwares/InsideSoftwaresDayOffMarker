@@ -17,5 +17,5 @@ public record CityHolidayResponseDTO(
 	boolean cityHoliday
 ) implements Serializable {
 	@Serial
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1915541372989697861L;
 }
