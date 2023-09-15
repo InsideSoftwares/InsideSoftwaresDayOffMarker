@@ -1,6 +1,6 @@
 package br.com.insidesoftwares.dayoffmarker.job.batch.write;
 
-import br.com.insidesoftwares.dayoffmarker.entity.day.DayBatch;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.day.DayBatch;
 import br.com.insidesoftwares.dayoffmarker.specification.batch.BatchCreationDayService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.Chunk;

@@ -10,8 +10,8 @@ import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeRequest;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeValue;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.request.ParameterNotExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.request.RequestConflictParametersException;
-import br.com.insidesoftwares.dayoffmarker.entity.request.Request;
-import br.com.insidesoftwares.dayoffmarker.entity.request.RequestParameter;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.request.Request;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.request.RequestParameter;
 import br.com.insidesoftwares.dayoffmarker.specification.service.ConfigurationService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.RequestCreationService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.RequestService;
@@ -37,7 +37,7 @@ class RequestCreationServiceBean implements RequestCreationService {
     private final RequestService requestService;
     private final RequestValidator requestValidator;
 
-	private final static String PIPE = "\\|";
+	private final static String PIPE = "|";
 	private final static String REQUESTING = "System";
 
     @Transactional(rollbackFor = {

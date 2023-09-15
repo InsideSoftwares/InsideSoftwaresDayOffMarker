@@ -6,8 +6,8 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.error.day.DayNotExi
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.holiday.HolidayDayExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.holiday.HolidayFromTimeNotInformedException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.holiday.HolidayNotExistException;
-import br.com.insidesoftwares.dayoffmarker.repository.day.DayRepository;
-import br.com.insidesoftwares.dayoffmarker.repository.holiday.HolidayRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.day.DayRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.holiday.HolidayRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;

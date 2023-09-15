@@ -1,8 +1,8 @@
 package br.com.insidesoftwares.dayoffmarker.job.batch.process;
 
-import br.com.insidesoftwares.dayoffmarker.entity.day.Day;
-import br.com.insidesoftwares.dayoffmarker.entity.day.DayBatch;
-import br.com.insidesoftwares.dayoffmarker.mapper.DayMapper;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.day.Day;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.day.DayBatch;
+import br.com.insidesoftwares.dayoffmarker.domain.mapper.DayMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.stereotype.Component;

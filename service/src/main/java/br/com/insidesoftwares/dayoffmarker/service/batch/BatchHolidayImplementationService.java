@@ -2,8 +2,8 @@ package br.com.insidesoftwares.dayoffmarker.service.batch;
 
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayCreateRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.fixedholiday.FixedHolidayNotExistException;
-import br.com.insidesoftwares.dayoffmarker.entity.day.Day;
-import br.com.insidesoftwares.dayoffmarker.entity.holiday.FixedHoliday;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.day.Day;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.holiday.FixedHoliday;
 import br.com.insidesoftwares.dayoffmarker.specification.batch.BatchHolidayService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.DayService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.FixedHolidayService;
@@ -26,6 +26,7 @@ class BatchHolidayImplementationService implements BatchHolidayService {
 
 	@Override
 	public void createHoliday(HolidayCreateRequestDTO holidayCreateRequestDTO) {
+        log.info("Create Holiday - {}", holidayCreateRequestDTO.name());
 		try {
 			holidayService.saveHoliday(holidayCreateRequestDTO);
 		} catch (Exception e) {

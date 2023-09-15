@@ -2,8 +2,8 @@ package br.com.insidesoftwares.dayoffmarker.job.batch.reader;
 
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.StatusRequest;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeRequest;
-import br.com.insidesoftwares.dayoffmarker.entity.day.DayBatch;
-import br.com.insidesoftwares.dayoffmarker.entity.request.Request;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.day.DayBatch;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.request.Request;
 import br.com.insidesoftwares.dayoffmarker.job.batch.configuration.DayOffMarkerJobProperties;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +20,10 @@ import java.util.Map;
 public class ReaderCreateDateConfiguration {
 
 	private final DayOffMarkerJobProperties dayOffMarkerJobProperties;
+    private final EntityManagerFactory entityManagerFactory;
 
-	@Bean("ReaderRequestCreateDateStatusCreated")
-	public ItemReader<Request> readerRequestCreateDateStatusCreated(EntityManagerFactory entityManagerFactory) {
+    @Bean("ReaderRequestCreateDateStatusCreated")
+	public ItemReader<Request> readerRequestCreateDateStatusCreated() {
 		JpaPagingItemReader<Request> reader = new JpaPagingItemReader<>();
 		reader.setEntityManagerFactory(entityManagerFactory);
 		reader.setQueryString("""
@@ -42,7 +43,7 @@ public class ReaderCreateDateConfiguration {
 	}
 
 	@Bean("ReaderRequestCreateDateByStatusRunning")
-	public ItemReader<Request> readerRequestCreateDateByStatusRunning(EntityManagerFactory entityManagerFactory) {
+	public ItemReader<Request> readerRequestCreateDateByStatusRunning() {
 		JpaPagingItemReader<Request> reader = new JpaPagingItemReader<>();
 		reader.setEntityManagerFactory(entityManagerFactory);
 		reader.setQueryString("""
@@ -62,7 +63,7 @@ public class ReaderCreateDateConfiguration {
 	}
 
 	@Bean("UpdatesRequestToFinalizedCreateDate")
-	public ItemReader<Request> updatesRequestToFinalizedCreateDate(EntityManagerFactory entityManagerFactory) {
+	public ItemReader<Request> updatesRequestToFinalizedCreateDate() {
 		JpaPagingItemReader<Request> reader = new JpaPagingItemReader<>();
 		reader.setEntityManagerFactory(entityManagerFactory);
 		reader.setQueryString("""
@@ -82,7 +83,7 @@ public class ReaderCreateDateConfiguration {
 	}
 
 	@Bean("SavesDaysCreatedCreateDate")
-	public ItemReader<DayBatch> savesDaysCreatedCreateDate(EntityManagerFactory entityManagerFactory) {
+	public ItemReader<DayBatch> savesDaysCreatedCreateDate() {
 		JpaPagingItemReader<DayBatch> reader = new JpaPagingItemReader<>();
 		reader.setEntityManagerFactory(entityManagerFactory);
 		reader.setQueryString("""
@@ -102,7 +103,7 @@ public class ReaderCreateDateConfiguration {
 	}
 
 	@Bean("UpdatesDayBatchToProcessedCreateDate")
-	public ItemReader<DayBatch> updatesDayBatchToProcessedCreateDate(EntityManagerFactory entityManagerFactory) {
+	public ItemReader<DayBatch> updatesDayBatchToProcessedCreateDate() {
 		JpaPagingItemReader<DayBatch> reader = new JpaPagingItemReader<>();
 		reader.setEntityManagerFactory(entityManagerFactory);
 		reader.setQueryString("""

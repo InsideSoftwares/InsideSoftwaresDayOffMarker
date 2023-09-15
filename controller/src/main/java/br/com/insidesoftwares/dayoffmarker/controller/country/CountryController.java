@@ -4,8 +4,8 @@ import br.com.insidesoftwares.commons.annotation.InsideSoftwaresController;
 import br.com.insidesoftwares.commons.annotation.request.InsideRequestGet;
 import br.com.insidesoftwares.commons.annotation.request.InsideRequestPost;
 import br.com.insidesoftwares.commons.annotation.request.InsideRequestPut;
-import br.com.insidesoftwares.commons.dto.request.PaginationFilter;
-import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponse;
+import br.com.insidesoftwares.commons.dto.request.InsidePaginationFilterDTO;
+import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.CountryRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.country.CountryResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.sort.eOrderCountry;
@@ -45,8 +45,8 @@ public class CountryController {
 	)
 	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.Country.Read')")
 	@InsideRequestGet(uri = "/v1/country", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_COUNTRY")
-    public InsideSoftwaresResponse<List<CountryResponseDTO>> findAll(
-		PaginationFilter<eOrderCountry> paginationFilter
+    public InsideSoftwaresResponseDTO<List<CountryResponseDTO>> findAll(
+		InsidePaginationFilterDTO<eOrderCountry> paginationFilter
     ) {
         return countryService.findAll(paginationFilter);
     }
@@ -61,7 +61,7 @@ public class CountryController {
 	)
     @PreAuthorize("hasAnyRole('DayOff.Read','DayOff.Country.Read')")
 	@InsideRequestGet(uri = "/v1/country/{id}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_COUNTRY")
-    public InsideSoftwaresResponse<CountryResponseDTO> findById(@PathVariable Long id) throws CountryNotExistException {
+    public InsideSoftwaresResponseDTO<CountryResponseDTO> findById(@PathVariable Long id) throws CountryNotExistException {
         return countryService.findById(id);
     }
 
@@ -78,11 +78,11 @@ public class CountryController {
 		nameCache = {"DAYOFF_MARKER_COUNTRY", "DAYOFF_MARKER_CITY", "DAYOFF_MARKER_STATE"}
 	)
     @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_COUNTRY", ttl = 1, ttlTimeUnit = TimeUnit.DAYS)
-    public InsideSoftwaresResponse<Void> save(
+    public InsideSoftwaresResponseDTO<Void> save(
 		@JdempotentRequestPayload @RequestBody CountryRequestDTO countryRequestDTO
     ) {
         countryService.save(countryRequestDTO);
-		return InsideSoftwaresResponse.<Void>builder().build();
+		return InsideSoftwaresResponseDTO.<Void>builder().build();
     }
 
 	@Operation(
@@ -98,12 +98,12 @@ public class CountryController {
 		nameCache = {"DAYOFF_MARKER_COUNTRY", "DAYOFF_MARKER_CITY", "DAYOFF_MARKER_STATE"}
 	)
 	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_COUNTRY", ttl = 1)
-    public InsideSoftwaresResponse<Void> update(
+    public InsideSoftwaresResponseDTO<Void> update(
 		@JdempotentRequestPayload @PathVariable Long id,
         @JdempotentRequestPayload @RequestBody CountryRequestDTO countryRequestDTO
     ) {
         countryService.update(id, countryRequestDTO);
-		return InsideSoftwaresResponse.<Void>builder().build();
+		return InsideSoftwaresResponseDTO.<Void>builder().build();
     }
 
 }

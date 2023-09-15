@@ -11,9 +11,13 @@ databaseChangeLog:
               - column:
                   name: DAY_OF_WEEK
                   type: VARCHAR(50)
+                  constraints:
+                    nullable: false
               - column:
                   name: DAY_OF_YEAR
                   type: BIGINT
+                  constraints:
+                    nullable: false
   - changeSet:
       id: create_index-DOM_DAY
       author: System

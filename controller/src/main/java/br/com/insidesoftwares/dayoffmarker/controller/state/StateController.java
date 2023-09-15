@@ -5,8 +5,8 @@ import br.com.insidesoftwares.commons.annotation.request.InsideRequestDelete;
 import br.com.insidesoftwares.commons.annotation.request.InsideRequestGet;
 import br.com.insidesoftwares.commons.annotation.request.InsideRequestPost;
 import br.com.insidesoftwares.commons.annotation.request.InsideRequestPut;
-import br.com.insidesoftwares.commons.dto.request.PaginationFilter;
-import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponse;
+import br.com.insidesoftwares.commons.dto.request.InsidePaginationFilterDTO;
+import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.state.StateHolidayDeleteRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.state.StateHolidayRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.state.StateRequestDTO;
@@ -47,9 +47,9 @@ public class StateController {
 	)
 	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.State.Read')")
 	@InsideRequestGet(uri = "/v1/state", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_STATE")
-    public InsideSoftwaresResponse<List<StateResponseDTO>> findAll(
+    public InsideSoftwaresResponseDTO<List<StateResponseDTO>> findAll(
             @RequestParam(value = "country", required = false) String nameCountry,
-			PaginationFilter<eOrderState> paginationFilter
+			InsidePaginationFilterDTO<eOrderState> paginationFilter
     ) {
         return stateService.findAll(nameCountry, paginationFilter);
     }
@@ -64,7 +64,7 @@ public class StateController {
 	)
 	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.State.Read')")
 	@InsideRequestGet(uri = "/v1/state/{id}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_STATE")
-    public InsideSoftwaresResponse<StateResponseDTO> findById(@PathVariable Long id) {
+    public InsideSoftwaresResponseDTO<StateResponseDTO> findById(@PathVariable Long id) {
         return stateService.findById(id);
     }
 
@@ -81,11 +81,11 @@ public class StateController {
 		nameCache = {"DAYOFF_MARKER_STATE", "DAYOFF_MARKER_CITY", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_WORKING"}
 	)
     @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_STATE", ttl = 1)
-    public InsideSoftwaresResponse<Void> save(
+    public InsideSoftwaresResponseDTO<Void> save(
 		@JdempotentRequestPayload @RequestBody StateRequestDTO stateRequestDTO
     ) {
         stateService.save(stateRequestDTO);
-		return InsideSoftwaresResponse.<Void>builder().build();
+		return InsideSoftwaresResponseDTO.<Void>builder().build();
     }
 
 	@Operation(
@@ -101,12 +101,12 @@ public class StateController {
 		nameCache = {"DAYOFF_MARKER_STATE", "DAYOFF_MARKER_CITY", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_WORKING"}
 	)
 	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_STATE", ttl = 1)
-    public InsideSoftwaresResponse<Void> update(
+    public InsideSoftwaresResponseDTO<Void> update(
 		@JdempotentRequestPayload @PathVariable Long id,
 		@JdempotentRequestPayload @RequestBody StateRequestDTO stateRequestDTO
     ) {
         stateService.update(id, stateRequestDTO);
-		return InsideSoftwaresResponse.<Void>builder().build();
+		return InsideSoftwaresResponseDTO.<Void>builder().build();
     }
 
 	@Operation(
@@ -122,12 +122,12 @@ public class StateController {
 		nameCache = {"DAYOFF_MARKER_STATE", "DAYOFF_MARKER_WORKING"}
 	)
 	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_STATE", ttl = 1)
-	public InsideSoftwaresResponse<Void> addCityHoliday(
+	public InsideSoftwaresResponseDTO<Void> addCityHoliday(
 		@JdempotentRequestPayload @PathVariable Long id,
 		@JdempotentRequestPayload @RequestBody StateHolidayRequestDTO stateHolidayRequestDTO
 	) {
 		stateService.addStateHoliday(id, stateHolidayRequestDTO);
-		return InsideSoftwaresResponse.<Void>builder().build();
+		return InsideSoftwaresResponseDTO.<Void>builder().build();
 	}
 
 	@Operation(
@@ -143,12 +143,12 @@ public class StateController {
 		nameCache = {"DAYOFF_MARKER_STATE", "DAYOFF_MARKER_WORKING"}
 	)
 	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_STATE", ttl = 1)
-	public InsideSoftwaresResponse<Void> deleteCityHoliday(
+	public InsideSoftwaresResponseDTO<Void> deleteCityHoliday(
 		@JdempotentRequestPayload @PathVariable Long id,
 		@JdempotentRequestPayload @RequestBody StateHolidayDeleteRequestDTO stateHolidayDeleteRequestDTO
 	) {
 		stateService.deleteStateHoliday(id, stateHolidayDeleteRequestDTO);
-		return InsideSoftwaresResponse.<Void>builder().build();
+		return InsideSoftwaresResponseDTO.<Void>builder().build();
 	}
 
 }

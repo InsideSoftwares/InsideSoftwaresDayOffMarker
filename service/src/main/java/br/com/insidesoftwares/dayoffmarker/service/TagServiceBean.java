@@ -1,7 +1,8 @@
 package br.com.insidesoftwares.dayoffmarker.service;
 
-import br.com.insidesoftwares.commons.dto.request.PaginationFilter;
-import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponse;
+import br.com.insidesoftwares.commons.annotation.InsideAudit;
+import br.com.insidesoftwares.commons.dto.request.InsidePaginationFilterDTO;
+import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
 import br.com.insidesoftwares.commons.utils.PaginationUtils;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagLinkRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagRequestDTO;
@@ -16,9 +17,9 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagLinkNo
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagLinkOneParameterNotNullException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagLinkParameterNotResultException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagNotExistException;
-import br.com.insidesoftwares.dayoffmarker.entity.day.Tag;
-import br.com.insidesoftwares.dayoffmarker.mapper.TagMapper;
-import br.com.insidesoftwares.dayoffmarker.repository.day.TagRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.tag.Tag;
+import br.com.insidesoftwares.dayoffmarker.domain.mapper.TagMapper;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.day.TagRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.service.RequestCreationService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.TagService;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.Validator;
@@ -44,16 +45,17 @@ class TagServiceBean implements TagService {
 	private final ValidatorLink<TagLinkRequestDTO> tagLinkValidator;
 	private final RequestCreationService requestCreationService;
 
+    @InsideAudit
     @Override
-    public InsideSoftwaresResponse<List<TagResponseDTO>> findAll(final PaginationFilter<eOrderTag> paginationFilter) {
+    public InsideSoftwaresResponseDTO<List<TagResponseDTO>> findAll(final InsidePaginationFilterDTO<eOrderTag> paginationFilter) {
 
 		Pageable pageable = PaginationUtils.createPageable(paginationFilter);
 
 		Page<Tag> tagPage = tagRepository.findAll(pageable);
 
-        return InsideSoftwaresResponse.<List<TagResponseDTO>>builder()
+        return InsideSoftwaresResponseDTO.<List<TagResponseDTO>>builder()
 				.data(tagMapper.toDTOs(tagPage.getContent()))
-				.paginatedDTO(
+				.insidePaginatedDTO(
 					PaginationUtils.createPaginated(
 						tagPage.getTotalPages(),
 						tagPage.getTotalElements(),
@@ -64,15 +66,17 @@ class TagServiceBean implements TagService {
 				.build();
     }
 
+    @InsideAudit
     @Override
-    public InsideSoftwaresResponse<TagResponseDTO> findById(final Long tagID) {
+    public InsideSoftwaresResponseDTO<TagResponseDTO> findById(final Long tagID) {
 		Tag tag = findTagById(tagID);
-		return InsideSoftwaresResponse.<TagResponseDTO>builder()
+		return InsideSoftwaresResponseDTO.<TagResponseDTO>builder()
 				.data(tagMapper.toDTO(tag))
 				.build();
     }
 
-	@Transactional(rollbackFor = {
+    @InsideAudit
+    @Transactional(rollbackFor = {
 			TagCodeExistException.class
 	})
     @Override
@@ -83,7 +87,8 @@ class TagServiceBean implements TagService {
 		tagRepository.save(tag);
     }
 
-	@Transactional(rollbackFor = {
+    @InsideAudit
+    @Transactional(rollbackFor = {
 			TagNotExistException.class,
 			TagCodeExistException.class
 	})
@@ -102,7 +107,8 @@ class TagServiceBean implements TagService {
 		tagRepository.save(tag);
     }
 
-	@Transactional(rollbackFor = {
+    @InsideAudit
+    @Transactional(rollbackFor = {
 		TagLinkOneParameterNotNullException.class,
 		TagLinkDateInvalidException.class,
 		TagLinkParameterNotResultException.class,
@@ -111,17 +117,18 @@ class TagServiceBean implements TagService {
 		ParameterNotExistException.class
 	})
 	@Override
-	public InsideSoftwaresResponse<TagLinkResponseDTO> linkTagByDay(final TagLinkRequestDTO tagLinkRequestDTO) {
+	public InsideSoftwaresResponseDTO<TagLinkResponseDTO> linkTagByDay(final TagLinkRequestDTO tagLinkRequestDTO) {
 		tagLinkValidator.validateLinkUnlink(tagLinkRequestDTO);
 
 		String requestID = requestCreationService.createLinkTagsInDays(tagLinkRequestDTO);
 
-		return InsideSoftwaresResponse.<TagLinkResponseDTO>builder()
+		return InsideSoftwaresResponseDTO.<TagLinkResponseDTO>builder()
 			.data(TagLinkResponseDTO.builder().requestID(requestID).build())
 			.build();
 	}
 
-	@Transactional(rollbackFor = {
+    @InsideAudit
+    @Transactional(rollbackFor = {
 		TagLinkOneParameterNotNullException.class,
 		TagLinkDateInvalidException.class,
 		TagLinkParameterNotResultException.class,
@@ -130,12 +137,12 @@ class TagServiceBean implements TagService {
 		ParameterNotExistException.class
 	})
 	@Override
-	public InsideSoftwaresResponse<TagLinkResponseDTO> unlinkTagByDay(final TagLinkRequestDTO tagLinkRequestDTO) {
+	public InsideSoftwaresResponseDTO<TagLinkResponseDTO> unlinkTagByDay(final TagLinkRequestDTO tagLinkRequestDTO) {
 		tagLinkValidator.validateLinkUnlink(tagLinkRequestDTO);
 
 		String requestID = requestCreationService.createUnlinkTagsInDays(tagLinkRequestDTO);
 
-		return InsideSoftwaresResponse.<TagLinkResponseDTO>builder()
+		return InsideSoftwaresResponseDTO.<TagLinkResponseDTO>builder()
 			.data(TagLinkResponseDTO.builder().requestID(requestID).build())
 			.build();
 	}

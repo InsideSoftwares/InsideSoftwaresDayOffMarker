@@ -3,12 +3,13 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>init</artifactId>
-        <groupId>br.com.insidesoftwares.dayoffmarker</groupId>
+        <artifactId>dayoffmarker</artifactId>
+        <groupId>br.com.insidesoftwares</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>br.com.insidesoftwares.dayoffmarker</groupId>
     <artifactId>domain</artifactId>
 
     <properties>
@@ -28,10 +29,6 @@
                 <exclusion>
                     <groupId>com.google.code.gson</groupId>
                     <artifactId>gson</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>io.fusionauth</groupId>
-                    <artifactId>fusionauth-jwt</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>org.springframework.data</groupId>

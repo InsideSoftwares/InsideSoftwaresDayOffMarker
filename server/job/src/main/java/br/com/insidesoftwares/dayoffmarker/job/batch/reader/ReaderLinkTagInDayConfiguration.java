@@ -2,7 +2,7 @@ package br.com.insidesoftwares.dayoffmarker.job.batch.reader;
 
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.StatusRequest;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeRequest;
-import br.com.insidesoftwares.dayoffmarker.entity.request.Request;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.request.Request;
 import br.com.insidesoftwares.dayoffmarker.job.batch.configuration.DayOffMarkerJobProperties;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +19,10 @@ import java.util.Map;
 public class ReaderLinkTagInDayConfiguration {
 
 	private final DayOffMarkerJobProperties dayOffMarkerJobProperties;
+    private final EntityManagerFactory entityManagerFactory;
 
 	@Bean("ReaderLinkTagInDayStatusCreated")
-	public ItemReader<Request> readerLinkTagInDayStatusCreated(EntityManagerFactory entityManagerFactory) {
+	public ItemReader<Request> readerLinkTagInDayStatusCreated() {
 		JpaPagingItemReader<Request> reader = new JpaPagingItemReader<>();
 		reader.setEntityManagerFactory(entityManagerFactory);
 		reader.setQueryString("""
@@ -41,7 +42,7 @@ public class ReaderLinkTagInDayConfiguration {
 	}
 
 	@Bean("ReaderRequestsLinkTag")
-	public ItemReader<Request> readerRequestsLinkTag(EntityManagerFactory entityManagerFactory) {
+	public ItemReader<Request> readerRequestsLinkTag() {
 		JpaPagingItemReader<Request> reader = new JpaPagingItemReader<>();
 		reader.setEntityManagerFactory(entityManagerFactory);
 		reader.setQueryString("""
@@ -61,7 +62,7 @@ public class ReaderLinkTagInDayConfiguration {
 	}
 
 	@Bean("ReaderRequestToFinalizedLinkTag")
-	public ItemReader<Request> ReaderRequestToFinalizedLinkTag(EntityManagerFactory entityManagerFactory) {
+	public ItemReader<Request> ReaderRequestToFinalizedLinkTag() {
 		JpaPagingItemReader<Request> reader = new JpaPagingItemReader<>();
 		reader.setEntityManagerFactory(entityManagerFactory);
 		reader.setQueryString("""

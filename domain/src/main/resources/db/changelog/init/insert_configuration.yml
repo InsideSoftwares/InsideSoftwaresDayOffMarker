@@ -17,10 +17,10 @@ databaseChangeLog:
                   value: 'Indicates the Limit for creating the days forward in years'
               - column:
                   name: CONFIGURATION_VALUE
-                  value: '25'
+                  value: '30'
               - column:
                   name: DEFAULT_VALUE
-                  value: '25'
+                  value: '30'
         - insert:
             dbms: 'mysql, postgresql'
             tableName: DOM_CONFIGURATION

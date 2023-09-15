@@ -13,7 +13,7 @@ public class TagCreateJob {
 	private final TagJobServiceBean tagJobServiceBean;
 
 	@Scheduled(
-		cron = "${application.scheduling.day.create_date.run_create_day_batch:0 0 */5 * * *}"
+		cron = "${application.scheduling.day.create_date.run_create_day_batch:0 0 */1 * * *}"
 	)
 	public void schedulingRunBatchLinkTag() {
 		log.info("Starting the link tag in day request run batch");
@@ -23,7 +23,7 @@ public class TagCreateJob {
 	}
 
 	@Scheduled(
-		cron = "${application.scheduling.day.create_date.run_create_day_batch:0 0 */5 * * *}"
+		cron = "${application.scheduling.day.create_date.run_create_day_batch:0 0 */1 * * *}"
 	)
 	public void schedulingRunBatchUnlinkTag() {
 		log.info("Starting the unlink tag in day request run batch");

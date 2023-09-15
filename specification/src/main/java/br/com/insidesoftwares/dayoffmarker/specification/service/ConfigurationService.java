@@ -3,7 +3,7 @@ package br.com.insidesoftwares.dayoffmarker.specification.service;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.configuration.ConfigurationCountryRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.configuration.ConfigurationLimitYearRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.Configurationkey;
-import br.com.insidesoftwares.dayoffmarker.entity.Configuration;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.Configuration;
 import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
 

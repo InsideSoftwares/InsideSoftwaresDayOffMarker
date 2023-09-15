@@ -1,13 +1,13 @@
 package br.com.insidesoftwares.dayoffmarker.validator.state;
 
+import br.com.insidesoftwares.dayoffmarker.commons.dto.request.state.StateRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.country.CountryNotExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.state.StateCountryAcronymExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.state.StateNameCountryAcronymExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.state.StateNotExistException;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.CountryRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.state.StateRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.Validator;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.state.StateRequestDTO;
-import br.com.insidesoftwares.dayoffmarker.repository.CountryRepository;
-import br.com.insidesoftwares.dayoffmarker.repository.state.StateRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

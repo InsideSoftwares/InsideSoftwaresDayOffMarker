@@ -2,7 +2,7 @@ package br.com.insidesoftwares.dayoffmarker.specification.service;
 
 
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagLinkRequestDTO;
-import br.com.insidesoftwares.dayoffmarker.entity.request.Request;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.request.Request;
 import org.springframework.validation.annotation.Validated;
 
 @Validated

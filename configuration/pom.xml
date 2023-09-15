@@ -3,42 +3,19 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>init</artifactId>
-        <groupId>br.com.insidesoftwares.dayoffmarker</groupId>
+        <artifactId>dayoffmarker</artifactId>
+        <groupId>br.com.insidesoftwares</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>br.com.insidesoftwares.dayoffmarker</groupId>
     <artifactId>configuration</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
-
-    <profiles>
-        <profile>
-            <id>azure</id>
-            <dependencies>
-                <dependency>
-                    <groupId>br.com.insidesoftwares.securitycommons</groupId>
-                    <artifactId>azure-active-directory</artifactId>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
-            <id>keycloak</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>br.com.insidesoftwares.securitycommons</groupId>
-                    <artifactId>keycloak</artifactId>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
 
     <dependencies>
         <dependency>
@@ -48,6 +25,10 @@
         <dependency>
             <groupId>br.com.insidesoftwares.commons</groupId>
             <artifactId>exception</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>br.com.insidesoftwares.securitycommons</groupId>
+            <artifactId>keycloak</artifactId>
         </dependency>
 
         <dependency>
@@ -97,6 +78,11 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

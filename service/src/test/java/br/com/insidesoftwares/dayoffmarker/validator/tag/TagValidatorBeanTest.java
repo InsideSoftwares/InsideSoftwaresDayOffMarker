@@ -8,8 +8,8 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagLinkNo
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagLinkOneParameterNotNullException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagLinkParameterNotResultException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagNotExistException;
-import br.com.insidesoftwares.dayoffmarker.repository.day.DayRepository;
-import br.com.insidesoftwares.dayoffmarker.repository.day.TagRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.day.DayRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.day.TagRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;

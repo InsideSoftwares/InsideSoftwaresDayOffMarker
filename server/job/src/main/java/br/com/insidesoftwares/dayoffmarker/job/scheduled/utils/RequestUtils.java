@@ -3,8 +3,8 @@ package br.com.insidesoftwares.dayoffmarker.job.scheduled.utils;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeParameter;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeValue;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.request.ParameterNotExistException;
-import br.com.insidesoftwares.dayoffmarker.entity.request.Request;
-import br.com.insidesoftwares.dayoffmarker.entity.request.RequestParameter;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.request.Request;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.request.RequestParameter;
 import lombok.experimental.UtilityClass;
 
 import java.util.Optional;

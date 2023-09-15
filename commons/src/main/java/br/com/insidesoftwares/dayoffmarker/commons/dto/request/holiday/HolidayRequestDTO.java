@@ -24,6 +24,7 @@ public record HolidayRequestDTO(
 
 	LocalTime fromTime,
 	boolean optional,
+    boolean nationalHoliday,
 
 	@NotNull(message = "DOMV-003")
 	Long dayId

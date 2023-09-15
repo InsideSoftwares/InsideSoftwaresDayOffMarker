@@ -4,7 +4,7 @@ import br.com.insidesoftwares.dayoffmarker.commons.enumeration.StatusRequest;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeRequest;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.request.ParameterNotExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.request.RequestConflictParametersException;
-import br.com.insidesoftwares.dayoffmarker.entity.request.Request;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.request.Request;
 import br.com.insidesoftwares.dayoffmarker.job.scheduled.utils.RequestUtils;
 import br.com.insidesoftwares.dayoffmarker.specification.service.RequestCreationService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.RequestService;
@@ -41,9 +41,9 @@ public class DayJobServiceBean {
 	@Qualifier("jobClearDayBatch")
 	private Job jobClearDayBatch;
 
-	@Transactional(rollbackFor = {
-			Exception.class
-	})
+	@Transactional(
+            rollbackFor = { Exception.class }
+    )
 	public void findRequestForCreatingDays() {
 
 		List<Request> requests = requestService
@@ -56,11 +56,13 @@ public class DayJobServiceBean {
 		log.info("Updating request to be status WAITING.");
 	}
 
-	@Transactional(rollbackFor = {
-			ParameterNotExistException.class,
-			RequestConflictParametersException.class,
-			Exception.class
-	})
+	@Transactional(
+            rollbackFor = {
+                    ParameterNotExistException.class,
+			    RequestConflictParametersException.class,
+			    Exception.class
+            }
+    )
 	public void runRequestForCreatingDays() {
 		List<Request> requests = requestService
 				.findAllRequestByTypeAndStatus(TypeRequest.REQUEST_CREATION_DATE, StatusRequest.WAITING);
@@ -102,11 +104,13 @@ public class DayJobServiceBean {
 		}
 	}
 
-	@Transactional(rollbackFor = {
-			ParameterNotExistException.class,
-			RequestConflictParametersException.class,
-			Exception.class
-	})
+	@Transactional(
+            rollbackFor = {
+                    ParameterNotExistException.class,
+			        RequestConflictParametersException.class,
+			        Exception.class
+	        }
+    )
 	public void createsRequestWithMonths(final Request request) {
 		log.info("Starting the creation of the requests to create the Days.");
 

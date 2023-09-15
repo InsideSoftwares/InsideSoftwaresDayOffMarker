@@ -1,25 +1,24 @@
 package br.com.insidesoftwares.dayoffmarker.service;
 
-import br.com.insidesoftwares.dayoffmarker.repository.ConfigurationRepository;
-import br.com.insidesoftwares.dayoffmarker.repository.CountryRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.ConfigurationRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.CountryRepository;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { ConfigurationServiceBean.class })
+@ExtendWith(MockitoExtension.class)
 class ConfigurationServiceBeanTest {
 
-	@MockBean
+	@Mock
 	private ConfigurationRepository configurationRepository;
 
-	@MockBean
+	@Mock
 	private CountryRepository countryRepository;
 
-	@Autowired
+	@InjectMocks
 	private ConfigurationServiceBean configurationServiceBean;
+
 
 
 

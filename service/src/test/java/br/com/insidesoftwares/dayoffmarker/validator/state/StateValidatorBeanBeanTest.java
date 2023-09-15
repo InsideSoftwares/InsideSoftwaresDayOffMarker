@@ -5,8 +5,8 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.error.country.Count
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.state.StateCountryAcronymExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.state.StateNameCountryAcronymExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.state.StateNotExistException;
-import br.com.insidesoftwares.dayoffmarker.repository.CountryRepository;
-import br.com.insidesoftwares.dayoffmarker.repository.state.StateRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.CountryRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.state.StateRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;

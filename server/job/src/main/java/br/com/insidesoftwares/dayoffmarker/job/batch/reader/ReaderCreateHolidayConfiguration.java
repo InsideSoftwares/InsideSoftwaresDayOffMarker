@@ -2,7 +2,7 @@ package br.com.insidesoftwares.dayoffmarker.job.batch.reader;
 
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.StatusRequest;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeRequest;
-import br.com.insidesoftwares.dayoffmarker.entity.request.Request;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.request.Request;
 import br.com.insidesoftwares.dayoffmarker.job.batch.configuration.DayOffMarkerJobProperties;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +19,10 @@ import java.util.Map;
 public class ReaderCreateHolidayConfiguration {
 
 	private final DayOffMarkerJobProperties dayOffMarkerJobProperties;
+    private final EntityManagerFactory entityManagerFactory;
 
 	@Bean("ReaderRequestUpdateHolidayStatusCreated")
-	public ItemReader<Request> readerRequestUpdateHolidayStatusCreated(EntityManagerFactory entityManagerFactory) {
+	public ItemReader<Request> readerRequestUpdateHolidayStatusCreated() {
 		JpaPagingItemReader<Request> reader = new JpaPagingItemReader<>();
 		reader.setEntityManagerFactory(entityManagerFactory);
 		reader.setQueryString("""
@@ -41,7 +42,7 @@ public class ReaderCreateHolidayConfiguration {
 	}
 
 	@Bean("ReaderRequestsUpdateHoliday")
-	public ItemReader<Request> readerRequestsUpdateHoliday(EntityManagerFactory entityManagerFactory) {
+	public ItemReader<Request> readerRequestsUpdateHoliday() {
 		JpaPagingItemReader<Request> reader = new JpaPagingItemReader<>();
 		reader.setEntityManagerFactory(entityManagerFactory);
 		reader.setQueryString("""
@@ -61,7 +62,7 @@ public class ReaderCreateHolidayConfiguration {
 	}
 
 	@Bean("ReaderRequestToFinalizedUpdateHoliday")
-	public ItemReader<Request> readerRequestToFinalizedUpdateHoliday(EntityManagerFactory entityManagerFactory) {
+	public ItemReader<Request> readerRequestToFinalizedUpdateHoliday() {
 		JpaPagingItemReader<Request> reader = new JpaPagingItemReader<>();
 		reader.setEntityManagerFactory(entityManagerFactory);
 		reader.setQueryString("""

@@ -2,8 +2,8 @@ package br.com.insidesoftwares.dayoffmarker.repository.configuration;
 
 import br.com.insidesoftwares.dayoffmarker.RepositoryTestApplication;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.Configurationkey;
-import br.com.insidesoftwares.dayoffmarker.entity.Configuration;
-import br.com.insidesoftwares.dayoffmarker.repository.ConfigurationRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.Configuration;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.ConfigurationRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.springframework.beans.factory.annotation.Autowired;

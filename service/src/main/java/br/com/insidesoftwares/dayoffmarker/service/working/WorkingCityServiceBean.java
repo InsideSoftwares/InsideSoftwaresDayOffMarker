@@ -1,12 +1,13 @@
 package br.com.insidesoftwares.dayoffmarker.service.working;
 
-import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponse;
+import br.com.insidesoftwares.commons.annotation.InsideAudit;
+import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
 import br.com.insidesoftwares.commons.utils.InsideSoftwaresResponseUtils;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.working.WorkingCurrentDayResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.entity.city.City;
-import br.com.insidesoftwares.dayoffmarker.entity.city.CityHoliday;
-import br.com.insidesoftwares.dayoffmarker.entity.holiday.Holiday;
-import br.com.insidesoftwares.dayoffmarker.entity.state.StateHoliday;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.city.City;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.city.CityHoliday;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.holiday.Holiday;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.state.StateHoliday;
 import br.com.insidesoftwares.dayoffmarker.specification.service.CityService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.DayService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.working.WorkingCityService;
@@ -27,8 +28,9 @@ public class WorkingCityServiceBean implements WorkingCityService {
 	private final CityService cityService;
 	private final DayService dayService;
 
-	@Override
-	public InsideSoftwaresResponse<WorkingCurrentDayResponseDTO> findWorkingCityByDay(
+    @InsideAudit
+    @Override
+	public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCityByDay(
 		final Long cityID,
 		final LocalDate date
 	) {
@@ -41,8 +43,9 @@ public class WorkingCityServiceBean implements WorkingCityService {
 		);
 	}
 
-	@Override
-	public InsideSoftwaresResponse<WorkingCurrentDayResponseDTO> findWorkingCurrentDayCity(final Long cityID) {
+    @InsideAudit
+    @Override
+	public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCurrentDayCity(final Long cityID) {
 
 		LocalDate currentDay = LocalDate.now();
 		boolean isWorkingDay = isWorkingCityByDay(cityID, currentDay);

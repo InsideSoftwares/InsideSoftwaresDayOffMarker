@@ -23,6 +23,11 @@ Todos esses processos dependem de datas específicas para serem realizados, a fi
 * [InsideSoftwaresSecurityCommons](https://github.com/InsideSoftwares/InsideSoftwaresSecurityCommons)
   * Versão: 1.0.0 (Em desenvolvimento)
 
+## Bancos suportados
+
+* Mysql: 8.0.34 ou superior
+* Postgres: 15.4 ou superior
+
 ## Build do projeto
 
 * Realizar o clone do projeto
@@ -37,7 +42,7 @@ O projeto possui os seguintes profiles para banco de dados
 
 Para provedor de acessos
 * keycloak (Default)
-* azure
+  * Version: 22.0.1 ou Superior
 
 Ex:
 

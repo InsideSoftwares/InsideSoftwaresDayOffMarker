@@ -1,7 +1,7 @@
 package br.com.insidesoftwares.dayoffmarker.job.batch.write;
 
-import br.com.insidesoftwares.dayoffmarker.entity.day.DayTag;
-import br.com.insidesoftwares.dayoffmarker.repository.day.DayTagRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.tag.DayTag;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.day.DayTagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;

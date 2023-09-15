@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
 @EnableScheduling
-@EnableJpaRepositories(basePackages = {"br.com.insidesoftwares.dayoffmarker.repository"})
-@EntityScan(basePackages = "br.com.insidesoftwares.dayoffmarker.entity")
+@EnableJpaRepositories(basePackages = {"br.com.insidesoftwares.dayoffmarker.domain.repository"})
+@EntityScan(basePackages = "br.com.insidesoftwares.dayoffmarker.domain.entity")
 public class ScheduledConfiguration {
 }

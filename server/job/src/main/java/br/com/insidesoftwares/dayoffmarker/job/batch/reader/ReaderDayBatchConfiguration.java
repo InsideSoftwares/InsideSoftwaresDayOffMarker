@@ -1,6 +1,6 @@
 package br.com.insidesoftwares.dayoffmarker.job.batch.reader;
 
-import br.com.insidesoftwares.dayoffmarker.entity.day.DayBatch;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.day.DayBatch;
 import br.com.insidesoftwares.dayoffmarker.job.batch.configuration.DayOffMarkerJobProperties;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +17,10 @@ import java.util.Map;
 public class ReaderDayBatchConfiguration {
 
 	private final DayOffMarkerJobProperties dayOffMarkerJobProperties;
+    private final EntityManagerFactory entityManagerFactory;
 
 	@Bean("ReaderDayBatchProcessed")
-	public ItemReader<DayBatch> readerDayBatchProcessed(EntityManagerFactory entityManagerFactory) {
+	public ItemReader<DayBatch> readerDayBatchProcessed() {
 		JpaPagingItemReader<DayBatch> reader = new JpaPagingItemReader<>();
 		reader.setEntityManagerFactory(entityManagerFactory);
 		reader.setQueryString("""
@@ -37,7 +38,7 @@ public class ReaderDayBatchConfiguration {
 	}
 
 	@Bean("ReaderDayBatchNotProcessed")
-	public ItemReader<DayBatch> readerDayBatchNotProcessed(EntityManagerFactory entityManagerFactory) {
+	public ItemReader<DayBatch> readerDayBatchNotProcessed() {
 		JpaPagingItemReader<DayBatch> reader = new JpaPagingItemReader<>();
 		reader.setEntityManagerFactory(entityManagerFactory);
 		reader.setQueryString("""

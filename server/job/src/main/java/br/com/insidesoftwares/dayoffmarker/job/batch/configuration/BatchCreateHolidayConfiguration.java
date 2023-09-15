@@ -1,13 +1,13 @@
 package br.com.insidesoftwares.dayoffmarker.job.batch.configuration;
 
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayCreateRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.request.Request;
 import br.com.insidesoftwares.dayoffmarker.job.batch.listener.DayOffMarkerJobListener;
 import br.com.insidesoftwares.dayoffmarker.job.batch.process.ProcessHoliday;
 import br.com.insidesoftwares.dayoffmarker.job.batch.process.ProcessorRequestStatusFinalized;
 import br.com.insidesoftwares.dayoffmarker.job.batch.process.ProcessorRequestStatusRunning;
 import br.com.insidesoftwares.dayoffmarker.job.batch.write.WriteHolidayRequestDTOList;
 import br.com.insidesoftwares.dayoffmarker.job.batch.write.WriteRequest;
-import br.com.insidesoftwares.dayoffmarker.entity.request.Request;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;

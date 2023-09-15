@@ -1,7 +1,8 @@
 package br.com.insidesoftwares.dayoffmarker.service;
 
-import br.com.insidesoftwares.commons.dto.request.PaginationFilter;
-import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponse;
+import br.com.insidesoftwares.commons.annotation.InsideAudit;
+import br.com.insidesoftwares.commons.dto.request.InsidePaginationFilterDTO;
+import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
 import br.com.insidesoftwares.commons.utils.PaginationUtils;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.state.StateHolidayDeleteRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.state.StateHolidayRequestDTO;
@@ -14,14 +15,14 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.error.holiday.Holid
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.state.StateCountryAcronymExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.state.StateNameCountryAcronymExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.state.StateNotExistException;
-import br.com.insidesoftwares.dayoffmarker.entity.Country;
-import br.com.insidesoftwares.dayoffmarker.entity.holiday.Holiday;
-import br.com.insidesoftwares.dayoffmarker.entity.state.State;
-import br.com.insidesoftwares.dayoffmarker.entity.state.StateHoliday;
-import br.com.insidesoftwares.dayoffmarker.entity.state.StateHolidayPK;
-import br.com.insidesoftwares.dayoffmarker.mapper.state.StateMapper;
-import br.com.insidesoftwares.dayoffmarker.repository.state.StateHolidayRepository;
-import br.com.insidesoftwares.dayoffmarker.repository.state.StateRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.Country;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.holiday.Holiday;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.state.State;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.state.StateHoliday;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.state.StateHolidayPK;
+import br.com.insidesoftwares.dayoffmarker.domain.mapper.state.StateMapper;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.state.StateHolidayRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.state.StateRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.service.CountryService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.HolidayService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.StateService;
@@ -48,10 +49,11 @@ class StateServiceBean implements StateService {
     private final Validator<Long, StateRequestDTO> stateValidator;
     private final StateMapper stateMapper;
 
+    @InsideAudit
     @Override
-    public InsideSoftwaresResponse<List<StateResponseDTO>> findAll(
+    public InsideSoftwaresResponseDTO<List<StateResponseDTO>> findAll(
             final String nameCountry,
-			final PaginationFilter<eOrderState> paginationFilter
+			final InsidePaginationFilterDTO<eOrderState> paginationFilter
     ) {
 
         Pageable pageable = PaginationUtils.createPageable(paginationFilter);
@@ -60,9 +62,9 @@ class StateServiceBean implements StateService {
 
         Page<State> states = stateRepository.findAllByCountry(country, pageable);
 
-        return InsideSoftwaresResponse.<List<StateResponseDTO>>builder()
+        return InsideSoftwaresResponseDTO.<List<StateResponseDTO>>builder()
                 .data(stateMapper.toDTOs(states.getContent()))
-                .paginatedDTO(
+                .insidePaginatedDTO(
                         PaginationUtils.createPaginated(
                             states.getTotalPages(),
                             states.getTotalElements(),
@@ -73,14 +75,16 @@ class StateServiceBean implements StateService {
                 .build();
     }
 
+    @InsideAudit
     @Override
-    public InsideSoftwaresResponse<StateResponseDTO> findById(final Long stateID) {
+    public InsideSoftwaresResponseDTO<StateResponseDTO> findById(final Long stateID) {
         State state = stateRepository.findStateById(stateID).orElseThrow(StateNotExistException::new);
-        return InsideSoftwaresResponse.<StateResponseDTO>builder()
+        return InsideSoftwaresResponseDTO.<StateResponseDTO>builder()
                 .data(stateMapper.toFullDTO(state))
                 .build();
     }
 
+    @InsideAudit
     @Transactional(rollbackFor = {
             CountryNameInvalidException.class,
             StateNameCountryAcronymExistException.class,
@@ -103,6 +107,7 @@ class StateServiceBean implements StateService {
         stateRepository.save(state);
     }
 
+    @InsideAudit
     @Transactional(rollbackFor = {
             CountryNameInvalidException.class,
             StateNameCountryAcronymExistException.class,
@@ -124,13 +129,15 @@ class StateServiceBean implements StateService {
         stateRepository.save(state);
     }
 
+    @InsideAudit
     @Override
     public State findStateByStateId(final Long stateId)  {
         Optional<State> optionalState = stateRepository.findById(stateId);
         return optionalState.orElseThrow(StateNotExistException::new);
     }
 
-	@Transactional(rollbackFor = {
+    @InsideAudit
+    @Transactional(rollbackFor = {
 		CityNotExistException.class,
 		HolidayNotExistException.class,
 		Exception.class
@@ -157,7 +164,8 @@ class StateServiceBean implements StateService {
 		stateRepository.save(state);
 	}
 
-	@Transactional(rollbackFor = {
+    @InsideAudit
+    @Transactional(rollbackFor = {
 		StateNotExistException.class,
 		Exception.class
 	})

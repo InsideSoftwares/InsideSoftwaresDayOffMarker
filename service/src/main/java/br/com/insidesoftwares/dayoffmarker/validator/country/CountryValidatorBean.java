@@ -1,11 +1,11 @@
 package br.com.insidesoftwares.dayoffmarker.validator.country;
 
+import br.com.insidesoftwares.dayoffmarker.commons.dto.request.CountryRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.country.CountryAcronymExistExpetion;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.country.CountryCodeExistExpetion;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.country.CountryNameExistExpetion;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.country.CountryNotExistException;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.CountryRequestDTO;
-import br.com.insidesoftwares.dayoffmarker.repository.CountryRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.CountryRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.Validator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

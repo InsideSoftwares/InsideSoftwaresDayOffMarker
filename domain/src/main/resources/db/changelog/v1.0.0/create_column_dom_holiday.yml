@@ -12,3 +12,17 @@ databaseChangeLog:
                   name: FIXED_HOLIDAY_ID
                   autoIncrement: false
                   type: BIGINT
+  - changeSet:
+      id: addColumn-DOM_HOLIDAY-NH
+      author: System
+      changes:
+        - tagDatabase:
+            tag: v1.0.0
+        - addColumn:
+            tableName: DOM_HOLIDAY
+            columns:
+              - column:
+                  name: NATIONAL_HOLIDAY
+                  autoIncrement: false
+                  type: ${typeBoolean}
+                  defaultValue: ${defaultValueBoolean}

@@ -1,8 +1,11 @@
 package br.com.insidesoftwares.dayoffmarker.service;
 
-import br.com.insidesoftwares.commons.dto.request.PaginationFilter;
-import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponse;
+import br.com.insidesoftwares.commons.annotation.InsideAudit;
+import br.com.insidesoftwares.commons.dto.request.InsidePaginationFilterDTO;
+import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
 import br.com.insidesoftwares.commons.utils.PaginationUtils;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.request.CountryRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.response.country.CountryResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.Configurationkey;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.sort.eOrderCountry;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.country.CountryAcronymExistExpetion;
@@ -10,13 +13,11 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.error.country.Count
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.country.CountryNameExistExpetion;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.country.CountryNameInvalidException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.country.CountryNotExistException;
-import br.com.insidesoftwares.dayoffmarker.mapper.CountryMapper;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.Country;
+import br.com.insidesoftwares.dayoffmarker.domain.mapper.CountryMapper;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.CountryRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.service.ConfigurationService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.CountryService;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.CountryRequestDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.response.country.CountryResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.entity.Country;
-import br.com.insidesoftwares.dayoffmarker.repository.CountryRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.Validator;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -39,14 +40,15 @@ class CountryServiceBean implements CountryService {
     private final ConfigurationService configurationService;
     private final Validator<Long, CountryRequestDTO> countryValidator;
 
+    @InsideAudit
     @Override
-    public InsideSoftwaresResponse<List<CountryResponseDTO>> findAll(final PaginationFilter<eOrderCountry> paginationFilter) {
+    public InsideSoftwaresResponseDTO<List<CountryResponseDTO>> findAll(final InsidePaginationFilterDTO<eOrderCountry> paginationFilter) {
         Pageable pageable = PaginationUtils.createPageable(paginationFilter);
 
         Page<Country> countries = countryRepository.findAll(pageable);
-        return InsideSoftwaresResponse.<List<CountryResponseDTO>>builder()
+        return InsideSoftwaresResponseDTO.<List<CountryResponseDTO>>builder()
                 .data(countryMapper.toDTOs(countries.getContent()))
-                .paginatedDTO(
+                .insidePaginatedDTO(
                         PaginationUtils.createPaginated(
 							countries.getTotalPages(),
 							countries.getTotalElements(),
@@ -57,17 +59,19 @@ class CountryServiceBean implements CountryService {
                 .build();
     }
 
+    @InsideAudit
     @Override
-    public InsideSoftwaresResponse<CountryResponseDTO> findById(final Long countryID) throws CountryNotExistException {
+    public InsideSoftwaresResponseDTO<CountryResponseDTO> findById(final Long countryID) throws CountryNotExistException {
         Country country = countryRepository
                 .findById(countryID)
                 .orElseThrow(CountryNotExistException::new);
 
-        return InsideSoftwaresResponse.<CountryResponseDTO>builder()
+        return InsideSoftwaresResponseDTO.<CountryResponseDTO>builder()
                 .data(countryMapper.toDTO(country))
                 .build();
     }
 
+    @InsideAudit
     @Transactional(rollbackFor = {CountryNameExistExpetion.class, CountryCodeExistExpetion.class, CountryAcronymExistExpetion.class})
     @Override
     public void save(final @Valid CountryRequestDTO countryRequestDTO) {
@@ -82,6 +86,7 @@ class CountryServiceBean implements CountryService {
         countryRepository.save(country);
     }
 
+    @InsideAudit
     @Transactional(rollbackFor = {CountryNameExistExpetion.class,CountryCodeExistExpetion.class,CountryAcronymExistExpetion.class})
     @Override
     public void update(
@@ -98,18 +103,21 @@ class CountryServiceBean implements CountryService {
         countryRepository.save(country);
     }
 
+    @InsideAudit
     @Override
     public boolean validCountry(final String name) {
         Optional<Country> countryOptional = countryRepository.findCountryByName(name);
         return countryOptional.isPresent();
     }
 
+    @InsideAudit
     @Override
     public Country findCountryByName(final String name) throws CountryNameInvalidException {
         Optional<Country> countryOptional = countryRepository.findCountryByName(name);
         return countryOptional.orElseThrow(CountryNameInvalidException::new);
     }
 
+    @InsideAudit
     @Override
     public Country findCountryDefault() {
         String countryDefault = configurationService.findValueConfigurationByKey(Configurationkey.COUNTRY_DEFAULT);
@@ -117,6 +125,7 @@ class CountryServiceBean implements CountryService {
         return countryOptional.orElseThrow(CountryNameInvalidException::new);
     }
 
+    @InsideAudit
     @Override
     public Country findCountryByNameOrDefault(final String name)  {
         String nameCountry = Objects.nonNull(name) ?
@@ -127,12 +136,14 @@ class CountryServiceBean implements CountryService {
         return countryOptional.orElseThrow(CountryNameInvalidException::new);
     }
 
+    @InsideAudit
     @Override
     public Country findCountryByCountryId(final Long countryId) {
         Optional<Country> countryOptional = countryRepository.findById(countryId);
         return countryOptional.orElseThrow(CountryNameInvalidException::new);
     }
 
+    @InsideAudit
 	@Override
 	public Country findCountryByCountryIdOrDefault(final Long countryId) {
 		if(Objects.isNull(countryId)) {

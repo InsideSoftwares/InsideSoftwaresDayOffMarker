@@ -1,13 +1,12 @@
 package br.com.insidesoftwares.dayoffmarker.validator.holiday;
 
+import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeHoliday;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.day.DayNotExistException;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayRequestDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.exception.error.holiday.HolidayDayExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.holiday.HolidayFromTimeNotInformedException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.holiday.HolidayNotExistException;
-import br.com.insidesoftwares.dayoffmarker.repository.day.DayRepository;
-import br.com.insidesoftwares.dayoffmarker.repository.holiday.HolidayRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.day.DayRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.holiday.HolidayRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.Validator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -26,7 +25,6 @@ class HolidayValidatorBean implements Validator<Long, HolidayRequestDTO> {
     @Override
     public void validator(final HolidayRequestDTO holidayRequestDTO) {
         if(!dayRepository.existsById(holidayRequestDTO.dayId())) throw new DayNotExistException();
-        if(holidayRepository.existsByDayID(holidayRequestDTO.dayId())) throw new HolidayDayExistException();
         validTypeHoliday(holidayRequestDTO);
     }
 
@@ -34,7 +32,6 @@ class HolidayValidatorBean implements Validator<Long, HolidayRequestDTO> {
     public void validator(final Long holidayId,final  HolidayRequestDTO holidayRequestDTO) {
         if(!holidayRepository.existsById(holidayId)) throw new HolidayNotExistException();
         if(!dayRepository.existsById(holidayRequestDTO.dayId())) throw new DayNotExistException();
-        if(holidayRepository.existsByDayIDAndNotId(holidayRequestDTO.dayId(),holidayId)) throw new HolidayDayExistException();
         validTypeHoliday(holidayRequestDTO);
     }
 

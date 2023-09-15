@@ -14,6 +14,7 @@ public record HolidayCreateRequestDTO(
 	TypeHoliday holidayType,
 	LocalTime fromTime,
 	boolean optional,
+    boolean nationalHoliday,
 	Long dayId,
 	Long fixedHolidayID
 ) implements Serializable {

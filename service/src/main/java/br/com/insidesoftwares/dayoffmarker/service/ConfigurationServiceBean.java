@@ -1,14 +1,15 @@
 package br.com.insidesoftwares.dayoffmarker.service;
 
+import br.com.insidesoftwares.commons.annotation.InsideAudit;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.configuration.ConfigurationCountryRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.configuration.ConfigurationLimitYearRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.Configurationkey;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.ConfigurationNotExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.country.CountryNameInvalidException;
-import br.com.insidesoftwares.dayoffmarker.entity.Configuration;
-import br.com.insidesoftwares.dayoffmarker.entity.Country;
-import br.com.insidesoftwares.dayoffmarker.repository.ConfigurationRepository;
-import br.com.insidesoftwares.dayoffmarker.repository.CountryRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.Configuration;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.Country;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.ConfigurationRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.CountryRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.service.ConfigurationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ class ConfigurationServiceBean implements ConfigurationService {
 	private final ConfigurationRepository configurationRepository;
 	private final CountryRepository countryRepository;
 
+    @InsideAudit(description = "Search configuration by Key")
 	@Override
     public Configuration findConfigurationByKey(final Configurationkey configurationKey) {
         Optional<Configuration> configurationOptional = configurationRepository.findConfigurationByKey(configurationKey);
@@ -34,6 +36,7 @@ class ConfigurationServiceBean implements ConfigurationService {
         }
     }
 
+    @InsideAudit(description = "Search configuration value by Key")
 	@Override
     public String findValueConfigurationByKey(final Configurationkey configurationKey) {
         Optional<Configuration> configurationOptional = configurationRepository.findConfigurationByKey(configurationKey);
@@ -45,6 +48,8 @@ class ConfigurationServiceBean implements ConfigurationService {
         }
     }
 
+
+    @InsideAudit(description = "Update configuration")
 	@Transactional(rollbackFor = ConfigurationNotExistException.class)
 	@Override
 	public void updateConfiguration(final Configurationkey configurationKey, String value) {
@@ -53,6 +58,7 @@ class ConfigurationServiceBean implements ConfigurationService {
 		configurationRepository.save(configuration);
 	}
 
+    @InsideAudit(description = "Configure limit of previous and subsequent years")
 	@Transactional(rollbackFor = {
 		ConfigurationNotExistException.class,
 		Exception.class
@@ -63,6 +69,7 @@ class ConfigurationServiceBean implements ConfigurationService {
 		updateConfiguration(Configurationkey.LIMIT_FORWARD_DAYS_YEARS, configurationLimitYearRequestDTO.numberForwardYears().toString());
 	}
 
+    @InsideAudit(description = "Configure system default parents")
 	@Transactional(rollbackFor = {
 		ConfigurationNotExistException.class,
 		CountryNameInvalidException.class,

@@ -2,7 +2,7 @@ package br.com.insidesoftwares.dayoffmarker.validator.request;
 
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeRequest;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.request.RequestConflictParametersException;
-import br.com.insidesoftwares.dayoffmarker.repository.RequestRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.RequestRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;

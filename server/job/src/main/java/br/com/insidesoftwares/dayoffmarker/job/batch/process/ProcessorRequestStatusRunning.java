@@ -1,7 +1,7 @@
 package br.com.insidesoftwares.dayoffmarker.job.batch.process;
 
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.StatusRequest;
-import br.com.insidesoftwares.dayoffmarker.entity.request.Request;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.request.Request;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;

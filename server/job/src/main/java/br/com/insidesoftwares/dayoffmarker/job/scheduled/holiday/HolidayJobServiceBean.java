@@ -2,7 +2,7 @@ package br.com.insidesoftwares.dayoffmarker.job.scheduled.holiday;
 
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.StatusRequest;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeRequest;
-import br.com.insidesoftwares.dayoffmarker.entity.holiday.FixedHoliday;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.holiday.FixedHoliday;
 import br.com.insidesoftwares.dayoffmarker.specification.service.DayService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.FixedHolidayService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.RequestCreationService;
@@ -17,6 +17,7 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class HolidayJobServiceBean {
 	@Qualifier("jobCreateHoliday")
 	private Job jobCreateHoliday;
 
+    @Transactional
 	public void createHolidayFromFixedHoliday(){
 		try {
 			log.info("Starting the create of holidays.");

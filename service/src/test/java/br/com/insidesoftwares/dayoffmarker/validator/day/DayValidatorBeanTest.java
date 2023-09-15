@@ -4,8 +4,8 @@ import br.com.insidesoftwares.dayoffmarker.commons.dto.request.link.LinkTagReque
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.day.DayNotExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagExistDayException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagNotExistException;
-import br.com.insidesoftwares.dayoffmarker.repository.day.DayRepository;
-import br.com.insidesoftwares.dayoffmarker.repository.day.TagRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.day.DayRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.day.TagRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;

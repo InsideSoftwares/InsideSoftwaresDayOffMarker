@@ -15,7 +15,9 @@ public record HolidayResponseDTO(
 	String description,
 	TypeHoliday holidayType,
 	LocalTime fromTime,
-	LocalDate day
+	LocalDate day,
+	boolean optional,
+    boolean nationalHoliday
 ) implements Serializable {
     @Serial
     private static final long serialVersionUID = -3943327374923194857L;

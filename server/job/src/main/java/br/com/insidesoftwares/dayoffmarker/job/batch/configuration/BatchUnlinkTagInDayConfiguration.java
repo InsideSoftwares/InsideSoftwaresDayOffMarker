@@ -1,11 +1,11 @@
 package br.com.insidesoftwares.dayoffmarker.job.batch.configuration;
 
-import br.com.insidesoftwares.dayoffmarker.entity.day.DayTag;
-import br.com.insidesoftwares.dayoffmarker.entity.request.Request;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.request.Request;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.tag.DayTag;
 import br.com.insidesoftwares.dayoffmarker.job.batch.listener.DayOffMarkerJobListener;
+import br.com.insidesoftwares.dayoffmarker.job.batch.process.ProcessorLinkUnlinkTag;
 import br.com.insidesoftwares.dayoffmarker.job.batch.process.ProcessorRequestStatusFinalized;
 import br.com.insidesoftwares.dayoffmarker.job.batch.process.ProcessorRequestStatusRunning;
-import br.com.insidesoftwares.dayoffmarker.job.batch.process.ProcessorUnlinkTag;
 import br.com.insidesoftwares.dayoffmarker.job.batch.write.WriteRequest;
 import br.com.insidesoftwares.dayoffmarker.job.batch.write.WriteUnlinkTag;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +43,7 @@ public class BatchUnlinkTagInDayConfiguration {
 	private ItemReader<Request> readerRequestToFinalizedUnlinkTag;
 
 	private final ProcessorRequestStatusRunning processorRequestStatusRunning;
-	private final ProcessorUnlinkTag processorUnlinkTag;
+	private final ProcessorLinkUnlinkTag processorUnlinkTag;
 	private final ProcessorRequestStatusFinalized processorRequestStatusFinalized;
 
 	private final WriteUnlinkTag writeUnlinkTag;

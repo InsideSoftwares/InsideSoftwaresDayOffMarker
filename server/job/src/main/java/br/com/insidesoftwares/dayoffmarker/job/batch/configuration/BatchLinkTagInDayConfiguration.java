@@ -1,9 +1,9 @@
 package br.com.insidesoftwares.dayoffmarker.job.batch.configuration;
 
-import br.com.insidesoftwares.dayoffmarker.entity.day.DayTag;
-import br.com.insidesoftwares.dayoffmarker.entity.request.Request;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.request.Request;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.tag.DayTag;
 import br.com.insidesoftwares.dayoffmarker.job.batch.listener.DayOffMarkerJobListener;
-import br.com.insidesoftwares.dayoffmarker.job.batch.process.ProcessorLinkTag;
+import br.com.insidesoftwares.dayoffmarker.job.batch.process.ProcessorLinkUnlinkTag;
 import br.com.insidesoftwares.dayoffmarker.job.batch.process.ProcessorRequestStatusFinalized;
 import br.com.insidesoftwares.dayoffmarker.job.batch.process.ProcessorRequestStatusRunning;
 import br.com.insidesoftwares.dayoffmarker.job.batch.write.WriteLinkTag;
@@ -43,7 +43,7 @@ public class BatchLinkTagInDayConfiguration {
 	private ItemReader<Request> readerRequestToFinalizedLinkTag;
 
 	private final ProcessorRequestStatusRunning processorRequestStatusRunning;
-	private final ProcessorLinkTag processorLinkTag;
+	private final ProcessorLinkUnlinkTag processorLinkUnlinkTag;
 	private final ProcessorRequestStatusFinalized processorRequestStatusFinalized;
 
 	private final WriteLinkTag writeLinkTag;
@@ -69,7 +69,7 @@ public class BatchLinkTagInDayConfiguration {
 			.<Request, List<DayTag>>chunk(dayOffMarkerJobProperties.getUpdatesRequestToFinalizedUpdateHoliday(), platformTransactionManager)
 			.listener(dayOffMarkerJobListener)
 			.reader(readerRequestsLinkTag)
-			.processor(processorLinkTag)
+			.processor(processorLinkUnlinkTag)
 			.writer(writeLinkTag)
 			.build();
 	}

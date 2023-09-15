@@ -9,10 +9,10 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagLinkNo
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagLinkOneParameterNotNullException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagLinkParameterNotResultException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagNotExistException;
-import br.com.insidesoftwares.dayoffmarker.entity.day.Day;
-import br.com.insidesoftwares.dayoffmarker.repository.day.DayRepository;
-import br.com.insidesoftwares.dayoffmarker.repository.day.TagRepository;
-import br.com.insidesoftwares.dayoffmarker.specification.DaySpecification;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.day.Day;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.day.DayRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.day.TagRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.specification.DaySpecification;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.Validator;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.ValidatorLink;
 import lombok.RequiredArgsConstructor;

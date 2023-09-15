@@ -1,8 +1,8 @@
 package br.com.insidesoftwares.dayoffmarker.repository.country;
 
 import br.com.insidesoftwares.dayoffmarker.RepositoryTestApplication;
-import br.com.insidesoftwares.dayoffmarker.entity.Country;
-import br.com.insidesoftwares.dayoffmarker.repository.CountryRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.Country;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.CountryRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.springframework.beans.factory.annotation.Autowired;

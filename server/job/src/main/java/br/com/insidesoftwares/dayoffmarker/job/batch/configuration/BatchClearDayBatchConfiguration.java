@@ -1,6 +1,6 @@
 package br.com.insidesoftwares.dayoffmarker.job.batch.configuration;
 
-import br.com.insidesoftwares.dayoffmarker.entity.day.DayBatch;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.day.DayBatch;
 import br.com.insidesoftwares.dayoffmarker.job.batch.listener.DayOffMarkerJobListener;
 import br.com.insidesoftwares.dayoffmarker.job.batch.process.ProcessDayBatchNotProcessed;
 import br.com.insidesoftwares.dayoffmarker.job.batch.write.DeleteDayBatchList;
@@ -19,11 +19,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
+
 @Configuration
 @RequiredArgsConstructor
 public class BatchClearDayBatchConfiguration {
 
-	private final JobRepository jobRepository;
+    private final JobRepository jobRepository;
 	private final PlatformTransactionManager platformTransactionManager;
 	private final DayOffMarkerJobListener dayOffMarkerJobListener;
 	private final DayOffMarkerJobProperties dayOffMarkerJobProperties;

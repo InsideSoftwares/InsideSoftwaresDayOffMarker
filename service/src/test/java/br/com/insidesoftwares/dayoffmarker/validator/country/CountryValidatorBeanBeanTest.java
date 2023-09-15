@@ -5,7 +5,7 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.error.country.Count
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.country.CountryCodeExistExpetion;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.country.CountryNameExistExpetion;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.country.CountryNotExistException;
-import br.com.insidesoftwares.dayoffmarker.repository.CountryRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.CountryRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
@@ -201,11 +201,6 @@ public class CountryValidatorBeanBeanTest {
 		Mockito.verify(countryRepository, Mockito.times(1))
 				.existsByAcronymAndNotId(COUNTRY_ACRONYM, COUNTRY_ID);
 	}
-
-
-
-
-
 
 	@Test
 	public void shouldntThrowExceptionByRunningMethodValidatorLongParameter()  {

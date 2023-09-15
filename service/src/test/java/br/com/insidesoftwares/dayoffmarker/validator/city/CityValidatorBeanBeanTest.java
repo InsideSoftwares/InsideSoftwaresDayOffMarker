@@ -6,8 +6,8 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.error.city.CityCode
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.city.CityNameStateExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.city.CityNotExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.state.StateNotExistException;
-import br.com.insidesoftwares.dayoffmarker.repository.city.CityRepository;
-import br.com.insidesoftwares.dayoffmarker.repository.state.StateRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.city.CityRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.state.StateRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
