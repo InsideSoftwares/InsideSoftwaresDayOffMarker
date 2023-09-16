@@ -1,7 +1,7 @@
 package br.com.insidesoftwares.dayoffmarker.domain.repository.state;
 
-import br.com.insidesoftwares.dayoffmarker.domain.entity.state.State;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.Country;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.state.State;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -72,6 +72,5 @@ public interface StateRepository extends JpaRepository<State, Long> {
 		final boolean stateHoliday,
 		final LocalDate dateSearch
 	);
-
 
 }

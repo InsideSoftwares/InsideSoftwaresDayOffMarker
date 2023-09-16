@@ -22,25 +22,26 @@ abstract class CityRepositoryIntegrationTest {
 
 	@Autowired
 	private CityRepository cityRepository;
-
     @Autowired
     private CountryRepository countryRepository;
 
-
     private static final Long COUNTRY_ID = 1L;
-    private static final Long STATE_ID = 1L;
-    private static final Long CITY_ID = 1L;
+    private static final Long STATE_MINAS_GERAIS_ID = 1L;
+    private static final Long STATE_SAO_PAULO_ID = 2L;
+    private static final Long CITY_BARBACENA_ID = 1L;
+    private static final String CITY_NAME_BARBACENA = "Barbacena";
     private static final String CITY_CODE_BARB01 = "BARB01";
     private static final String CITY_ACRONYM_BARB = "BARB";
+    private static final String CITY_ACRONYM_PELIS = "PELIS";
     private static final Long CITY_ID_INVALID = 9999L;
 
     @Test
     void deveRetornaCidadeQuandoInformadoUmIDExistente() {
-        Optional<City> optionalCity = cityRepository.findCityById(CITY_ID);
+        Optional<City> optionalCity = cityRepository.findCityById(CITY_BARBACENA_ID);
 
         assertTrue(optionalCity.isPresent());
         optionalCity.ifPresent(city -> {
-            assertEquals(CITY_ID, city.getId());
+            assertEquals(CITY_BARBACENA_ID, city.getId());
             assertEquals(CITY_CODE_BARB01, city.getCode());
             assertEquals(CITY_ACRONYM_BARB, city.getAcronym());
         });
@@ -55,11 +56,11 @@ abstract class CityRepositoryIntegrationTest {
 
     @Test
     void deveRetornaCidadeQuandoInformadoUmIDExistenteComMetodoFindCityFullHolidayById() {
-        Optional<City> optionalCity = cityRepository.findCityFullHolidayById(CITY_ID);
+        Optional<City> optionalCity = cityRepository.findCityFullHolidayById(CITY_BARBACENA_ID);
 
         assertTrue(optionalCity.isPresent());
         optionalCity.ifPresent(city -> {
-            assertEquals(CITY_ID, city.getId());
+            assertEquals(CITY_BARBACENA_ID, city.getId());
             assertEquals(CITY_CODE_BARB01, city.getCode());
             assertEquals(CITY_ACRONYM_BARB, city.getAcronym());
         });
@@ -77,7 +78,7 @@ abstract class CityRepositoryIntegrationTest {
     void deveRetornaListaPaginadaDeCidadesQuandoInformadoOEstadoIDEConfiguracaoPaginacaoSortASCEOrderPorID() {
         Pageable pageable = createPageable(1, 2, Sort.Direction.ASC, eOrderCity.ID);
 
-        Page<City> cityPage = cityRepository.findCityByStateID(STATE_ID, pageable);
+        Page<City> cityPage = cityRepository.findCityByStateID(STATE_MINAS_GERAIS_ID, pageable);
 
         assertEquals(2, cityPage.getTotalPages());
         assertEquals(3, cityPage.getTotalElements());
@@ -91,7 +92,7 @@ abstract class CityRepositoryIntegrationTest {
     void deveRetornaListaPaginadaDeCidadesQuandoInformadoOEstadoIDEConfiguracaoPaginacaoSortDESCEOrderPorID() {
         Pageable pageable = createPageable(1, 2, Sort.Direction.DESC, eOrderCity.ID);
 
-        Page<City> cityPage = cityRepository.findCityByStateID(STATE_ID, pageable);
+        Page<City> cityPage = cityRepository.findCityByStateID(STATE_MINAS_GERAIS_ID, pageable);
 
         assertEquals(2, cityPage.getTotalPages());
         assertEquals(3, cityPage.getTotalElements());
@@ -105,7 +106,7 @@ abstract class CityRepositoryIntegrationTest {
     void deveRetornaListaPaginadaDeCidadesQuandoInformadoOEstadoIDEConfiguracaoPaginacaoSortDESCEOrderPorCode() {
         Pageable pageable = createPageable(1, 2, Sort.Direction.DESC, eOrderCity.CODE);
 
-        Page<City> cityPage = cityRepository.findCityByStateID(STATE_ID, pageable);
+        Page<City> cityPage = cityRepository.findCityByStateID(STATE_MINAS_GERAIS_ID, pageable);
 
         assertEquals(2, cityPage.getTotalPages());
         assertEquals(3, cityPage.getTotalElements());
@@ -122,7 +123,7 @@ abstract class CityRepositoryIntegrationTest {
     void deveRetornaListaPaginadaDeCidadesQuandoInformadoOEstadoIDEConfiguracaoPaginacaoSortDESCEOrderPorCodeETodosOsItens() {
         Pageable pageable = createPageable(1, 6, Sort.Direction.DESC, eOrderCity.CODE);
 
-        Page<City> cityPage = cityRepository.findCityByStateID(STATE_ID, pageable);
+        Page<City> cityPage = cityRepository.findCityByStateID(STATE_MINAS_GERAIS_ID, pageable);
 
         assertEquals(1, cityPage.getTotalPages());
         assertEquals(3, cityPage.getTotalElements());
@@ -174,4 +175,117 @@ abstract class CityRepositoryIntegrationTest {
         assertEquals("VESP01", cityPage.getContent().get(2).getCode());
     }
 
+    @Test
+    void deveRetornarVerdadeiroQuandoInformarACidadeBarbacenaEEstadoMinasGerais() {
+        boolean exists = cityRepository.existsByNameAndStateID(CITY_NAME_BARBACENA, STATE_MINAS_GERAIS_ID);
+
+        assertTrue(exists);
+    }
+
+    @Test
+    void deveRetornarFalsoQuandoInformarACidadeBarbacenaEEstadoSaoPaulo() {
+        boolean exists = cityRepository.existsByNameAndStateID(CITY_NAME_BARBACENA, STATE_SAO_PAULO_ID);
+
+        assertFalse(exists);
+    }
+
+    @Test
+    void deveRetornarFalsoQuandoInformarACidadeBarbacenaEEstadoInexistente() {
+        boolean exists = cityRepository.existsByNameAndStateID(CITY_NAME_BARBACENA, 12311L);
+
+        assertFalse(exists);
+    }
+
+    @Test
+    void deveRetornarVerdadeiroQuandoInformarACodeBarbacenaEEstadoMinasGerais() {
+        boolean exists = cityRepository.existsByCodeAndStateID(CITY_CODE_BARB01, STATE_MINAS_GERAIS_ID);
+
+        assertTrue(exists);
+    }
+
+    @Test
+    void deveRetornarVerdadeiroQuandoInformarACodeBarbacenaEEstadoSaoPaulo() {
+        boolean exists = cityRepository.existsByCodeAndStateID(CITY_CODE_BARB01, STATE_SAO_PAULO_ID);
+
+        assertFalse(exists);
+    }
+
+    @Test
+    void deveRetornarVerdadeiroQuandoInformarACodeBarbacenaEEstadoInexistente() {
+        boolean exists = cityRepository.existsByCodeAndStateID(CITY_CODE_BARB01, 12311L);
+
+        assertFalse(exists);
+    }
+
+    @Test
+    void deveRetornarVerdadeiroQuandoInformarACodeBarbacenaEAcronynmBarbEEstadoMinasGerais() {
+        boolean exists = cityRepository.existsByCodeAndAcronymAndStateID(CITY_CODE_BARB01, CITY_ACRONYM_BARB, STATE_MINAS_GERAIS_ID);
+
+        assertTrue(exists);
+    }
+
+    @Test
+    void deveRetornarFalsoQuandoInformarACodeBarbacenaEAcronynmPelisEEstadoMinasGerais() {
+        boolean exists = cityRepository.existsByCodeAndAcronymAndStateID(CITY_CODE_BARB01, CITY_ACRONYM_PELIS, STATE_MINAS_GERAIS_ID);
+
+        assertFalse(exists);
+    }
+
+    @Test
+    void deveRetornarVerdadeiroQuandoInformarACodeBarbacenaEAcronynmBarbEEstadoSaoPaulo() {
+        boolean exists = cityRepository.existsByCodeAndAcronymAndStateID(CITY_CODE_BARB01, CITY_ACRONYM_BARB, STATE_SAO_PAULO_ID);
+
+        assertFalse(exists);
+    }
+
+    @Test
+    void deveRetornarVerdadeiroQuandoInformarACodeBarbacenaEAcronynmBarbEEstadoInexistente() {
+        boolean exists = cityRepository.existsByCodeAndAcronymAndStateID(CITY_CODE_BARB01, CITY_ACRONYM_BARB, 12311L);
+
+        assertFalse(exists);
+    }
+
+    @Test
+    void deveRetornarVerdadeiroQuandoInformarACidadeBarbacenaEEstadoMinasGeraisEIDDeOutraCidade() {
+        boolean exists = cityRepository.existsByNameAndStateIDAndNotId(CITY_NAME_BARBACENA, STATE_MINAS_GERAIS_ID, CITY_ID_INVALID);
+
+        assertTrue(exists);
+    }
+
+    @Test
+    void deveRetornarFalsoQuandoInformarACidadeBarbacenaEEstadoMinasGeraisEIDDeBarbacena() {
+        boolean exists = cityRepository.existsByNameAndStateIDAndNotId(CITY_NAME_BARBACENA, STATE_SAO_PAULO_ID, CITY_BARBACENA_ID);
+
+        assertFalse(exists);
+    }
+
+    @Test
+    void deveRetornarVerdadeiroQuandoInformarOCodeBarbacenaEEstadoMinasGeraisEOutroID() {
+        boolean exists = cityRepository.existsByCodeAndStateIDAndNotId(CITY_CODE_BARB01, STATE_MINAS_GERAIS_ID, CITY_ID_INVALID);
+
+        assertTrue(exists);
+    }
+
+    @Test
+    void deveRetornarFalsoQuandoInformarOCodeBarbacenaEEstadoMinasGeraisEIDDeBarbacena() {
+        boolean exists = cityRepository.existsByCodeAndStateIDAndNotId(CITY_CODE_BARB01, STATE_SAO_PAULO_ID, CITY_BARBACENA_ID);
+
+        assertFalse(exists);
+    }
+
+
+
+    @Test
+    void deveRetornarVerdadeiroQuandoInformarACodeBarbacenaEAcronynmBarbEEstadoMinasGeraisEIDOutraCidade() {
+        boolean exists = cityRepository.existsByCodeAndAcronymAndStateIDAndNotId(CITY_CODE_BARB01, CITY_ACRONYM_BARB, STATE_MINAS_GERAIS_ID, CITY_ID_INVALID);
+
+        assertTrue(exists);
+    }
+
+    @Test
+    void deveRetornarFalsoQuandoInformarACodeBarbacenaEAcronynmBarbEEstadoMinasGeraisEIDDeBarbacena() {
+        boolean exists = cityRepository.existsByCodeAndAcronymAndStateIDAndNotId(CITY_CODE_BARB01, CITY_ACRONYM_PELIS, STATE_MINAS_GERAIS_ID, CITY_BARBACENA_ID);
+
+        assertFalse(exists);
+    }
 }
