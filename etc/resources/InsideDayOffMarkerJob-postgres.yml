@@ -78,6 +78,11 @@ application:
       batch:
         create:
           cron: "0 10 */1 * * *"
+    tag:
+      link:
+        run_batch: "0 */10 * * * *"
+      unlink:
+        run_batch: "0 */10 * * * *"
 
 insidesoftwares-cache:
   config:

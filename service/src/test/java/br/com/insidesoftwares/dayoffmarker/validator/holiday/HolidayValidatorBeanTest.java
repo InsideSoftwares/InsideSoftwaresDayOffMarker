@@ -3,7 +3,6 @@ package br.com.insidesoftwares.dayoffmarker.validator.holiday;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeHoliday;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.day.DayNotExistException;
-import br.com.insidesoftwares.dayoffmarker.commons.exception.error.holiday.HolidayDayExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.holiday.HolidayFromTimeNotInformedException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.holiday.HolidayNotExistException;
 import br.com.insidesoftwares.dayoffmarker.domain.repository.day.DayRepository;
@@ -35,30 +34,25 @@ public class HolidayValidatorBeanTest {
 	private static final String HOLIDAY_DESCRIPTION = "description";
 	private static final boolean HOLIDAY_OPTIONAL = false;
 	private static final LocalTime HOLIDAY_FROM_TIME = LocalTime.now();
-	private static final TypeHoliday HOLIDAY_HOLIDAY_TYPE = TypeHoliday.MANDATORY;
 	private static final Long HOLIDAY_ID = 1L;
 	private static final Long DAY_ID = 1L;
 
 	@Test
 	public void shouldntThrowExceptionWithHolidayTypeMandatoryByRunningMethodValidatorDTOParameter() {
 		Mockito.when(dayRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
-		Mockito.when(holidayRepository.existsByDayID(ArgumentMatchers.anyLong())).thenReturn(false);
 
 		holidayValidatorBean.validator(createHolidayRequestDTO(TypeHoliday.MANDATORY, HOLIDAY_FROM_TIME));
 
 		Mockito.verify(dayRepository, Mockito.times(1)).existsById(DAY_ID);
-		Mockito.verify(holidayRepository, Mockito.times(1)).existsByDayID(DAY_ID);
 	}
 
 	@Test
 	public void shouldntThrowExceptionWithHolidayTypeHalfPeriodByRunningMethodValidatorDTOParameter()  {
 		Mockito.when(dayRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
-		Mockito.when(holidayRepository.existsByDayID(ArgumentMatchers.anyLong())).thenReturn(false);
 
 		holidayValidatorBean.validator(createHolidayRequestDTO(TypeHoliday.HALF_PERIOD, HOLIDAY_FROM_TIME));
 
 		Mockito.verify(dayRepository, Mockito.times(1)).existsById(DAY_ID);
-		Mockito.verify(holidayRepository, Mockito.times(1)).existsByDayID(DAY_ID);
 	}
 
 	@Test
@@ -71,27 +65,11 @@ public class HolidayValidatorBeanTest {
 		);
 
 		Mockito.verify(dayRepository, Mockito.times(1)).existsById(DAY_ID);
-		Mockito.verify(holidayRepository, Mockito.times(0)).existsByDayID(DAY_ID);
-	}
-
-	@Test
-	public void shouldThrowExceptionHolidayDayExistExceptionByRunningMethodValidatorDTOParameter() {
-		Mockito.when(dayRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
-		Mockito.when(holidayRepository.existsByDayID(ArgumentMatchers.anyLong())).thenReturn(true);
-
-		assertThrows(
-				HolidayDayExistException.class,
-				() -> holidayValidatorBean.validator(createHolidayRequestDTO(TypeHoliday.MANDATORY, null))
-		);
-
-		Mockito.verify(dayRepository, Mockito.times(1)).existsById(DAY_ID);
-		Mockito.verify(holidayRepository, Mockito.times(1)).existsByDayID(DAY_ID);
 	}
 
 	@Test
 	public void shouldThrowExceptionHolidayFromTimeNotInformedExceptionWithHolidayTypeHalfPeriodByRunningMethodValidatorDTOParameter() {
 		Mockito.when(dayRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
-		Mockito.when(holidayRepository.existsByDayID(ArgumentMatchers.anyLong())).thenReturn(false);
 
 		assertThrows(
 				HolidayFromTimeNotInformedException.class,
@@ -99,7 +77,6 @@ public class HolidayValidatorBeanTest {
 		);
 
 		Mockito.verify(dayRepository, Mockito.times(1)).existsById(DAY_ID);
-		Mockito.verify(holidayRepository, Mockito.times(1)).existsByDayID(DAY_ID);
 	}
 
 
@@ -107,26 +84,22 @@ public class HolidayValidatorBeanTest {
 	public void shouldntThrowExceptionWithHolidayTypeMandatoryByRunningMethodValidatorLongAndDTOParameter()  {
 		Mockito.when(holidayRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
 		Mockito.when(dayRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
-		Mockito.when(holidayRepository.existsByDayIDAndNotId(ArgumentMatchers.anyLong(), ArgumentMatchers.anyLong())).thenReturn(false);
 
 		holidayValidatorBean.validator(HOLIDAY_ID, createHolidayRequestDTO(TypeHoliday.MANDATORY, HOLIDAY_FROM_TIME));
 
 		Mockito.verify(holidayRepository, Mockito.times(1)).existsById(HOLIDAY_ID);
 		Mockito.verify(dayRepository, Mockito.times(1)).existsById(DAY_ID);
-		Mockito.verify(holidayRepository, Mockito.times(1)).existsByDayIDAndNotId(DAY_ID, HOLIDAY_ID);
 	}
 
 	@Test
 	public void shouldntThrowExceptionWithHolidayTypeHalfPeriodByRunningMethodValidatorLongAndDTOParameter()  {
 		Mockito.when(holidayRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
 		Mockito.when(dayRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
-		Mockito.when(holidayRepository.existsByDayIDAndNotId(ArgumentMatchers.anyLong(), ArgumentMatchers.anyLong())).thenReturn(false);
 
 		holidayValidatorBean.validator(HOLIDAY_ID, createHolidayRequestDTO(TypeHoliday.HALF_PERIOD, HOLIDAY_FROM_TIME));
 
 		Mockito.verify(holidayRepository, Mockito.times(1)).existsById(HOLIDAY_ID);
 		Mockito.verify(dayRepository, Mockito.times(1)).existsById(DAY_ID);
-		Mockito.verify(holidayRepository, Mockito.times(1)).existsByDayIDAndNotId(DAY_ID, HOLIDAY_ID);
 	}
 
 	@Test
@@ -140,7 +113,6 @@ public class HolidayValidatorBeanTest {
 
 		Mockito.verify(holidayRepository, Mockito.times(1)).existsById(HOLIDAY_ID);
 		Mockito.verify(dayRepository, Mockito.times(0)).existsById(DAY_ID);
-		Mockito.verify(holidayRepository, Mockito.times(0)).existsByDayID(DAY_ID);
 	}
 
 	@Test
@@ -155,31 +127,12 @@ public class HolidayValidatorBeanTest {
 
 		Mockito.verify(holidayRepository, Mockito.times(1)).existsById(HOLIDAY_ID);
 		Mockito.verify(dayRepository, Mockito.times(1)).existsById(DAY_ID);
-		Mockito.verify(holidayRepository, Mockito.times(0)).existsByDayID(DAY_ID);
-	}
-
-	@Test
-	public void shouldThrowExceptionHolidayDayExistExceptionByRunningMethodValidatorLongAndDTOParameter() {
-		Mockito.when(holidayRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
-		Mockito.when(dayRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
-		Mockito.when(holidayRepository.existsByDayIDAndNotId(ArgumentMatchers.anyLong(), ArgumentMatchers.anyLong())).thenReturn(true);
-
-		assertThrows(
-				HolidayDayExistException.class,
-				() -> holidayValidatorBean.validator(HOLIDAY_ID, createHolidayRequestDTO(TypeHoliday.MANDATORY, null))
-		);
-
-
-		Mockito.verify(holidayRepository, Mockito.times(1)).existsById(HOLIDAY_ID);
-		Mockito.verify(dayRepository, Mockito.times(1)).existsById(DAY_ID);
-		Mockito.verify(holidayRepository, Mockito.times(1)).existsByDayIDAndNotId(DAY_ID, HOLIDAY_ID);
 	}
 
 	@Test
 	public void shouldThrowExceptionHolidayFromTimeNotInformedExceptionWithHolidayTypeHalfPeriodByRunningMethodValidatorLongAndDTOParameter() {
 		Mockito.when(holidayRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
 		Mockito.when(dayRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
-		Mockito.when(holidayRepository.existsByDayIDAndNotId(ArgumentMatchers.anyLong(), ArgumentMatchers.anyLong())).thenReturn(false);
 
 		assertThrows(
 				HolidayFromTimeNotInformedException.class,
@@ -188,7 +141,6 @@ public class HolidayValidatorBeanTest {
 
 		Mockito.verify(holidayRepository, Mockito.times(1)).existsById(HOLIDAY_ID);
 		Mockito.verify(dayRepository, Mockito.times(1)).existsById(DAY_ID);
-		Mockito.verify(holidayRepository, Mockito.times(1)).existsByDayIDAndNotId(DAY_ID, HOLIDAY_ID);
 	}
 
 	@Test
