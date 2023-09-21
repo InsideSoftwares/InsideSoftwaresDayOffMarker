@@ -8,7 +8,6 @@ import br.com.insidesoftwares.commons.dto.request.InsidePaginationFilterDTO;
 import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.CountryRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.country.CountryResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.enumeration.sort.eOrderCountry;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.country.CountryNotExistException;
 import br.com.insidesoftwares.dayoffmarker.specification.service.CountryService;
 import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
@@ -46,7 +45,7 @@ public class CountryController {
 	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.Country.Read')")
 	@InsideRequestGet(uri = "/v1/country", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_COUNTRY")
     public InsideSoftwaresResponseDTO<List<CountryResponseDTO>> findAll(
-		InsidePaginationFilterDTO<eOrderCountry> paginationFilter
+		InsidePaginationFilterDTO paginationFilter
     ) {
         return countryService.findAll(paginationFilter);
     }

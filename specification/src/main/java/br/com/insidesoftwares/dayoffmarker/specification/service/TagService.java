@@ -6,7 +6,6 @@ import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagLinkReques
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.tag.TagLinkResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.tag.TagResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.enumeration.sort.eOrderTag;
 import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
 
@@ -15,7 +14,7 @@ import java.util.List;
 @Validated
 public interface TagService {
 
-    InsideSoftwaresResponseDTO<List<TagResponseDTO>> findAll(final InsidePaginationFilterDTO<eOrderTag> paginationFilter);
+    InsideSoftwaresResponseDTO<List<TagResponseDTO>> findAll(final InsidePaginationFilterDTO paginationFilter);
 
     InsideSoftwaresResponseDTO<TagResponseDTO> findById(final Long tagID);
 

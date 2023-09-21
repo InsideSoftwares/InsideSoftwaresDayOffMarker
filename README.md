@@ -11,9 +11,9 @@ Todos esses processos dependem de datas específicas para serem realizados, a fi
 
 ## Bibliotecas, Framework e Projetos utilizado para implementação do sistema
 * [Spring Boot](https://spring.io/projects/spring-boot)
-  * Versão: 3.1.3
+  * Versão: 3.1.4
 * [Java](https://www.java.com/pt-BR/)
-  * Versão: 17 ou superior
+  * Versão: 21 ou superior
 * [Liquibase](https://www.liquibase.org/)
   * Versão: 4.23.0
 * [Jdempotent](https://github.com/Trendyol/Jdempotent)
@@ -76,6 +76,12 @@ Eles estão disponibilizados na pasta ``etc/infra/apisix``, os seguintes arquivo
 * ``DayOffMarker.yml``
 * ``DayOffMarkerSwagger.yml``
 
+#### Gateway - Spring Cloud Gateway
+Possui os arquivos para configuração basica do ``Spring Cloud Gateway``.
+
+Eles estão disponibilizados na pasta ``etc/infra/gateway``, os seguintes arquivos:
+* ``Inside_CloudGateway.yml``
+
 ### Scripts
 
 Na pasta: ``etc/scripts`` possui os arquivos utilizados para realizar a build do sistema e gerar os arquivos necessarios
@@ -84,3 +90,52 @@ para utiliza-lo.
 ### Testes
 Na pasta: ``etc/test`` possui os arquivos utilizados para testar o sistema.
 * ``JMeter_Test_Carga.jmx`` possui configuração para realizar alguns testes de carga no sistema.
+
+## Environment personalizaveis - Day Off Marker - Application
+
+* `DAY_OFF_MARKER_PORT`
+    * Define a porta com qual o serviço vai esta acessível
+    * Default: `8080`
+* `DAY_OFF_MARKER_PROFILES`
+    * Define os Profiles para executar o serviço
+    * Default: `native`
+* `CLOUD_CONFIG_URI`
+    * Define a URI para logar no sistema: InsideSoftwaresCloudConfig
+    * Default: `http://localhost:8888`
+* `CLOUD_CONFIG_NAME`
+    * Define o usuario para logar no sistema: InsideSoftwaresCloudConfig
+    * Default: `ADMIN`
+* `CLOUD_CONFIG_PASSWORD`
+    * Define o usuario para senha no sistema: InsideSoftwaresCloudConfig
+    * Default: `ADMIN`
+* `CLOUD_ADMIN_URL`
+    * Define a URI para logar no sistema: InsideSoftwaresCloudAdmin
+    * Default: `http://localhost:8889/admin`
+* `CLOUD_EUREKA_URL`
+    * Define a URI para logar no sistema: InsideSoftwaresCloudAdmin
+    * Default: `http://localhost:8889/eureka`
+* `LOGBACK_LOG_DIR`
+    * Define local em que será salvo os logs do serviço
+
+## Environment personalizaveis - Day Off Marker - Job
+
+* `DAY_OFF_MARKER_JOB_PROFILES`
+    * Define os Profiles para executar o serviço
+    * Default: `native`
+* `CLOUD_CONFIG_URI`
+    * Define a URI para logar no sistema: InsideSoftwaresCloudConfig
+    * Default: `http://localhost:8888`
+* `CLOUD_CONFIG_NAME`
+    * Define o usuario para logar no sistema: InsideSoftwaresCloudConfig
+    * Default: `ADMIN`
+* `CLOUD_CONFIG_PASSWORD`
+    * Define o usuario para senha no sistema: InsideSoftwaresCloudConfig
+    * Default: `ADMIN`
+* `CLOUD_ADMIN_URL`
+    * Define a URI para logar no sistema: InsideSoftwaresCloudAdmin
+    * Default: `http://localhost:8889/admin`
+* `CLOUD_EUREKA_URL`
+    * Define a URI para logar no sistema: InsideSoftwaresCloudAdmin
+    * Default: `http://localhost:8889/eureka`
+* `LOGBACK_LOG_DIR`
+    * Define local em que será salvo os logs do serviço

@@ -7,7 +7,6 @@ import br.com.insidesoftwares.commons.dto.request.InsidePaginationFilterDTO;
 import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.link.LinkTagRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.day.DayDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.enumeration.sort.eOrderDay;
 import br.com.insidesoftwares.dayoffmarker.specification.service.DayService;
 import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
 import com.trendyol.jdempotent.core.annotation.JdempotentResource;
@@ -49,7 +48,7 @@ public class DayController {
 	public InsideSoftwaresResponseDTO<List<DayDTO>> findAll(
 		@RequestParam(value = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
 		@RequestParam(value = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
-		InsidePaginationFilterDTO<eOrderDay> paginationFilter
+		InsidePaginationFilterDTO paginationFilter
 	) {
 		return dayService.getAllDays(startDate, endDate, paginationFilter);
 	}

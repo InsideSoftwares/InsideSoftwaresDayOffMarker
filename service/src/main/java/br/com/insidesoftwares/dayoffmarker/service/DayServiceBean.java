@@ -133,9 +133,9 @@ class DayServiceBean implements DayService {
 	public InsideSoftwaresResponseDTO<List<DayDTO>> getAllDays(
 		final LocalDate startDate,
 		final LocalDate endDate,
-		final InsidePaginationFilterDTO<eOrderDay> paginationFilter
+		final InsidePaginationFilterDTO paginationFilter
 	) {
-		Pageable pageable = PaginationUtils.createPageable(paginationFilter);
+		Pageable pageable = PaginationUtils.createPageable(paginationFilter, eOrderDay.ID);
 
 		Page<Day> days = dayRepository.findAll(DaySpecification.findAllByStartDateAndEndDate(startDate, endDate), pageable);
 

@@ -42,8 +42,8 @@ class CountryServiceBean implements CountryService {
 
     @InsideAudit
     @Override
-    public InsideSoftwaresResponseDTO<List<CountryResponseDTO>> findAll(final InsidePaginationFilterDTO<eOrderCountry> paginationFilter) {
-        Pageable pageable = PaginationUtils.createPageable(paginationFilter);
+    public InsideSoftwaresResponseDTO<List<CountryResponseDTO>> findAll(final InsidePaginationFilterDTO paginationFilter) {
+        Pageable pageable = PaginationUtils.createPageable(paginationFilter, eOrderCountry.ID);
 
         Page<Country> countries = countryRepository.findAll(pageable);
         return InsideSoftwaresResponseDTO.<List<CountryResponseDTO>>builder()

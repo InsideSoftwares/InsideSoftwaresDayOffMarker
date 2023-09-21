@@ -36,7 +36,7 @@ abstract class CityRepositoryIntegrationTest {
     private static final Long CITY_ID_INVALID = 9999L;
 
     @Test
-    void deveRetornaCidadeQuandoInformadoUmIDExistente() {
+    void shouldReturnCityWhenInformedAnExistingID() {
         Optional<City> optionalCity = cityRepository.findCityById(CITY_BARBACENA_ID);
 
         assertTrue(optionalCity.isPresent());
@@ -48,14 +48,14 @@ abstract class CityRepositoryIntegrationTest {
     }
 
     @Test
-    void naoDeveRetornaCidadeQuandoInformadoUmIDInexistente() {
+    void shouldntReturnCityWhenInformedOneIDNonexistent() {
         Optional<City> optionalCity = cityRepository.findCityById(CITY_ID_INVALID);
 
         assertFalse(optionalCity.isPresent());
     }
 
     @Test
-    void deveRetornaCidadeQuandoInformadoUmIDExistenteComMetodoFindCityFullHolidayById() {
+    void shouldReturnCityWhenInformedExistingIDWithMethodFindCityFullHolidayById() {
         Optional<City> optionalCity = cityRepository.findCityFullHolidayById(CITY_BARBACENA_ID);
 
         assertTrue(optionalCity.isPresent());
@@ -67,7 +67,7 @@ abstract class CityRepositoryIntegrationTest {
     }
 
     @Test
-    void naoDeveRetornaCidadeQuandoInformadoUmIDInexistenteComMetodoFindCityFullHolidayById() {
+    void shouldntReturnCityWhenInformedOneIDNonexistentWithMethodFindCityFullHolidayById() {
         Optional<City> optionalCity = cityRepository.findCityFullHolidayById(CITY_ID_INVALID);
 
         assertFalse(optionalCity.isPresent());
@@ -75,7 +75,7 @@ abstract class CityRepositoryIntegrationTest {
 
 
     @Test
-    void deveRetornaListaPaginadaDeCidadesQuandoInformadoOEstadoIDEConfiguracaoPaginacaoSortASCEOrderPorID() {
+    void shouldReturnPaginatedListOfCitiesWhenInformedStateIDAndPaginationConfigurationSortASCAndOrderByID() {
         Pageable pageable = createPageable(1, 2, Sort.Direction.ASC, eOrderCity.ID);
 
         Page<City> cityPage = cityRepository.findCityByStateID(STATE_MINAS_GERAIS_ID, pageable);
@@ -89,7 +89,7 @@ abstract class CityRepositoryIntegrationTest {
     }
 
     @Test
-    void deveRetornaListaPaginadaDeCidadesQuandoInformadoOEstadoIDEConfiguracaoPaginacaoSortDESCEOrderPorID() {
+    void shouldReturnPaginatedListOfCitiesWhenInformedStateIDAndPaginationConfigurationSortDESCAndOrderByID() {
         Pageable pageable = createPageable(1, 2, Sort.Direction.DESC, eOrderCity.ID);
 
         Page<City> cityPage = cityRepository.findCityByStateID(STATE_MINAS_GERAIS_ID, pageable);
@@ -103,7 +103,7 @@ abstract class CityRepositoryIntegrationTest {
     }
 
     @Test
-    void deveRetornaListaPaginadaDeCidadesQuandoInformadoOEstadoIDEConfiguracaoPaginacaoSortDESCEOrderPorCode() {
+    void shouldReturnPaginatedListOfCitiesWhenInformedStateIDAndPaginationConfigurationSortDESCAndOrderByCode() {
         Pageable pageable = createPageable(1, 2, Sort.Direction.DESC, eOrderCity.CODE);
 
         Page<City> cityPage = cityRepository.findCityByStateID(STATE_MINAS_GERAIS_ID, pageable);
@@ -120,7 +120,7 @@ abstract class CityRepositoryIntegrationTest {
     }
 
     @Test
-    void deveRetornaListaPaginadaDeCidadesQuandoInformadoOEstadoIDEConfiguracaoPaginacaoSortDESCEOrderPorCodeETodosOsItens() {
+    void shouldReturnPaginatedListOfCitiesWhenInformedStateIDAndPaginationConfigurationSortDESCAndOrderByCodeAndAllItems() {
         Pageable pageable = createPageable(1, 6, Sort.Direction.DESC, eOrderCity.CODE);
 
         Page<City> cityPage = cityRepository.findCityByStateID(STATE_MINAS_GERAIS_ID, pageable);
@@ -138,7 +138,7 @@ abstract class CityRepositoryIntegrationTest {
     }
 
     @Test
-    void deveRetornaListaPaginadaDeCidadesQuandoInformadoOPaisIDEConfiguracaoPaginacaoSortDESCEOrderPorCode() {
+    void shouldReturnPaginatedListOfCitiesWhenInformedCountryIDAndPaginationConfigurationSortDESCAndOrderByCode() {
         Country country = countryRepository.getReferenceById(COUNTRY_ID);
         Pageable pageable = createPageable(1, 2, Sort.Direction.DESC, eOrderCity.CODE);
 
@@ -156,7 +156,7 @@ abstract class CityRepositoryIntegrationTest {
     }
 
     @Test
-    void deveRetornaListaPaginadaDeCidadesQuandoInformadoOEstadoIDEConfiguracaoPaginacaoSortASCEOrderPorIDETodosOsItens() {
+    void shouldReturnPaginatedListOfCitiesWhenInformedTheStateIDAndConfigurationPaginationSortASCAndOrderByIDAndAllItems() {
         Country country = countryRepository.getReferenceById(COUNTRY_ID);
         Pageable pageable = createPageable(1, 12, Sort.Direction.ASC, eOrderCity.ID);
 
@@ -176,114 +176,112 @@ abstract class CityRepositoryIntegrationTest {
     }
 
     @Test
-    void deveRetornarVerdadeiroQuandoInformarACidadeBarbacenaEEstadoMinasGerais() {
+    void shouldReturnTrueWhenInformACityBarbacenaAndStateMinasGerais() {
         boolean exists = cityRepository.existsByNameAndStateID(CITY_NAME_BARBACENA, STATE_MINAS_GERAIS_ID);
 
         assertTrue(exists);
     }
 
     @Test
-    void deveRetornarFalsoQuandoInformarACidadeBarbacenaEEstadoSaoPaulo() {
+    void shouldReturnFalseWhenInformingTheCityBarbacenaAndStateSaoPaulo() {
         boolean exists = cityRepository.existsByNameAndStateID(CITY_NAME_BARBACENA, STATE_SAO_PAULO_ID);
 
         assertFalse(exists);
     }
 
     @Test
-    void deveRetornarFalsoQuandoInformarACidadeBarbacenaEEstadoInexistente() {
+    void shouldReturnFalseWhenInformingBarbacenaCityandNonexistentState() {
         boolean exists = cityRepository.existsByNameAndStateID(CITY_NAME_BARBACENA, 12311L);
 
         assertFalse(exists);
     }
 
     @Test
-    void deveRetornarVerdadeiroQuandoInformarACodeBarbacenaEEstadoMinasGerais() {
+    void shouldReturnTrueWhenInformingCodeBarbacenaAndStateMinasGerais() {
         boolean exists = cityRepository.existsByCodeAndStateID(CITY_CODE_BARB01, STATE_MINAS_GERAIS_ID);
 
         assertTrue(exists);
     }
 
     @Test
-    void deveRetornarVerdadeiroQuandoInformarACodeBarbacenaEEstadoSaoPaulo() {
+    void shouldReturnTrueWhenInformingCodeBarbacenaAndStateSaoPaulo() {
         boolean exists = cityRepository.existsByCodeAndStateID(CITY_CODE_BARB01, STATE_SAO_PAULO_ID);
 
         assertFalse(exists);
     }
 
     @Test
-    void deveRetornarVerdadeiroQuandoInformarACodeBarbacenaEEstadoInexistente() {
+    void shouldReturnTrueWhenInformingCodeBarbacenaAndStateNonexistent() {
         boolean exists = cityRepository.existsByCodeAndStateID(CITY_CODE_BARB01, 12311L);
 
         assertFalse(exists);
     }
 
     @Test
-    void deveRetornarVerdadeiroQuandoInformarACodeBarbacenaEAcronynmBarbEEstadoMinasGerais() {
+    void shouldReturnTrueWhenInformingCodeBarbacenaAndAcronynmBarbAndStateMinasGerais() {
         boolean exists = cityRepository.existsByCodeAndAcronymAndStateID(CITY_CODE_BARB01, CITY_ACRONYM_BARB, STATE_MINAS_GERAIS_ID);
 
         assertTrue(exists);
     }
 
     @Test
-    void deveRetornarFalsoQuandoInformarACodeBarbacenaEAcronynmPelisEEstadoMinasGerais() {
+    void shouldReturnFalseWhenInformingACodeBarbacenaAndAcronynmPelisAndStateMinasGerais() {
         boolean exists = cityRepository.existsByCodeAndAcronymAndStateID(CITY_CODE_BARB01, CITY_ACRONYM_PELIS, STATE_MINAS_GERAIS_ID);
 
         assertFalse(exists);
     }
 
     @Test
-    void deveRetornarVerdadeiroQuandoInformarACodeBarbacenaEAcronynmBarbEEstadoSaoPaulo() {
+    void shouldReturnTrueWhenInformingCodeBarbacenaAndAcronynmBarbAndStateSaoPaulo() {
         boolean exists = cityRepository.existsByCodeAndAcronymAndStateID(CITY_CODE_BARB01, CITY_ACRONYM_BARB, STATE_SAO_PAULO_ID);
 
         assertFalse(exists);
     }
 
     @Test
-    void deveRetornarVerdadeiroQuandoInformarACodeBarbacenaEAcronynmBarbEEstadoInexistente() {
+    void shouldReturnTrueWhenInformingCodeBarbacenaAndAcronynmBarbAndStateNonexistent() {
         boolean exists = cityRepository.existsByCodeAndAcronymAndStateID(CITY_CODE_BARB01, CITY_ACRONYM_BARB, 12311L);
 
         assertFalse(exists);
     }
 
     @Test
-    void deveRetornarVerdadeiroQuandoInformarACidadeBarbacenaEEstadoMinasGeraisEIDDeOutraCidade() {
+    void shouldReturnTrueWhenInformingCityBarbacenaAndStateMinasGeraisAndIDOfOutraCity() {
         boolean exists = cityRepository.existsByNameAndStateIDAndNotId(CITY_NAME_BARBACENA, STATE_MINAS_GERAIS_ID, CITY_ID_INVALID);
 
         assertTrue(exists);
     }
 
     @Test
-    void deveRetornarFalsoQuandoInformarACidadeBarbacenaEEstadoMinasGeraisEIDDeBarbacena() {
+    void shouldReturnFalseWhenInformingCityBarbacenaAndStateMinasGeraisAndIDOfBarbacena() {
         boolean exists = cityRepository.existsByNameAndStateIDAndNotId(CITY_NAME_BARBACENA, STATE_SAO_PAULO_ID, CITY_BARBACENA_ID);
 
         assertFalse(exists);
     }
 
     @Test
-    void deveRetornarVerdadeiroQuandoInformarOCodeBarbacenaEEstadoMinasGeraisEOutroID() {
+    void shouldReturnTrueWhenInformingCodeBarbacenaAndStateMinasGeraisAndOtherID() {
         boolean exists = cityRepository.existsByCodeAndStateIDAndNotId(CITY_CODE_BARB01, STATE_MINAS_GERAIS_ID, CITY_ID_INVALID);
 
         assertTrue(exists);
     }
 
     @Test
-    void deveRetornarFalsoQuandoInformarOCodeBarbacenaEEstadoMinasGeraisEIDDeBarbacena() {
+    void shouldReturnFalseWhenInformCodeBarbacenaAndStateMinasGeraisAndBarbacenaId() {
         boolean exists = cityRepository.existsByCodeAndStateIDAndNotId(CITY_CODE_BARB01, STATE_SAO_PAULO_ID, CITY_BARBACENA_ID);
 
         assertFalse(exists);
     }
 
-
-
     @Test
-    void deveRetornarVerdadeiroQuandoInformarACodeBarbacenaEAcronynmBarbEEstadoMinasGeraisEIDOutraCidade() {
+    void shouldReturnTrueWhenInformingCodeBarbacenaAndAcronynmBarbAndStateMinasGeraisAndIDOtherCity() {
         boolean exists = cityRepository.existsByCodeAndAcronymAndStateIDAndNotId(CITY_CODE_BARB01, CITY_ACRONYM_BARB, STATE_MINAS_GERAIS_ID, CITY_ID_INVALID);
 
         assertTrue(exists);
     }
 
     @Test
-    void deveRetornarFalsoQuandoInformarACodeBarbacenaEAcronynmBarbEEstadoMinasGeraisEIDDeBarbacena() {
+    void shouldReturnFalseWhenInformingCodeBarbacenaAndAcronynmBarbStateMinasGeraisAndBarbacenaId() {
         boolean exists = cityRepository.existsByCodeAndAcronymAndStateIDAndNotId(CITY_CODE_BARB01, CITY_ACRONYM_PELIS, STATE_MINAS_GERAIS_ID, CITY_BARBACENA_ID);
 
         assertFalse(exists);

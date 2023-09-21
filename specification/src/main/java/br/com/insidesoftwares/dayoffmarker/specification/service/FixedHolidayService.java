@@ -5,7 +5,6 @@ import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.FixedHolidayRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.FixedHolidayUpdateRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.fixedholiday.FixedHolidayResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.enumeration.sort.eOrderFixedHoliday;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.fixedholiday.FixedHolidayNotExistException;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.holiday.FixedHoliday;
 import jakarta.validation.Valid;
@@ -17,7 +16,7 @@ import java.util.List;
 public interface FixedHolidayService {
 
     InsideSoftwaresResponseDTO<List<FixedHolidayResponseDTO>> findAll(
-            final InsidePaginationFilterDTO<eOrderFixedHoliday> paginationFilter
+            final InsidePaginationFilterDTO paginationFilter
     );
 
     InsideSoftwaresResponseDTO<FixedHolidayResponseDTO> findById(final Long fixedHolidayID) throws FixedHolidayNotExistException;

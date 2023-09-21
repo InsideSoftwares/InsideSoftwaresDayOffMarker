@@ -15,53 +15,11 @@
     <artifactId>application</artifactId>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
     </properties>
 
-    <profiles>
-        <profile>
-            <id>analyze</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.jacoco</groupId>
-                        <artifactId>jacoco-maven-plugin</artifactId>
-                        <version>0.8.10</version>
-                        <executions>
-                            <execution>
-                                <id>default-prepare-agent</id>
-                                <goals>
-                                    <goal>prepare-agent</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>default-report</id>
-                                <goals>
-                                    <goal>report</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.owasp</groupId>
-                        <artifactId>dependency-check-maven</artifactId>
-                        <version>8.3.1</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
     <dependencies>
-
         <dependency>
             <groupId>br.com.insidesoftwares.dayoffmarker</groupId>
             <artifactId>controller</artifactId>
@@ -126,11 +84,105 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>17</source>
-                    <target>17</target>
+                    <source>21</source>
+                    <target>21</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.4.13</version>
+                <executions>
+                    <execution>
+                        <id>tag-version</id>
+                        <goals>
+                            <goal>build</goal>
+                            <goal>tag</goal>
+                        </goals>
+                        <configuration>
+                            <tag>${project.version}</tag>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <contextDirectory>${project.parent.basedir}</contextDirectory>
+                    <dockerfile>${project.parent.basedir}/Dockerfile.application</dockerfile>
+                    <repository>br.com.insidesoftwares/inside_dayoffmarker</repository>
+                    <finalName>inside_dayoffmarker</finalName>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>analyze</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>0.8.10</version>
+                        <executions>
+                            <execution>
+                                <id>default-prepare-agent</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>default-report</id>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.owasp</groupId>
+                        <artifactId>dependency-check-maven</artifactId>
+                        <version>8.3.1</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.spotify</groupId>
+                        <artifactId>dockerfile-maven-plugin</artifactId>
+                        <version>1.4.13</version>
+                        <executions>
+                            <execution>
+                                <id>tag-latest</id>
+                                <goals>
+                                    <goal>build</goal>
+                                    <goal>tag</goal>
+                                </goals>
+                                <configuration>
+                                    <tag>latest</tag>
+                                </configuration>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <contextDirectory>${project.parent.basedir}</contextDirectory>
+                            <dockerfile>${project.parent.basedir}/Dockerfile.application</dockerfile>
+                            <repository>br.com.insidesoftwares.dayoffmarker/inside_dayoffmarker</repository>
+                            <finalName>inside_dayoffmarker</finalName>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

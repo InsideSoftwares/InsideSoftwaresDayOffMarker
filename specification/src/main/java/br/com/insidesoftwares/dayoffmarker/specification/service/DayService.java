@@ -4,7 +4,6 @@ import br.com.insidesoftwares.commons.dto.request.InsidePaginationFilterDTO;
 import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.link.LinkTagRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.day.DayDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.enumeration.sort.eOrderDay;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.day.Day;
 import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
@@ -40,7 +39,7 @@ public interface DayService {
 	InsideSoftwaresResponseDTO<List<DayDTO>> getAllDays(
 		final LocalDate startDate,
 		final LocalDate endDate,
-		final InsidePaginationFilterDTO<eOrderDay> paginationFilter
+		final InsidePaginationFilterDTO paginationFilter
 	);
 	InsideSoftwaresResponseDTO<DayDTO> getDayByID(final Long id);
 	InsideSoftwaresResponseDTO<DayDTO> getDayByDate(final LocalDate date, final Long tagID, final String tagCode);

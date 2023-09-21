@@ -47,9 +47,9 @@ class TagServiceBean implements TagService {
 
     @InsideAudit
     @Override
-    public InsideSoftwaresResponseDTO<List<TagResponseDTO>> findAll(final InsidePaginationFilterDTO<eOrderTag> paginationFilter) {
+    public InsideSoftwaresResponseDTO<List<TagResponseDTO>> findAll(final InsidePaginationFilterDTO paginationFilter) {
 
-		Pageable pageable = PaginationUtils.createPageable(paginationFilter);
+		Pageable pageable = PaginationUtils.createPageable(paginationFilter, eOrderTag.ID);
 
 		Page<Tag> tagPage = tagRepository.findAll(pageable);
 

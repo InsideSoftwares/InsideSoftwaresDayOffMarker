@@ -1,11 +1,32 @@
+server:
+  servlet:
+    context-path: /dayoffmarkerjob
+
 spring:
   application:
     name: InsideDayOffMarkerJob
   main:
     allow-bean-definition-overriding: true
-server:
-  servlet:
-    context-path: /dayoffmarkerjob
+  profiles:
+    active: ${DAY_OFF_MARKER_JOB_PROFILES:native}
+  cloud:
+    config:
+      uri: ${CLOUD_CONFIG_URI:http://localhost:8888}
+      username: ${CLOUD_CONFIG_NAME:ADMIN}
+      password: ${CLOUD_CONFIG_PASSWORD:ADMIN}
+  boot:
+    admin:
+      client:
+        url: ${CLOUD_ADMIN_URL:http://localhost:8889/admin}
+      instance:
+        prefer-ip: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${CLOUD_EUREKA_URL:http://localhost:8889/eureka}
+  instance:
+    preferIpAddress: true
 
 management:
   endpoints:

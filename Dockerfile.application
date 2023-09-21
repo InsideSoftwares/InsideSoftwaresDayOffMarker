@@ -1,0 +1,17 @@
+FROM openjdk:21-slim
+
+RUN rm -rf /etc/localtime && ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+
+RUN mkdir -p /opt/inside/script
+RUN mkdir -p /opt/inside/application
+RUN mkdir -p /opt/inside/logs
+
+WORKDIR /opt/inside/application
+
+COPY ./etc/Docker/application/start.sh /opt/inside/script/start.sh
+COPY ./server/application/target/Inside_DayOffMarker.jar /opt/inside/application/Inside_DayOffMarker.jar
+
+RUN chmod +X /opt/inside/script/start.sh
+RUN chmod +X /opt/inside/application/Inside_DayOffMarker.jar
+
+ENTRYPOINT sh /opt/inside/script/start.sh

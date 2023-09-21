@@ -7,7 +7,6 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum eOrderTag implements PropertiesOrder {
-
     ID("id"),
     DESCRIPTION("description"),
     CODE("code");
@@ -17,5 +16,14 @@ public enum eOrderTag implements PropertiesOrder {
     @Override
     public String properties() {
         return this.getProperties();
+    }
+
+    @Override
+    public String value(String name) {
+        try{
+            return eOrderCity.valueOf(name).getProperties();
+        }catch (Exception exception) {
+            return this.getProperties();
+        }
     }
 }

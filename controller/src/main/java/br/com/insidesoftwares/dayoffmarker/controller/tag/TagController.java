@@ -9,7 +9,6 @@ import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagLinkReques
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.tag.TagLinkResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.tag.TagResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.enumeration.sort.eOrderTag;
 import br.com.insidesoftwares.dayoffmarker.specification.service.TagService;
 import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
 import com.trendyol.jdempotent.core.annotation.JdempotentResource;
@@ -45,7 +44,7 @@ public class TagController {
 	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.Tag.Read')")
 	@InsideRequestGet(uri = "/v1/tag", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_TAG")
 	public InsideSoftwaresResponseDTO<List<TagResponseDTO>> findAll(
-		InsidePaginationFilterDTO<eOrderTag> paginationFilter
+		InsidePaginationFilterDTO paginationFilter
 	) {
 		return tagService.findAll(paginationFilter);
 	}

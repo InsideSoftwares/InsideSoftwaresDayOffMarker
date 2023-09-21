@@ -57,10 +57,10 @@ class CityServiceBean implements CityService {
     @Override
     public InsideSoftwaresResponseDTO<List<CityResponseDTO>> findAll(
             final Long stateID,
-            final InsidePaginationFilterDTO<eOrderCity> paginationFilter
+            final InsidePaginationFilterDTO paginationFilter
     ) {
 
-        Pageable pageable = PaginationUtils.createPageable(paginationFilter);
+        Pageable pageable = PaginationUtils.createPageable(paginationFilter, eOrderCity.ID);
 
         Page<City> cities;
         if(Objects.nonNull(stateID)){

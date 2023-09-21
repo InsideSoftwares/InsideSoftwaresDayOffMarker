@@ -6,7 +6,6 @@ import br.com.insidesoftwares.dayoffmarker.commons.dto.request.city.CityHolidayD
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.city.CityHolidayRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.city.CityRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.city.CityResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.enumeration.sort.eOrderCity;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.city.City;
 import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
@@ -18,7 +17,7 @@ public interface CityService {
 
     InsideSoftwaresResponseDTO<List<CityResponseDTO>> findAll(
             final Long stateID,
-            final InsidePaginationFilterDTO<eOrderCity> paginationFilter
+            final InsidePaginationFilterDTO paginationFilter
     );
 
     InsideSoftwaresResponseDTO<CityResponseDTO> findById(final Long cityID);

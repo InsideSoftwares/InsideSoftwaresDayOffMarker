@@ -9,7 +9,6 @@ import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayBatchRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.holiday.HolidayResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.enumeration.sort.eOrderHoliday;
 import br.com.insidesoftwares.dayoffmarker.specification.service.HolidayService;
 import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
 import com.trendyol.jdempotent.core.annotation.JdempotentResource;
@@ -50,7 +49,7 @@ public class HolidayController {
     public InsideSoftwaresResponseDTO<List<HolidayResponseDTO>> findAll(
 			@RequestParam(value = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
 			@RequestParam(value = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
-			InsidePaginationFilterDTO<eOrderHoliday> paginationFilter
+			InsidePaginationFilterDTO paginationFilter
     ) {
         return holidayService.findAll(startDate, endDate, paginationFilter);
     }

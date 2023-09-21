@@ -11,7 +11,6 @@ import br.com.insidesoftwares.dayoffmarker.commons.dto.request.city.CityHolidayD
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.city.CityHolidayRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.city.CityRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.city.CityResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.enumeration.sort.eOrderCity;
 import br.com.insidesoftwares.dayoffmarker.specification.service.CityService;
 import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
 import com.trendyol.jdempotent.core.annotation.JdempotentResource;
@@ -49,7 +48,7 @@ public class CityController {
 	@InsideRequestGet(uri = "/v1/city", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_CITY")
 	public InsideSoftwaresResponseDTO<List<CityResponseDTO>> findAll(
 		@RequestParam(value = "stateID", required = false) Long stateID,
-		InsidePaginationFilterDTO<eOrderCity> paginationFilter
+		InsidePaginationFilterDTO paginationFilter
     ) {
         return cityService.findAll(stateID, paginationFilter);
     }

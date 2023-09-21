@@ -53,10 +53,10 @@ class StateServiceBean implements StateService {
     @Override
     public InsideSoftwaresResponseDTO<List<StateResponseDTO>> findAll(
             final String nameCountry,
-			final InsidePaginationFilterDTO<eOrderState> paginationFilter
+			final InsidePaginationFilterDTO paginationFilter
     ) {
 
-        Pageable pageable = PaginationUtils.createPageable(paginationFilter);
+        Pageable pageable = PaginationUtils.createPageable(paginationFilter, eOrderState.ID);
 
         Country country = countryService.findCountryByNameOrDefault(nameCountry);
 

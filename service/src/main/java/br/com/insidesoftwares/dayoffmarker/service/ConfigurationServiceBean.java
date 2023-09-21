@@ -12,6 +12,7 @@ import br.com.insidesoftwares.dayoffmarker.domain.repository.ConfigurationReposi
 import br.com.insidesoftwares.dayoffmarker.domain.repository.CountryRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.service.ConfigurationService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 class ConfigurationServiceBean implements ConfigurationService {
 
 	private final ConfigurationRepository configurationRepository;
@@ -28,24 +30,17 @@ class ConfigurationServiceBean implements ConfigurationService {
     @InsideAudit(description = "Search configuration by Key")
 	@Override
     public Configuration findConfigurationByKey(final Configurationkey configurationKey) {
+        log.info("Find configuration by key: {}", configurationKey.name());
         Optional<Configuration> configurationOptional = configurationRepository.findConfigurationByKey(configurationKey);
-        if(configurationOptional.isPresent()){
-            return configurationOptional.get();
-        } else {
-            throw new ConfigurationNotExistException();
-        }
+        return configurationOptional.orElseThrow(ConfigurationNotExistException::new);
     }
 
     @InsideAudit(description = "Search configuration value by Key")
 	@Override
     public String findValueConfigurationByKey(final Configurationkey configurationKey) {
-        Optional<Configuration> configurationOptional = configurationRepository.findConfigurationByKey(configurationKey);
-        if(configurationOptional.isPresent()){
-            Configuration configuration = configurationOptional.get();
-            return configuration.getValueOrDefaulValue();
-        } else {
-            throw new ConfigurationNotExistException();
-        }
+        log.info("Find valeu or default value configuration by key: {}", configurationKey.name());
+        Configuration configuration = findConfigurationByKey(configurationKey);
+        return configuration.getValueOrDefaulValue();
     }
 
 
@@ -53,6 +48,7 @@ class ConfigurationServiceBean implements ConfigurationService {
 	@Transactional(rollbackFor = ConfigurationNotExistException.class)
 	@Override
 	public void updateConfiguration(final Configurationkey configurationKey, String value) {
+        log.info("Updating configuration: {}", configurationKey);
 		Configuration configuration = findConfigurationByKey(configurationKey);
 		configuration.setValue(value);
 		configurationRepository.save(configuration);
@@ -65,6 +61,7 @@ class ConfigurationServiceBean implements ConfigurationService {
 	})
 	@Override
 	public void configurationLimitYear(final ConfigurationLimitYearRequestDTO configurationLimitYearRequestDTO) {
+        log.info("Updating configuration Limit Back and Forward days years");
 		updateConfiguration(Configurationkey.LIMIT_BACK_DAYS_YEARS, configurationLimitYearRequestDTO.numberBackYears().toString());
 		updateConfiguration(Configurationkey.LIMIT_FORWARD_DAYS_YEARS, configurationLimitYearRequestDTO.numberForwardYears().toString());
 	}
@@ -77,8 +74,9 @@ class ConfigurationServiceBean implements ConfigurationService {
 	})
 	@Override
 	public void configurationCountry(final ConfigurationCountryRequestDTO configurationCountryRequestDTO) {
-		Optional<Country> countryOptional = countryRepository.findCountryByName(configurationCountryRequestDTO.country());
-		String countryName = countryOptional.orElseThrow(CountryNameInvalidException::new).getName();
+        log.info("Updating configuration country default");
+        Optional<Country> countryOptional = countryRepository.findCountryByName(configurationCountryRequestDTO.country());
+        String countryName = countryOptional.orElseThrow(CountryNameInvalidException::new).getName();
 
 		updateConfiguration(Configurationkey.COUNTRY_DEFAULT, countryName);
 	}

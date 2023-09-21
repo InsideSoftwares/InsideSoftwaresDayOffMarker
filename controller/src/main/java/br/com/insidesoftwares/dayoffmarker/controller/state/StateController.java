@@ -11,7 +11,6 @@ import br.com.insidesoftwares.dayoffmarker.commons.dto.request.state.StateHolida
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.state.StateHolidayRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.state.StateRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.state.StateResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.enumeration.sort.eOrderState;
 import br.com.insidesoftwares.dayoffmarker.specification.service.StateService;
 import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
 import com.trendyol.jdempotent.core.annotation.JdempotentResource;
@@ -49,7 +48,7 @@ public class StateController {
 	@InsideRequestGet(uri = "/v1/state", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_STATE")
     public InsideSoftwaresResponseDTO<List<StateResponseDTO>> findAll(
             @RequestParam(value = "country", required = false) String nameCountry,
-			InsidePaginationFilterDTO<eOrderState> paginationFilter
+			InsidePaginationFilterDTO paginationFilter
     ) {
         return stateService.findAll(nameCountry, paginationFilter);
     }

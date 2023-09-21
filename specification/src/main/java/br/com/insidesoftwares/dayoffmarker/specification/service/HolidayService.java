@@ -6,7 +6,6 @@ import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayBa
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayCreateRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.holiday.HolidayResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.enumeration.sort.eOrderHoliday;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.holiday.Holiday;
 import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
@@ -20,7 +19,7 @@ public interface HolidayService {
 	InsideSoftwaresResponseDTO<List<HolidayResponseDTO>> findAll(
 			final LocalDate startDate,
 			final LocalDate endDate,
-			final InsidePaginationFilterDTO<eOrderHoliday> paginationFilter
+			final InsidePaginationFilterDTO paginationFilter
 	);
 
     InsideSoftwaresResponseDTO<HolidayResponseDTO> findById(final Long holidayID);

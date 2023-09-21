@@ -9,7 +9,6 @@ import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.FixedHolidayRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.FixedHolidayUpdateRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.fixedholiday.FixedHolidayResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.enumeration.sort.eOrderFixedHoliday;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.fixedholiday.FixedHolidayNotExistException;
 import br.com.insidesoftwares.dayoffmarker.specification.service.FixedHolidayService;
 import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
@@ -46,7 +45,7 @@ public class FixedHolidayController {
 	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.FixedHoliday.Read')")
 	@InsideRequestGet(uri = "/v1/fixed-holiday", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_FIXEDHOLIDAY")
     public InsideSoftwaresResponseDTO<List<FixedHolidayResponseDTO>> findAll(
-			InsidePaginationFilterDTO<eOrderFixedHoliday> paginationFilter
+			InsidePaginationFilterDTO paginationFilter
     ) {
         return fixedHolidayService.findAll(paginationFilter);
     }

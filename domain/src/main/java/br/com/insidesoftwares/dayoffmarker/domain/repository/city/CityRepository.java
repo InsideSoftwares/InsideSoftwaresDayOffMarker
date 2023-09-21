@@ -1,7 +1,7 @@
 package br.com.insidesoftwares.dayoffmarker.domain.repository.city;
 
-import br.com.insidesoftwares.dayoffmarker.domain.entity.city.City;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.Country;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.city.City;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;

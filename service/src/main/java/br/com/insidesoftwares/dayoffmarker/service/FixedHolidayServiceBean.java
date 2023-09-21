@@ -40,10 +40,10 @@ class FixedHolidayServiceBean implements FixedHolidayService {
     @InsideAudit
     @Override
     public InsideSoftwaresResponseDTO<List<FixedHolidayResponseDTO>> findAll(
-			final InsidePaginationFilterDTO<eOrderFixedHoliday> paginationFilter
+			final InsidePaginationFilterDTO paginationFilter
     ) {
 
-		Pageable pageable = PaginationUtils.createPageable(paginationFilter);
+		Pageable pageable = PaginationUtils.createPageable(paginationFilter, eOrderFixedHoliday.ID);
 
         Page<FixedHoliday> fixedHolidays = fixedHolidayRepository.findAll(pageable);
         return InsideSoftwaresResponseDTO.<List<FixedHolidayResponseDTO>>builder()

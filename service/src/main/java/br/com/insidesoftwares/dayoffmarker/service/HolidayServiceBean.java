@@ -47,10 +47,10 @@ class HolidayServiceBean implements HolidayService {
 	public InsideSoftwaresResponseDTO<List<HolidayResponseDTO>> findAll(
 			final LocalDate startDate,
 			final LocalDate endDate,
-			InsidePaginationFilterDTO<eOrderHoliday> paginationFilter
+			InsidePaginationFilterDTO paginationFilter
 	) {
 
-		Pageable pageable = PaginationUtils.createPageable(paginationFilter);
+		Pageable pageable = PaginationUtils.createPageable(paginationFilter, eOrderHoliday.ID);
 
 		Specification<Holiday> holidaySpecification = HolidaySpecification.findAllByStartDateAndEndDate(startDate, endDate);
 
