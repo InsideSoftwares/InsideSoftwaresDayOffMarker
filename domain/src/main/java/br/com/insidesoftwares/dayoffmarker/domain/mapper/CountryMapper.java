@@ -10,6 +10,7 @@ import java.util.List;
 public interface CountryMapper {
 
     CountryResponseDTO toDTO(Country country);
+
     List<CountryResponseDTO> toDTOs(List<Country> countries);
 
 }

@@ -18,66 +18,66 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ReaderUnlinkTagInDayConfiguration {
 
-	private final DayOffMarkerJobProperties dayOffMarkerJobProperties;
+    private final DayOffMarkerJobProperties dayOffMarkerJobProperties;
     private final EntityManagerFactory entityManagerFactory;
 
-	@Bean("ReaderUnlinkTagInDayStatusCreated")
-	public ItemReader<Request> readerUnlinkTagInDayStatusCreated() {
-		JpaPagingItemReader<Request> reader = new JpaPagingItemReader<>();
-		reader.setEntityManagerFactory(entityManagerFactory);
-		reader.setQueryString("""
-				SELECT r FROM Request r
-				WHERE statusRequest = :statusRequest
-				AND r.typeRequest = :typeRequest
-			""");
+    @Bean("ReaderUnlinkTagInDayStatusCreated")
+    public ItemReader<Request> readerUnlinkTagInDayStatusCreated() {
+        JpaPagingItemReader<Request> reader = new JpaPagingItemReader<>();
+        reader.setEntityManagerFactory(entityManagerFactory);
+        reader.setQueryString("""
+                	SELECT r FROM Request r
+                	WHERE statusRequest = :statusRequest
+                	AND r.typeRequest = :typeRequest
+                """);
 
-		Map<String, Object> parameterValues = new HashMap<>();
-		parameterValues.put("typeRequest", TypeRequest.UNLINK_TAG);
-		parameterValues.put("statusRequest", StatusRequest.CREATED);
-		reader.setParameterValues(parameterValues);
+        Map<String, Object> parameterValues = new HashMap<>();
+        parameterValues.put("typeRequest", TypeRequest.UNLINK_TAG);
+        parameterValues.put("statusRequest", StatusRequest.CREATED);
+        reader.setParameterValues(parameterValues);
 
-		reader.setPageSize(dayOffMarkerJobProperties.getReaderLinkTagInDayStatusCreated());
+        reader.setPageSize(dayOffMarkerJobProperties.getReaderLinkTagInDayStatusCreated());
 
-		return reader;
-	}
+        return reader;
+    }
 
-	@Bean("ReaderRequestsUnlinkTag")
-	public ItemReader<Request> readerRequestsUnlinkTag() {
-		JpaPagingItemReader<Request> reader = new JpaPagingItemReader<>();
-		reader.setEntityManagerFactory(entityManagerFactory);
-		reader.setQueryString("""
-				SELECT r FROM Request r
-				WHERE statusRequest = :statusRequest
-				AND r.typeRequest = :typeRequest
-			""");
+    @Bean("ReaderRequestsUnlinkTag")
+    public ItemReader<Request> readerRequestsUnlinkTag() {
+        JpaPagingItemReader<Request> reader = new JpaPagingItemReader<>();
+        reader.setEntityManagerFactory(entityManagerFactory);
+        reader.setQueryString("""
+                	SELECT r FROM Request r
+                	WHERE statusRequest = :statusRequest
+                	AND r.typeRequest = :typeRequest
+                """);
 
-		Map<String, Object> parameterValues = new HashMap<>();
-		parameterValues.put("typeRequest", TypeRequest.UNLINK_TAG);
-		parameterValues.put("statusRequest", StatusRequest.RUNNING);
-		reader.setParameterValues(parameterValues);
+        Map<String, Object> parameterValues = new HashMap<>();
+        parameterValues.put("typeRequest", TypeRequest.UNLINK_TAG);
+        parameterValues.put("statusRequest", StatusRequest.RUNNING);
+        reader.setParameterValues(parameterValues);
 
-		reader.setPageSize(dayOffMarkerJobProperties.getExecutesRequestsUpdateHoliday());
+        reader.setPageSize(dayOffMarkerJobProperties.getExecutesRequestsUpdateHoliday());
 
-		return reader;
-	}
+        return reader;
+    }
 
-	@Bean("ReaderRequestToFinalizedUnlinkTag")
-	public ItemReader<Request> readerRequestToFinalizedUnlinkTag() {
-		JpaPagingItemReader<Request> reader = new JpaPagingItemReader<>();
-		reader.setEntityManagerFactory(entityManagerFactory);
-		reader.setQueryString("""
-				SELECT r FROM Request r
-				WHERE statusRequest = :statusRequest
-				AND r.typeRequest = :typeRequest
-			""");
+    @Bean("ReaderRequestToFinalizedUnlinkTag")
+    public ItemReader<Request> readerRequestToFinalizedUnlinkTag() {
+        JpaPagingItemReader<Request> reader = new JpaPagingItemReader<>();
+        reader.setEntityManagerFactory(entityManagerFactory);
+        reader.setQueryString("""
+                	SELECT r FROM Request r
+                	WHERE statusRequest = :statusRequest
+                	AND r.typeRequest = :typeRequest
+                """);
 
-		Map<String, Object> parameterValues = new HashMap<>();
-		parameterValues.put("typeRequest", TypeRequest.UNLINK_TAG);
-		parameterValues.put("statusRequest", StatusRequest.RUNNING);
-		reader.setParameterValues(parameterValues);
+        Map<String, Object> parameterValues = new HashMap<>();
+        parameterValues.put("typeRequest", TypeRequest.UNLINK_TAG);
+        parameterValues.put("statusRequest", StatusRequest.RUNNING);
+        reader.setParameterValues(parameterValues);
 
-		reader.setPageSize(dayOffMarkerJobProperties.getUpdatesRequestToFinalizedLinkTag());
+        reader.setPageSize(dayOffMarkerJobProperties.getUpdatesRequestToFinalizedLinkTag());
 
-		return reader;
-	}
+        return reader;
+    }
 }

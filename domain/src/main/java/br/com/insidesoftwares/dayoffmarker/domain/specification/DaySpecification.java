@@ -19,157 +19,157 @@ public class DaySpecification {
     private static final String DAY_DATE = "date";
     private static final String DAY_IS_WEEKEND = "isWeekend";
     private static final String DAY_IS_HOLIDAY = "isHoliday";
-	private static final String DAY_OF_WEEK = "dayOfWeek";
-	private static final String DAY_OF_YEAR = "dayOfYear";
-	private static final String DAY_TAG = "tags";
-	private static final String DAY_TAG_ID = "id";
-	private static final String DAY_TAG_CODE = "code";
+    private static final String DAY_OF_WEEK = "dayOfWeek";
+    private static final String DAY_OF_YEAR = "dayOfYear";
+    private static final String DAY_TAG = "tags";
+    private static final String DAY_TAG_ID = "id";
+    private static final String DAY_TAG_CODE = "code";
 
-	public static Specification<Day> findAllByStartDateAndEndDate(final LocalDate startDate, final LocalDate endDate) {
-		Specification<Day> daySpecification = Specification.where(null);
-		if(Objects.nonNull(startDate) && Objects.nonNull(endDate)) {
-			if (startDate.isAfter(endDate)) {
-				throw new StartDateAfterEndDateException();
-			}
-			daySpecification = daySpecification.and(specificationBetween(DAY_DATE, startDate, endDate));
-		}
+    public static Specification<Day> findAllByStartDateAndEndDate(final LocalDate startDate, final LocalDate endDate) {
+        Specification<Day> daySpecification = Specification.where(null);
+        if (Objects.nonNull(startDate) && Objects.nonNull(endDate)) {
+            if (startDate.isAfter(endDate)) {
+                throw new StartDateAfterEndDateException();
+            }
+            daySpecification = daySpecification.and(specificationBetween(DAY_DATE, startDate, endDate));
+        }
 
-		if(Objects.nonNull(startDate) && Objects.isNull(endDate)) {
-			daySpecification = daySpecification.and(specificationGreaterThanOrEqualTo(DAY_DATE, startDate));
-		}
+        if (Objects.nonNull(startDate) && Objects.isNull(endDate)) {
+            daySpecification = daySpecification.and(specificationGreaterThanOrEqualTo(DAY_DATE, startDate));
+        }
 
-		if(Objects.isNull(startDate) && Objects.nonNull(endDate)) {
-			daySpecification = daySpecification.and(specificationLessThanOrEqualTo(DAY_DATE, endDate));
-		}
+        if (Objects.isNull(startDate) && Objects.nonNull(endDate)) {
+            daySpecification = daySpecification.and(specificationLessThanOrEqualTo(DAY_DATE, endDate));
+        }
 
-		return daySpecification;
-	}
+        return daySpecification;
+    }
 
-	public static Specification<Day> findDayByDateOrTag(final LocalDate date, final Long tagID, final String tagCode){
-		Specification<Day> daySpecification = Specification.where(specificationEqual(DAY_DATE, date));
+    public static Specification<Day> findDayByDateOrTag(final LocalDate date, final Long tagID, final String tagCode) {
+        Specification<Day> daySpecification = Specification.where(specificationEqual(DAY_DATE, date));
 
-		if (Objects.nonNull(tagID) && Objects.isNull(tagCode)) {
-			daySpecification = daySpecification.and(specificationEqual(tagID, DAY_TAG, DAY_TAG_ID));
-		}
+        if (Objects.nonNull(tagID) && Objects.isNull(tagCode)) {
+            daySpecification = daySpecification.and(specificationEqual(tagID, DAY_TAG, DAY_TAG_ID));
+        }
 
-		if (Objects.nonNull(tagCode)) {
-			daySpecification = daySpecification.and(specificationEqual(tagCode, DAY_TAG, DAY_TAG_CODE));
-		}
+        if (Objects.nonNull(tagCode)) {
+            daySpecification = daySpecification.and(specificationEqual(tagCode, DAY_TAG, DAY_TAG_CODE));
+        }
 
-		return daySpecification;
-	}
+        return daySpecification;
+    }
 
-	public static Specification<Day> exitsDayByTagLinkRequestDTO(final TagLinkRequestDTO tagLinkRequestDTO){
-		Specification<Day> daySpecification = Specification.where(null);
+    public static Specification<Day> exitsDayByTagLinkRequestDTO(final TagLinkRequestDTO tagLinkRequestDTO) {
+        Specification<Day> daySpecification = Specification.where(null);
 
-		if (Objects.nonNull(tagLinkRequestDTO.dayOfWeek())) {
-			daySpecification = daySpecification.and(specificationEqual(DAY_OF_WEEK, tagLinkRequestDTO.dayOfWeek()));
-		}
+        if (Objects.nonNull(tagLinkRequestDTO.dayOfWeek())) {
+            daySpecification = daySpecification.and(specificationEqual(DAY_OF_WEEK, tagLinkRequestDTO.dayOfWeek()));
+        }
 
-		if (Objects.nonNull(tagLinkRequestDTO.dayOfYear())) {
-			daySpecification = daySpecification.and(specificationEqual(DAY_OF_YEAR, tagLinkRequestDTO.dayOfYear()));
-		}
+        if (Objects.nonNull(tagLinkRequestDTO.dayOfYear())) {
+            daySpecification = daySpecification.and(specificationEqual(DAY_OF_YEAR, tagLinkRequestDTO.dayOfYear()));
+        }
 
-		if(
-			Objects.nonNull(tagLinkRequestDTO.day()) &&
-				Objects.nonNull(tagLinkRequestDTO.month()) &&
-				Objects.nonNull(tagLinkRequestDTO.year())
-		) {
-			LocalDate date = LocalDate.of(tagLinkRequestDTO.year(), tagLinkRequestDTO.month(), tagLinkRequestDTO.day());
-			daySpecification = daySpecification.and(specificationEqual(DAY_DATE, date));
-		}
+        if (
+                Objects.nonNull(tagLinkRequestDTO.day()) &&
+                        Objects.nonNull(tagLinkRequestDTO.month()) &&
+                        Objects.nonNull(tagLinkRequestDTO.year())
+        ) {
+            LocalDate date = LocalDate.of(tagLinkRequestDTO.year(), tagLinkRequestDTO.month(), tagLinkRequestDTO.day());
+            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, date));
+        }
 
-		if(
-			Objects.nonNull(tagLinkRequestDTO.day()) &&
-				Objects.nonNull(tagLinkRequestDTO.month()) &&
-				Objects.isNull(tagLinkRequestDTO.year())
-		) {
-			daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.DAY, tagLinkRequestDTO.day()));
-			daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.MONTH, tagLinkRequestDTO.month()));
-		}
+        if (
+                Objects.nonNull(tagLinkRequestDTO.day()) &&
+                        Objects.nonNull(tagLinkRequestDTO.month()) &&
+                        Objects.isNull(tagLinkRequestDTO.year())
+        ) {
+            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.DAY, tagLinkRequestDTO.day()));
+            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.MONTH, tagLinkRequestDTO.month()));
+        }
 
-		if(
-			Objects.nonNull(tagLinkRequestDTO.day()) &&
-				Objects.isNull(tagLinkRequestDTO.month()) &&
-				Objects.isNull(tagLinkRequestDTO.year())
-		) {
-			daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.DAY, tagLinkRequestDTO.day()));
-		}
+        if (
+                Objects.nonNull(tagLinkRequestDTO.day()) &&
+                        Objects.isNull(tagLinkRequestDTO.month()) &&
+                        Objects.isNull(tagLinkRequestDTO.year())
+        ) {
+            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.DAY, tagLinkRequestDTO.day()));
+        }
 
-		if(
-			Objects.isNull(tagLinkRequestDTO.day()) &&
-				Objects.nonNull(tagLinkRequestDTO.month()) &&
-				Objects.isNull(tagLinkRequestDTO.year())
-		) {
-			daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.MONTH, tagLinkRequestDTO.month()));
-		}
+        if (
+                Objects.isNull(tagLinkRequestDTO.day()) &&
+                        Objects.nonNull(tagLinkRequestDTO.month()) &&
+                        Objects.isNull(tagLinkRequestDTO.year())
+        ) {
+            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.MONTH, tagLinkRequestDTO.month()));
+        }
 
-		if(
-			Objects.isNull(tagLinkRequestDTO.day()) &&
-				Objects.isNull(tagLinkRequestDTO.month()) &&
-				Objects.nonNull(tagLinkRequestDTO.year())
-		) {
-			daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.YEAR, tagLinkRequestDTO.year()));
-		}
+        if (
+                Objects.isNull(tagLinkRequestDTO.day()) &&
+                        Objects.isNull(tagLinkRequestDTO.month()) &&
+                        Objects.nonNull(tagLinkRequestDTO.year())
+        ) {
+            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.YEAR, tagLinkRequestDTO.year()));
+        }
 
-		return daySpecification;
-	}
+        return daySpecification;
+    }
 
-	public static Specification<Day> findAllDayByTagLinkRequestDTO(final TagLinkRequestDTO tagLinkRequestDTO){
-		Specification<Day> daySpecification = Specification.where(null);
+    public static Specification<Day> findAllDayByTagLinkRequestDTO(final TagLinkRequestDTO tagLinkRequestDTO) {
+        Specification<Day> daySpecification = Specification.where(null);
 
-		if (Objects.nonNull(tagLinkRequestDTO.dayOfWeek())) {
-			daySpecification = daySpecification.and(specificationEqual(DAY_OF_WEEK, tagLinkRequestDTO.dayOfWeek()));
-		}
+        if (Objects.nonNull(tagLinkRequestDTO.dayOfWeek())) {
+            daySpecification = daySpecification.and(specificationEqual(DAY_OF_WEEK, tagLinkRequestDTO.dayOfWeek()));
+        }
 
-		if (Objects.nonNull(tagLinkRequestDTO.dayOfYear())) {
-			daySpecification = daySpecification.and(specificationEqual(DAY_OF_YEAR, tagLinkRequestDTO.dayOfYear()));
-		}
+        if (Objects.nonNull(tagLinkRequestDTO.dayOfYear())) {
+            daySpecification = daySpecification.and(specificationEqual(DAY_OF_YEAR, tagLinkRequestDTO.dayOfYear()));
+        }
 
-		if(
-			Objects.nonNull(tagLinkRequestDTO.day()) &&
-				Objects.nonNull(tagLinkRequestDTO.month()) &&
-				Objects.nonNull(tagLinkRequestDTO.year())
-		) {
-			LocalDate date = LocalDate.of(tagLinkRequestDTO.year(), tagLinkRequestDTO.month(), tagLinkRequestDTO.day());
-			daySpecification = daySpecification.and(specificationEqual(DAY_DATE, date));
-		}
+        if (
+                Objects.nonNull(tagLinkRequestDTO.day()) &&
+                        Objects.nonNull(tagLinkRequestDTO.month()) &&
+                        Objects.nonNull(tagLinkRequestDTO.year())
+        ) {
+            LocalDate date = LocalDate.of(tagLinkRequestDTO.year(), tagLinkRequestDTO.month(), tagLinkRequestDTO.day());
+            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, date));
+        }
 
-		if(
-			Objects.nonNull(tagLinkRequestDTO.day()) &&
-				Objects.nonNull(tagLinkRequestDTO.month()) &&
-				Objects.isNull(tagLinkRequestDTO.year())
-		) {
-			daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.DAY, tagLinkRequestDTO.day()));
-			daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.MONTH, tagLinkRequestDTO.month()));
-		}
+        if (
+                Objects.nonNull(tagLinkRequestDTO.day()) &&
+                        Objects.nonNull(tagLinkRequestDTO.month()) &&
+                        Objects.isNull(tagLinkRequestDTO.year())
+        ) {
+            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.DAY, tagLinkRequestDTO.day()));
+            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.MONTH, tagLinkRequestDTO.month()));
+        }
 
-		if(
-			Objects.nonNull(tagLinkRequestDTO.day()) &&
-				Objects.isNull(tagLinkRequestDTO.month()) &&
-				Objects.isNull(tagLinkRequestDTO.year())
-		) {
-			daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.DAY, tagLinkRequestDTO.day()));
-		}
+        if (
+                Objects.nonNull(tagLinkRequestDTO.day()) &&
+                        Objects.isNull(tagLinkRequestDTO.month()) &&
+                        Objects.isNull(tagLinkRequestDTO.year())
+        ) {
+            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.DAY, tagLinkRequestDTO.day()));
+        }
 
-		if(
-			Objects.isNull(tagLinkRequestDTO.day()) &&
-				Objects.nonNull(tagLinkRequestDTO.month()) &&
-				Objects.isNull(tagLinkRequestDTO.year())
-		) {
-			daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.MONTH, tagLinkRequestDTO.month()));
-		}
+        if (
+                Objects.isNull(tagLinkRequestDTO.day()) &&
+                        Objects.nonNull(tagLinkRequestDTO.month()) &&
+                        Objects.isNull(tagLinkRequestDTO.year())
+        ) {
+            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.MONTH, tagLinkRequestDTO.month()));
+        }
 
-		if(
-			Objects.isNull(tagLinkRequestDTO.day()) &&
-				Objects.isNull(tagLinkRequestDTO.month()) &&
-				Objects.nonNull(tagLinkRequestDTO.year())
-		) {
-			daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.YEAR, tagLinkRequestDTO.year()));
-		}
+        if (
+                Objects.isNull(tagLinkRequestDTO.day()) &&
+                        Objects.isNull(tagLinkRequestDTO.month()) &&
+                        Objects.nonNull(tagLinkRequestDTO.year())
+        ) {
+            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.YEAR, tagLinkRequestDTO.year()));
+        }
 
-		return daySpecification;
-	}
+        return daySpecification;
+    }
 
     public static Specification<Day> findAllByDateSearchAndHolidayAndWeekendAndSearchFutureDates(
             final LocalDate dateStartSearch,
@@ -180,14 +180,14 @@ public class DaySpecification {
     ) {
         Specification<Day> daySpecification = Specification.where(null);
 
-        if(Objects.nonNull(dateStartSearch) && Objects.nonNull(dateFinalSearch) && isSearchForFutureDates) {
+        if (Objects.nonNull(dateStartSearch) && Objects.nonNull(dateFinalSearch) && isSearchForFutureDates) {
             if (dateStartSearch.isAfter(dateFinalSearch)) {
                 throw new StartDateAfterEndDateException();
             }
             daySpecification = daySpecification.and(specificationBetween(DAY_DATE, dateStartSearch, dateFinalSearch));
         }
 
-        if(Objects.nonNull(dateStartSearch) && Objects.nonNull(dateFinalSearch) && !isSearchForFutureDates) {
+        if (Objects.nonNull(dateStartSearch) && Objects.nonNull(dateFinalSearch) && !isSearchForFutureDates) {
             if (dateFinalSearch.isAfter(dateStartSearch)) {
                 throw new StartDateAfterEndDateException();
             }

@@ -15,19 +15,19 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class ProcessorRequestStatusRunning implements ItemProcessor<Request, Request> {
 
-	private Long jobId;
+    private Long jobId;
 
-	@BeforeStep
-	public void getInterstepData(StepExecution stepExecution) {
-		JobExecution jobExecution = stepExecution.getJobExecution();
-		this.jobId = jobExecution.getJobId();
-	}
+    @BeforeStep
+    public void getInterstepData(StepExecution stepExecution) {
+        JobExecution jobExecution = stepExecution.getJobExecution();
+        this.jobId = jobExecution.getJobId();
+    }
 
     @Override
     public Request process(Request request) {
         request.setStartDate(LocalDateTime.now());
         request.setStatusRequest(StatusRequest.RUNNING);
-		request.setJobId(jobId);
+        request.setJobId(jobId);
         return request;
     }
 

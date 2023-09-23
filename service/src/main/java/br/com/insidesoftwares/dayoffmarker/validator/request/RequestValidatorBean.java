@@ -25,22 +25,22 @@ class RequestValidatorBean implements RequestValidator {
         try {
             boolean existRequest =
                     requestRepository.existRequestByTypeRequestAndHashRequestAndNotStatusRequest(
-						typeRequest,
-						requestHash,
-						List.of(
-							StatusRequest.ERROR,
-							StatusRequest.FINALIZED,
-							StatusRequest.SUCCESS
-						)
+                            typeRequest,
+                            requestHash,
+                            List.of(
+                                    StatusRequest.ERROR,
+                                    StatusRequest.FINALIZED,
+                                    StatusRequest.SUCCESS
+                            )
                     );
 
-			if(existRequest) throw new RequestConflictParametersException();
+            if (existRequest) throw new RequestConflictParametersException();
 
-        } catch (RequestConflictParametersException requestConflictParametersException){
+        } catch (RequestConflictParametersException requestConflictParametersException) {
             log.error("Error: RequestConflictParametersException", requestConflictParametersException);
             throw requestConflictParametersException;
-        } catch (Exception exception){
-			log.error("Error: #validRequestInitial", exception);
+        } catch (Exception exception) {
+            log.error("Error: #validRequestInitial", exception);
             throw exception;
         }
     }

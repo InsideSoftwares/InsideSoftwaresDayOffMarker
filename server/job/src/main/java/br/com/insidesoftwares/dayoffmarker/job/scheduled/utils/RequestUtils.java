@@ -13,39 +13,39 @@ import java.util.Set;
 @UtilityClass
 public class RequestUtils {
 
-	public static RequestParameter createRequestParameter(
-			final Request request,
-			final TypeParameter typeParameter,
-			final TypeValue typeValue,
-			final String value
-	){
-		return RequestParameter.builder()
-				.typeParameter(typeParameter)
-				.typeValue(typeValue)
-				.value(value)
-				.request(request)
-				.build();
-	}
+    public static RequestParameter createRequestParameter(
+            final Request request,
+            final TypeParameter typeParameter,
+            final TypeValue typeValue,
+            final String value
+    ) {
+        return RequestParameter.builder()
+                .typeParameter(typeParameter)
+                .typeValue(typeValue)
+                .value(value)
+                .request(request)
+                .build();
+    }
 
-	private static String getParameter(
-			final Set<RequestParameter> requestParameters,
-			TypeParameter typeParameter
-	) throws ParameterNotExistException {
-		Optional<RequestParameter> requestParameterOptional =
-				requestParameters.stream().filter(requestParameter ->
-						requestParameter.getTypeParameter().equals(typeParameter)
-				).findAny();
-		return requestParameterOptional.orElseThrow(ParameterNotExistException::new).getValue();
-	}
+    private static String getParameter(
+            final Set<RequestParameter> requestParameters,
+            TypeParameter typeParameter
+    ) throws ParameterNotExistException {
+        Optional<RequestParameter> requestParameterOptional =
+                requestParameters.stream().filter(requestParameter ->
+                        requestParameter.getTypeParameter().equals(typeParameter)
+                ).findAny();
+        return requestParameterOptional.orElseThrow(ParameterNotExistException::new).getValue();
+    }
 
-	public static Integer getStartYear(final Set<RequestParameter> requestParameters) throws ParameterNotExistException {
-		String year = getParameter(requestParameters, TypeParameter.START_YEAR);
-		return Integer.parseInt(year);
-	}
+    public static Integer getStartYear(final Set<RequestParameter> requestParameters) throws ParameterNotExistException {
+        String year = getParameter(requestParameters, TypeParameter.START_YEAR);
+        return Integer.parseInt(year);
+    }
 
-	public static Integer getEndYear(final Set<RequestParameter> requestParameters) throws ParameterNotExistException {
-		String year = getParameter(requestParameters, TypeParameter.END_YEAR);
-		return Integer.parseInt(year);
-	}
+    public static Integer getEndYear(final Set<RequestParameter> requestParameters) throws ParameterNotExistException {
+        String year = getParameter(requestParameters, TypeParameter.END_YEAR);
+        return Integer.parseInt(year);
+    }
 
 }

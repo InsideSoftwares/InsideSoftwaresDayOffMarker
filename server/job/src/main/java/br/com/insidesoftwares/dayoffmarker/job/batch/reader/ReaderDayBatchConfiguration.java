@@ -16,42 +16,42 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ReaderDayBatchConfiguration {
 
-	private final DayOffMarkerJobProperties dayOffMarkerJobProperties;
+    private final DayOffMarkerJobProperties dayOffMarkerJobProperties;
     private final EntityManagerFactory entityManagerFactory;
 
-	@Bean("ReaderDayBatchProcessed")
-	public ItemReader<DayBatch> readerDayBatchProcessed() {
-		JpaPagingItemReader<DayBatch> reader = new JpaPagingItemReader<>();
-		reader.setEntityManagerFactory(entityManagerFactory);
-		reader.setQueryString("""
-				SELECT r FROM DayBatch r
-				WHERE isProcessed = :isProcessed
-			""");
+    @Bean("ReaderDayBatchProcessed")
+    public ItemReader<DayBatch> readerDayBatchProcessed() {
+        JpaPagingItemReader<DayBatch> reader = new JpaPagingItemReader<>();
+        reader.setEntityManagerFactory(entityManagerFactory);
+        reader.setQueryString("""
+                	SELECT r FROM DayBatch r
+                	WHERE isProcessed = :isProcessed
+                """);
 
-		Map<String, Object> parameterValues = new HashMap<>();
-		parameterValues.put("isProcessed", Boolean.TRUE);
-		reader.setParameterValues(parameterValues);
+        Map<String, Object> parameterValues = new HashMap<>();
+        parameterValues.put("isProcessed", Boolean.TRUE);
+        reader.setParameterValues(parameterValues);
 
-		reader.setPageSize(dayOffMarkerJobProperties.getProcessDayBatch());
+        reader.setPageSize(dayOffMarkerJobProperties.getProcessDayBatch());
 
-		return reader;
-	}
+        return reader;
+    }
 
-	@Bean("ReaderDayBatchNotProcessed")
-	public ItemReader<DayBatch> readerDayBatchNotProcessed() {
-		JpaPagingItemReader<DayBatch> reader = new JpaPagingItemReader<>();
-		reader.setEntityManagerFactory(entityManagerFactory);
-		reader.setQueryString("""
-				SELECT r FROM DayBatch r
-				WHERE isProcessed = :isProcessed
-			""");
+    @Bean("ReaderDayBatchNotProcessed")
+    public ItemReader<DayBatch> readerDayBatchNotProcessed() {
+        JpaPagingItemReader<DayBatch> reader = new JpaPagingItemReader<>();
+        reader.setEntityManagerFactory(entityManagerFactory);
+        reader.setQueryString("""
+                	SELECT r FROM DayBatch r
+                	WHERE isProcessed = :isProcessed
+                """);
 
-		Map<String, Object> parameterValues = new HashMap<>();
-		parameterValues.put("isProcessed", Boolean.FALSE);
-		reader.setParameterValues(parameterValues);
+        Map<String, Object> parameterValues = new HashMap<>();
+        parameterValues.put("isProcessed", Boolean.FALSE);
+        reader.setParameterValues(parameterValues);
 
-		reader.setPageSize(dayOffMarkerJobProperties.getDeleteAllDaysBatch());
+        reader.setPageSize(dayOffMarkerJobProperties.getDeleteAllDaysBatch());
 
-		return reader;
-	}
+        return reader;
+    }
 }

@@ -17,33 +17,33 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @EnableAsync
 public class BatchConfiguration {
 
-	private final JobRepository jobRepository;
-	private final DayOffMarkerJobProperties dayOffMarkerJobProperties;
-	private final CacheJob cacheJob;
+    private final JobRepository jobRepository;
+    private final DayOffMarkerJobProperties dayOffMarkerJobProperties;
+    private final CacheJob cacheJob;
 
-	@Bean
-	public TaskExecutor taskExecutor() {
-		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-		executor.setCorePoolSize(dayOffMarkerJobProperties.getCorePoolSize());
-		executor.setMaxPoolSize(dayOffMarkerJobProperties.getMaxPoolSize());
-		executor.setQueueCapacity(dayOffMarkerJobProperties.getQueueCapacity());
-		executor.initialize();
-		return executor;
-	}
+    @Bean
+    public TaskExecutor taskExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(dayOffMarkerJobProperties.getCorePoolSize());
+        executor.setMaxPoolSize(dayOffMarkerJobProperties.getMaxPoolSize());
+        executor.setQueueCapacity(dayOffMarkerJobProperties.getQueueCapacity());
+        executor.initialize();
+        return executor;
+    }
 
-	@Bean
-	public JobLauncher getJobLauncher() throws Exception {
-		TaskExecutorJobLauncher jobLauncher = new TaskExecutorJobLauncher();
-		jobLauncher.setTaskExecutor(taskExecutor());
-		jobLauncher.setJobRepository(jobRepository);
-		jobLauncher.afterPropertiesSet();
-		return jobLauncher;
-	}
+    @Bean
+    public JobLauncher getJobLauncher() throws Exception {
+        TaskExecutorJobLauncher jobLauncher = new TaskExecutorJobLauncher();
+        jobLauncher.setTaskExecutor(taskExecutor());
+        jobLauncher.setJobRepository(jobRepository);
+        jobLauncher.afterPropertiesSet();
+        return jobLauncher;
+    }
 
-	@Bean("dayOffMarkerJobListener")
-	public DayOffMarkerJobListener jobListener(){
-		return new DayOffMarkerJobListener(cacheJob);
-	}
+    @Bean("dayOffMarkerJobListener")
+    public DayOffMarkerJobListener jobListener() {
+        return new DayOffMarkerJobListener(cacheJob);
+    }
 
 
 }

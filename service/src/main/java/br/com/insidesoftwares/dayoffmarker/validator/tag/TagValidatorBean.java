@@ -27,63 +27,63 @@ import java.util.Objects;
 @RequiredArgsConstructor
 class TagValidatorBean implements Validator<Long, TagRequestDTO>, ValidatorLink<TagLinkRequestDTO> {
 
-	private final TagRepository tagRepository;
-	private final DayRepository dayRepository;
+    private final TagRepository tagRepository;
+    private final DayRepository dayRepository;
 
-	@Override
-	public void validator(final TagRequestDTO tagRequestDTO) {
-		if(tagRepository.existsByCode(tagRequestDTO.code())) throw new TagCodeExistException();
-	}
+    @Override
+    public void validator(final TagRequestDTO tagRequestDTO) {
+        if (tagRepository.existsByCode(tagRequestDTO.code())) throw new TagCodeExistException();
+    }
 
-	@Override
-	public void validator(final Long tagID, final TagRequestDTO tagRequestDTO) {
-		if(!tagRepository.existsById(tagID)) throw new TagNotExistException();
-		if(tagRepository.existsByCodeAndNotId(tagRequestDTO.code(),tagID)) throw new TagCodeExistException();
-	}
+    @Override
+    public void validator(final Long tagID, final TagRequestDTO tagRequestDTO) {
+        if (!tagRepository.existsById(tagID)) throw new TagNotExistException();
+        if (tagRepository.existsByCodeAndNotId(tagRequestDTO.code(), tagID)) throw new TagCodeExistException();
+    }
 
-	@Override
-	public void validator(final Long tagID) {
-		if(!tagRepository.existsById(tagID)) throw new TagNotExistException();
-	}
+    @Override
+    public void validator(final Long tagID) {
+        if (!tagRepository.existsById(tagID)) throw new TagNotExistException();
+    }
 
-	@Override
-	public void validateLinkUnlink(final TagLinkRequestDTO tagLinkRequestDTO) {
+    @Override
+    public void validateLinkUnlink(final TagLinkRequestDTO tagLinkRequestDTO) {
 
-		if(
-			Objects.isNull(tagLinkRequestDTO.dayOfWeek()) &&
-			Objects.isNull(tagLinkRequestDTO.dayOfYear()) &&
-			Objects.isNull(tagLinkRequestDTO.day()) &&
-			Objects.isNull(tagLinkRequestDTO.month()) &&
-			Objects.isNull(tagLinkRequestDTO.year())
-		) throw new TagLinkOneParameterNotNullException();
+        if (
+                Objects.isNull(tagLinkRequestDTO.dayOfWeek()) &&
+                        Objects.isNull(tagLinkRequestDTO.dayOfYear()) &&
+                        Objects.isNull(tagLinkRequestDTO.day()) &&
+                        Objects.isNull(tagLinkRequestDTO.month()) &&
+                        Objects.isNull(tagLinkRequestDTO.year())
+        ) throw new TagLinkOneParameterNotNullException();
 
-		if(
-				Objects.nonNull(tagLinkRequestDTO.day()) &&
-				Objects.nonNull(tagLinkRequestDTO.month()) &&
-				Objects.nonNull(tagLinkRequestDTO.year()) &&
-					!DateUtils.isDateValid(tagLinkRequestDTO.day(), tagLinkRequestDTO.month(), tagLinkRequestDTO.year())
-		) {
-			throw new TagLinkDateInvalidException();
-		}
+        if (
+                Objects.nonNull(tagLinkRequestDTO.day()) &&
+                        Objects.nonNull(tagLinkRequestDTO.month()) &&
+                        Objects.nonNull(tagLinkRequestDTO.year()) &&
+                        !DateUtils.isDateValid(tagLinkRequestDTO.day(), tagLinkRequestDTO.month(), tagLinkRequestDTO.year())
+        ) {
+            throw new TagLinkDateInvalidException();
+        }
 
-		if(
-			Objects.nonNull(tagLinkRequestDTO.day()) &&
-				Objects.nonNull(tagLinkRequestDTO.month()) &&
-				!DateUtils.isDateValid(tagLinkRequestDTO.day(), tagLinkRequestDTO.month())
-		) {
-			throw new TagLinkDateInvalidException();
-		}
+        if (
+                Objects.nonNull(tagLinkRequestDTO.day()) &&
+                        Objects.nonNull(tagLinkRequestDTO.month()) &&
+                        !DateUtils.isDateValid(tagLinkRequestDTO.day(), tagLinkRequestDTO.month())
+        ) {
+            throw new TagLinkDateInvalidException();
+        }
 
-		Specification<Day> daySpecification = DaySpecification.exitsDayByTagLinkRequestDTO(tagLinkRequestDTO);
-		boolean exitsDayByTagLinkRequestDTO = dayRepository.exists(daySpecification);
+        Specification<Day> daySpecification = DaySpecification.exitsDayByTagLinkRequestDTO(tagLinkRequestDTO);
+        boolean exitsDayByTagLinkRequestDTO = dayRepository.exists(daySpecification);
 
-		if(!exitsDayByTagLinkRequestDTO){
-			throw new TagLinkParameterNotResultException();
-		}
+        if (!exitsDayByTagLinkRequestDTO) {
+            throw new TagLinkParameterNotResultException();
+        }
 
-		tagLinkRequestDTO.tagsID().forEach(tagID -> {
-			if(!tagRepository.existsById(tagID)) throw new TagLinkNotExistException(tagID);
-		});
+        tagLinkRequestDTO.tagsID().forEach(tagID -> {
+            if (!tagRepository.existsById(tagID)) throw new TagLinkNotExistException(tagID);
+        });
 
-	}
+    }
 }

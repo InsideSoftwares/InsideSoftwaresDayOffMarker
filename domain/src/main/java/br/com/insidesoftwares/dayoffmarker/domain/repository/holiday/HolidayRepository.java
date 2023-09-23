@@ -12,11 +12,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface HolidayRepository extends JpaRepository<Holiday, Long>, JpaSpecificationExecutor<Holiday> {
 
-	@EntityGraph(value = "holiday-full")
-	@Override
-	Page<Holiday> findAll(
-			Specification<Holiday> holidaySpecification,
-			Pageable pageable
-	);
+    @EntityGraph(value = "holiday-full")
+    @Override
+    Page<Holiday> findAll(
+            Specification<Holiday> holidaySpecification,
+            Pageable pageable
+    );
 
 }

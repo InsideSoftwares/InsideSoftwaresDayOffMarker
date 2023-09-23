@@ -5,7 +5,7 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.enumeration.Excepti
 import br.com.insidesoftwares.exception.error.InsideSoftwaresException;
 
 public class TagNotExistException extends InsideSoftwaresException {
-	public TagNotExistException() {
-		super(ExceptionCodeError.TAG_NOT_EXIST);
-	}
+    public TagNotExistException() {
+        super(ExceptionCodeError.TAG_NOT_EXIST);
+    }
 }

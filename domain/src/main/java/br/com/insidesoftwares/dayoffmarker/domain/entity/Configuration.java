@@ -27,7 +27,7 @@ import java.util.Objects;
 public class Configuration {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CONFIGURATION_ID")
     private Long id;
 
@@ -44,7 +44,7 @@ public class Configuration {
     @Column(name = "DEFAULT_VALUE")
     private String defaultValue;
 
-    public String getValueOrDefaulValue(){
+    public String getValueOrDefaulValue() {
         return Objects.nonNull(value) ? value : defaultValue;
     }
 }

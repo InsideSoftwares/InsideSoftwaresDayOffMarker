@@ -4,7 +4,7 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.enumeration.Excepti
 import br.com.insidesoftwares.exception.error.InsideSoftwaresException;
 
 public class TagLinkParameterNotResultException extends InsideSoftwaresException {
-	public TagLinkParameterNotResultException() {
-		super(ExceptionCodeError.TAG_LINK_PARAMETER_NOT_RESULT);
-	}
+    public TagLinkParameterNotResultException() {
+        super(ExceptionCodeError.TAG_LINK_PARAMETER_NOT_RESULT);
+    }
 }

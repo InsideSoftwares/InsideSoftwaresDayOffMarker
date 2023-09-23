@@ -13,15 +13,15 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class ProcessDayBatchNotProcessed implements ItemProcessor<DayBatch, DayBatch> {
 
-	private final DayService dayService;
+    private final DayService dayService;
 
     @Override
     public DayBatch process(DayBatch dayBatch) {
         Day day = dayService.findDayByDate(dayBatch.getDate());
-		if(Objects.nonNull(day)) {
-			dayBatch.setProcessed(true);
-		}
-		return dayBatch;
+        if (Objects.nonNull(day)) {
+            dayBatch.setProcessed(true);
+        }
+        return dayBatch;
     }
 
 }

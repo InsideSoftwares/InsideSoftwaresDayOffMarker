@@ -28,119 +28,119 @@ import java.util.List;
 @Slf4j
 public class DayJobServiceBean {
 
-	private final RequestService requestService;
-	private final RequestCreationService requestCreationService;
-	private final JobLauncher jobLauncher;
-	private final JobExplorer jobExplorer;
+    private final RequestService requestService;
+    private final RequestCreationService requestCreationService;
+    private final JobLauncher jobLauncher;
+    private final JobExplorer jobExplorer;
 
-	@Autowired
-	@Qualifier("jobCreatesDays")
-	private Job jobCreatesDays;
+    @Autowired
+    @Qualifier("jobCreatesDays")
+    private Job jobCreatesDays;
 
-	@Autowired
-	@Qualifier("jobClearDayBatch")
-	private Job jobClearDayBatch;
+    @Autowired
+    @Qualifier("jobClearDayBatch")
+    private Job jobClearDayBatch;
 
-	@Transactional(
-            rollbackFor = { Exception.class }
+    @Transactional(
+            rollbackFor = {Exception.class}
     )
-	public void findRequestForCreatingDays() {
+    public void findRequestForCreatingDays() {
 
-		List<Request> requests = requestService
-				.findAllRequestByTypeAndStatus(TypeRequest.REQUEST_CREATION_DATE, StatusRequest.CREATED);
+        List<Request> requests = requestService
+                .findAllRequestByTypeAndStatus(TypeRequest.REQUEST_CREATION_DATE, StatusRequest.CREATED);
 
-		requests.forEach(request -> {
-			request.setStatusRequest(StatusRequest.WAITING);
-			requestService.saveAndFlushRequest(request);
-		});
-		log.info("Updating request to be status WAITING.");
-	}
+        requests.forEach(request -> {
+            request.setStatusRequest(StatusRequest.WAITING);
+            requestService.saveAndFlushRequest(request);
+        });
+        log.info("Updating request to be status WAITING.");
+    }
 
-	@Transactional(
+    @Transactional(
             rollbackFor = {
                     ParameterNotExistException.class,
-			    RequestConflictParametersException.class,
-			    Exception.class
+                    RequestConflictParametersException.class,
+                    Exception.class
             }
     )
-	public void runRequestForCreatingDays() {
-		List<Request> requests = requestService
-				.findAllRequestByTypeAndStatus(TypeRequest.REQUEST_CREATION_DATE, StatusRequest.WAITING);
+    public void runRequestForCreatingDays() {
+        List<Request> requests = requestService
+                .findAllRequestByTypeAndStatus(TypeRequest.REQUEST_CREATION_DATE, StatusRequest.WAITING);
 
-		requests.forEach(request -> {
-			request.setStatusRequest(StatusRequest.RUNNING);
-			request.setStartDate(LocalDateTime.now());
-			requestService.saveAndFlushRequest(request);
-		});
-		log.info("Updating request to be status RUNNING.");
+        requests.forEach(request -> {
+            request.setStatusRequest(StatusRequest.RUNNING);
+            request.setStartDate(LocalDateTime.now());
+            requestService.saveAndFlushRequest(request);
+        });
+        log.info("Updating request to be status RUNNING.");
 
-		requests.forEach(request -> {
-			try{
-				createsRequestWithMonths(request);
-				request.setStatusRequest(StatusRequest.SUCCESS);
-				request.setEndDate(LocalDateTime.now());
-			}catch (Exception e){
-				log.error(e.getMessage(),e);
-				request.setStatusRequest(StatusRequest.ERROR);
-				request.setEndDate(LocalDateTime.now());
-			} finally {
-				requestService.saveAndFlushRequest(request);
-			}
-		});
-	}
+        requests.forEach(request -> {
+            try {
+                createsRequestWithMonths(request);
+                request.setStatusRequest(StatusRequest.SUCCESS);
+                request.setEndDate(LocalDateTime.now());
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+                request.setStatusRequest(StatusRequest.ERROR);
+                request.setEndDate(LocalDateTime.now());
+            } finally {
+                requestService.saveAndFlushRequest(request);
+            }
+        });
+    }
 
-	public void schedulingRunBatch(){
-		try {
-			if(requestService.existRequestByTypeAndStatusRequest(TypeRequest.CREATE_DATE, StatusRequest.CREATED)) {
-				JobParameters jobParameters = new JobParametersBuilder(this.jobExplorer)
-						.getNextJobParameters(jobCreatesDays)
-						.toJobParameters();
+    public void schedulingRunBatch() {
+        try {
+            if (requestService.existRequestByTypeAndStatusRequest(TypeRequest.CREATE_DATE, StatusRequest.CREATED)) {
+                JobParameters jobParameters = new JobParametersBuilder(this.jobExplorer)
+                        .getNextJobParameters(jobCreatesDays)
+                        .toJobParameters();
 
-				jobLauncher.run(jobCreatesDays, jobParameters);
-				log.info("Starting batch for day creation.");
-			}
-		}catch (Exception e){
-			log.error("Error starting batch for day creation.", e);
-		}
-	}
+                jobLauncher.run(jobCreatesDays, jobParameters);
+                log.info("Starting batch for day creation.");
+            }
+        } catch (Exception e) {
+            log.error("Error starting batch for day creation.", e);
+        }
+    }
 
-	@Transactional(
+    @Transactional(
             rollbackFor = {
                     ParameterNotExistException.class,
-			        RequestConflictParametersException.class,
-			        Exception.class
-	        }
+                    RequestConflictParametersException.class,
+                    Exception.class
+            }
     )
-	public void createsRequestWithMonths(final Request request) {
-		log.info("Starting the creation of the requests to create the Days.");
+    public void createsRequestWithMonths(final Request request) {
+        log.info("Starting the creation of the requests to create the Days.");
 
-		Integer startYear = RequestUtils.getStartYear(request.getRequestParameter());
-		Integer endYear = RequestUtils.getEndYear(request.getRequestParameter());
+        Integer startYear = RequestUtils.getStartYear(request.getRequestParameter());
+        Integer endYear = RequestUtils.getEndYear(request.getRequestParameter());
 
-		while (startYear <= endYear) {
+        while (startYear <= endYear) {
 
-			int month = 1;
+            int month = 1;
 
-			while (month <= 12){
-				String requestId = requestCreationService.createDateRequest(request, month, startYear);
-				log.info("Request day created: {}", requestId);
-				month++;
-			}
-			startYear++;
-		}
-		log.info("Finalizing the creation of requests to create days.");
-	}
+            while (month <= 12) {
+                String requestId = requestCreationService.createDateRequest(request, month, startYear);
+                log.info("Request day created: {}", requestId);
+                month++;
+            }
+            startYear++;
+        }
+        log.info("Finalizing the creation of requests to create days.");
+    }
 
-	public void runClearDayBatch() {
-		try {
-			JobParameters jobParameters = new JobParametersBuilder(this.jobExplorer)
-				.getNextJobParameters(jobClearDayBatch)
-				.toJobParameters();
+    public void runClearDayBatch() {
+        try {
+            JobParameters jobParameters = new JobParametersBuilder(this.jobExplorer)
+                    .getNextJobParameters(jobClearDayBatch)
+                    .toJobParameters();
 
-			jobLauncher.run(jobClearDayBatch, jobParameters);
-			log.info("Starting batch for day creation.");
-		}catch (Exception e){
-			log.error("Error starting batch for day creation.", e);
-		}
-	}
+            jobLauncher.run(jobClearDayBatch, jobParameters);
+            log.info("Starting batch for day creation.");
+        } catch (Exception e) {
+            log.error("Error starting batch for day creation.", e);
+        }
+    }
 }

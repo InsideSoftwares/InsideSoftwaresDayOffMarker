@@ -19,106 +19,106 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ReaderCreateDateConfiguration {
 
-	private final DayOffMarkerJobProperties dayOffMarkerJobProperties;
+    private final DayOffMarkerJobProperties dayOffMarkerJobProperties;
     private final EntityManagerFactory entityManagerFactory;
 
     @Bean("ReaderRequestCreateDateStatusCreated")
-	public ItemReader<Request> readerRequestCreateDateStatusCreated() {
-		JpaPagingItemReader<Request> reader = new JpaPagingItemReader<>();
-		reader.setEntityManagerFactory(entityManagerFactory);
-		reader.setQueryString("""
-				SELECT r FROM Request r
-				WHERE statusRequest = :statusRequest
-				AND r.typeRequest = :typeRequest
-			""");
+    public ItemReader<Request> readerRequestCreateDateStatusCreated() {
+        JpaPagingItemReader<Request> reader = new JpaPagingItemReader<>();
+        reader.setEntityManagerFactory(entityManagerFactory);
+        reader.setQueryString("""
+                	SELECT r FROM Request r
+                	WHERE statusRequest = :statusRequest
+                	AND r.typeRequest = :typeRequest
+                """);
 
-		Map<String, Object> parameterValues = new HashMap<>();
-		parameterValues.put("typeRequest", TypeRequest.CREATE_DATE);
-		parameterValues.put("statusRequest", StatusRequest.CREATED);
-		reader.setParameterValues(parameterValues);
+        Map<String, Object> parameterValues = new HashMap<>();
+        parameterValues.put("typeRequest", TypeRequest.CREATE_DATE);
+        parameterValues.put("statusRequest", StatusRequest.CREATED);
+        reader.setParameterValues(parameterValues);
 
-		reader.setPageSize(dayOffMarkerJobProperties.getSetsRequestToRunningCreateDate());
+        reader.setPageSize(dayOffMarkerJobProperties.getSetsRequestToRunningCreateDate());
 
-		return reader;
-	}
+        return reader;
+    }
 
-	@Bean("ReaderRequestCreateDateByStatusRunning")
-	public ItemReader<Request> readerRequestCreateDateByStatusRunning() {
-		JpaPagingItemReader<Request> reader = new JpaPagingItemReader<>();
-		reader.setEntityManagerFactory(entityManagerFactory);
-		reader.setQueryString("""
-				SELECT r FROM Request r
-				WHERE statusRequest = :statusRequest
-				AND r.typeRequest = :typeRequest
-			""");
+    @Bean("ReaderRequestCreateDateByStatusRunning")
+    public ItemReader<Request> readerRequestCreateDateByStatusRunning() {
+        JpaPagingItemReader<Request> reader = new JpaPagingItemReader<>();
+        reader.setEntityManagerFactory(entityManagerFactory);
+        reader.setQueryString("""
+                	SELECT r FROM Request r
+                	WHERE statusRequest = :statusRequest
+                	AND r.typeRequest = :typeRequest
+                """);
 
-		Map<String, Object> parameterValues = new HashMap<>();
-		parameterValues.put("typeRequest", TypeRequest.CREATE_DATE);
-		parameterValues.put("statusRequest", StatusRequest.RUNNING);
-		reader.setParameterValues(parameterValues);
+        Map<String, Object> parameterValues = new HashMap<>();
+        parameterValues.put("typeRequest", TypeRequest.CREATE_DATE);
+        parameterValues.put("statusRequest", StatusRequest.RUNNING);
+        reader.setParameterValues(parameterValues);
 
-		reader.setPageSize(dayOffMarkerJobProperties.getExecutesRequestsCreateDate());
+        reader.setPageSize(dayOffMarkerJobProperties.getExecutesRequestsCreateDate());
 
-		return reader;
-	}
+        return reader;
+    }
 
-	@Bean("UpdatesRequestToFinalizedCreateDate")
-	public ItemReader<Request> updatesRequestToFinalizedCreateDate() {
-		JpaPagingItemReader<Request> reader = new JpaPagingItemReader<>();
-		reader.setEntityManagerFactory(entityManagerFactory);
-		reader.setQueryString("""
-				SELECT r FROM Request r
-				WHERE statusRequest = :statusRequest
-				AND r.typeRequest = :typeRequest
-			""");
+    @Bean("UpdatesRequestToFinalizedCreateDate")
+    public ItemReader<Request> updatesRequestToFinalizedCreateDate() {
+        JpaPagingItemReader<Request> reader = new JpaPagingItemReader<>();
+        reader.setEntityManagerFactory(entityManagerFactory);
+        reader.setQueryString("""
+                	SELECT r FROM Request r
+                	WHERE statusRequest = :statusRequest
+                	AND r.typeRequest = :typeRequest
+                """);
 
-		Map<String, Object> parameterValues = new HashMap<>();
-		parameterValues.put("typeRequest", TypeRequest.CREATE_DATE);
-		parameterValues.put("statusRequest", StatusRequest.RUNNING);
-		reader.setParameterValues(parameterValues);
+        Map<String, Object> parameterValues = new HashMap<>();
+        parameterValues.put("typeRequest", TypeRequest.CREATE_DATE);
+        parameterValues.put("statusRequest", StatusRequest.RUNNING);
+        reader.setParameterValues(parameterValues);
 
-		reader.setPageSize(dayOffMarkerJobProperties.getUpdatesRequestToFinalizedCreateDate());
+        reader.setPageSize(dayOffMarkerJobProperties.getUpdatesRequestToFinalizedCreateDate());
 
-		return reader;
-	}
+        return reader;
+    }
 
-	@Bean("SavesDaysCreatedCreateDate")
-	public ItemReader<DayBatch> savesDaysCreatedCreateDate() {
-		JpaPagingItemReader<DayBatch> reader = new JpaPagingItemReader<>();
-		reader.setEntityManagerFactory(entityManagerFactory);
-		reader.setQueryString("""
-				SELECT d FROM DayBatch d INNER JOIN Request r ON d.requestID = r.id
-				WHERE r.typeRequest = :typeRequest
-				AND d.isProcessed = :processed
-			""");
+    @Bean("SavesDaysCreatedCreateDate")
+    public ItemReader<DayBatch> savesDaysCreatedCreateDate() {
+        JpaPagingItemReader<DayBatch> reader = new JpaPagingItemReader<>();
+        reader.setEntityManagerFactory(entityManagerFactory);
+        reader.setQueryString("""
+                	SELECT d FROM DayBatch d INNER JOIN Request r ON d.requestID = r.id
+                	WHERE r.typeRequest = :typeRequest
+                	AND d.isProcessed = :processed
+                """);
 
-		Map<String, Object> parameterValues = new HashMap<>();
-		parameterValues.put("typeRequest", TypeRequest.CREATE_DATE);
-		parameterValues.put("processed", false);
-		reader.setParameterValues(parameterValues);
+        Map<String, Object> parameterValues = new HashMap<>();
+        parameterValues.put("typeRequest", TypeRequest.CREATE_DATE);
+        parameterValues.put("processed", false);
+        reader.setParameterValues(parameterValues);
 
-		reader.setPageSize(dayOffMarkerJobProperties.getSavesDaysCreatedCreateDate());
+        reader.setPageSize(dayOffMarkerJobProperties.getSavesDaysCreatedCreateDate());
 
-		return reader;
-	}
+        return reader;
+    }
 
-	@Bean("UpdatesDayBatchToProcessedCreateDate")
-	public ItemReader<DayBatch> updatesDayBatchToProcessedCreateDate() {
-		JpaPagingItemReader<DayBatch> reader = new JpaPagingItemReader<>();
-		reader.setEntityManagerFactory(entityManagerFactory);
-		reader.setQueryString("""
-				SELECT d FROM DayBatch d INNER JOIN Request r ON d.requestID = r.id
-				WHERE r.typeRequest = :typeRequest
-				AND d.isProcessed = :processed
-			""");
+    @Bean("UpdatesDayBatchToProcessedCreateDate")
+    public ItemReader<DayBatch> updatesDayBatchToProcessedCreateDate() {
+        JpaPagingItemReader<DayBatch> reader = new JpaPagingItemReader<>();
+        reader.setEntityManagerFactory(entityManagerFactory);
+        reader.setQueryString("""
+                	SELECT d FROM DayBatch d INNER JOIN Request r ON d.requestID = r.id
+                	WHERE r.typeRequest = :typeRequest
+                	AND d.isProcessed = :processed
+                """);
 
-		Map<String, Object> parameterValues = new HashMap<>();
-		parameterValues.put("typeRequest", TypeRequest.CREATE_DATE);
-		parameterValues.put("processed", false);
-		reader.setParameterValues(parameterValues);
+        Map<String, Object> parameterValues = new HashMap<>();
+        parameterValues.put("typeRequest", TypeRequest.CREATE_DATE);
+        parameterValues.put("processed", false);
+        reader.setParameterValues(parameterValues);
 
-		reader.setPageSize(dayOffMarkerJobProperties.getUpdatesDayBatchToProcessedCreateDate());
+        reader.setPageSize(dayOffMarkerJobProperties.getUpdatesDayBatchToProcessedCreateDate());
 
-		return reader;
-	}
+        return reader;
+    }
 }

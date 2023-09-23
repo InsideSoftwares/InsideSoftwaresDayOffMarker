@@ -36,7 +36,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 class HolidayServiceBean implements HolidayService {
-    
+
     private final HolidayRepository holidayRepository;
     private final HolidayMapper holidayMapper;
     private final Validator<Long, HolidayRequestDTO> holidayValidator;
@@ -44,30 +44,30 @@ class HolidayServiceBean implements HolidayService {
 
     @InsideAudit
     @Override
-	public InsideSoftwaresResponseDTO<List<HolidayResponseDTO>> findAll(
-			final LocalDate startDate,
-			final LocalDate endDate,
-			InsidePaginationFilterDTO paginationFilter
-	) {
+    public InsideSoftwaresResponseDTO<List<HolidayResponseDTO>> findAll(
+            final LocalDate startDate,
+            final LocalDate endDate,
+            InsidePaginationFilterDTO paginationFilter
+    ) {
 
-		Pageable pageable = PaginationUtils.createPageable(paginationFilter, eOrderHoliday.ID);
+        Pageable pageable = PaginationUtils.createPageable(paginationFilter, eOrderHoliday.ID);
 
-		Specification<Holiday> holidaySpecification = HolidaySpecification.findAllByStartDateAndEndDate(startDate, endDate);
+        Specification<Holiday> holidaySpecification = HolidaySpecification.findAllByStartDateAndEndDate(startDate, endDate);
 
-		Page<Holiday> holidays = holidayRepository.findAll(holidaySpecification, pageable);
+        Page<Holiday> holidays = holidayRepository.findAll(holidaySpecification, pageable);
 
-		return InsideSoftwaresResponseDTO.<List<HolidayResponseDTO>>builder()
-				.data(holidayMapper.toDTOs(holidays.getContent()))
-				.insidePaginatedDTO(
-						PaginationUtils.createPaginated(
-							holidays.getTotalPages(),
-							holidays.getTotalElements(),
-							holidays.getContent().size(),
-							paginationFilter.getSizePerPage()
-						)
-				)
-				.build();
-	}
+        return InsideSoftwaresResponseDTO.<List<HolidayResponseDTO>>builder()
+                .data(holidayMapper.toDTOs(holidays.getContent()))
+                .insidePaginatedDTO(
+                        PaginationUtils.createPaginated(
+                                holidays.getTotalPages(),
+                                holidays.getTotalElements(),
+                                holidays.getContent().size(),
+                                paginationFilter.getSizePerPage()
+                        )
+                )
+                .build();
+    }
 
     @InsideAudit
     @Override
@@ -80,21 +80,21 @@ class HolidayServiceBean implements HolidayService {
 
     @InsideAudit
     @Transactional(rollbackFor = {
-		DayNotExistException.class,
-		HolidayDayExistException.class,
-		HolidayFromTimeNotInformedException.class
-	})
-	@Override
-	public InsideSoftwaresResponseDTO<List<Long>> saveInBatch(final HolidayBatchRequestDTO holidayBatchRequestDTO) {
+            DayNotExistException.class,
+            HolidayDayExistException.class,
+            HolidayFromTimeNotInformedException.class
+    })
+    @Override
+    public InsideSoftwaresResponseDTO<List<Long>> saveInBatch(final HolidayBatchRequestDTO holidayBatchRequestDTO) {
         List<Long> holidayIDs = new ArrayList<>();
-		holidayBatchRequestDTO.daysId().forEach(dayID -> {
-			HolidayRequestDTO holidayRequestDTO = holidayMapper.toHolidayResponseDTO(holidayBatchRequestDTO, dayID);
-			InsideSoftwaresResponseDTO<Long> response = save(holidayRequestDTO);
+        holidayBatchRequestDTO.daysId().forEach(dayID -> {
+            HolidayRequestDTO holidayRequestDTO = holidayMapper.toHolidayResponseDTO(holidayBatchRequestDTO, dayID);
+            InsideSoftwaresResponseDTO<Long> response = save(holidayRequestDTO);
             holidayIDs.add(response.getData());
-		});
+        });
 
         return InsideSoftwaresResponseDTO.<List<Long>>builder().data(holidayIDs).build();
-	}
+    }
 
     @InsideAudit
     @Transactional(rollbackFor = {
@@ -114,8 +114,8 @@ class HolidayServiceBean implements HolidayService {
                 .holidayType(holidayRequestDTO.holidayType())
                 .fromTime(holidayRequestDTO.fromTime())
                 .day(day)
-				.optional(holidayRequestDTO.optional())
-				.automaticUpdate(false)
+                .optional(holidayRequestDTO.optional())
+                .automaticUpdate(false)
                 .nationalHoliday(holidayRequestDTO.nationalHoliday())
                 .build();
 
@@ -141,7 +141,7 @@ class HolidayServiceBean implements HolidayService {
         holidayValidator.validator(holidayID, holidayRequestDTO);
 
         Holiday holiday = holidayRepository.getReferenceById(holidayID);
-        if(!holiday.getDay().getId().equals(holidayRequestDTO.dayId())) {
+        if (!holiday.getDay().getId().equals(holidayRequestDTO.dayId())) {
             dayService.defineDayIsHoliday(holiday.getDay().getId());
             Day day = dayService.findDayByID(holidayRequestDTO.dayId());
             holiday.setDay(day);
@@ -151,8 +151,8 @@ class HolidayServiceBean implements HolidayService {
         holiday.setDescription(holidayRequestDTO.description());
         holiday.setHolidayType(holidayRequestDTO.holidayType());
         holiday.setFromTime(holidayRequestDTO.fromTime());
-		holiday.setAutomaticUpdate(false);
-		holiday.setOptional(holidayRequestDTO.optional());
+        holiday.setAutomaticUpdate(false);
+        holiday.setOptional(holidayRequestDTO.optional());
         holiday.setNationalHoliday(holidayRequestDTO.nationalHoliday());
         holidayRepository.save(holiday);
 
@@ -161,32 +161,32 @@ class HolidayServiceBean implements HolidayService {
 
     @InsideAudit
     @Transactional(rollbackFor = {
-		DayNotExistException.class,
-		HolidayDayExistException.class,
-		HolidayFromTimeNotInformedException.class
-	})
-	@Override
-	public void saveHoliday(final HolidayCreateRequestDTO holidayCreateRequestDTO) {
-		Day day = dayService.findDayByID(holidayCreateRequestDTO.dayId());
+            DayNotExistException.class,
+            HolidayDayExistException.class,
+            HolidayFromTimeNotInformedException.class
+    })
+    @Override
+    public void saveHoliday(final HolidayCreateRequestDTO holidayCreateRequestDTO) {
+        Day day = dayService.findDayByID(holidayCreateRequestDTO.dayId());
 
-		Holiday holiday = Holiday.builder()
-			.name(holidayCreateRequestDTO.name())
-			.description(holidayCreateRequestDTO.description())
-			.holidayType(holidayCreateRequestDTO.holidayType())
-			.fromTime(holidayCreateRequestDTO.fromTime())
-			.day(day)
-			.automaticUpdate(true)
-			.fixedHolidayID(holidayCreateRequestDTO.fixedHolidayID())
-            .nationalHoliday(holidayCreateRequestDTO.nationalHoliday())
-			.build();
-		holidayRepository.save(holiday);
+        Holiday holiday = Holiday.builder()
+                .name(holidayCreateRequestDTO.name())
+                .description(holidayCreateRequestDTO.description())
+                .holidayType(holidayCreateRequestDTO.holidayType())
+                .fromTime(holidayCreateRequestDTO.fromTime())
+                .day(day)
+                .automaticUpdate(true)
+                .fixedHolidayID(holidayCreateRequestDTO.fixedHolidayID())
+                .nationalHoliday(holidayCreateRequestDTO.nationalHoliday())
+                .build();
+        holidayRepository.save(holiday);
 
-		dayService.defineDayIsHoliday(holidayCreateRequestDTO.dayId());
-	}
+        dayService.defineDayIsHoliday(holidayCreateRequestDTO.dayId());
+    }
 
     @InsideAudit
     @Override
-	public Holiday findHolidayById(Long holidayID) {
-		return holidayRepository.findById(holidayID).orElseThrow(HolidayNotExistException::new);
-	}
+    public Holiday findHolidayById(Long holidayID) {
+        return holidayRepository.findById(holidayID).orElseThrow(HolidayNotExistException::new);
+    }
 }

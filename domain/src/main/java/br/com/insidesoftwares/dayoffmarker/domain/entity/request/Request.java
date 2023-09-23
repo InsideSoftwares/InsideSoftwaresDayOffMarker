@@ -31,10 +31,10 @@ import java.util.UUID;
 @Entity
 @Table(name = "DOM_REQUEST")
 @NamedEntityGraph(
-	name = "request-full",
-	attributeNodes = {
-		@NamedAttributeNode("requestParameter")
-	}
+        name = "request-full",
+        attributeNodes = {
+                @NamedAttributeNode("requestParameter")
+        }
 )
 public class Request {
 
@@ -62,11 +62,11 @@ public class Request {
     @Enumerated(EnumType.STRING)
     private TypeRequest typeRequest;
 
-	@Column(name = "JOB_ID")
-	private Long jobId;
+    @Column(name = "JOB_ID")
+    private Long jobId;
 
-	@Column(name = "REQUEST_HASH")
-	private String requestHash;
+    @Column(name = "REQUEST_HASH")
+    private String requestHash;
 
     @OneToMany(mappedBy = "request", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<RequestParameter> requestParameter;

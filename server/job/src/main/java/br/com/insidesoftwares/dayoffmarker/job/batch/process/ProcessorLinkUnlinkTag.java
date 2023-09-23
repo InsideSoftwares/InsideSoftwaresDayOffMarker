@@ -36,52 +36,52 @@ public class ProcessorLinkUnlinkTag implements ItemProcessor<Request, List<DayTa
     public List<DayTag> process(final Request request) {
         List<DayTag> dayTagList = new ArrayList<>();
 
-		TagLinkRequestDTO tagLinkRequestDTO = createTagLinkRequestDTO(request.getRequestParameter());
-		Specification<Day> daySpecification = DaySpecification.findAllDayByTagLinkRequestDTO(tagLinkRequestDTO);
+        TagLinkRequestDTO tagLinkRequestDTO = createTagLinkRequestDTO(request.getRequestParameter());
+        Specification<Day> daySpecification = DaySpecification.findAllDayByTagLinkRequestDTO(tagLinkRequestDTO);
 
-		List<Day> days = dayRepository.findAll(daySpecification);
+        List<Day> days = dayRepository.findAll(daySpecification);
 
-		tagLinkRequestDTO.tagsID().forEach(tagID -> days.forEach(day -> {
-			boolean containsTag = containsTag(day.getTags(), tagID);
+        tagLinkRequestDTO.tagsID().forEach(tagID -> days.forEach(day -> {
+            boolean containsTag = containsTag(day.getTags(), tagID);
             switch (request.getTypeRequest()) {
                 case LINK_TAG -> {
-                    if(!containsTag) {
+                    if (!containsTag) {
                         dayTagList.add(createDayTag(day.getId(), tagID));
                     }
                 }
                 case UNLINK_TAG -> {
-                    if(containsTag) {
+                    if (containsTag) {
                         dayTagList.add(createDayTag(day.getId(), tagID));
                     }
                 }
             }
-		}));
+        }));
 
         return dayTagList;
     }
 
-	private TagLinkRequestDTO createTagLinkRequestDTO(final Set<RequestParameter> requestParameters){
-		Set<Long> tagsID = getTagsID(requestParameters);
-		Integer day = getDay(requestParameters);
-		Integer month = getMonth(requestParameters);
-		Integer year = getYear(requestParameters);
-		Integer dayOfYear = getDayOfYear(requestParameters);
-		DayOfWeek dayOfWeek =  getDayOfWeek(requestParameters);
+    private TagLinkRequestDTO createTagLinkRequestDTO(final Set<RequestParameter> requestParameters) {
+        Set<Long> tagsID = getTagsID(requestParameters);
+        Integer day = getDay(requestParameters);
+        Integer month = getMonth(requestParameters);
+        Integer year = getYear(requestParameters);
+        Integer dayOfYear = getDayOfYear(requestParameters);
+        DayOfWeek dayOfWeek = getDayOfWeek(requestParameters);
 
-		return TagLinkRequestDTO.builder()
-			.tagsID(tagsID)
-			.day(day)
-			.month(month)
-			.year(year)
-			.dayOfYear(dayOfYear)
-			.dayOfWeek(dayOfWeek)
-			.build();
+        return TagLinkRequestDTO.builder()
+                .tagsID(tagsID)
+                .day(day)
+                .month(month)
+                .year(year)
+                .dayOfYear(dayOfYear)
+                .dayOfWeek(dayOfWeek)
+                .build();
 
-	}
+    }
 
-	private boolean containsTag(Set<Tag> tags, Long tagID){
-		return tags.stream().anyMatch(tag -> tag.getId().equals(tagID));
-	}
+    private boolean containsTag(Set<Tag> tags, Long tagID) {
+        return tags.stream().anyMatch(tag -> tag.getId().equals(tagID));
+    }
 
     private DayTag createDayTag(final Long dayID, final Long tagID) {
         DayTagPK dayTagPK = DayTagPK.builder()

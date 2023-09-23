@@ -15,17 +15,17 @@ import java.util.stream.Collectors;
 public interface CityHolidayMapper {
 
     @Mappings({
-		@Mapping(source = "holiday.id", target = "id"),
-		@Mapping(source = "holiday.name", target = "name"),
-		@Mapping(source = "holiday.description", target = "description"),
-		@Mapping(source = "holiday.holidayType", target = "holidayType"),
-		@Mapping(source = "holiday.fromTime", target = "fromTime"),
-		@Mapping(source = "holiday.day.date", target = "day")
+            @Mapping(source = "holiday.id", target = "id"),
+            @Mapping(source = "holiday.name", target = "name"),
+            @Mapping(source = "holiday.description", target = "description"),
+            @Mapping(source = "holiday.holidayType", target = "holidayType"),
+            @Mapping(source = "holiday.fromTime", target = "fromTime"),
+            @Mapping(source = "holiday.day.date", target = "day")
     })
-	CityHolidayResponseDTO toDTO(CityHoliday stateHoliday);
+    CityHolidayResponseDTO toDTO(CityHoliday stateHoliday);
 
-	@Named("toCityHolidaysDTO")
-    default List<CityHolidayResponseDTO> toDTOs(Set<CityHoliday> cityHolidays){
-		return cityHolidays.stream().map(this::toDTO).collect(Collectors.toList());
-	}
+    @Named("toCityHolidaysDTO")
+    default List<CityHolidayResponseDTO> toDTOs(Set<CityHoliday> cityHolidays) {
+        return cityHolidays.stream().map(this::toDTO).collect(Collectors.toList());
+    }
 }

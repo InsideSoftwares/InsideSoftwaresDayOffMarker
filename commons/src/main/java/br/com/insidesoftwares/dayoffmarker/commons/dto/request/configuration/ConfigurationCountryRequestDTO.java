@@ -9,9 +9,9 @@ import java.io.Serializable;
 
 @Builder
 public record ConfigurationCountryRequestDTO(
-	@NotNull(message = "DOMV-003")
-	@NotEmpty(message = "DOMV-003")
-	String country
+        @NotNull(message = "DOMV-003")
+        @NotEmpty(message = "DOMV-003")
+        String country
 ) implements Serializable {
     @Serial
     private static final long serialVersionUID = -890203176340888973L;

@@ -13,11 +13,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WriteUnlinkTag implements ItemWriter<List<DayTag>> {
 
-	private final DayTagRepository dayTagRepository;
+    private final DayTagRepository dayTagRepository;
 
     @Override
-    public void write(Chunk<? extends List<DayTag>> links)  {
-		links.getItems().forEach(dayTags -> dayTagRepository.deleteAllInBatch(dayTags));
-		dayTagRepository.flush();
+    public void write(Chunk<? extends List<DayTag>> links) {
+        links.getItems().forEach(dayTags -> dayTagRepository.deleteAllInBatch(dayTags));
+        dayTagRepository.flush();
     }
 }

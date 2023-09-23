@@ -28,36 +28,30 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BatchCreateHolidayConfiguration {
 
-	private final JobRepository jobRepository;
-	private final PlatformTransactionManager platformTransactionManager;
-
-	@Autowired
-	@Qualifier("ReaderRequestUpdateHolidayStatusCreated")
-	private ItemReader<Request> readerRequestUpdateHolidayStatusCreated;
-
-	@Autowired
-	@Qualifier("ReaderRequestsUpdateHoliday")
-	private ItemReader<Request> readerRequestsUpdateHoliday;
-
-	@Autowired
-	@Qualifier("ReaderRequestToFinalizedUpdateHoliday")
-	private ItemReader<Request> readerRequestToFinalizedUpdateHoliday;
-
+    private final JobRepository jobRepository;
+    private final PlatformTransactionManager platformTransactionManager;
     private final ProcessorRequestStatusRunning processorRequestStatusRunning;
     private final ProcessorRequestStatusFinalized processorRequestStatusFinalized;
     private final ProcessHoliday processHoliday;
-
     private final WriteHolidayRequestDTOList writeHolidayRequestDTOList;
     private final WriteRequest writeRequest;
-
-	private final DayOffMarkerJobListener dayOffMarkerJobListener;
-	private final DayOffMarkerJobProperties dayOffMarkerJobProperties;
+    private final DayOffMarkerJobListener dayOffMarkerJobListener;
+    private final DayOffMarkerJobProperties dayOffMarkerJobProperties;
+    @Autowired
+    @Qualifier("ReaderRequestUpdateHolidayStatusCreated")
+    private ItemReader<Request> readerRequestUpdateHolidayStatusCreated;
+    @Autowired
+    @Qualifier("ReaderRequestsUpdateHoliday")
+    private ItemReader<Request> readerRequestsUpdateHoliday;
+    @Autowired
+    @Qualifier("ReaderRequestToFinalizedUpdateHoliday")
+    private ItemReader<Request> readerRequestToFinalizedUpdateHoliday;
 
     @Bean
-    public Step setsRequestToRunningUpdateHoliday () {
+    public Step setsRequestToRunningUpdateHoliday() {
         return new StepBuilder("setsRequestToRunningUpdateHoliday", jobRepository)
                 .<Request, Request>chunk(dayOffMarkerJobProperties.getSetsRequestToRunningUpdateHoliday(), platformTransactionManager)
-				.listener(dayOffMarkerJobListener)
+                .listener(dayOffMarkerJobListener)
                 .reader(readerRequestUpdateHolidayStatusCreated)
                 .processor(processorRequestStatusRunning)
                 .writer(writeRequest)
@@ -68,7 +62,7 @@ public class BatchCreateHolidayConfiguration {
     public Step executesRequestsUpdateHoliday() {
         return new StepBuilder("executesRequestsUpdateHoliday", jobRepository)
                 .<Request, List<HolidayCreateRequestDTO>>chunk(dayOffMarkerJobProperties.getExecutesRequestsUpdateHoliday(), platformTransactionManager)
-				.listener(dayOffMarkerJobListener)
+                .listener(dayOffMarkerJobListener)
                 .reader(readerRequestsUpdateHoliday)
                 .processor(processHoliday)
                 .writer(writeHolidayRequestDTOList)
@@ -79,7 +73,7 @@ public class BatchCreateHolidayConfiguration {
     public Step updatesRequestToFinalizedUpdateHoliday() {
         return new StepBuilder("updatesRequestToFinalizedUpdateHoliday", jobRepository)
                 .<Request, Request>chunk(dayOffMarkerJobProperties.getUpdatesRequestToFinalizedUpdateHoliday(), platformTransactionManager)
-				.listener(dayOffMarkerJobListener)
+                .listener(dayOffMarkerJobListener)
                 .reader(readerRequestToFinalizedUpdateHoliday)
                 .processor(processorRequestStatusFinalized)
                 .writer(writeRequest)

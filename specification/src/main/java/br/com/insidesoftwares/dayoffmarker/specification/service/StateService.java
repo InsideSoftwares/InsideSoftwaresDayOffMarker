@@ -14,11 +14,17 @@ import java.util.List;
 
 @Validated
 public interface StateService {
-    InsideSoftwaresResponseDTO<List<StateResponseDTO>> findAll( final String nameCountry, final InsidePaginationFilterDTO paginationFilter );
+    InsideSoftwaresResponseDTO<List<StateResponseDTO>> findAll(final String nameCountry, final InsidePaginationFilterDTO paginationFilter);
+
     InsideSoftwaresResponseDTO<StateResponseDTO> findById(final Long stateID);
+
     void save(final @Valid StateRequestDTO stateRequestDTO);
+
     void update(final Long stateID, final @Valid StateRequestDTO stateRequestDTO);
+
     State findStateByStateId(final Long stateId);
-	void addStateHoliday(final Long stateID, final @Valid StateHolidayRequestDTO stateHolidayRequestDTO);
-	void deleteStateHoliday(final Long stateID, final @Valid StateHolidayDeleteRequestDTO stateHolidayDeleteRequestDTO);
+
+    void addStateHoliday(final Long stateID, final @Valid StateHolidayRequestDTO stateHolidayRequestDTO);
+
+    void deleteStateHoliday(final Long stateID, final @Valid StateHolidayDeleteRequestDTO stateHolidayDeleteRequestDTO);
 }

@@ -33,48 +33,40 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BatchCreateDataConfiguration {
 
-	private final JobRepository jobRepository;
-	private final PlatformTransactionManager platformTransactionManager;
-
-	@Autowired
-	@Qualifier("ReaderRequestCreateDateStatusCreated")
-	private ItemReader<Request> readerRequestCreateDateStatusCreated;
-
-	@Autowired
-	@Qualifier("ReaderRequestCreateDateByStatusRunning")
-	private ItemReader<Request> readerRequestCreateDateByStatusRunning;
-
-	@Autowired
-	@Qualifier("UpdatesRequestToFinalizedCreateDate")
-	private ItemReader<Request> updatesRequestToFinalizedCreateDate;
-
-	@Autowired
-	@Qualifier("SavesDaysCreatedCreateDate")
-	private ItemReader<DayBatch> savesDaysCreatedCreateDate;
-
-	@Autowired
-	@Qualifier("UpdatesDayBatchToProcessedCreateDate")
-	private ItemReader<DayBatch> updatesDayBatchToProcessedCreateDate;
-
+    private final JobRepository jobRepository;
+    private final PlatformTransactionManager platformTransactionManager;
     private final ProcessorRequestStatusRunning processorRequestStatusRunning;
     private final ProcessorRequestStatusFinalized processorRequestStatusFinalized;
     private final ProcessorDayBatchStatusProcessed processorDayBatchStatusProcessed;
     private final ProcessorDay processorDay;
     private final ProcessorDayBatch processorDayBatch;
-
     private final WriteDayBatchList writeDayBatchList;
     private final WriteDayBatch writeDayBatch;
     private final WriteDay writeDay;
     private final WriteRequest writeRequest;
-
-	private final DayOffMarkerJobListener dayOffMarkerJobListener;
-	private final DayOffMarkerJobProperties dayOffMarkerJobProperties;
+    private final DayOffMarkerJobListener dayOffMarkerJobListener;
+    private final DayOffMarkerJobProperties dayOffMarkerJobProperties;
+    @Autowired
+    @Qualifier("ReaderRequestCreateDateStatusCreated")
+    private ItemReader<Request> readerRequestCreateDateStatusCreated;
+    @Autowired
+    @Qualifier("ReaderRequestCreateDateByStatusRunning")
+    private ItemReader<Request> readerRequestCreateDateByStatusRunning;
+    @Autowired
+    @Qualifier("UpdatesRequestToFinalizedCreateDate")
+    private ItemReader<Request> updatesRequestToFinalizedCreateDate;
+    @Autowired
+    @Qualifier("SavesDaysCreatedCreateDate")
+    private ItemReader<DayBatch> savesDaysCreatedCreateDate;
+    @Autowired
+    @Qualifier("UpdatesDayBatchToProcessedCreateDate")
+    private ItemReader<DayBatch> updatesDayBatchToProcessedCreateDate;
 
     @Bean
-    public Step setsRequestToRunningCreateDate () {
+    public Step setsRequestToRunningCreateDate() {
         return new StepBuilder("setsRequestToRunningCreateDate", jobRepository)
                 .<Request, Request>chunk(dayOffMarkerJobProperties.getSetsRequestToRunningCreateDate(), platformTransactionManager)
-				.listener(dayOffMarkerJobListener)
+                .listener(dayOffMarkerJobListener)
                 .reader(readerRequestCreateDateStatusCreated)
                 .processor(processorRequestStatusRunning)
                 .writer(writeRequest)
@@ -85,45 +77,45 @@ public class BatchCreateDataConfiguration {
     public Step executesRequestsCreateDate() {
         return new StepBuilder("executesRequestsCreateDate", jobRepository)
                 .<Request, List<DayBatch>>chunk(dayOffMarkerJobProperties.getExecutesRequestsCreateDate(), platformTransactionManager)
-				.listener(dayOffMarkerJobListener)
+                .listener(dayOffMarkerJobListener)
                 .reader(readerRequestCreateDateByStatusRunning)
                 .processor(processorDayBatch)
                 .writer(writeDayBatchList)
                 .build();
     }
 
-	@Bean
-	public Step savesDaysCreatedCreateDate() {
-		return new StepBuilder("savesDaysCreatedCreateDate", jobRepository)
-			.<DayBatch, Day>chunk(dayOffMarkerJobProperties.getSavesDaysCreatedCreateDate(), platformTransactionManager)
-			.listener(dayOffMarkerJobListener)
-			.reader(savesDaysCreatedCreateDate)
-			.processor(processorDay)
-			.writer(writeDay)
-			.build();
-	}
+    @Bean
+    public Step savesDaysCreatedCreateDate() {
+        return new StepBuilder("savesDaysCreatedCreateDate", jobRepository)
+                .<DayBatch, Day>chunk(dayOffMarkerJobProperties.getSavesDaysCreatedCreateDate(), platformTransactionManager)
+                .listener(dayOffMarkerJobListener)
+                .reader(savesDaysCreatedCreateDate)
+                .processor(processorDay)
+                .writer(writeDay)
+                .build();
+    }
 
     @Bean
     public Step updatesDayBatchToProcessedCreateDate() {
         return new StepBuilder("updatesDayBatchToProcessedCreateDate", jobRepository)
                 .<DayBatch, DayBatch>chunk(dayOffMarkerJobProperties.getUpdatesDayBatchToProcessedCreateDate(), platformTransactionManager)
-				.listener(dayOffMarkerJobListener)
+                .listener(dayOffMarkerJobListener)
                 .reader(updatesDayBatchToProcessedCreateDate)
                 .processor(processorDayBatchStatusProcessed)
                 .writer(writeDayBatch)
                 .build();
     }
 
-	@Bean
-	public Step updatesRequestToFinalizedCreateDate() {
-		return new StepBuilder("updatesRequestToFinalizedCreateDate", jobRepository)
-			.<Request, Request>chunk(dayOffMarkerJobProperties.getUpdatesRequestToFinalizedCreateDate(), platformTransactionManager)
-			.listener(dayOffMarkerJobListener)
-			.reader(updatesRequestToFinalizedCreateDate)
-			.processor(processorRequestStatusFinalized)
-			.writer(writeRequest)
-			.build();
-	}
+    @Bean
+    public Step updatesRequestToFinalizedCreateDate() {
+        return new StepBuilder("updatesRequestToFinalizedCreateDate", jobRepository)
+                .<Request, Request>chunk(dayOffMarkerJobProperties.getUpdatesRequestToFinalizedCreateDate(), platformTransactionManager)
+                .listener(dayOffMarkerJobListener)
+                .reader(updatesRequestToFinalizedCreateDate)
+                .processor(processorRequestStatusFinalized)
+                .writer(writeRequest)
+                .build();
+    }
 
     @Bean("jobCreatesDays")
     public Job jobCreatesDays() {

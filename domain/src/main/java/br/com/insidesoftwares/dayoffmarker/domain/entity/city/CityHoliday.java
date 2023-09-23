@@ -23,22 +23,22 @@ import lombok.Setter;
 @Table(name = "DOM_CITY_HOLIDAY")
 public class CityHoliday {
 
-	@EmbeddedId
-	private CityHolidayPK id;
+    @EmbeddedId
+    private CityHolidayPK id;
 
-	@Column(name = "HOLIDAY")
-	private boolean cityHoliday;
+    @Column(name = "HOLIDAY")
+    private boolean cityHoliday;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "HOLIDAY_ID", insertable=false, updatable=false)
-	private Holiday holiday;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "HOLIDAY_ID", insertable = false, updatable = false)
+    private Holiday holiday;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CITY_ID", insertable=false, updatable=false)
-	private City city;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CITY_ID", insertable = false, updatable = false)
+    private City city;
 
-	public CityHoliday(CityHolidayPK id, boolean cityHoliday) {
-		this.id = id;
-		this.cityHoliday = cityHoliday;
-	}
+    public CityHoliday(CityHolidayPK id, boolean cityHoliday) {
+        this.id = id;
+        this.cityHoliday = cityHoliday;
+    }
 }

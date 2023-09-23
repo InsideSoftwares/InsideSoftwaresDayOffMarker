@@ -13,21 +13,21 @@ import java.util.stream.Collectors;
 public interface StateMapper {
 
     @Mappings({
-        @Mapping(source = "country.id", target = "countryId"),
-        @Mapping(source = "country.name", target = "countryName"),
-		@Mapping(target = "stateHolidays", source = "stateHolidays", ignore = true)
+            @Mapping(source = "country.id", target = "countryId"),
+            @Mapping(source = "country.name", target = "countryName"),
+            @Mapping(target = "stateHolidays", source = "stateHolidays", ignore = true)
     })
     StateResponseDTO toDTO(State state);
 
-    default List<StateResponseDTO> toDTOs(List<State> states){
-		return states.stream().map(this::toDTO).collect(Collectors.toList());
-	}
+    default List<StateResponseDTO> toDTOs(List<State> states) {
+        return states.stream().map(this::toDTO).collect(Collectors.toList());
+    }
 
-	@Mappings({
-		@Mapping(source = "country.id", target = "countryId"),
-		@Mapping(source = "country.name", target = "countryName"),
-		@Mapping(source = "stateHolidays", target = "stateHolidays", qualifiedByName = "toStateHolidaysDTO")
-	})
-	StateResponseDTO toFullDTO(State state);
+    @Mappings({
+            @Mapping(source = "country.id", target = "countryId"),
+            @Mapping(source = "country.name", target = "countryName"),
+            @Mapping(source = "stateHolidays", target = "stateHolidays", qualifiedByName = "toStateHolidaysDTO")
+    })
+    StateResponseDTO toFullDTO(State state);
 
 }

@@ -17,8 +17,8 @@ public class WriteDay implements ItemWriter<Day> {
     private final BatchCreationDayService batchCreationDayService;
 
     @Override
-    public void write(Chunk<? extends Day> daysChunk)  {
-		List<Day> days = new ArrayList<>(daysChunk.getItems());
+    public void write(Chunk<? extends Day> daysChunk) {
+        List<Day> days = new ArrayList<>(daysChunk.getItems());
         batchCreationDayService.createDays(days);
     }
 }

@@ -46,10 +46,10 @@ import java.util.Optional;
 class CityServiceBean implements CityService {
 
     private final CityRepository cityRepository;
-	private final CityHolidayRepository cityHolidayRepository;
+    private final CityHolidayRepository cityHolidayRepository;
     private final CountryService countryService;
     private final StateService stateService;
-	private final HolidayService holidayService;
+    private final HolidayService holidayService;
     private final CityMapper cityMapper;
     private final Validator<Long, CityRequestDTO> cityValidator;
 
@@ -63,21 +63,21 @@ class CityServiceBean implements CityService {
         Pageable pageable = PaginationUtils.createPageable(paginationFilter, eOrderCity.ID);
 
         Page<City> cities;
-        if(Objects.nonNull(stateID)){
-            cities = cityRepository.findCityByStateID(stateID,pageable);
+        if (Objects.nonNull(stateID)) {
+            cities = cityRepository.findCityByStateID(stateID, pageable);
         } else {
             Country country = countryService.findCountryDefault();
-            cities = cityRepository.findCityByCountry(country,pageable);
+            cities = cityRepository.findCityByCountry(country, pageable);
         }
 
         return InsideSoftwaresResponseDTO.<List<CityResponseDTO>>builder()
                 .data(cityMapper.toDTOs(cities.getContent()))
                 .insidePaginatedDTO(
                         PaginationUtils.createPaginated(
-							cities.getTotalPages(),
-							cities.getTotalElements(),
-							cities.getContent().size(),
-							paginationFilter.getSizePerPage()
+                                cities.getTotalPages(),
+                                cities.getTotalElements(),
+                                cities.getContent().size(),
+                                paginationFilter.getSizePerPage()
                         )
                 )
                 .build();
@@ -133,7 +133,7 @@ class CityServiceBean implements CityService {
 
         City city = cityRepository.getReferenceById(cityID);
 
-        if(!city.getState().getId().equals(cityRequestDTO.stateID())){
+        if (!city.getState().getId().equals(cityRequestDTO.stateID())) {
             State state = stateService.findStateByStateId(cityRequestDTO.stateID());
             city.setState(state);
         }
@@ -146,66 +146,66 @@ class CityServiceBean implements CityService {
     }
 
     @InsideAudit(description = "Add holiday to city")
-	@Transactional(rollbackFor = {
-		CityNotExistException.class,
-		HolidayNotExistException.class,
-		Exception.class
-	})
-	@Override
-	public void addCityHoliday(
-		final Long cityID,
-		@Valid final CityHolidayRequestDTO cityHolidayRequestDTO
-	) {
-		City city = cityRepository.findCityById(cityID).orElseThrow(CityNotExistException::new);
+    @Transactional(rollbackFor = {
+            CityNotExistException.class,
+            HolidayNotExistException.class,
+            Exception.class
+    })
+    @Override
+    public void addCityHoliday(
+            final Long cityID,
+            @Valid final CityHolidayRequestDTO cityHolidayRequestDTO
+    ) {
+        City city = cityRepository.findCityById(cityID).orElseThrow(CityNotExistException::new);
 
-		cityHolidayRequestDTO.holidaysId().forEach(holidayId -> {
-			Holiday holiday = holidayService.findHolidayById(holidayId);
-			CityHolidayPK cityHolidayPK = CityHolidayPK.builder()
-				.cityId(city.getId())
-				.holidayId(holiday.getId())
-				.build();
+        cityHolidayRequestDTO.holidaysId().forEach(holidayId -> {
+            Holiday holiday = holidayService.findHolidayById(holidayId);
+            CityHolidayPK cityHolidayPK = CityHolidayPK.builder()
+                    .cityId(city.getId())
+                    .holidayId(holiday.getId())
+                    .build();
 
-			CityHoliday cityHoliday = new CityHoliday(cityHolidayPK, cityHolidayRequestDTO.isHoliday());
+            CityHoliday cityHoliday = new CityHoliday(cityHolidayPK, cityHolidayRequestDTO.isHoliday());
 
-			city.addHoliday(cityHoliday);
-		});
+            city.addHoliday(cityHoliday);
+        });
 
-		cityRepository.save(city);
-	}
+        cityRepository.save(city);
+    }
 
     @InsideAudit(description = "Remove holiday to city")
-	@Transactional(rollbackFor = {
-		CityNotExistException.class,
-		Exception.class
-	})
-	@Override
-	public void deleteCityHoliday(
-		final Long cityID,
-		@Valid final CityHolidayDeleteRequestDTO cityHolidayDeleteRequestDTO
-	) {
-		City city = cityRepository.findCityById(cityID).orElseThrow(CityNotExistException::new);
+    @Transactional(rollbackFor = {
+            CityNotExistException.class,
+            Exception.class
+    })
+    @Override
+    public void deleteCityHoliday(
+            final Long cityID,
+            @Valid final CityHolidayDeleteRequestDTO cityHolidayDeleteRequestDTO
+    ) {
+        City city = cityRepository.findCityById(cityID).orElseThrow(CityNotExistException::new);
 
-		cityHolidayDeleteRequestDTO.holidaysId().forEach(holidayId -> {
-			Optional<CityHoliday> cityHolidayOptional = city.containsHoliday(holidayId);
+        cityHolidayDeleteRequestDTO.holidaysId().forEach(holidayId -> {
+            Optional<CityHoliday> cityHolidayOptional = city.containsHoliday(holidayId);
 
-			cityHolidayOptional.ifPresent(cityHoliday -> {
-				cityHolidayRepository.delete(cityHoliday);
-				city.deleteHoliday(holidayId);
-			});
-		});
+            cityHolidayOptional.ifPresent(cityHoliday -> {
+                cityHolidayRepository.delete(cityHoliday);
+                city.deleteHoliday(holidayId);
+            });
+        });
 
-		cityRepository.save(city);
-	}
+        cityRepository.save(city);
+    }
 
     @InsideAudit(description = "Find City by ID")
-	@Override
-	public City findCityById(final Long cityID) {
-		return cityRepository.findCityById(cityID).orElseThrow(CityNotExistException::new);
-	}
+    @Override
+    public City findCityById(final Long cityID) {
+        return cityRepository.findCityById(cityID).orElseThrow(CityNotExistException::new);
+    }
 
     @InsideAudit(description = "Search city with all its information by ID")
-	@Override
-	public City findCityFullHolidayById(final Long cityID) {
-		return cityRepository.findCityFullHolidayById(cityID).orElseThrow(CityNotExistException::new);
-	}
+    @Override
+    public City findCityFullHolidayById(final Long cityID) {
+        return cityRepository.findCityFullHolidayById(cityID).orElseThrow(CityNotExistException::new);
+    }
 }

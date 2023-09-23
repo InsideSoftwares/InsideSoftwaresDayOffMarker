@@ -22,65 +22,62 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ExtendWith(MockitoExtension.class)
 class DayValidatorBeanTest {
 
-	@Mock
-	private TagRepository tagRepository;
+    private final LocalDate DATE = LocalDate.now();
+    private final Long DAY_ID = 1L;
+    @Mock
+    private TagRepository tagRepository;
+    @Mock
+    private DayRepository dayRepository;
+    @InjectMocks
+    private DayValidatorBean dayValidatorBean;
 
-	@Mock
-	private DayRepository dayRepository;
+    @Test
+    void shouldntThrowExceptionByRunningMethodvalidateLink() {
+        Mockito.when(dayRepository.existsById(ArgumentMatchers.any())).thenReturn(true);
+        Mockito.when(tagRepository.existsByTags(ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(true);
+        Mockito.when(dayRepository.findDateByID(ArgumentMatchers.any())).thenReturn(DATE);
+        Mockito.when(dayRepository.existsByDateAndTag(ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(false);
 
-	@InjectMocks
-	private DayValidatorBean dayValidatorBean;
+        dayValidatorBean.validateLink(DAY_ID, createLinkTagRequestDTO());
+    }
 
-	private final LocalDate DATE = LocalDate.now();
-	private final Long DAY_ID = 1L;
+    @Test
+    void shouldThrowDayNotExistExceptionByRunningMethodvalidateLink() {
+        Mockito.when(dayRepository.existsById(ArgumentMatchers.any())).thenReturn(false);
 
-	@Test
-	void shouldntThrowExceptionByRunningMethodvalidateLink() {
-		Mockito.when(dayRepository.existsById(ArgumentMatchers.any())).thenReturn(true);
-		Mockito.when(tagRepository.existsByTags(ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(true);
-		Mockito.when(dayRepository.findDateByID(ArgumentMatchers.any())).thenReturn(DATE);
-		Mockito.when(dayRepository.existsByDateAndTag(ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(false);
+        assertThrows(
+                DayNotExistException.class,
+                () -> dayValidatorBean.validateLink(DAY_ID, createLinkTagRequestDTO())
+        );
+    }
 
-		dayValidatorBean.validateLink(DAY_ID, createLinkTagRequestDTO());
-	}
+    @Test
+    void shouldThrowTagNotExistExceptionExceptionByRunningMethodvalidateLink() {
+        Mockito.when(dayRepository.existsById(ArgumentMatchers.any())).thenReturn(true);
+        Mockito.when(tagRepository.existsByTags(ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(false);
 
-	@Test
-	void shouldThrowDayNotExistExceptionByRunningMethodvalidateLink() {
-		Mockito.when(dayRepository.existsById(ArgumentMatchers.any())).thenReturn(false);
+        assertThrows(
+                TagNotExistException.class,
+                () -> dayValidatorBean.validateLink(DAY_ID, createLinkTagRequestDTO())
+        );
+    }
 
-		assertThrows(
-			DayNotExistException.class,
-			() -> dayValidatorBean.validateLink(DAY_ID, createLinkTagRequestDTO())
-		);
-	}
+    @Test
+    void shouldThrowTagExistDayExceptionByRunningMethodvalidateLink() {
+        Mockito.when(dayRepository.existsById(ArgumentMatchers.any())).thenReturn(true);
+        Mockito.when(tagRepository.existsByTags(ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(true);
+        Mockito.when(dayRepository.findDateByID(ArgumentMatchers.any())).thenReturn(DATE);
+        Mockito.when(dayRepository.existsByDateAndTag(ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(true);
 
-	@Test
-	void shouldThrowTagNotExistExceptionExceptionByRunningMethodvalidateLink() {
-		Mockito.when(dayRepository.existsById(ArgumentMatchers.any())).thenReturn(true);
-		Mockito.when(tagRepository.existsByTags(ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(false);
+        assertThrows(
+                TagExistDayException.class,
+                () -> dayValidatorBean.validateLink(DAY_ID, createLinkTagRequestDTO())
+        );
+    }
 
-		assertThrows(
-			TagNotExistException.class,
-			() -> dayValidatorBean.validateLink(DAY_ID, createLinkTagRequestDTO())
-		);
-	}
-
-	@Test
-	void shouldThrowTagExistDayExceptionByRunningMethodvalidateLink() {
-		Mockito.when(dayRepository.existsById(ArgumentMatchers.any())).thenReturn(true);
-		Mockito.when(tagRepository.existsByTags(ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(true);
-		Mockito.when(dayRepository.findDateByID(ArgumentMatchers.any())).thenReturn(DATE);
-		Mockito.when(dayRepository.existsByDateAndTag(ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(true);
-
-		assertThrows(
-			TagExistDayException.class,
-			() -> dayValidatorBean.validateLink(DAY_ID, createLinkTagRequestDTO())
-		);
-	}
-
-	private LinkTagRequestDTO createLinkTagRequestDTO() {
-		return LinkTagRequestDTO.builder()
-			.tagsID(Set.of(2L))
-			.build();
-	}
+    private LinkTagRequestDTO createLinkTagRequestDTO() {
+        return LinkTagRequestDTO.builder()
+                .tagsID(Set.of(2L))
+                .build();
+    }
 }

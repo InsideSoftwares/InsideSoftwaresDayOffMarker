@@ -41,114 +41,114 @@ class TagServiceBean implements TagService {
 
     private final TagRepository tagRepository;
     private final TagMapper tagMapper;
-	private final Validator<Long, TagRequestDTO> tagValidator;
-	private final ValidatorLink<TagLinkRequestDTO> tagLinkValidator;
-	private final RequestCreationService requestCreationService;
+    private final Validator<Long, TagRequestDTO> tagValidator;
+    private final ValidatorLink<TagLinkRequestDTO> tagLinkValidator;
+    private final RequestCreationService requestCreationService;
 
     @InsideAudit
     @Override
     public InsideSoftwaresResponseDTO<List<TagResponseDTO>> findAll(final InsidePaginationFilterDTO paginationFilter) {
 
-		Pageable pageable = PaginationUtils.createPageable(paginationFilter, eOrderTag.ID);
+        Pageable pageable = PaginationUtils.createPageable(paginationFilter, eOrderTag.ID);
 
-		Page<Tag> tagPage = tagRepository.findAll(pageable);
+        Page<Tag> tagPage = tagRepository.findAll(pageable);
 
         return InsideSoftwaresResponseDTO.<List<TagResponseDTO>>builder()
-				.data(tagMapper.toDTOs(tagPage.getContent()))
-				.insidePaginatedDTO(
-					PaginationUtils.createPaginated(
-						tagPage.getTotalPages(),
-						tagPage.getTotalElements(),
-						tagPage.getContent().size(),
-						paginationFilter.getSizePerPage()
-					)
-				)
-				.build();
+                .data(tagMapper.toDTOs(tagPage.getContent()))
+                .insidePaginatedDTO(
+                        PaginationUtils.createPaginated(
+                                tagPage.getTotalPages(),
+                                tagPage.getTotalElements(),
+                                tagPage.getContent().size(),
+                                paginationFilter.getSizePerPage()
+                        )
+                )
+                .build();
     }
 
     @InsideAudit
     @Override
     public InsideSoftwaresResponseDTO<TagResponseDTO> findById(final Long tagID) {
-		Tag tag = findTagById(tagID);
-		return InsideSoftwaresResponseDTO.<TagResponseDTO>builder()
-				.data(tagMapper.toDTO(tag))
-				.build();
+        Tag tag = findTagById(tagID);
+        return InsideSoftwaresResponseDTO.<TagResponseDTO>builder()
+                .data(tagMapper.toDTO(tag))
+                .build();
     }
 
     @InsideAudit
     @Transactional(rollbackFor = {
-			TagCodeExistException.class
-	})
+            TagCodeExistException.class
+    })
     @Override
     public void save(final TagRequestDTO tagRequestDTO) {
-		tagValidator.validator(tagRequestDTO);
+        tagValidator.validator(tagRequestDTO);
 
-		Tag tag = tagMapper.toEntity(tagRequestDTO);
-		tagRepository.save(tag);
+        Tag tag = tagMapper.toEntity(tagRequestDTO);
+        tagRepository.save(tag);
     }
 
     @InsideAudit
     @Transactional(rollbackFor = {
-			TagNotExistException.class,
-			TagCodeExistException.class
-	})
+            TagNotExistException.class,
+            TagCodeExistException.class
+    })
     @Override
     public void update(
             final Long tagID,
             final TagRequestDTO tagRequestDTO
-	) {
-		tagValidator.validator(tagID, tagRequestDTO);
+    ) {
+        tagValidator.validator(tagID, tagRequestDTO);
 
-		Tag tag = findTagById(tagID);
+        Tag tag = findTagById(tagID);
 
-		tag.setCode(tagRequestDTO.code());
-		tag.setDescription(tagRequestDTO.description());
+        tag.setCode(tagRequestDTO.code());
+        tag.setDescription(tagRequestDTO.description());
 
-		tagRepository.save(tag);
+        tagRepository.save(tag);
     }
 
     @InsideAudit
     @Transactional(rollbackFor = {
-		TagLinkOneParameterNotNullException.class,
-		TagLinkDateInvalidException.class,
-		TagLinkParameterNotResultException.class,
-		TagLinkNotExistException.class,
-		RequestConflictParametersException.class,
-		ParameterNotExistException.class
-	})
-	@Override
-	public InsideSoftwaresResponseDTO<TagLinkResponseDTO> linkTagByDay(final TagLinkRequestDTO tagLinkRequestDTO) {
-		tagLinkValidator.validateLinkUnlink(tagLinkRequestDTO);
+            TagLinkOneParameterNotNullException.class,
+            TagLinkDateInvalidException.class,
+            TagLinkParameterNotResultException.class,
+            TagLinkNotExistException.class,
+            RequestConflictParametersException.class,
+            ParameterNotExistException.class
+    })
+    @Override
+    public InsideSoftwaresResponseDTO<TagLinkResponseDTO> linkTagByDay(final TagLinkRequestDTO tagLinkRequestDTO) {
+        tagLinkValidator.validateLinkUnlink(tagLinkRequestDTO);
 
-		String requestID = requestCreationService.createLinkTagsInDays(tagLinkRequestDTO);
+        String requestID = requestCreationService.createLinkTagsInDays(tagLinkRequestDTO);
 
-		return InsideSoftwaresResponseDTO.<TagLinkResponseDTO>builder()
-			.data(TagLinkResponseDTO.builder().requestID(requestID).build())
-			.build();
-	}
+        return InsideSoftwaresResponseDTO.<TagLinkResponseDTO>builder()
+                .data(TagLinkResponseDTO.builder().requestID(requestID).build())
+                .build();
+    }
 
     @InsideAudit
     @Transactional(rollbackFor = {
-		TagLinkOneParameterNotNullException.class,
-		TagLinkDateInvalidException.class,
-		TagLinkParameterNotResultException.class,
-		TagLinkNotExistException.class,
-		RequestConflictParametersException.class,
-		ParameterNotExistException.class
-	})
-	@Override
-	public InsideSoftwaresResponseDTO<TagLinkResponseDTO> unlinkTagByDay(final TagLinkRequestDTO tagLinkRequestDTO) {
-		tagLinkValidator.validateLinkUnlink(tagLinkRequestDTO);
+            TagLinkOneParameterNotNullException.class,
+            TagLinkDateInvalidException.class,
+            TagLinkParameterNotResultException.class,
+            TagLinkNotExistException.class,
+            RequestConflictParametersException.class,
+            ParameterNotExistException.class
+    })
+    @Override
+    public InsideSoftwaresResponseDTO<TagLinkResponseDTO> unlinkTagByDay(final TagLinkRequestDTO tagLinkRequestDTO) {
+        tagLinkValidator.validateLinkUnlink(tagLinkRequestDTO);
 
-		String requestID = requestCreationService.createUnlinkTagsInDays(tagLinkRequestDTO);
+        String requestID = requestCreationService.createUnlinkTagsInDays(tagLinkRequestDTO);
 
-		return InsideSoftwaresResponseDTO.<TagLinkResponseDTO>builder()
-			.data(TagLinkResponseDTO.builder().requestID(requestID).build())
-			.build();
-	}
+        return InsideSoftwaresResponseDTO.<TagLinkResponseDTO>builder()
+                .data(TagLinkResponseDTO.builder().requestID(requestID).build())
+                .build();
+    }
 
-	private Tag findTagById(final Long tagID) {
-		return tagRepository.findById(tagID).orElseThrow(TagNotExistException::new);
-	}
+    private Tag findTagById(final Long tagID) {
+        return tagRepository.findById(tagID).orElseThrow(TagNotExistException::new);
+    }
 
 }

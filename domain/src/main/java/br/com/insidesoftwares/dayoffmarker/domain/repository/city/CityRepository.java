@@ -14,18 +14,18 @@ import java.util.Optional;
 @Repository
 public interface CityRepository extends JpaRepository<City, Long> {
 
-	@EntityGraph(value = "city-full")
-	Optional<City> findCityById(Long cityID);
+    @EntityGraph(value = "city-full")
+    Optional<City> findCityById(Long cityID);
 
-	@EntityGraph(value = "city-full-holiday")
-	Optional<City> findCityFullHolidayById(Long cityID);
+    @EntityGraph(value = "city-full-holiday")
+    Optional<City> findCityFullHolidayById(Long cityID);
 
-	@Query("""
+    @Query("""
             SELECT c FROM City c
             WHERE
             c.state.id = :stateID
             """)
-	@EntityGraph(value = "city-full")
+    @EntityGraph(value = "city-full")
     Page<City> findCityByStateID(Long stateID, Pageable pageable);
 
     @Query("""
@@ -33,7 +33,7 @@ public interface CityRepository extends JpaRepository<City, Long> {
             WHERE
             c.state.country = :country
             """)
-	@EntityGraph(value = "city-full")
+    @EntityGraph(value = "city-full")
     Page<City> findCityByCountry(Country country, Pageable pageable);
 
     @Query("""

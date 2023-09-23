@@ -11,23 +11,23 @@ import java.time.LocalTime;
 
 @Builder
 public record HolidayRequestDTO(
-	@NotNull(message = "DOMV-003")
-	@NotEmpty(message = "DOMV-001")
-	String name,
+        @NotNull(message = "DOMV-003")
+        @NotEmpty(message = "DOMV-001")
+        String name,
 
-	@NotNull(message = "DOMV-003")
-	@NotEmpty(message = "DOMV-001")
-	String description,
+        @NotNull(message = "DOMV-003")
+        @NotEmpty(message = "DOMV-001")
+        String description,
 
-	@NotNull(message = "DOMV-003")
-	TypeHoliday holidayType,
+        @NotNull(message = "DOMV-003")
+        TypeHoliday holidayType,
 
-	LocalTime fromTime,
-	boolean optional,
-    boolean nationalHoliday,
+        LocalTime fromTime,
+        boolean optional,
+        boolean nationalHoliday,
 
-	@NotNull(message = "DOMV-003")
-	Long dayId
+        @NotNull(message = "DOMV-003")
+        Long dayId
 ) implements Serializable {
     @Serial
     private static final long serialVersionUID = 7088171460921890362L;

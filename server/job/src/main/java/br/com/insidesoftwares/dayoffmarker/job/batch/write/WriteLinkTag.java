@@ -13,10 +13,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WriteLinkTag implements ItemWriter<List<DayTag>> {
 
-	private final DayTagRepository dayTagRepository;
+    private final DayTagRepository dayTagRepository;
 
     @Override
-    public void write(Chunk<? extends List<DayTag>> links)  {
-		links.getItems().forEach(dayTagRepository::saveAllAndFlush);
+    public void write(Chunk<? extends List<DayTag>> links) {
+        links.getItems().forEach(dayTagRepository::saveAllAndFlush);
     }
 }

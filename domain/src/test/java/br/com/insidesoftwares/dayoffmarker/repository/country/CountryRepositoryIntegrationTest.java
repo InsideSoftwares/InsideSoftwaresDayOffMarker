@@ -14,114 +14,114 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 abstract class CountryRepositoryIntegrationTest {
 
-	@Autowired
-	private CountryRepository countryRepository;
+    @Autowired
+    private CountryRepository countryRepository;
 
-	@Test
-	void shouldReturnExistCountryWhenCodeBR01() {
-		boolean exist = countryRepository.existsByCode("BR01");
+    @Test
+    void shouldReturnExistCountryWhenCodeBR01() {
+        boolean exist = countryRepository.existsByCode("BR01");
 
-		assertTrue(exist);
-	}
+        assertTrue(exist);
+    }
 
-	@Test
-	void shouldntReturnExistCountryWhenCodeBR50() {
-		boolean exist = countryRepository.existsByCode("BR50");
+    @Test
+    void shouldntReturnExistCountryWhenCodeBR50() {
+        boolean exist = countryRepository.existsByCode("BR50");
 
-		assertFalse(exist);
-	}
+        assertFalse(exist);
+    }
 
-	@Test
-	void shouldReturnCountryWhenNameBrasil() {
-		Optional<Country> country = countryRepository.findCountryByName("Brasil");
+    @Test
+    void shouldReturnCountryWhenNameBrasil() {
+        Optional<Country> country = countryRepository.findCountryByName("Brasil");
 
-		assertTrue(country.isPresent());
-		assertEquals("Brasil",country.get().getName());
-	}
+        assertTrue(country.isPresent());
+        assertEquals("Brasil", country.get().getName());
+    }
 
-	@Test
-	void shouldReturnCountryWhenNameUnidos() {
-		Optional<Country> country = countryRepository.findCountryByName("Unidos");
+    @Test
+    void shouldReturnCountryWhenNameUnidos() {
+        Optional<Country> country = countryRepository.findCountryByName("Unidos");
 
-		assertTrue(country.isPresent());
-		assertEquals("Estados Unidos",country.get().getName());
-	}
+        assertTrue(country.isPresent());
+        assertEquals("Estados Unidos", country.get().getName());
+    }
 
-	@Test
-	void shouldntReturnCountryWhenNameCanada() {
-		Optional<Country> country = countryRepository.findCountryByName("Canada");
+    @Test
+    void shouldntReturnCountryWhenNameCanada() {
+        Optional<Country> country = countryRepository.findCountryByName("Canada");
 
-		assertFalse(country.isPresent());
-	}
+        assertFalse(country.isPresent());
+    }
 
-	@Test
-	void shouldReturnExistCountryWhenNameBrasil() {
-		boolean exist = countryRepository.existsByName("Brasil");
+    @Test
+    void shouldReturnExistCountryWhenNameBrasil() {
+        boolean exist = countryRepository.existsByName("Brasil");
 
-		assertTrue(exist);
-	}
+        assertTrue(exist);
+    }
 
-	@Test
-	void shouldntReturnExistCountryWhenNameCanada() {
-		boolean exist = countryRepository.existsByName("Canada");
+    @Test
+    void shouldntReturnExistCountryWhenNameCanada() {
+        boolean exist = countryRepository.existsByName("Canada");
 
-		assertFalse(exist);
-	}
+        assertFalse(exist);
+    }
 
-	@Test
-	void shouldReturnExistCountryWhenAcronymBRS() {
-		boolean exist = countryRepository.existsByAcronym("BRS");
+    @Test
+    void shouldReturnExistCountryWhenAcronymBRS() {
+        boolean exist = countryRepository.existsByAcronym("BRS");
 
-		assertTrue(exist);
-	}
+        assertTrue(exist);
+    }
 
-	@Test
-	void shouldntReturnExistCountryWhenAcronymCND() {
-		boolean exist = countryRepository.existsByAcronym("CND");
+    @Test
+    void shouldntReturnExistCountryWhenAcronymCND() {
+        boolean exist = countryRepository.existsByAcronym("CND");
 
-		assertFalse(exist);
-	}
+        assertFalse(exist);
+    }
 
-	@Test
-	void shouldReturnExistCountryWhenNameBrasilAndNotID2() {
-		boolean exist = countryRepository.existsByNameAndNotId("Brasil", 2L);
+    @Test
+    void shouldReturnExistCountryWhenNameBrasilAndNotID2() {
+        boolean exist = countryRepository.existsByNameAndNotId("Brasil", 2L);
 
-		assertTrue(exist);
-	}
+        assertTrue(exist);
+    }
 
-	@Test
-	void shouldntReturnExistCountryWhenNameCanadaAndNotID2() {
-		boolean exist = countryRepository.existsByNameAndNotId("Canada", 2L);
+    @Test
+    void shouldntReturnExistCountryWhenNameCanadaAndNotID2() {
+        boolean exist = countryRepository.existsByNameAndNotId("Canada", 2L);
 
-		assertFalse(exist);
-	}
+        assertFalse(exist);
+    }
 
-	@Test
-	void shouldReturnExistCountryWhenAcronymBRSAndNotID2() {
-		boolean exist = countryRepository.existsByAcronymAndNotId("BRS", 2L);
+    @Test
+    void shouldReturnExistCountryWhenAcronymBRSAndNotID2() {
+        boolean exist = countryRepository.existsByAcronymAndNotId("BRS", 2L);
 
-		assertTrue(exist);
-	}
+        assertTrue(exist);
+    }
 
-	@Test
-	void shouldntReturnExistCountryWhenAcronymCNDAndNotID2() {
-		boolean exist = countryRepository.existsByAcronymAndNotId("CND", 2L);
+    @Test
+    void shouldntReturnExistCountryWhenAcronymCNDAndNotID2() {
+        boolean exist = countryRepository.existsByAcronymAndNotId("CND", 2L);
 
-		assertFalse(exist);
-	}
+        assertFalse(exist);
+    }
 
-	@Test
-	void shouldReturnExistCountryWhenCodeBR01AndNotID2() {
-		boolean exist = countryRepository.existsByCodeAndNotId("BR01", 2L);
+    @Test
+    void shouldReturnExistCountryWhenCodeBR01AndNotID2() {
+        boolean exist = countryRepository.existsByCodeAndNotId("BR01", 2L);
 
-		assertTrue(exist);
-	}
+        assertTrue(exist);
+    }
 
-	@Test
-	void shouldntReturnExistCountryWhenCodeBR50AndNotID2() {
-		boolean exist = countryRepository.existsByCodeAndNotId("BR50", 2L);
+    @Test
+    void shouldntReturnExistCountryWhenCodeBR50AndNotID2() {
+        boolean exist = countryRepository.existsByCodeAndNotId("BR50", 2L);
 
-		assertFalse(exist);
-	}
+        assertFalse(exist);
+    }
 
 }

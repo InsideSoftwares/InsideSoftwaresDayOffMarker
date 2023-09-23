@@ -10,7 +10,9 @@ import java.util.List;
 public interface RequestMapper {
 
     Request toModel(RequestDTO resquestDTO);
+
     RequestDTO toDTO(Request address);
+
     List<RequestDTO> toDTOs(List<Request> requests);
 
 }

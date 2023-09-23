@@ -28,62 +28,57 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BatchUnlinkTagInDayConfiguration {
 
-	private final JobRepository jobRepository;
-	private final PlatformTransactionManager platformTransactionManager;
-
-	@Autowired
-	@Qualifier("ReaderUnlinkTagInDayStatusCreated")
-	private ItemReader<Request> readerUnlinkTagInDayStatusCreated;
-	@Autowired
-	@Qualifier("ReaderRequestsUnlinkTag")
-	private ItemReader<Request> readerRequestsUnlinkTag;
-
-	@Autowired
-	@Qualifier("ReaderRequestToFinalizedUnlinkTag")
-	private ItemReader<Request> readerRequestToFinalizedUnlinkTag;
-
-	private final ProcessorRequestStatusRunning processorRequestStatusRunning;
-	private final ProcessorLinkUnlinkTag processorUnlinkTag;
-	private final ProcessorRequestStatusFinalized processorRequestStatusFinalized;
-
-	private final WriteUnlinkTag writeUnlinkTag;
-	private final WriteRequest writeRequest;
-
-	private final DayOffMarkerJobListener dayOffMarkerJobListener;
-	private final DayOffMarkerJobProperties dayOffMarkerJobProperties;
+    private final JobRepository jobRepository;
+    private final PlatformTransactionManager platformTransactionManager;
+    private final ProcessorRequestStatusRunning processorRequestStatusRunning;
+    private final ProcessorLinkUnlinkTag processorUnlinkTag;
+    private final ProcessorRequestStatusFinalized processorRequestStatusFinalized;
+    private final WriteUnlinkTag writeUnlinkTag;
+    private final WriteRequest writeRequest;
+    private final DayOffMarkerJobListener dayOffMarkerJobListener;
+    private final DayOffMarkerJobProperties dayOffMarkerJobProperties;
+    @Autowired
+    @Qualifier("ReaderUnlinkTagInDayStatusCreated")
+    private ItemReader<Request> readerUnlinkTagInDayStatusCreated;
+    @Autowired
+    @Qualifier("ReaderRequestsUnlinkTag")
+    private ItemReader<Request> readerRequestsUnlinkTag;
+    @Autowired
+    @Qualifier("ReaderRequestToFinalizedUnlinkTag")
+    private ItemReader<Request> readerRequestToFinalizedUnlinkTag;
 
     @Bean("setsRequestToRunningUnlinkTag")
-    public Step setsRequestToRunningUnlinkTag () {
+    public Step setsRequestToRunningUnlinkTag() {
         return new StepBuilder("setsRequestToRunningUnlinkTag", jobRepository)
                 .<Request, Request>chunk(dayOffMarkerJobProperties.getSetsRequestToRunningCreateDate(), platformTransactionManager)
-				.listener(dayOffMarkerJobListener)
+                .listener(dayOffMarkerJobListener)
                 .reader(readerUnlinkTagInDayStatusCreated)
                 .processor(processorRequestStatusRunning)
                 .writer(writeRequest)
                 .build();
     }
 
-	@Bean("executesRequestsUnlinkTag")
-	public Step executesRequestsUnlinkTag() {
-		return new StepBuilder("executesRequestsUnlinkTag", jobRepository)
-			.<Request, List<DayTag>>chunk(dayOffMarkerJobProperties.getUpdatesRequestToFinalizedUpdateHoliday(), platformTransactionManager)
-			.listener(dayOffMarkerJobListener)
-			.reader(readerRequestsUnlinkTag)
-			.processor(processorUnlinkTag)
-			.writer(writeUnlinkTag)
-			.build();
-	}
+    @Bean("executesRequestsUnlinkTag")
+    public Step executesRequestsUnlinkTag() {
+        return new StepBuilder("executesRequestsUnlinkTag", jobRepository)
+                .<Request, List<DayTag>>chunk(dayOffMarkerJobProperties.getUpdatesRequestToFinalizedUpdateHoliday(), platformTransactionManager)
+                .listener(dayOffMarkerJobListener)
+                .reader(readerRequestsUnlinkTag)
+                .processor(processorUnlinkTag)
+                .writer(writeUnlinkTag)
+                .build();
+    }
 
-	@Bean("updatesRequestToFinalizedUnlinkTag")
-	public Step updatesRequestToFinalizedUnlinkTag() {
-		return new StepBuilder("updatesRequestToFinalizedUnlinkTag", jobRepository)
-			.<Request, Request>chunk(dayOffMarkerJobProperties.getUpdatesRequestToFinalizedUpdateHoliday(), platformTransactionManager)
-			.listener(dayOffMarkerJobListener)
-			.reader(readerRequestToFinalizedUnlinkTag)
-			.processor(processorRequestStatusFinalized)
-			.writer(writeRequest)
-			.build();
-	}
+    @Bean("updatesRequestToFinalizedUnlinkTag")
+    public Step updatesRequestToFinalizedUnlinkTag() {
+        return new StepBuilder("updatesRequestToFinalizedUnlinkTag", jobRepository)
+                .<Request, Request>chunk(dayOffMarkerJobProperties.getUpdatesRequestToFinalizedUpdateHoliday(), platformTransactionManager)
+                .listener(dayOffMarkerJobListener)
+                .reader(readerRequestToFinalizedUnlinkTag)
+                .processor(processorRequestStatusFinalized)
+                .writer(writeRequest)
+                .build();
+    }
 
     @Bean("jobUnlinkTagInDay")
     public Job jobUnlinkTagInDay() {

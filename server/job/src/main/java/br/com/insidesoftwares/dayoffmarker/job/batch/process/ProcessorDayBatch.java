@@ -25,20 +25,20 @@ public class ProcessorDayBatch implements ItemProcessor<Request, List<DayBatch>>
         Integer year = RequestParametersUtils.getYear(request.getRequestParameter());
         Integer month = RequestParametersUtils.getMonth(request.getRequestParameter());
 
-        LocalDate dateBase = LocalDate.of(year,month,1);
+        LocalDate dateBase = LocalDate.of(year, month, 1);
 
-        while (dateBase.getYear() == year && dateBase.getMonthValue() == month){
-			if(!batchCreationDayService.existDayInDayBatch(dateBase)) {
-				DayBatch dayBatch = DayBatch.builder()
-					.date(dateBase)
-					.isProcessed(false)
-					.isWeekend(DateUtils.isWeenkend(dateBase))
-					.isHoliday(false)
-					.requestID(request.getId())
-					.build();
+        while (dateBase.getYear() == year && dateBase.getMonthValue() == month) {
+            if (!batchCreationDayService.existDayInDayBatch(dateBase)) {
+                DayBatch dayBatch = DayBatch.builder()
+                        .date(dateBase)
+                        .isProcessed(false)
+                        .isWeekend(DateUtils.isWeenkend(dateBase))
+                        .isHoliday(false)
+                        .requestID(request.getId())
+                        .build();
 
-				dayBatches.add(dayBatch);
-			}
+                dayBatches.add(dayBatch);
+            }
             dateBase = dateBase.plusDays(1);
         }
 

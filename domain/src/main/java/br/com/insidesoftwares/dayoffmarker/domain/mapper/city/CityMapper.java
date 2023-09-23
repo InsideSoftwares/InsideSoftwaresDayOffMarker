@@ -13,21 +13,22 @@ import java.util.stream.Collectors;
 public interface CityMapper {
 
     @Mappings({
-		@Mapping(source = "state.id", target = "stateID"),
-		@Mapping(source = "state.name", target = "stateName"),
-		@Mapping(source = "state.acronym", target = "stateAcronym"),
-		@Mapping(source = "cityHolidays", target = "cityHolidays", ignore = true)
+            @Mapping(source = "state.id", target = "stateID"),
+            @Mapping(source = "state.name", target = "stateName"),
+            @Mapping(source = "state.acronym", target = "stateAcronym"),
+            @Mapping(source = "cityHolidays", target = "cityHolidays", ignore = true)
     })
     CityResponseDTO toDTO(City city);
-    default List<CityResponseDTO> toDTOs(List<City> cities) {
-		return cities.stream().map(this::toDTO).collect(Collectors.toList());
-	}
 
-	@Mappings({
-		@Mapping(source = "state.id", target = "stateID"),
-		@Mapping(source = "state.name", target = "stateName"),
-		@Mapping(source = "state.acronym", target = "stateAcronym"),
-		@Mapping(source = "cityHolidays", target = "cityHolidays", qualifiedByName = "toCityHolidaysDTO")
-	})
-	CityResponseDTO toFullDTO(City city);
+    default List<CityResponseDTO> toDTOs(List<City> cities) {
+        return cities.stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Mappings({
+            @Mapping(source = "state.id", target = "stateID"),
+            @Mapping(source = "state.name", target = "stateName"),
+            @Mapping(source = "state.acronym", target = "stateAcronym"),
+            @Mapping(source = "cityHolidays", target = "cityHolidays", qualifiedByName = "toCityHolidaysDTO")
+    })
+    CityResponseDTO toFullDTO(City city);
 }

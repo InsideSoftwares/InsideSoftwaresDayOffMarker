@@ -14,7 +14,7 @@ public class DeleteDayBatchList implements ItemWriter<DayBatch> {
     private final BatchCreationDayService batchCreationDayService;
 
     @Override
-    public void write(Chunk<? extends DayBatch> lists)  {
+    public void write(Chunk<? extends DayBatch> lists) {
         lists.forEach(batchCreationDayService::deleteDayBatch);
     }
 }

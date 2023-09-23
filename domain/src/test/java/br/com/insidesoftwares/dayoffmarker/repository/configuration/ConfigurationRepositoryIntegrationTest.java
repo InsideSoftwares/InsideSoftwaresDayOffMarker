@@ -12,27 +12,27 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 abstract class ConfigurationRepositoryIntegrationTest {
 
-	@Autowired
-	private ConfigurationRepository configurationRepository;
+    @Autowired
+    private ConfigurationRepository configurationRepository;
 
-	@Test
-	void shouldReturnConfigurationWhenKeyLIMIT_BACK_DAYS_YEARS() {
-		Optional<Configuration> configuration = configurationRepository.findConfigurationByKey(Configurationkey.LIMIT_BACK_DAYS_YEARS);
+    @Test
+    void shouldReturnConfigurationWhenKeyLIMIT_BACK_DAYS_YEARS() {
+        Optional<Configuration> configuration = configurationRepository.findConfigurationByKey(Configurationkey.LIMIT_BACK_DAYS_YEARS);
 
-		assertTrue(configuration.isPresent());
-	}
+        assertTrue(configuration.isPresent());
+    }
 
-	@Test
-	void shouldReturnConfigurationWhenKeyCOUNTRY_DEFAULT() {
-		Optional<Configuration> configuration = configurationRepository.findConfigurationByKey(Configurationkey.COUNTRY_DEFAULT);
+    @Test
+    void shouldReturnConfigurationWhenKeyCOUNTRY_DEFAULT() {
+        Optional<Configuration> configuration = configurationRepository.findConfigurationByKey(Configurationkey.COUNTRY_DEFAULT);
 
-		assertTrue(configuration.isPresent());
-	}
+        assertTrue(configuration.isPresent());
+    }
 
-	@Test
-	void shouldReturnConfigurationWhenKeyLIMIT_FORWARD_DAYS_YEARS() {
-		Optional<Configuration> configuration = configurationRepository.findConfigurationByKey(Configurationkey.LIMIT_FORWARD_DAYS_YEARS);
+    @Test
+    void shouldReturnConfigurationWhenKeyLIMIT_FORWARD_DAYS_YEARS() {
+        Optional<Configuration> configuration = configurationRepository.findConfigurationByKey(Configurationkey.LIMIT_FORWARD_DAYS_YEARS);
 
-		assertTrue(configuration.isPresent());
-	}
+        assertTrue(configuration.isPresent());
+    }
 }

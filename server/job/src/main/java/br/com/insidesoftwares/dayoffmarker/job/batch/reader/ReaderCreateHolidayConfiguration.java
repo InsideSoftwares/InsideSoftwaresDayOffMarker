@@ -18,66 +18,66 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ReaderCreateHolidayConfiguration {
 
-	private final DayOffMarkerJobProperties dayOffMarkerJobProperties;
+    private final DayOffMarkerJobProperties dayOffMarkerJobProperties;
     private final EntityManagerFactory entityManagerFactory;
 
-	@Bean("ReaderRequestUpdateHolidayStatusCreated")
-	public ItemReader<Request> readerRequestUpdateHolidayStatusCreated() {
-		JpaPagingItemReader<Request> reader = new JpaPagingItemReader<>();
-		reader.setEntityManagerFactory(entityManagerFactory);
-		reader.setQueryString("""
-				SELECT r FROM Request r
-				WHERE statusRequest = :statusRequest
-				AND r.typeRequest = :typeRequest
-			""");
+    @Bean("ReaderRequestUpdateHolidayStatusCreated")
+    public ItemReader<Request> readerRequestUpdateHolidayStatusCreated() {
+        JpaPagingItemReader<Request> reader = new JpaPagingItemReader<>();
+        reader.setEntityManagerFactory(entityManagerFactory);
+        reader.setQueryString("""
+                	SELECT r FROM Request r
+                	WHERE statusRequest = :statusRequest
+                	AND r.typeRequest = :typeRequest
+                """);
 
-		Map<String, Object> parameterValues = new HashMap<>();
-		parameterValues.put("typeRequest", TypeRequest.CREATE_HOLIDAY);
-		parameterValues.put("statusRequest", StatusRequest.CREATED);
-		reader.setParameterValues(parameterValues);
+        Map<String, Object> parameterValues = new HashMap<>();
+        parameterValues.put("typeRequest", TypeRequest.CREATE_HOLIDAY);
+        parameterValues.put("statusRequest", StatusRequest.CREATED);
+        reader.setParameterValues(parameterValues);
 
-		reader.setPageSize(dayOffMarkerJobProperties.getSetsRequestToRunningUpdateHoliday());
+        reader.setPageSize(dayOffMarkerJobProperties.getSetsRequestToRunningUpdateHoliday());
 
-		return reader;
-	}
+        return reader;
+    }
 
-	@Bean("ReaderRequestsUpdateHoliday")
-	public ItemReader<Request> readerRequestsUpdateHoliday() {
-		JpaPagingItemReader<Request> reader = new JpaPagingItemReader<>();
-		reader.setEntityManagerFactory(entityManagerFactory);
-		reader.setQueryString("""
-				SELECT r FROM Request r
-				WHERE statusRequest = :statusRequest
-				AND r.typeRequest = :typeRequest
-			""");
+    @Bean("ReaderRequestsUpdateHoliday")
+    public ItemReader<Request> readerRequestsUpdateHoliday() {
+        JpaPagingItemReader<Request> reader = new JpaPagingItemReader<>();
+        reader.setEntityManagerFactory(entityManagerFactory);
+        reader.setQueryString("""
+                	SELECT r FROM Request r
+                	WHERE statusRequest = :statusRequest
+                	AND r.typeRequest = :typeRequest
+                """);
 
-		Map<String, Object> parameterValues = new HashMap<>();
-		parameterValues.put("typeRequest", TypeRequest.CREATE_HOLIDAY);
-		parameterValues.put("statusRequest", StatusRequest.RUNNING);
-		reader.setParameterValues(parameterValues);
+        Map<String, Object> parameterValues = new HashMap<>();
+        parameterValues.put("typeRequest", TypeRequest.CREATE_HOLIDAY);
+        parameterValues.put("statusRequest", StatusRequest.RUNNING);
+        reader.setParameterValues(parameterValues);
 
-		reader.setPageSize(dayOffMarkerJobProperties.getExecutesRequestsUpdateHoliday());
+        reader.setPageSize(dayOffMarkerJobProperties.getExecutesRequestsUpdateHoliday());
 
-		return reader;
-	}
+        return reader;
+    }
 
-	@Bean("ReaderRequestToFinalizedUpdateHoliday")
-	public ItemReader<Request> readerRequestToFinalizedUpdateHoliday() {
-		JpaPagingItemReader<Request> reader = new JpaPagingItemReader<>();
-		reader.setEntityManagerFactory(entityManagerFactory);
-		reader.setQueryString("""
-				SELECT r FROM Request r
-				WHERE statusRequest = :statusRequest
-				AND r.typeRequest = :typeRequest
-			""");
+    @Bean("ReaderRequestToFinalizedUpdateHoliday")
+    public ItemReader<Request> readerRequestToFinalizedUpdateHoliday() {
+        JpaPagingItemReader<Request> reader = new JpaPagingItemReader<>();
+        reader.setEntityManagerFactory(entityManagerFactory);
+        reader.setQueryString("""
+                	SELECT r FROM Request r
+                	WHERE statusRequest = :statusRequest
+                	AND r.typeRequest = :typeRequest
+                """);
 
-		Map<String, Object> parameterValues = new HashMap<>();
-		parameterValues.put("typeRequest", TypeRequest.CREATE_HOLIDAY);
-		parameterValues.put("statusRequest", StatusRequest.RUNNING);
-		reader.setParameterValues(parameterValues);
+        Map<String, Object> parameterValues = new HashMap<>();
+        parameterValues.put("typeRequest", TypeRequest.CREATE_HOLIDAY);
+        parameterValues.put("statusRequest", StatusRequest.RUNNING);
+        reader.setParameterValues(parameterValues);
 
-		reader.setPageSize(dayOffMarkerJobProperties.getUpdatesRequestToFinalizedUpdateHoliday());
+        reader.setPageSize(dayOffMarkerJobProperties.getUpdatesRequestToFinalizedUpdateHoliday());
 
-		return reader;
-	}
+        return reader;
+    }
 }

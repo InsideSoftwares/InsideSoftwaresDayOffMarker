@@ -16,46 +16,44 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ExtendWith(MockitoExtension.class)
 class RequestValidatorBeanTest {
 
-	@Mock
-	private RequestRepository requestRepository;
+    private final String HASH_REQUEST = "HASH_REQUEST";
+    @Mock
+    private RequestRepository requestRepository;
+    @InjectMocks
+    private RequestValidatorBean requestValidatorBean;
 
-	@InjectMocks
-	private RequestValidatorBean requestValidatorBean;
+    @Test
+    void shouldntThrowExceptionByRunningMethodValidator() {
+        Mockito.when(
+                requestRepository.existRequestByTypeRequestAndHashRequestAndNotStatusRequest(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())
+        ).thenReturn(false);
 
-	private final String HASH_REQUEST = "HASH_REQUEST";
+        requestValidatorBean.validateRequest(HASH_REQUEST, TypeRequest.REQUEST_CREATION_DATE);
+    }
 
-	@Test
-	void shouldntThrowExceptionByRunningMethodValidator() {
-		Mockito.when(
-			requestRepository.existRequestByTypeRequestAndHashRequestAndNotStatusRequest(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())
-		).thenReturn(false);
+    @Test
+    void shouldRequestConflictParametersExceptionThrowExceptionByRunningMethodValidator() {
+        Mockito.when(
+                requestRepository.existRequestByTypeRequestAndHashRequestAndNotStatusRequest(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())
+        ).thenReturn(true);
 
-		requestValidatorBean.validateRequest(HASH_REQUEST, TypeRequest.REQUEST_CREATION_DATE);
-	}
+        assertThrows(
+                RequestConflictParametersException.class,
+                () -> requestValidatorBean.validateRequest(HASH_REQUEST, TypeRequest.CREATE_DATE)
+        );
 
-	@Test
-	void shouldRequestConflictParametersExceptionThrowExceptionByRunningMethodValidator() {
-		Mockito.when(
-			requestRepository.existRequestByTypeRequestAndHashRequestAndNotStatusRequest(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())
-		).thenReturn(true);
+    }
 
-		assertThrows(
-			RequestConflictParametersException.class,
-			() -> requestValidatorBean.validateRequest(HASH_REQUEST, TypeRequest.CREATE_DATE)
-		);
+    @Test
+    void shouldRuntimeExceptionThrowExceptionByRunningMethodValidator() {
+        Mockito.when(
+                requestRepository.existRequestByTypeRequestAndHashRequestAndNotStatusRequest(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())
+        ).thenThrow(new RuntimeException());
 
-	}
+        assertThrows(
+                RuntimeException.class,
+                () -> requestValidatorBean.validateRequest(HASH_REQUEST, TypeRequest.CREATE_HOLIDAY)
+        );
 
-	@Test
-	void shouldRuntimeExceptionThrowExceptionByRunningMethodValidator() {
-		Mockito.when(
-			requestRepository.existRequestByTypeRequestAndHashRequestAndNotStatusRequest(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())
-		).thenThrow(new RuntimeException());
-
-		assertThrows(
-			RuntimeException.class,
-			() -> requestValidatorBean.validateRequest(HASH_REQUEST, TypeRequest.CREATE_HOLIDAY)
-		);
-
-	}
+    }
 }

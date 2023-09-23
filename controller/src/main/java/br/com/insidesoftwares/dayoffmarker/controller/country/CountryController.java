@@ -33,75 +33,75 @@ public class CountryController {
 
     private final CountryService countryService;
 
-	@Operation(
-		summary = "Get All Countries",
-		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.Country.Read"}),
-		parameters = {
-			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
-			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
-		}
-	)
-	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.Country.Read')")
-	@InsideRequestGet(uri = "/v1/country", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_COUNTRY")
+    @Operation(
+            summary = "Get All Countries",
+            security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.Country.Read"}),
+            parameters = {
+                    @Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+                    @Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+            }
+    )
+    @PreAuthorize("hasAnyRole('DayOff.Read','DayOff.Country.Read')")
+    @InsideRequestGet(uri = "/v1/country", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_COUNTRY")
     public InsideSoftwaresResponseDTO<List<CountryResponseDTO>> findAll(
-		InsidePaginationFilterDTO paginationFilter
+            InsidePaginationFilterDTO paginationFilter
     ) {
         return countryService.findAll(paginationFilter);
     }
 
-	@Operation(
-		summary = "Get Country by Id",
-		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.Country.Read"}),
-		parameters = {
-			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
-			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
-		}
-	)
+    @Operation(
+            summary = "Get Country by Id",
+            security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.Country.Read"}),
+            parameters = {
+                    @Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+                    @Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+            }
+    )
     @PreAuthorize("hasAnyRole('DayOff.Read','DayOff.Country.Read')")
-	@InsideRequestGet(uri = "/v1/country/{id}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_COUNTRY")
+    @InsideRequestGet(uri = "/v1/country/{id}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_COUNTRY")
     public InsideSoftwaresResponseDTO<CountryResponseDTO> findById(@PathVariable Long id) throws CountryNotExistException {
         return countryService.findById(id);
     }
 
-	@Operation(
-		summary = "Create Country",
-		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Write", "DayOff.Country.Write"}),
-		parameters = {
-			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
-			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
-		}
-	)
-	@PreAuthorize("hasAnyRole('DayOff.Write','DayOff.Country.Write')")
-	@InsideRequestPost(uri = "/v1/country", httpCode = HttpStatus.CREATED,
-		nameCache = {"DAYOFF_MARKER_COUNTRY", "DAYOFF_MARKER_CITY", "DAYOFF_MARKER_STATE"}
-	)
+    @Operation(
+            summary = "Create Country",
+            security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Write", "DayOff.Country.Write"}),
+            parameters = {
+                    @Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+                    @Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+            }
+    )
+    @PreAuthorize("hasAnyRole('DayOff.Write','DayOff.Country.Write')")
+    @InsideRequestPost(uri = "/v1/country", httpCode = HttpStatus.CREATED,
+            nameCache = {"DAYOFF_MARKER_COUNTRY", "DAYOFF_MARKER_CITY", "DAYOFF_MARKER_STATE"}
+    )
     @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_COUNTRY", ttl = 1)
     public InsideSoftwaresResponseDTO<Void> save(
-		@JdempotentRequestPayload @RequestBody CountryRequestDTO countryRequestDTO
+            @JdempotentRequestPayload @RequestBody CountryRequestDTO countryRequestDTO
     ) {
         countryService.save(countryRequestDTO);
-		return InsideSoftwaresResponseDTO.<Void>builder().build();
+        return InsideSoftwaresResponseDTO.<Void>builder().build();
     }
 
-	@Operation(
-		summary = "Update Country by Id",
-		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Write", "DayOff.Country.Write"}),
-		parameters = {
-			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
-			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
-		}
-	)
-	@PreAuthorize("hasAnyRole('DayOff.Write','DayOff.Country.Write')")
-	@InsideRequestPut(uri = "/v1/country/{id}", httpCode = HttpStatus.CREATED,
-		nameCache = {"DAYOFF_MARKER_COUNTRY", "DAYOFF_MARKER_CITY", "DAYOFF_MARKER_STATE"}
-	)
-	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_COUNTRY", ttl = 1)
+    @Operation(
+            summary = "Update Country by Id",
+            security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Write", "DayOff.Country.Write"}),
+            parameters = {
+                    @Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+                    @Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+            }
+    )
+    @PreAuthorize("hasAnyRole('DayOff.Write','DayOff.Country.Write')")
+    @InsideRequestPut(uri = "/v1/country/{id}", httpCode = HttpStatus.CREATED,
+            nameCache = {"DAYOFF_MARKER_COUNTRY", "DAYOFF_MARKER_CITY", "DAYOFF_MARKER_STATE"}
+    )
+    @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_COUNTRY", ttl = 1)
     public InsideSoftwaresResponseDTO<Void> update(
-		@JdempotentRequestPayload @PathVariable Long id,
-        @JdempotentRequestPayload @RequestBody CountryRequestDTO countryRequestDTO
+            @JdempotentRequestPayload @PathVariable Long id,
+            @JdempotentRequestPayload @RequestBody CountryRequestDTO countryRequestDTO
     ) {
         countryService.update(id, countryRequestDTO);
-		return InsideSoftwaresResponseDTO.<Void>builder().build();
+        return InsideSoftwaresResponseDTO.<Void>builder().build();
     }
 
 }

@@ -24,30 +24,30 @@ import javax.sql.DataSource;
 @EnableJpaRepositories(
         entityManagerFactoryRef = "DayOffMarkerEntityManagerFactory",
         transactionManagerRef = "DayOffMarkerTransactionManager",
-        basePackages = { "br.com.insidesoftwares.dayoffmarker.domain.repository" })
+        basePackages = {"br.com.insidesoftwares.dayoffmarker.domain.repository"})
 @EnableConfigurationProperties(LiquibaseProperties.class)
 public class DayOffMarkerDataSourceConfiguration {
 
     @Primary
-    @Bean(name="DayOffMarkerDataSourcePropos")
+    @Bean(name = "DayOffMarkerDataSourcePropos")
     @ConfigurationProperties("spring.datasource")
     public DataSourceProperties dayOffMarkerDataSourcePropos() {
         return new DataSourceProperties();
     }
 
     @Primary
-    @Bean(name="DayOffMarkerDataSource")
+    @Bean(name = "DayOffMarkerDataSource")
     @ConfigurationProperties(prefix = "spring.datasource")
-    public DataSource dayOffMarkerDataSource(@Qualifier("DayOffMarkerDataSourcePropos") DataSourceProperties properties){
+    public DataSource dayOffMarkerDataSource(@Qualifier("DayOffMarkerDataSourcePropos") DataSourceProperties properties) {
         return properties.initializeDataSourceBuilder().build();
     }
 
     @Primary
-    @Bean(name="DayOffMarkerEntityManagerFactory")
+    @Bean(name = "DayOffMarkerEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean dayOffMarkerEntityManagerFactory(
             EntityManagerFactoryBuilder builder,
             @Qualifier("DayOffMarkerDataSource") DataSource dataSource
-    ){
+    ) {
         return builder.dataSource(dataSource)
                 .packages("br.com.insidesoftwares.dayoffmarker.domain.entity")
                 .persistenceUnit("DayOffMarkerPersistenceUnit")

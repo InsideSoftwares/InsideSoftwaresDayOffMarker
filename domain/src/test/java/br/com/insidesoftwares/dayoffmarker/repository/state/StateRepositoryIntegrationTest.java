@@ -20,33 +20,31 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 abstract class StateRepositoryIntegrationTest {
 
-	@Autowired
-	private StateRepository stateRepository;
+    private static final Long COUNTRY_ID = 1L;
+    private static final Long STATE_RIO_JANEIRO_ID = 3L;
+    private static final Long STATE_ID_INVALID = 9999L;
+    @Autowired
+    private StateRepository stateRepository;
     @Autowired
     private CountryRepository countryRepository;
 
-    private static final Long COUNTRY_ID = 1L;
+    @Test
+    void shouldReturnEstadoRioDeJaneiroWhenInformedIDCorrect() {
 
-    private static final Long STATE_RIO_JANEIRO_ID = 3L;
-    private static final Long STATE_ID_INVALID = 9999L;
+        Optional<State> state = stateRepository.findStateById(STATE_RIO_JANEIRO_ID);
 
-	@Test
-	void shouldReturnEstadoRioDeJaneiroWhenInformedIDCorrect(){
+        assertTrue(state.isPresent());
+        assertEquals(3L, state.get().getId());
+        assertEquals("RJ01", state.get().getCode());
+    }
 
-		Optional<State> state = stateRepository.findStateById(STATE_RIO_JANEIRO_ID);
+    @Test
+    void shouldntReturnStatusWhenInformedIDInvalid() {
 
-		assertTrue(state.isPresent());
-		assertEquals(3L, state.get().getId());
-		assertEquals("RJ01", state.get().getCode());
-	}
+        Optional<State> state = stateRepository.findStateById(STATE_ID_INVALID);
 
-	@Test
-	void shouldntReturnStatusWhenInformedIDInvalid(){
-
-		Optional<State> state = stateRepository.findStateById(STATE_ID_INVALID);
-
-		assertFalse(state.isPresent());
-	}
+        assertFalse(state.isPresent());
+    }
 
     @Test
     void shouldReturnPaginatedListOfStatesWhenInformedTheCountryAndConfigurationPaginacaoSortASCAndOrderByID() {

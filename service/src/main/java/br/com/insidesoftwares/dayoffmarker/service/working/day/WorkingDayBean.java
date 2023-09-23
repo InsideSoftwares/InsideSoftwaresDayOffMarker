@@ -29,7 +29,7 @@ abstract class WorkingDayBean {
         return dateOptional.orElseGet(() -> getWorkingDay(dateReceived, dates, 1, range, isWorkingDayNext));
     }
 
-    LocalDate updateDateByRange(final LocalDate data, final boolean future, final int range){
+    LocalDate updateDateByRange(final LocalDate data, final boolean future, final int range) {
         int rangeAbs = Math.abs(range);
         return future ? data.plusDays(rangeAbs) : data.minusDays(rangeAbs);
     }
@@ -59,17 +59,17 @@ abstract class WorkingDayBean {
             final int limit,
             final boolean isWorkingDayNext
     ) {
-        if(index >= limit) {
+        if (index >= limit) {
             return null;
         }
 
         LocalDate newDateReceived = updateDateByRange(dateReceived, isWorkingDayNext, 1);
 
         Optional<Day> dayOptional = findDayByDate(dates, newDateReceived);
-        return dayOptional.orElseGet(() -> getWorkingDay(newDateReceived, dates, index+1, limit, isWorkingDayNext));
+        return dayOptional.orElseGet(() -> getWorkingDay(newDateReceived, dates, index + 1, limit, isWorkingDayNext));
     }
 
-    private Optional<Day> findDayByDate(final List<Day> dates, final LocalDate dateReceived){
+    private Optional<Day> findDayByDate(final List<Day> dates, final LocalDate dateReceived) {
         return dates.stream().filter(data -> data.getDate().isEqual(dateReceived)).findFirst();
     }
 

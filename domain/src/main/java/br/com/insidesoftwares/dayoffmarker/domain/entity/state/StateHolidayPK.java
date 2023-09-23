@@ -15,8 +15,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Embeddable
 public class StateHolidayPK {
-	@Column(name = "STATE_ID")
-	private Long stateId;
-	@Column(name = "HOLIDAY_ID")
-	private Long holidayId;
+    @Column(name = "STATE_ID")
+    private Long stateId;
+    @Column(name = "HOLIDAY_ID")
+    private Long holidayId;
 }

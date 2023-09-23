@@ -17,15 +17,15 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @ActiveProfiles("mysql")
 class CountryRepositoryIntegrationMysqlTest extends CountryRepositoryIntegrationTest {
 
-	@Container
-	static MySQLContainer container = new MySQLContainer("mysql:latest");
+    @Container
+    static MySQLContainer container = new MySQLContainer("mysql:latest");
 
-	@DynamicPropertySource
-	private static void setupProperties(DynamicPropertyRegistry registry) {
-		registry.add("spring.datasource.url", container::getJdbcUrl);
-		registry.add("spring.datasource.username", container::getUsername);
-		registry.add("spring.datasource.password", container::getPassword);
-		registry.add("spring.datasource.driver-class-name", container::getDriverClassName);
-	}
+    @DynamicPropertySource
+    private static void setupProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", container::getJdbcUrl);
+        registry.add("spring.datasource.username", container::getUsername);
+        registry.add("spring.datasource.password", container::getPassword);
+        registry.add("spring.datasource.driver-class-name", container::getDriverClassName);
+    }
 
 }

@@ -19,211 +19,209 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ExtendWith(MockitoExtension.class)
 public class CountryValidatorBeanBeanTest {
 
-	@Mock
-	private CountryRepository countryRepository;
+    private static final String COUNTRY_NAME = "state";
+    private static final String COUNTRY_ACRONYM = "acronym";
+    private static final String COUNTRY_CODE = "code";
+    private static final Long COUNTRY_ID = 1L;
+    @Mock
+    private CountryRepository countryRepository;
+    @InjectMocks
+    private CountryValidatorBean countryValidatorBean;
 
-	@InjectMocks
-	private CountryValidatorBean countryValidatorBean;
+    @Test
+    public void shouldntThrowExceptionByRunningMethodValidatorDTOParameter() {
+        Mockito.when(countryRepository.existsByName(ArgumentMatchers.anyString())).thenReturn(false);
+        Mockito.when(countryRepository.existsByCode(ArgumentMatchers.anyString())).thenReturn(false);
+        Mockito.when(countryRepository.existsByAcronym(ArgumentMatchers.anyString())).thenReturn(false);
 
-	private static final String COUNTRY_NAME = "state";
-	private static final String COUNTRY_ACRONYM = "acronym";
-	private static final String COUNTRY_CODE = "code";
-	private static final Long COUNTRY_ID = 1L;
+        countryValidatorBean.validator(createCountryRequestDTO());
 
-	@Test
-	public void shouldntThrowExceptionByRunningMethodValidatorDTOParameter() {
-		Mockito.when(countryRepository.existsByName(ArgumentMatchers.anyString())).thenReturn(false);
-		Mockito.when(countryRepository.existsByCode(ArgumentMatchers.anyString())).thenReturn(false);
-		Mockito.when(countryRepository.existsByAcronym(ArgumentMatchers.anyString())).thenReturn(false);
+        Mockito.verify(countryRepository, Mockito.times(1)).existsByName(COUNTRY_NAME);
+        Mockito.verify(countryRepository, Mockito.times(1)).existsByCode(COUNTRY_CODE);
+        Mockito.verify(countryRepository, Mockito.times(1)).existsByAcronym(COUNTRY_ACRONYM);
+    }
 
-		countryValidatorBean.validator(createCountryRequestDTO());
+    @Test
+    public void shouldThrowExceptionCountryNameExistExpetionByRunningMethodValidatorDTOParameter() {
+        Mockito.when(countryRepository.existsByName(ArgumentMatchers.anyString())).thenReturn(true);
 
-		Mockito.verify(countryRepository, Mockito.times(1)).existsByName(COUNTRY_NAME);
-		Mockito.verify(countryRepository, Mockito.times(1)).existsByCode(COUNTRY_CODE);
-		Mockito.verify(countryRepository, Mockito.times(1)).existsByAcronym(COUNTRY_ACRONYM);
-	}
+        assertThrows(
+                CountryNameExistExpetion.class,
+                () -> countryValidatorBean.validator(createCountryRequestDTO())
+        );
 
-	@Test
-	public void shouldThrowExceptionCountryNameExistExpetionByRunningMethodValidatorDTOParameter() {
-		Mockito.when(countryRepository.existsByName(ArgumentMatchers.anyString())).thenReturn(true);
+        Mockito.verify(countryRepository, Mockito.times(1)).existsByName(COUNTRY_NAME);
+        Mockito.verify(countryRepository, Mockito.times(0)).existsByCode(COUNTRY_CODE);
+        Mockito.verify(countryRepository, Mockito.times(0)).existsByAcronym(COUNTRY_ACRONYM);
+    }
 
-		assertThrows(
-				CountryNameExistExpetion.class,
-				() -> countryValidatorBean.validator(createCountryRequestDTO())
-		);
+    @Test
+    public void shouldThrowExceptionCountryCodeExistExpetionByRunningMethodValidatorDTOParameter() {
+        Mockito.when(countryRepository.existsByName(ArgumentMatchers.anyString())).thenReturn(false);
+        Mockito.when(countryRepository.existsByCode(ArgumentMatchers.anyString())).thenReturn(true);
 
-		Mockito.verify(countryRepository, Mockito.times(1)).existsByName(COUNTRY_NAME);
-		Mockito.verify(countryRepository, Mockito.times(0)).existsByCode(COUNTRY_CODE);
-		Mockito.verify(countryRepository, Mockito.times(0)).existsByAcronym(COUNTRY_ACRONYM);
-	}
+        assertThrows(
+                CountryCodeExistExpetion.class,
+                () -> countryValidatorBean.validator(createCountryRequestDTO())
+        );
 
-	@Test
-	public void shouldThrowExceptionCountryCodeExistExpetionByRunningMethodValidatorDTOParameter() {
-		Mockito.when(countryRepository.existsByName(ArgumentMatchers.anyString())).thenReturn(false);
-		Mockito.when(countryRepository.existsByCode(ArgumentMatchers.anyString())).thenReturn(true);
+        Mockito.verify(countryRepository, Mockito.times(1)).existsByName(COUNTRY_NAME);
+        Mockito.verify(countryRepository, Mockito.times(1)).existsByCode(COUNTRY_CODE);
+        Mockito.verify(countryRepository, Mockito.times(0)).existsByAcronym(COUNTRY_ACRONYM);
+    }
 
-		assertThrows(
-				CountryCodeExistExpetion.class,
-				() -> countryValidatorBean.validator(createCountryRequestDTO())
-		);
+    @Test
+    public void shouldThrowExceptionCountryAcronymExistExpetionByRunningMethodValidatorDTOParameter() {
+        Mockito.when(countryRepository.existsByName(ArgumentMatchers.anyString())).thenReturn(false);
+        Mockito.when(countryRepository.existsByCode(ArgumentMatchers.anyString())).thenReturn(false);
+        Mockito.when(countryRepository.existsByAcronym(ArgumentMatchers.anyString())).thenReturn(true);
 
-		Mockito.verify(countryRepository, Mockito.times(1)).existsByName(COUNTRY_NAME);
-		Mockito.verify(countryRepository, Mockito.times(1)).existsByCode(COUNTRY_CODE);
-		Mockito.verify(countryRepository, Mockito.times(0)).existsByAcronym(COUNTRY_ACRONYM);
-	}
+        assertThrows(
+                CountryAcronymExistExpetion.class,
+                () -> countryValidatorBean.validator(createCountryRequestDTO())
+        );
 
-	@Test
-	public void shouldThrowExceptionCountryAcronymExistExpetionByRunningMethodValidatorDTOParameter() {
-		Mockito.when(countryRepository.existsByName(ArgumentMatchers.anyString())).thenReturn(false);
-		Mockito.when(countryRepository.existsByCode(ArgumentMatchers.anyString())).thenReturn(false);
-		Mockito.when(countryRepository.existsByAcronym(ArgumentMatchers.anyString())).thenReturn(true);
+        Mockito.verify(countryRepository, Mockito.times(1)).existsByName(COUNTRY_NAME);
+        Mockito.verify(countryRepository, Mockito.times(1)).existsByCode(COUNTRY_CODE);
+        Mockito.verify(countryRepository, Mockito.times(1)).existsByAcronym(COUNTRY_ACRONYM);
+    }
 
-		assertThrows(
-				CountryAcronymExistExpetion.class,
-				() -> countryValidatorBean.validator(createCountryRequestDTO())
-		);
+    @Test
+    public void shouldntThrowExceptionByRunningMethodValidatorLongAndDTOParameter() {
+        Mockito.when(countryRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
+        Mockito.when(
+                countryRepository.existsByNameAndNotId(ArgumentMatchers.anyString(), ArgumentMatchers.anyLong())
+        ).thenReturn(false);
+        Mockito.when(
+                countryRepository.existsByCodeAndNotId(ArgumentMatchers.anyString(), ArgumentMatchers.anyLong())
+        ).thenReturn(false);
+        Mockito.when(
+                countryRepository.existsByAcronymAndNotId(ArgumentMatchers.anyString(), ArgumentMatchers.anyLong())
+        ).thenReturn(false);
 
-		Mockito.verify(countryRepository, Mockito.times(1)).existsByName(COUNTRY_NAME);
-		Mockito.verify(countryRepository, Mockito.times(1)).existsByCode(COUNTRY_CODE);
-		Mockito.verify(countryRepository, Mockito.times(1)).existsByAcronym(COUNTRY_ACRONYM);
-	}
+        countryValidatorBean.validator(COUNTRY_ID, createCountryRequestDTO());
 
-	@Test
-	public void shouldntThrowExceptionByRunningMethodValidatorLongAndDTOParameter()  {
-		Mockito.when(countryRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
-		Mockito.when(
-				countryRepository.existsByNameAndNotId(ArgumentMatchers.anyString(), ArgumentMatchers.anyLong())
-		).thenReturn(false);
-		Mockito.when(
-				countryRepository.existsByCodeAndNotId(ArgumentMatchers.anyString(), ArgumentMatchers.anyLong())
-		).thenReturn(false);
-		Mockito.when(
-				countryRepository.existsByAcronymAndNotId(ArgumentMatchers.anyString(), ArgumentMatchers.anyLong())
-		).thenReturn(false);
+        Mockito.verify(countryRepository, Mockito.times(1)).existsById(COUNTRY_ID);
+        Mockito.verify(countryRepository, Mockito.times(1))
+                .existsByNameAndNotId(COUNTRY_NAME, COUNTRY_ID);
+        Mockito.verify(countryRepository, Mockito.times(1))
+                .existsByCodeAndNotId(COUNTRY_CODE, COUNTRY_ID);
+        Mockito.verify(countryRepository, Mockito.times(1))
+                .existsByAcronymAndNotId(COUNTRY_ACRONYM, COUNTRY_ID);
+    }
 
-		countryValidatorBean.validator(COUNTRY_ID, createCountryRequestDTO());
+    @Test
+    public void shouldThrowExceptionCountryNotExistExceptionByRunningMethodValidatorLongAndDTOParameter() {
+        Mockito.when(countryRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
 
-		Mockito.verify(countryRepository, Mockito.times(1)).existsById(COUNTRY_ID);
-		Mockito.verify(countryRepository, Mockito.times(1))
-				.existsByNameAndNotId(COUNTRY_NAME, COUNTRY_ID);
-		Mockito.verify(countryRepository, Mockito.times(1))
-				.existsByCodeAndNotId(COUNTRY_CODE, COUNTRY_ID);
-		Mockito.verify(countryRepository, Mockito.times(1))
-				.existsByAcronymAndNotId(COUNTRY_ACRONYM, COUNTRY_ID);
-	}
+        assertThrows(
+                CountryNotExistException.class,
+                () -> countryValidatorBean.validator(COUNTRY_ID, createCountryRequestDTO())
+        );
 
-	@Test
-	public void shouldThrowExceptionCountryNotExistExceptionByRunningMethodValidatorLongAndDTOParameter() {
-		Mockito.when(countryRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
+        Mockito.verify(countryRepository, Mockito.times(1)).existsById(COUNTRY_ID);
+        Mockito.verify(countryRepository, Mockito.times(0))
+                .existsByNameAndNotId(COUNTRY_NAME, COUNTRY_ID);
+        Mockito.verify(countryRepository, Mockito.times(0))
+                .existsByCodeAndNotId(COUNTRY_CODE, COUNTRY_ID);
+        Mockito.verify(countryRepository, Mockito.times(0))
+                .existsByAcronymAndNotId(COUNTRY_ACRONYM, COUNTRY_ID);
+    }
 
-		assertThrows(
-				CountryNotExistException.class,
-				() -> countryValidatorBean.validator(COUNTRY_ID, createCountryRequestDTO())
-		);
+    @Test
+    public void shouldThrowExceptionCountryNameExistExpetionByRunningMethodValidatorLongAndDTOParameter() {
+        Mockito.when(countryRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
+        Mockito.when(
+                countryRepository.existsByNameAndNotId(ArgumentMatchers.anyString(), ArgumentMatchers.anyLong())
+        ).thenReturn(true);
 
-		Mockito.verify(countryRepository, Mockito.times(1)).existsById(COUNTRY_ID);
-		Mockito.verify(countryRepository, Mockito.times(0))
-				.existsByNameAndNotId(COUNTRY_NAME, COUNTRY_ID);
-		Mockito.verify(countryRepository, Mockito.times(0))
-				.existsByCodeAndNotId(COUNTRY_CODE, COUNTRY_ID);
-		Mockito.verify(countryRepository, Mockito.times(0))
-				.existsByAcronymAndNotId(COUNTRY_ACRONYM, COUNTRY_ID);
-	}
+        assertThrows(
+                CountryNameExistExpetion.class,
+                () -> countryValidatorBean.validator(COUNTRY_ID, createCountryRequestDTO())
+        );
 
-	@Test
-	public void shouldThrowExceptionCountryNameExistExpetionByRunningMethodValidatorLongAndDTOParameter() {
-		Mockito.when(countryRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
-		Mockito.when(
-				countryRepository.existsByNameAndNotId(ArgumentMatchers.anyString(), ArgumentMatchers.anyLong())
-		).thenReturn(true);
+        Mockito.verify(countryRepository, Mockito.times(1)).existsById(COUNTRY_ID);
+        Mockito.verify(countryRepository, Mockito.times(1))
+                .existsByNameAndNotId(COUNTRY_NAME, COUNTRY_ID);
+        Mockito.verify(countryRepository, Mockito.times(0))
+                .existsByCodeAndNotId(COUNTRY_CODE, COUNTRY_ID);
+        Mockito.verify(countryRepository, Mockito.times(0))
+                .existsByAcronymAndNotId(COUNTRY_ACRONYM, COUNTRY_ID);
+    }
 
-		assertThrows(
-				CountryNameExistExpetion.class,
-				() -> countryValidatorBean.validator(COUNTRY_ID, createCountryRequestDTO())
-		);
+    @Test
+    public void shouldThrowExceptionCountryCodeExistExpetionByRunningMethodValidatorLongAndDTOParameter() {
+        Mockito.when(countryRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
+        Mockito.when(
+                countryRepository.existsByNameAndNotId(ArgumentMatchers.anyString(), ArgumentMatchers.anyLong())
+        ).thenReturn(false);
+        Mockito.when(
+                countryRepository.existsByCodeAndNotId(ArgumentMatchers.anyString(), ArgumentMatchers.anyLong())
+        ).thenReturn(true);
 
-		Mockito.verify(countryRepository, Mockito.times(1)).existsById(COUNTRY_ID);
-		Mockito.verify(countryRepository, Mockito.times(1))
-				.existsByNameAndNotId(COUNTRY_NAME, COUNTRY_ID);
-		Mockito.verify(countryRepository, Mockito.times(0))
-				.existsByCodeAndNotId(COUNTRY_CODE, COUNTRY_ID);
-		Mockito.verify(countryRepository, Mockito.times(0))
-				.existsByAcronymAndNotId(COUNTRY_ACRONYM, COUNTRY_ID);
-	}
+        assertThrows(
+                CountryCodeExistExpetion.class,
+                () -> countryValidatorBean.validator(COUNTRY_ID, createCountryRequestDTO())
+        );
 
-	@Test
-	public void shouldThrowExceptionCountryCodeExistExpetionByRunningMethodValidatorLongAndDTOParameter() {
-		Mockito.when(countryRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
-		Mockito.when(
-				countryRepository.existsByNameAndNotId(ArgumentMatchers.anyString(), ArgumentMatchers.anyLong())
-		).thenReturn(false);
-		Mockito.when(
-				countryRepository.existsByCodeAndNotId(ArgumentMatchers.anyString(), ArgumentMatchers.anyLong())
-		).thenReturn(true);
+        Mockito.verify(countryRepository, Mockito.times(1)).existsById(COUNTRY_ID);
+        Mockito.verify(countryRepository, Mockito.times(1))
+                .existsByNameAndNotId(COUNTRY_NAME, COUNTRY_ID);
+        Mockito.verify(countryRepository, Mockito.times(1))
+                .existsByCodeAndNotId(COUNTRY_CODE, COUNTRY_ID);
+        Mockito.verify(countryRepository, Mockito.times(0))
+                .existsByAcronymAndNotId(COUNTRY_ACRONYM, COUNTRY_ID);
+    }
 
-		assertThrows(
-				CountryCodeExistExpetion.class,
-				() -> countryValidatorBean.validator(COUNTRY_ID, createCountryRequestDTO())
-		);
+    @Test
+    public void shouldThrowExceptionCountryAcronymExistExpetionByRunningMethodValidatorLongAndDTOParameter() {
+        Mockito.when(countryRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
+        Mockito.when(
+                countryRepository.existsByNameAndNotId(ArgumentMatchers.anyString(), ArgumentMatchers.anyLong())
+        ).thenReturn(false);
+        Mockito.when(
+                countryRepository.existsByCodeAndNotId(ArgumentMatchers.anyString(), ArgumentMatchers.anyLong())
+        ).thenReturn(false);
+        Mockito.when(
+                countryRepository.existsByAcronymAndNotId(ArgumentMatchers.anyString(), ArgumentMatchers.anyLong())
+        ).thenReturn(true);
 
-		Mockito.verify(countryRepository, Mockito.times(1)).existsById(COUNTRY_ID);
-		Mockito.verify(countryRepository, Mockito.times(1))
-				.existsByNameAndNotId(COUNTRY_NAME, COUNTRY_ID);
-		Mockito.verify(countryRepository, Mockito.times(1))
-				.existsByCodeAndNotId(COUNTRY_CODE, COUNTRY_ID);
-		Mockito.verify(countryRepository, Mockito.times(0))
-				.existsByAcronymAndNotId(COUNTRY_ACRONYM, COUNTRY_ID);
-	}
+        assertThrows(
+                CountryAcronymExistExpetion.class,
+                () -> countryValidatorBean.validator(COUNTRY_ID, createCountryRequestDTO())
+        );
 
-	@Test
-	public void shouldThrowExceptionCountryAcronymExistExpetionByRunningMethodValidatorLongAndDTOParameter() {
-		Mockito.when(countryRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
-		Mockito.when(
-				countryRepository.existsByNameAndNotId(ArgumentMatchers.anyString(), ArgumentMatchers.anyLong())
-		).thenReturn(false);
-		Mockito.when(
-				countryRepository.existsByCodeAndNotId(ArgumentMatchers.anyString(), ArgumentMatchers.anyLong())
-		).thenReturn(false);
-		Mockito.when(
-				countryRepository.existsByAcronymAndNotId(ArgumentMatchers.anyString(), ArgumentMatchers.anyLong())
-		).thenReturn(true);
+        Mockito.verify(countryRepository, Mockito.times(1)).existsById(COUNTRY_ID);
+        Mockito.verify(countryRepository, Mockito.times(1))
+                .existsByNameAndNotId(COUNTRY_NAME, COUNTRY_ID);
+        Mockito.verify(countryRepository, Mockito.times(1))
+                .existsByCodeAndNotId(COUNTRY_CODE, COUNTRY_ID);
+        Mockito.verify(countryRepository, Mockito.times(1))
+                .existsByAcronymAndNotId(COUNTRY_ACRONYM, COUNTRY_ID);
+    }
 
-		assertThrows(
-				CountryAcronymExistExpetion.class,
-				() -> countryValidatorBean.validator(COUNTRY_ID, createCountryRequestDTO())
-		);
+    @Test
+    public void shouldntThrowExceptionByRunningMethodValidatorLongParameter() {
+        Mockito.when(countryRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
+        countryValidatorBean.validator(COUNTRY_ID);
+        Mockito.verify(countryRepository, Mockito.times(1)).existsById(COUNTRY_ID);
+    }
 
-		Mockito.verify(countryRepository, Mockito.times(1)).existsById(COUNTRY_ID);
-		Mockito.verify(countryRepository, Mockito.times(1))
-				.existsByNameAndNotId(COUNTRY_NAME, COUNTRY_ID);
-		Mockito.verify(countryRepository, Mockito.times(1))
-				.existsByCodeAndNotId(COUNTRY_CODE, COUNTRY_ID);
-		Mockito.verify(countryRepository, Mockito.times(1))
-				.existsByAcronymAndNotId(COUNTRY_ACRONYM, COUNTRY_ID);
-	}
+    @Test
+    public void shouldThrowExceptionByRunningMethodValidatorLongParameter() {
+        Mockito.when(countryRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
+        assertThrows(
+                CountryNotExistException.class,
+                () -> countryValidatorBean.validator(COUNTRY_ID)
+        );
+        Mockito.verify(countryRepository, Mockito.times(1)).existsById(COUNTRY_ID);
+    }
 
-	@Test
-	public void shouldntThrowExceptionByRunningMethodValidatorLongParameter()  {
-		Mockito.when(countryRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
-		countryValidatorBean.validator(COUNTRY_ID);
-		Mockito.verify(countryRepository, Mockito.times(1)).existsById(COUNTRY_ID);
-	}
-
-	@Test
-	public void shouldThrowExceptionByRunningMethodValidatorLongParameter() {
-		Mockito.when(countryRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
-		assertThrows(
-				CountryNotExistException.class,
-				() -> countryValidatorBean.validator(COUNTRY_ID)
-		);
-		Mockito.verify(countryRepository, Mockito.times(1)).existsById(COUNTRY_ID);
-	}
-
-	private CountryRequestDTO createCountryRequestDTO(){
-		return CountryRequestDTO.builder()
-				.name(CountryValidatorBeanBeanTest.COUNTRY_NAME)
-				.code(COUNTRY_CODE)
-				.acronym(CountryValidatorBeanBeanTest.COUNTRY_ACRONYM)
-				.build();
-	}
+    private CountryRequestDTO createCountryRequestDTO() {
+        return CountryRequestDTO.builder()
+                .name(CountryValidatorBeanBeanTest.COUNTRY_NAME)
+                .code(COUNTRY_CODE)
+                .acronym(CountryValidatorBeanBeanTest.COUNTRY_ACRONYM)
+                .build();
+    }
 }

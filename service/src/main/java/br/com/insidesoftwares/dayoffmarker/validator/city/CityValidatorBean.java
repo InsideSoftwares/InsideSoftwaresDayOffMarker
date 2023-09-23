@@ -23,21 +23,21 @@ class CityValidatorBean implements Validator<Long, CityRequestDTO> {
 
     @Override
     public void validator(final CityRequestDTO cityRequestDTO) {
-        if(!stateRepository.existsById(cityRequestDTO.stateID())) throw new StateNotExistException();
-        if(
+        if (!stateRepository.existsById(cityRequestDTO.stateID())) throw new StateNotExistException();
+        if (
                 cityRepository.existsByCodeAndAcronymAndStateID(
                         cityRequestDTO.code(),
                         cityRequestDTO.acronym(),
                         cityRequestDTO.stateID()
                 )
         ) throw new CityCodeAcronymStateExistException();
-        if(
+        if (
                 cityRepository.existsByCodeAndStateID(
                         cityRequestDTO.code(),
                         cityRequestDTO.stateID()
                 )
         ) throw new CityCodeStateExistException();
-        if(
+        if (
                 cityRepository.existsByNameAndStateID(
                         cityRequestDTO.name(),
                         cityRequestDTO.stateID()
@@ -47,9 +47,9 @@ class CityValidatorBean implements Validator<Long, CityRequestDTO> {
 
     @Override
     public void validator(final Long cityID, final CityRequestDTO cityRequestDTO) {
-        if(!cityRepository.existsById(cityID)) throw new CityNotExistException();
-        if(!stateRepository.existsById(cityRequestDTO.stateID())) throw new StateNotExistException();
-        if(
+        if (!cityRepository.existsById(cityID)) throw new CityNotExistException();
+        if (!stateRepository.existsById(cityRequestDTO.stateID())) throw new StateNotExistException();
+        if (
                 cityRepository.existsByCodeAndAcronymAndStateIDAndNotId(
                         cityRequestDTO.code(),
                         cityRequestDTO.acronym(),
@@ -57,14 +57,14 @@ class CityValidatorBean implements Validator<Long, CityRequestDTO> {
                         cityID
                 )
         ) throw new CityCodeAcronymStateExistException();
-        if(
+        if (
                 cityRepository.existsByCodeAndStateIDAndNotId(
                         cityRequestDTO.code(),
                         cityRequestDTO.stateID(),
                         cityID
                 )
         ) throw new CityCodeStateExistException();
-        if(
+        if (
                 cityRepository.existsByNameAndStateIDAndNotId(
                         cityRequestDTO.name(),
                         cityRequestDTO.stateID(),
@@ -73,10 +73,10 @@ class CityValidatorBean implements Validator<Long, CityRequestDTO> {
         ) throw new CityNameStateExistException();
     }
 
-	@Override
-	public void validator(final Long cityID) {
-		if(!cityRepository.existsById(cityID)) throw new CityNotExistException();
-	}
+    @Override
+    public void validator(final Long cityID) {
+        if (!cityRepository.existsById(cityID)) throw new CityNotExistException();
+    }
 
 
 }

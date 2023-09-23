@@ -4,7 +4,7 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.enumeration.Excepti
 import br.com.insidesoftwares.exception.error.InsideSoftwaresException;
 
 public class TagLinkDateInvalidException extends InsideSoftwaresException {
-	public TagLinkDateInvalidException() {
-		super(ExceptionCodeError.TAG_LINK_DATE_INVALID);
-	}
+    public TagLinkDateInvalidException() {
+        super(ExceptionCodeError.TAG_LINK_DATE_INVALID);
+    }
 }

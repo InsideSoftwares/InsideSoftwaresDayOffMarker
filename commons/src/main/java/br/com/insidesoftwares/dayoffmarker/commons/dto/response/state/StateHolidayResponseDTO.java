@@ -10,14 +10,14 @@ import java.time.LocalTime;
 
 @Builder
 public record StateHolidayResponseDTO(
-	Long id,
-	String name,
-	String description,
-	TypeHoliday holidayType,
-	LocalTime fromTime,
-	LocalDate day,
-	boolean stateHoliday
+        Long id,
+        String name,
+        String description,
+        TypeHoliday holidayType,
+        LocalTime fromTime,
+        LocalDate day,
+        boolean stateHoliday
 ) implements Serializable {
-	@Serial
-	private static final long serialVersionUID = -3060795851645370393L;
+    @Serial
+    private static final long serialVersionUID = -3060795851645370393L;
 }

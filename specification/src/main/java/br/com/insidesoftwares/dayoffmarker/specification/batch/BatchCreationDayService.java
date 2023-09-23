@@ -8,7 +8,10 @@ import java.util.List;
 
 public interface BatchCreationDayService {
     void createDaysBatch(final List<DayBatch> daysBatch);
-	void deleteDayBatch(final DayBatch dayBatch);
+
+    void deleteDayBatch(final DayBatch dayBatch);
+
     void createDays(final List<Day> days);
-	boolean existDayInDayBatch(final LocalDate day);
+
+    boolean existDayInDayBatch(final LocalDate day);
 }

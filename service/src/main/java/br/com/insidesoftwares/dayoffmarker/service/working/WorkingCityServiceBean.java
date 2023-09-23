@@ -25,71 +25,71 @@ import java.util.Optional;
 @Slf4j
 public class WorkingCityServiceBean implements WorkingCityService {
 
-	private final CityService cityService;
-	private final DayService dayService;
+    private final CityService cityService;
+    private final DayService dayService;
 
     @InsideAudit
     @Override
-	public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCityByDay(
-		final Long cityID,
-		final LocalDate date
-	) {
-		boolean isWorkingDay = isWorkingCityByDay(cityID, date);
+    public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCityByDay(
+            final Long cityID,
+            final LocalDate date
+    ) {
+        boolean isWorkingDay = isWorkingCityByDay(cityID, date);
 
-		return InsideSoftwaresResponseUtils.wrapResponse(
-			WorkingCurrentDayResponseDTO.builder()
-				.isWorkingDay(isWorkingDay)
-				.build()
-		);
-	}
+        return InsideSoftwaresResponseUtils.wrapResponse(
+                WorkingCurrentDayResponseDTO.builder()
+                        .isWorkingDay(isWorkingDay)
+                        .build()
+        );
+    }
 
     @InsideAudit
     @Override
-	public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCurrentDayCity(final Long cityID) {
+    public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCurrentDayCity(final Long cityID) {
 
-		LocalDate currentDay = LocalDate.now();
-		boolean isWorkingDay = isWorkingCityByDay(cityID, currentDay);
+        LocalDate currentDay = LocalDate.now();
+        boolean isWorkingDay = isWorkingCityByDay(cityID, currentDay);
 
-		return InsideSoftwaresResponseUtils.wrapResponse(
-			WorkingCurrentDayResponseDTO.builder()
-				.isWorkingDay(isWorkingDay)
-				.build()
-		);
-	}
+        return InsideSoftwaresResponseUtils.wrapResponse(
+                WorkingCurrentDayResponseDTO.builder()
+                        .isWorkingDay(isWorkingDay)
+                        .build()
+        );
+    }
 
-	private boolean isWorkingCityByDay(final Long cityID, final LocalDate date){
-		City city = cityService.findCityFullHolidayById(cityID);
-		boolean isWorkingDay;
-		Optional<StateHoliday> stateHolidayOptional = city.getState().getStateHolidays().stream()
-			.filter(stateHoliday -> {
-				Holiday holiday = stateHoliday.getHoliday();
-				return date.isEqual(holiday.getDay().getDate());
-			})
-			.filter(StateHoliday::isStateHoliday).findFirst();
+    private boolean isWorkingCityByDay(final Long cityID, final LocalDate date) {
+        City city = cityService.findCityFullHolidayById(cityID);
+        boolean isWorkingDay;
+        Optional<StateHoliday> stateHolidayOptional = city.getState().getStateHolidays().stream()
+                .filter(stateHoliday -> {
+                    Holiday holiday = stateHoliday.getHoliday();
+                    return date.isEqual(holiday.getDay().getDate());
+                })
+                .filter(StateHoliday::isStateHoliday).findFirst();
 
-		Optional<Boolean> isWorkingDayOptional = stateHolidayOptional.map(stateHoliday -> {
-			Optional<CityHoliday> cityHolidayOptional = city.getCityHolidays().stream()
-				.filter(cityHoliday -> stateHoliday.getId().getHolidayId().equals(cityHoliday.getId().getHolidayId()))
-				.filter(cityHoliday -> !cityHoliday.isCityHoliday()).findFirst();
+        Optional<Boolean> isWorkingDayOptional = stateHolidayOptional.map(stateHoliday -> {
+            Optional<CityHoliday> cityHolidayOptional = city.getCityHolidays().stream()
+                    .filter(cityHoliday -> stateHoliday.getId().getHolidayId().equals(cityHoliday.getId().getHolidayId()))
+                    .filter(cityHoliday -> !cityHoliday.isCityHoliday()).findFirst();
 
-			return cityHolidayOptional.isPresent();
-		});
+            return cityHolidayOptional.isPresent();
+        });
 
-		if(isWorkingDayOptional.isPresent()){
-			return isWorkingDayOptional.get();
-		} else {
-			isWorkingDay = city.getCityHolidays().stream()
-				.filter(cityHoliday -> {
-					Holiday holiday = cityHoliday.getHoliday();
-					return date.isEqual(holiday.getDay().getDate());
-				})
-				.anyMatch(cityHoliday -> !cityHoliday.isCityHoliday());
+        if (isWorkingDayOptional.isPresent()) {
+            return isWorkingDayOptional.get();
+        } else {
+            isWorkingDay = city.getCityHolidays().stream()
+                    .filter(cityHoliday -> {
+                        Holiday holiday = cityHoliday.getHoliday();
+                        return date.isEqual(holiday.getDay().getDate());
+                    })
+                    .anyMatch(cityHoliday -> !cityHoliday.isCityHoliday());
 
-			if(!isWorkingDay && city.getCityHolidays().isEmpty()) {
-				isWorkingDay = dayService.isDayByDateAndIsWeekend(date, false);
-			}
-		}
+            if (!isWorkingDay && city.getCityHolidays().isEmpty()) {
+                isWorkingDay = dayService.isDayByDateAndIsWeekend(date, false);
+            }
+        }
 
-		return isWorkingDay;
-	}
+        return isWorkingDay;
+    }
 }

@@ -14,7 +14,7 @@ public class WriteRequest implements ItemWriter<Request> {
     private final RequestService requestService;
 
     @Override
-    public void write(Chunk<? extends Request> requests)  {
-        requests.forEach(request -> requestService.saveRequest(request) );
+    public void write(Chunk<? extends Request> requests) {
+        requests.forEach(request -> requestService.saveRequest(request));
     }
 }

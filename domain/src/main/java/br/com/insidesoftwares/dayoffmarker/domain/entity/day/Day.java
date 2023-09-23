@@ -39,59 +39,59 @@ import java.util.Set;
 @ToString
 @Table(name = "DOM_DAY")
 @NamedEntityGraphs({
-	@NamedEntityGraph(
-		name = "day-full",
-		attributeNodes = {
-			@NamedAttributeNode("holidays"),
-			@NamedAttributeNode("tags")
-		}
-	),
-	@NamedEntityGraph(
-		name = "day-tags",
-		attributeNodes = {
-			@NamedAttributeNode("tags")
-		}
-	)
+        @NamedEntityGraph(
+                name = "day-full",
+                attributeNodes = {
+                        @NamedAttributeNode("holidays"),
+                        @NamedAttributeNode("tags")
+                }
+        ),
+        @NamedEntityGraph(
+                name = "day-tags",
+                attributeNodes = {
+                        @NamedAttributeNode("tags")
+                }
+        )
 })
 public class Day {
 
-	@Id
-	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	@Column(name = "DAY_ID")
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "DAY_ID")
+    private Long id;
 
-	@Column(name = "DATE")
-	private LocalDate date;
+    @Column(name = "DATE")
+    private LocalDate date;
 
-	@Column(name = "WEEKEND")
-	private boolean isWeekend;
+    @Column(name = "WEEKEND")
+    private boolean isWeekend;
 
-	@Column(name = "HOLIDAY")
-	private boolean isHoliday;
+    @Column(name = "HOLIDAY")
+    private boolean isHoliday;
 
-	@Column(name = "DAY_OF_WEEK")
-	@Enumerated(EnumType.STRING)
-	private DayOfWeek dayOfWeek;
+    @Column(name = "DAY_OF_WEEK")
+    @Enumerated(EnumType.STRING)
+    private DayOfWeek dayOfWeek;
 
-	@Column(name = "DAY_OF_YEAR")
-	private int dayOfYear;
+    @Column(name = "DAY_OF_YEAR")
+    private int dayOfYear;
 
-	@OneToMany(mappedBy = "day", fetch = FetchType.LAZY)
-	private Set<Holiday> holidays;
+    @OneToMany(mappedBy = "day", fetch = FetchType.LAZY)
+    private Set<Holiday> holidays;
 
-	@Column(name = "DAY_TAG")
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name="DOM_DAY_TAG", joinColumns=
-		{@JoinColumn(name="DAY_ID")}, inverseJoinColumns=
-		{@JoinColumn(name="TAG_ID")})
-	private Set<Tag> tags;
+    @Column(name = "DAY_TAG")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "DOM_DAY_TAG", joinColumns =
+            {@JoinColumn(name = "DAY_ID")}, inverseJoinColumns =
+            {@JoinColumn(name = "TAG_ID")})
+    private Set<Tag> tags;
 
-	public boolean isLeap(){
-		return Year.isLeap(this.date.getYear());
-	}
+    public boolean isLeap() {
+        return Year.isLeap(this.date.getYear());
+    }
 
-    public void addTag(Tag tag){
-        if(Objects.isNull(tags)){
+    public void addTag(Tag tag) {
+        if (Objects.isNull(tags)) {
             tags = new HashSet<>();
         }
         tags.add(tag);

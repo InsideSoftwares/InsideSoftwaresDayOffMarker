@@ -43,9 +43,9 @@ import java.util.Optional;
 class StateServiceBean implements StateService {
 
     private final StateRepository stateRepository;
-	private final StateHolidayRepository stateHolidayRepository;
+    private final StateHolidayRepository stateHolidayRepository;
     private final CountryService countryService;
-	private final HolidayService holidayService;
+    private final HolidayService holidayService;
     private final Validator<Long, StateRequestDTO> stateValidator;
     private final StateMapper stateMapper;
 
@@ -53,7 +53,7 @@ class StateServiceBean implements StateService {
     @Override
     public InsideSoftwaresResponseDTO<List<StateResponseDTO>> findAll(
             final String nameCountry,
-			final InsidePaginationFilterDTO paginationFilter
+            final InsidePaginationFilterDTO paginationFilter
     ) {
 
         Pageable pageable = PaginationUtils.createPageable(paginationFilter, eOrderState.ID);
@@ -66,11 +66,11 @@ class StateServiceBean implements StateService {
                 .data(stateMapper.toDTOs(states.getContent()))
                 .insidePaginatedDTO(
                         PaginationUtils.createPaginated(
-                            states.getTotalPages(),
-                            states.getTotalElements(),
-							states.getContent().size(),
-							paginationFilter.getSizePerPage()
-                    )
+                                states.getTotalPages(),
+                                states.getTotalElements(),
+                                states.getContent().size(),
+                                paginationFilter.getSizePerPage()
+                        )
                 )
                 .build();
     }
@@ -100,7 +100,7 @@ class StateServiceBean implements StateService {
         State state = State.builder()
                 .name(stateRequestDTO.name())
                 .acronym(stateRequestDTO.acronym())
-				.code(stateRequestDTO.code())
+                .code(stateRequestDTO.code())
                 .country(country)
                 .build();
 
@@ -118,73 +118,73 @@ class StateServiceBean implements StateService {
         stateValidator.validator(stateID, stateRequestDTO);
         State state = stateRepository.getReferenceById(stateID);
 
-        if(!stateRequestDTO.countryId().equals(state.getCountry().getId())){
+        if (!stateRequestDTO.countryId().equals(state.getCountry().getId())) {
             Country country = countryService.findCountryByCountryId(stateRequestDTO.countryId());
             state.setCountry(country);
         }
 
         state.setName(stateRequestDTO.name());
         state.setAcronym(stateRequestDTO.acronym());
-		state.setCode(stateRequestDTO.code());
+        state.setCode(stateRequestDTO.code());
         stateRepository.save(state);
     }
 
     @InsideAudit
     @Override
-    public State findStateByStateId(final Long stateId)  {
+    public State findStateByStateId(final Long stateId) {
         Optional<State> optionalState = stateRepository.findById(stateId);
         return optionalState.orElseThrow(StateNotExistException::new);
     }
 
     @InsideAudit
     @Transactional(rollbackFor = {
-		CityNotExistException.class,
-		HolidayNotExistException.class,
-		Exception.class
-	})
-	@Override
-	public void addStateHoliday(
-		final Long stateID,
-		@Valid final StateHolidayRequestDTO stateHolidayRequestDTO
-	) {
-		State state = stateRepository.findById(stateID).orElseThrow(StateNotExistException::new);
+            CityNotExistException.class,
+            HolidayNotExistException.class,
+            Exception.class
+    })
+    @Override
+    public void addStateHoliday(
+            final Long stateID,
+            @Valid final StateHolidayRequestDTO stateHolidayRequestDTO
+    ) {
+        State state = stateRepository.findById(stateID).orElseThrow(StateNotExistException::new);
 
-		stateHolidayRequestDTO.holidaysId().forEach(holidayId -> {
-			Holiday holiday = holidayService.findHolidayById(holidayId);
-			StateHolidayPK stateHolidayPK = StateHolidayPK.builder()
-				.stateId(state.getId())
-				.holidayId(holiday.getId())
-				.build();
+        stateHolidayRequestDTO.holidaysId().forEach(holidayId -> {
+            Holiday holiday = holidayService.findHolidayById(holidayId);
+            StateHolidayPK stateHolidayPK = StateHolidayPK.builder()
+                    .stateId(state.getId())
+                    .holidayId(holiday.getId())
+                    .build();
 
-			StateHoliday stateHoliday = new StateHoliday(stateHolidayPK, stateHolidayRequestDTO.isHoliday());
+            StateHoliday stateHoliday = new StateHoliday(stateHolidayPK, stateHolidayRequestDTO.isHoliday());
 
-			state.addHoliday(stateHoliday);
-		});
+            state.addHoliday(stateHoliday);
+        });
 
-		stateRepository.save(state);
-	}
+        stateRepository.save(state);
+    }
 
     @InsideAudit
     @Transactional(rollbackFor = {
-		StateNotExistException.class,
-		Exception.class
-	})
-	@Override
-	public void deleteStateHoliday(
-		final Long stateID,
-		@Valid final StateHolidayDeleteRequestDTO stateHolidayDeleteRequestDTO
-	) {
-		State state = stateRepository.findById(stateID).orElseThrow(StateNotExistException::new);
+            StateNotExistException.class,
+            Exception.class
+    })
+    @Override
+    public void deleteStateHoliday(
+            final Long stateID,
+            @Valid final StateHolidayDeleteRequestDTO stateHolidayDeleteRequestDTO
+    ) {
+        State state = stateRepository.findById(stateID).orElseThrow(StateNotExistException::new);
 
-		stateHolidayDeleteRequestDTO.holidaysId().forEach(holidayId -> {
-			Optional<StateHoliday> stateHolidayOptional = state.containsHoliday(holidayId);
+        stateHolidayDeleteRequestDTO.holidaysId().forEach(holidayId -> {
+            Optional<StateHoliday> stateHolidayOptional = state.containsHoliday(holidayId);
 
-			stateHolidayOptional.ifPresent(stateHoliday -> {
-				stateHolidayRepository.delete(stateHoliday);
-				state.deleteHoliday(holidayId);
-			});
-		});
+            stateHolidayOptional.ifPresent(stateHoliday -> {
+                stateHolidayRepository.delete(stateHoliday);
+                state.deleteHoliday(holidayId);
+            });
+        });
 
-		stateRepository.save(state);
-	}
+        stateRepository.save(state);
+    }
 }

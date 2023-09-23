@@ -10,26 +10,26 @@ import java.util.Set;
 @Repository
 public interface TagRepository extends JpaRepository<Tag, Long> {
 
-	@Query("""
+    @Query("""
             SELECT count(t)>0
             FROM Tag t
             WHERE LOWER(t.code) = LOWER(:code)
             """)
-	boolean existsByCode(String code);
+    boolean existsByCode(String code);
 
-	@Query("""
+    @Query("""
             SELECT count(t)>0
             FROM Tag t
             WHERE LOWER(t.code) = LOWER(:code) AND
             t.id != :tagId
             """)
-	boolean existsByCodeAndNotId(String code, Long tagId);
+    boolean existsByCodeAndNotId(String code, Long tagId);
 
-	@Query("""
-			SELECT count(t) = :total
-			FROM Tag t
-			WHERE t.id IN :tags
-			""")
-	boolean existsByTags(Long total, Set<Long> tags);
+    @Query("""
+            SELECT count(t) = :total
+            FROM Tag t
+            WHERE t.id IN :tags
+            """)
+    boolean existsByTags(Long total, Set<Long> tags);
 
 }

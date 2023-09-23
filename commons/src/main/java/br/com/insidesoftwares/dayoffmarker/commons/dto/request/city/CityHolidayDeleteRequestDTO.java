@@ -8,8 +8,8 @@ import java.io.Serializable;
 import java.util.Set;
 
 public record CityHolidayDeleteRequestDTO(
-	@NotNull(message = "DOMV-003") @NotEmpty(message = "DOMV-001") Set<Long> holidaysId
+        @NotNull(message = "DOMV-003") @NotEmpty(message = "DOMV-001") Set<Long> holidaysId
 ) implements Serializable {
-	@Serial
-	private static final long serialVersionUID = -9137645516104570377L;
+    @Serial
+    private static final long serialVersionUID = -9137645516104570377L;
 }

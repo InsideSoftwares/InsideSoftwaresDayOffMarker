@@ -17,19 +17,19 @@ import org.springframework.transaction.annotation.Transactional;
 class FixedHolidayValidatorBean implements Validator<Long, FixedHolidayRequestDTO> {
 
     private final FixedHolidayRepository fixedHolidayRepository;
-    
+
     @Override
     public void validator(final FixedHolidayRequestDTO fixedHolidayRequestDTO) {
-        if(
+        if (
                 !DateUtils.isDateValid(
                         fixedHolidayRequestDTO.day(),
                         fixedHolidayRequestDTO.month()
                 )
         ) throw new DayMonthInvalidException();
-        if(
+        if (
                 fixedHolidayRepository.existsByDayAndMonth(
-                    fixedHolidayRequestDTO.day(),
-                    fixedHolidayRequestDTO.month()
+                        fixedHolidayRequestDTO.day(),
+                        fixedHolidayRequestDTO.month()
                 )
         ) throw new FixedHolidayDayMonthCountryExistException();
 
@@ -37,14 +37,14 @@ class FixedHolidayValidatorBean implements Validator<Long, FixedHolidayRequestDT
 
     @Override
     public void validator(final Long fixedHolidayId, final FixedHolidayRequestDTO fixedHolidayRequestDTO) {
-        if(!fixedHolidayRepository.existsById(fixedHolidayId)) throw new FixedHolidayNotExistException();
-        if(
+        if (!fixedHolidayRepository.existsById(fixedHolidayId)) throw new FixedHolidayNotExistException();
+        if (
                 !DateUtils.isDateValid(
                         fixedHolidayRequestDTO.day(),
                         fixedHolidayRequestDTO.month()
                 )
         ) throw new DayMonthInvalidException();
-        if(
+        if (
                 fixedHolidayRepository.existsByDayAndMonthAndNotId(
                         fixedHolidayRequestDTO.day(),
                         fixedHolidayRequestDTO.month(),
@@ -53,9 +53,9 @@ class FixedHolidayValidatorBean implements Validator<Long, FixedHolidayRequestDT
         ) throw new FixedHolidayDayMonthCountryExistException();
     }
 
-	@Override
-	public void validator(final Long fixedHolidayId) {
-		if(!fixedHolidayRepository.existsById(fixedHolidayId)) throw new FixedHolidayNotExistException();
-	}
+    @Override
+    public void validator(final Long fixedHolidayId) {
+        if (!fixedHolidayRepository.existsById(fixedHolidayId)) throw new FixedHolidayNotExistException();
+    }
 
 }

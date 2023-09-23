@@ -23,9 +23,9 @@ public enum eOrderCity implements PropertiesOrder {
 
     @Override
     public String value(String name) {
-        try{
+        try {
             return eOrderCity.valueOf(name).getProperties();
-        }catch (Exception exception) {
+        } catch (Exception exception) {
             return this.getProperties();
         }
     }

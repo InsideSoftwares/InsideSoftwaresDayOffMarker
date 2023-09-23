@@ -25,67 +25,67 @@ import java.util.Objects;
 @Slf4j
 public class ProcessHoliday implements ItemProcessor<Request, List<HolidayCreateRequestDTO>> {
 
-	private final BatchHolidayService batchHolidayService;
-	private final BatchCreationDayService batchCreationDayService;
+    private final BatchHolidayService batchHolidayService;
+    private final BatchCreationDayService batchCreationDayService;
 
-	@Override
-	public List<HolidayCreateRequestDTO> process(final Request request) {
+    @Override
+    public List<HolidayCreateRequestDTO> process(final Request request) {
 
-		List<HolidayCreateRequestDTO> holidays = new ArrayList<>();
+        List<HolidayCreateRequestDTO> holidays = new ArrayList<>();
 
-		Long fixedHolidayID = RequestParametersUtils.getFixedHolidayID(request.getRequestParameter());
-		try {
+        Long fixedHolidayID = RequestParametersUtils.getFixedHolidayID(request.getRequestParameter());
+        try {
 
-			int yearMin = batchHolidayService.getMinDateYear();
-			int yearMax = batchHolidayService.getMaxDateYear();
+            int yearMin = batchHolidayService.getMinDateYear();
+            int yearMax = batchHolidayService.getMaxDateYear();
 
-			int yearIndex = yearMin;
+            int yearIndex = yearMin;
 
-			FixedHoliday fixedHoliday = batchHolidayService.findFixedHolidayByID(fixedHolidayID);
+            FixedHoliday fixedHoliday = batchHolidayService.findFixedHolidayByID(fixedHolidayID);
 
-			while (yearIndex <= yearMax) {
+            while (yearIndex <= yearMax) {
 
-				if(DateUtils.isDateValid(fixedHoliday.getDay(), fixedHoliday.getMonth(), yearIndex)) {
-					LocalDate daySearch = LocalDate.of(yearIndex, fixedHoliday.getMonth(), fixedHoliday.getDay());
-					if(batchCreationDayService.existDayInDayBatch(daySearch)) {
+                if (DateUtils.isDateValid(fixedHoliday.getDay(), fixedHoliday.getMonth(), yearIndex)) {
+                    LocalDate daySearch = LocalDate.of(yearIndex, fixedHoliday.getMonth(), fixedHoliday.getDay());
+                    if (batchCreationDayService.existDayInDayBatch(daySearch)) {
 
-						Day day = batchHolidayService.findDayByDate(daySearch);
-						TypeHoliday typeHoliday = getTypeHoliday(fixedHoliday.getFromTime(), fixedHoliday.isOptional());
+                        Day day = batchHolidayService.findDayByDate(daySearch);
+                        TypeHoliday typeHoliday = getTypeHoliday(fixedHoliday.getFromTime(), fixedHoliday.isOptional());
 
-						boolean isHoliday = day.getHolidays().stream().anyMatch(holiday -> holiday.getFixedHolidayID().equals(fixedHolidayID));
+                        boolean isHoliday = day.getHolidays().stream().anyMatch(holiday -> holiday.getFixedHolidayID().equals(fixedHolidayID));
 
-						if(!isHoliday) {
-							HolidayCreateRequestDTO holidayRequestDTO = HolidayCreateRequestDTO.builder()
-								.dayId(day.getId())
-								.name(fixedHoliday.getName())
-								.description(fixedHoliday.getDescription())
-								.fromTime(fixedHoliday.getFromTime())
-								.holidayType(typeHoliday)
-								.optional(fixedHoliday.isOptional())
-								.fixedHolidayID(fixedHolidayID)
-                                .nationalHoliday(true)
-								.build();
+                        if (!isHoliday) {
+                            HolidayCreateRequestDTO holidayRequestDTO = HolidayCreateRequestDTO.builder()
+                                    .dayId(day.getId())
+                                    .name(fixedHoliday.getName())
+                                    .description(fixedHoliday.getDescription())
+                                    .fromTime(fixedHoliday.getFromTime())
+                                    .holidayType(typeHoliday)
+                                    .optional(fixedHoliday.isOptional())
+                                    .fixedHolidayID(fixedHolidayID)
+                                    .nationalHoliday(true)
+                                    .build();
 
-							holidays.add(holidayRequestDTO);
-						}
-					}
-				}
-				yearIndex++;
-			}
-		} catch (Exception e) {
-			assert fixedHolidayID != null;
-			log.error("Could not create the holiday: {}", fixedHolidayID);
-			log.error("Could not create the holiday", e);
-		}
+                            holidays.add(holidayRequestDTO);
+                        }
+                    }
+                }
+                yearIndex++;
+            }
+        } catch (Exception e) {
+            assert fixedHolidayID != null;
+            log.error("Could not create the holiday: {}", fixedHolidayID);
+            log.error("Could not create the holiday", e);
+        }
 
-		return holidays;
-	}
+        return holidays;
+    }
 
-	private TypeHoliday getTypeHoliday(LocalTime from, boolean optional){
-		if(Objects.isNull(from) && optional) {
-			return TypeHoliday.OPTIONAL;
-		}
-		return Objects.nonNull(from) && optional ? TypeHoliday.HALF_PERIOD : TypeHoliday.MANDATORY;
-	}
+    private TypeHoliday getTypeHoliday(LocalTime from, boolean optional) {
+        if (Objects.isNull(from) && optional) {
+            return TypeHoliday.OPTIONAL;
+        }
+        return Objects.nonNull(from) && optional ? TypeHoliday.HALF_PERIOD : TypeHoliday.MANDATORY;
+    }
 
 }

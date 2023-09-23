@@ -15,7 +15,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 public class InsideAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Autowired
-	@Qualifier("handlerExceptionResolver")
+    @Qualifier("handlerExceptionResolver")
     private HandlerExceptionResolver handlerExceptionResolver;
 
     @Override

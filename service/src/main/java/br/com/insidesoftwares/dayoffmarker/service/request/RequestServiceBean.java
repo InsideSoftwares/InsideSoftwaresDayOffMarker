@@ -15,30 +15,30 @@ import java.util.List;
 @RequiredArgsConstructor
 class RequestServiceBean implements RequestService {
 
-	private final RequestRepository requestRepository;
+    private final RequestRepository requestRepository;
 
-	@Transactional
-	@Override
-	public void saveRequest(final Request request) {
-		requestRepository.save(request);
-	}
+    @Transactional
+    @Override
+    public void saveRequest(final Request request) {
+        requestRepository.save(request);
+    }
 
-	@Transactional
-	@Override
-	public void saveAndFlushRequest(final Request request) {
-		requestRepository.saveAndFlush(request);
-	}
+    @Transactional
+    @Override
+    public void saveAndFlushRequest(final Request request) {
+        requestRepository.saveAndFlush(request);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public List<Request> findAllRequestByTypeAndStatus(final TypeRequest typeRequest, final StatusRequest statusRequest) {
-		return requestRepository.findAllByStatusRequest(statusRequest, typeRequest);
-	}
+    @Transactional(readOnly = true)
+    @Override
+    public List<Request> findAllRequestByTypeAndStatus(final TypeRequest typeRequest, final StatusRequest statusRequest) {
+        return requestRepository.findAllByStatusRequest(statusRequest, typeRequest);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public boolean existRequestByTypeAndStatusRequest(TypeRequest typeRequest, StatusRequest statusRequest) {
-		return requestRepository.existRequestByTypeRequestAndStatusRequest(typeRequest, statusRequest);
-	}
+    @Transactional(readOnly = true)
+    @Override
+    public boolean existRequestByTypeAndStatusRequest(TypeRequest typeRequest, StatusRequest statusRequest) {
+        return requestRepository.existRequestByTypeRequestAndStatusRequest(typeRequest, statusRequest);
+    }
 
 }

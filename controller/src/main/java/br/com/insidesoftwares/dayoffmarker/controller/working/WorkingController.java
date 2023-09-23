@@ -27,122 +27,122 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 public class WorkingController {
 
-	private final WorkingDayService workingDayService;
-	private final WorkingStateService workingStateService;
-	private final WorkingCityService workingCityService;
+    private final WorkingDayService workingDayService;
+    private final WorkingStateService workingStateService;
+    private final WorkingCityService workingCityService;
 
-	@Operation(
-		summary = "Valid if the day is a working day or returns the next day",
-		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.WorkingDay.Read"}),
-		parameters = {
-			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
-			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
-		}
-	)
-	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.WorkingDay.Read')")
-	@InsideRequestGet(uri = "/v1/working/day/{date}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_WORKING")
-	public InsideSoftwaresResponseDTO<DayDTO> findWorkingDay(
-		@PathVariable final LocalDate date,
-		@RequestParam(value = "numberOfDays", required = false, defaultValue = "0") final int numberOfDays
-	) {
-		return workingDayService.findNextWorkingDay(date, numberOfDays);
-	}
+    @Operation(
+            summary = "Valid if the day is a working day or returns the next day",
+            security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.WorkingDay.Read"}),
+            parameters = {
+                    @Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+                    @Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+            }
+    )
+    @PreAuthorize("hasAnyRole('DayOff.Read','DayOff.WorkingDay.Read')")
+    @InsideRequestGet(uri = "/v1/working/day/{date}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_WORKING")
+    public InsideSoftwaresResponseDTO<DayDTO> findWorkingDay(
+            @PathVariable final LocalDate date,
+            @RequestParam(value = "numberOfDays", required = false, defaultValue = "0") final int numberOfDays
+    ) {
+        return workingDayService.findNextWorkingDay(date, numberOfDays);
+    }
 
-	@Operation(
-		summary = "Valid if the day is a working day or returns the previous day",
-		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.WorkingDay.Read"}),
-		parameters = {
-			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
-			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
-		}
-	)
-	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.WorkingDay.Read')")
-	@InsideRequestGet(uri = "/v1/working/day/previous/{date}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_WORKING")
-	public InsideSoftwaresResponseDTO<DayDTO> findPreviousWorkingDay(
-		@PathVariable final LocalDate date,
-		@RequestParam(value = "numberOfDays", required = false, defaultValue = "0") final int numberOfDays
-	) {
-		return workingDayService.findPreviousWorkingDay(date, numberOfDays);
-	}
+    @Operation(
+            summary = "Valid if the day is a working day or returns the previous day",
+            security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.WorkingDay.Read"}),
+            parameters = {
+                    @Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+                    @Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+            }
+    )
+    @PreAuthorize("hasAnyRole('DayOff.Read','DayOff.WorkingDay.Read')")
+    @InsideRequestGet(uri = "/v1/working/day/previous/{date}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_WORKING")
+    public InsideSoftwaresResponseDTO<DayDTO> findPreviousWorkingDay(
+            @PathVariable final LocalDate date,
+            @RequestParam(value = "numberOfDays", required = false, defaultValue = "0") final int numberOfDays
+    ) {
+        return workingDayService.findPreviousWorkingDay(date, numberOfDays);
+    }
 
-	@Operation(
-		summary = "Returns if the current day is a working day",
-		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.WorkingDay.Read"}),
-		parameters = {
-			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
-			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
-		}
-	)
-	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.WorkingDay.Read')")
-	@InsideRequestGet(uri = "/v1/working/current/day", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_WORKING")
-	public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCurrentDay() {
-		return workingDayService.findWorkingCurrentDay();
-	}
+    @Operation(
+            summary = "Returns if the current day is a working day",
+            security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.WorkingDay.Read"}),
+            parameters = {
+                    @Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+                    @Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+            }
+    )
+    @PreAuthorize("hasAnyRole('DayOff.Read','DayOff.WorkingDay.Read')")
+    @InsideRequestGet(uri = "/v1/working/current/day", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_WORKING")
+    public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCurrentDay() {
+        return workingDayService.findWorkingCurrentDay();
+    }
 
-	@Operation(
-		summary = "Returns if the informed day is a working day in the state",
-		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.WorkingDay.Read"}),
-		parameters = {
-			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
-			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
-		}
-	)
-	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.WorkingState.Read')")
-	@InsideRequestGet(uri = "/v1/working/day/{date}/state/{stateID}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_WORKING")
-	public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingStateByDay(
-		@PathVariable final LocalDate date,
-		@PathVariable final Long stateID
-	) {
-		return workingStateService.findWorkingStateByDay(stateID, date);
-	}
+    @Operation(
+            summary = "Returns if the informed day is a working day in the state",
+            security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.WorkingDay.Read"}),
+            parameters = {
+                    @Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+                    @Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+            }
+    )
+    @PreAuthorize("hasAnyRole('DayOff.Read','DayOff.WorkingState.Read')")
+    @InsideRequestGet(uri = "/v1/working/day/{date}/state/{stateID}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_WORKING")
+    public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingStateByDay(
+            @PathVariable final LocalDate date,
+            @PathVariable final Long stateID
+    ) {
+        return workingStateService.findWorkingStateByDay(stateID, date);
+    }
 
-	@Operation(
-		summary = "Returns whether the current day is a working day in the state",
-		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.WorkingDay.Read"}),
-		parameters = {
-			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
-			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
-		}
-	)
-	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.WorkingState.Read')")
-	@InsideRequestGet(uri = "/v1/working/current/day/state/{stateID}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_WORKING")
-	public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCurrentDayState(
-		@PathVariable final Long stateID
-	) {
-		return workingStateService.findWorkingCurrentDayState(stateID);
-	}
+    @Operation(
+            summary = "Returns whether the current day is a working day in the state",
+            security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.WorkingDay.Read"}),
+            parameters = {
+                    @Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+                    @Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+            }
+    )
+    @PreAuthorize("hasAnyRole('DayOff.Read','DayOff.WorkingState.Read')")
+    @InsideRequestGet(uri = "/v1/working/current/day/state/{stateID}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_WORKING")
+    public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCurrentDayState(
+            @PathVariable final Long stateID
+    ) {
+        return workingStateService.findWorkingCurrentDayState(stateID);
+    }
 
-	@Operation(
-		summary = "Returns if the informed day is a working day in the city",
-		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.WorkingDay.Read"}),
-		parameters = {
-			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
-			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
-		}
-	)
-	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.WorkingState.Read')")
-	@InsideRequestGet(uri = "/v1/working/day/{date}/city/{cityID}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_WORKING")
-	public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCityByDay(
-		@PathVariable final LocalDate date,
-		@PathVariable final Long cityID
-	) {
-		return workingCityService.findWorkingCityByDay(cityID, date);
-	}
+    @Operation(
+            summary = "Returns if the informed day is a working day in the city",
+            security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.WorkingDay.Read"}),
+            parameters = {
+                    @Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+                    @Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+            }
+    )
+    @PreAuthorize("hasAnyRole('DayOff.Read','DayOff.WorkingState.Read')")
+    @InsideRequestGet(uri = "/v1/working/day/{date}/city/{cityID}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_WORKING")
+    public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCityByDay(
+            @PathVariable final LocalDate date,
+            @PathVariable final Long cityID
+    ) {
+        return workingCityService.findWorkingCityByDay(cityID, date);
+    }
 
-	@Operation(
-		summary = "Returns whether the current day is a working day in the city",
-		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.WorkingDay.Read"}),
-		parameters = {
-			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
-			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
-		}
-	)
-	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.WorkingState.Read')")
-	@InsideRequestGet(uri = "/v1/working/current/day/city/{cityID}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_WORKING")
-	public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCurrentDayCity(
-		@PathVariable final Long cityID
-	) {
-		return workingCityService.findWorkingCurrentDayCity(cityID);
-	}
+    @Operation(
+            summary = "Returns whether the current day is a working day in the city",
+            security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.WorkingDay.Read"}),
+            parameters = {
+                    @Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+                    @Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+            }
+    )
+    @PreAuthorize("hasAnyRole('DayOff.Read','DayOff.WorkingState.Read')")
+    @InsideRequestGet(uri = "/v1/working/current/day/city/{cityID}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_WORKING")
+    public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCurrentDayCity(
+            @PathVariable final Long cityID
+    ) {
+        return workingCityService.findWorkingCurrentDayCity(cityID);
+    }
 
 }

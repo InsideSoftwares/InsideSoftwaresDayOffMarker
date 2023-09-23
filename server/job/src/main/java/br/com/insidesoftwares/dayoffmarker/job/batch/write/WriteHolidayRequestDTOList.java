@@ -16,7 +16,7 @@ public class WriteHolidayRequestDTOList implements ItemWriter<List<HolidayCreate
     private final BatchHolidayService batchHolidayService;
 
     @Override
-    public void write(Chunk<? extends List<HolidayCreateRequestDTO>> lists)  {
+    public void write(Chunk<? extends List<HolidayCreateRequestDTO>> lists) {
         lists.forEach(holidayRequestDTOS -> holidayRequestDTOS.forEach(batchHolidayService::createHoliday));
     }
 }

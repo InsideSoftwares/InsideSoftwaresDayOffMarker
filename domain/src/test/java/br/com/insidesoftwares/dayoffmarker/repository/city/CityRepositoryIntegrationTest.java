@@ -20,11 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 abstract class CityRepositoryIntegrationTest {
 
-	@Autowired
-	private CityRepository cityRepository;
-    @Autowired
-    private CountryRepository countryRepository;
-
     private static final Long COUNTRY_ID = 1L;
     private static final Long STATE_MINAS_GERAIS_ID = 1L;
     private static final Long STATE_SAO_PAULO_ID = 2L;
@@ -34,6 +29,10 @@ abstract class CityRepositoryIntegrationTest {
     private static final String CITY_ACRONYM_BARB = "BARB";
     private static final String CITY_ACRONYM_PELIS = "PELIS";
     private static final Long CITY_ID_INVALID = 9999L;
+    @Autowired
+    private CityRepository cityRepository;
+    @Autowired
+    private CountryRepository countryRepository;
 
     @Test
     void shouldReturnCityWhenInformedAnExistingID() {

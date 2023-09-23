@@ -15,21 +15,21 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public interface HolidayMapper {
 
-	@Mapping(source = "day.date", target = "day")
-	HolidayResponseDTO toDTO(Holiday holiday);
+    @Mapping(source = "day.date", target = "day")
+    HolidayResponseDTO toDTO(Holiday holiday);
 
-    default List<HolidayResponseDTO> toDTOs(List<Holiday> holidays){
-		return holidays.stream().map(this::toDTO).collect(Collectors.toList());
-	}
+    default List<HolidayResponseDTO> toDTOs(List<Holiday> holidays) {
+        return holidays.stream().map(this::toDTO).collect(Collectors.toList());
+    }
 
-	@Mapping(target = "day", ignore = true)
-	HolidayResponseDTO toHolidayResponseDTO(Holiday holiday);
+    @Mapping(target = "day", ignore = true)
+    HolidayResponseDTO toHolidayResponseDTO(Holiday holiday);
 
-	@Named("toHolidayResponseDTO")
-	default Set<HolidayResponseDTO> toHolidayResponseDTO(Set<Holiday> holidays){
-		return holidays.stream().map(this::toHolidayResponseDTO).collect(Collectors.toSet());
-	}
+    @Named("toHolidayResponseDTO")
+    default Set<HolidayResponseDTO> toHolidayResponseDTO(Set<Holiday> holidays) {
+        return holidays.stream().map(this::toHolidayResponseDTO).collect(Collectors.toSet());
+    }
 
-	HolidayRequestDTO toHolidayResponseDTO(HolidayBatchRequestDTO holidayBatchRequestDTO, Long dayId);
+    HolidayRequestDTO toHolidayResponseDTO(HolidayBatchRequestDTO holidayBatchRequestDTO, Long dayId);
 
 }

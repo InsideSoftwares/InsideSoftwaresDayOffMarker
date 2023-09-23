@@ -16,9 +16,9 @@ public class ProcessorDay implements ItemProcessor<DayBatch, Day> {
     @Override
     public Day process(final DayBatch dayBatch) {
         Day day = dayMapper.toDayBatch(dayBatch);
-		day.setDayOfWeek(day.getDate().getDayOfWeek());
-		day.setDayOfYear(day.getDate().getDayOfYear());
-		return day;
+        day.setDayOfWeek(day.getDate().getDayOfWeek());
+        day.setDayOfYear(day.getDate().getDayOfYear());
+        return day;
     }
 
 }

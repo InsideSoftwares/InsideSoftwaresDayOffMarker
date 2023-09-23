@@ -4,7 +4,7 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.enumeration.Excepti
 import br.com.insidesoftwares.exception.error.InsideSoftwaresException;
 
 public class TagLinkOneParameterNotNullException extends InsideSoftwaresException {
-	public TagLinkOneParameterNotNullException() {
-		super(ExceptionCodeError.TAG_LINK_ONE_PARAMETER);
-	}
+    public TagLinkOneParameterNotNullException() {
+        super(ExceptionCodeError.TAG_LINK_ONE_PARAMETER);
+    }
 }

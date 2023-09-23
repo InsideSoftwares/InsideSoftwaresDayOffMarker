@@ -19,45 +19,45 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class TagJobServiceBean {
 
-	private final RequestService requestService;
-	private final JobLauncher jobLauncher;
-	private final JobExplorer jobExplorer;
+    private final RequestService requestService;
+    private final JobLauncher jobLauncher;
+    private final JobExplorer jobExplorer;
 
-	@Autowired
-	@Qualifier("jobLinkTagInDay")
-	private Job jobLinkTagInDay;
+    @Autowired
+    @Qualifier("jobLinkTagInDay")
+    private Job jobLinkTagInDay;
 
-	@Autowired
-	@Qualifier("jobUnlinkTagInDay")
-	private Job jobUnlinkTagInDay;
+    @Autowired
+    @Qualifier("jobUnlinkTagInDay")
+    private Job jobUnlinkTagInDay;
 
-	public void schedulingRunBatchLinkTag(){
-		try {
-			if(requestService.existRequestByTypeAndStatusRequest(TypeRequest.LINK_TAG, StatusRequest.CREATED)) {
-				JobParameters jobParameters = new JobParametersBuilder(this.jobExplorer)
-						.getNextJobParameters(jobLinkTagInDay)
-						.toJobParameters();
+    public void schedulingRunBatchLinkTag() {
+        try {
+            if (requestService.existRequestByTypeAndStatusRequest(TypeRequest.LINK_TAG, StatusRequest.CREATED)) {
+                JobParameters jobParameters = new JobParametersBuilder(this.jobExplorer)
+                        .getNextJobParameters(jobLinkTagInDay)
+                        .toJobParameters();
 
-				jobLauncher.run(jobLinkTagInDay, jobParameters);
-				log.info("Starting batch for link tag.");
-			}
-		}catch (Exception e){
-			log.error("Error starting batch for link tag.", e);
-		}
-	}
+                jobLauncher.run(jobLinkTagInDay, jobParameters);
+                log.info("Starting batch for link tag.");
+            }
+        } catch (Exception e) {
+            log.error("Error starting batch for link tag.", e);
+        }
+    }
 
-	public void schedulingRunBatchUnlinkTag(){
-		try {
-			if(requestService.existRequestByTypeAndStatusRequest(TypeRequest.UNLINK_TAG, StatusRequest.CREATED)) {
-				JobParameters jobParameters = new JobParametersBuilder(this.jobExplorer)
-					.getNextJobParameters(jobUnlinkTagInDay)
-					.toJobParameters();
+    public void schedulingRunBatchUnlinkTag() {
+        try {
+            if (requestService.existRequestByTypeAndStatusRequest(TypeRequest.UNLINK_TAG, StatusRequest.CREATED)) {
+                JobParameters jobParameters = new JobParametersBuilder(this.jobExplorer)
+                        .getNextJobParameters(jobUnlinkTagInDay)
+                        .toJobParameters();
 
-				jobLauncher.run(jobUnlinkTagInDay, jobParameters);
-				log.info("Starting batch for unlink tag.");
-			}
-		}catch (Exception e){
-			log.error("Error starting batch for unlink tag.", e);
-		}
-	}
+                jobLauncher.run(jobUnlinkTagInDay, jobParameters);
+                log.info("Starting batch for unlink tag.");
+            }
+        } catch (Exception e) {
+            log.error("Error starting batch for unlink tag.", e);
+        }
+    }
 }

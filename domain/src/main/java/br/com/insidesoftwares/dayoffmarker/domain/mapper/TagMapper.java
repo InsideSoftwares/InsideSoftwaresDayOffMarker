@@ -12,12 +12,13 @@ import java.util.Set;
 @Mapper(componentModel = "spring")
 public interface TagMapper {
 
-	TagResponseDTO toDTO(Tag tag);
-	Tag toEntity(TagRequestDTO tagRequestDTO);
+    TagResponseDTO toDTO(Tag tag);
 
-	List<TagResponseDTO> toDTOs(List<Tag> tags);
+    Tag toEntity(TagRequestDTO tagRequestDTO);
 
-	@Named("toTagResponseDTO")
-	Set<TagResponseDTO> toDTOs(Set<Tag> tags);
+    List<TagResponseDTO> toDTOs(List<Tag> tags);
+
+    @Named("toTagResponseDTO")
+    Set<TagResponseDTO> toDTOs(Set<Tag> tags);
 
 }

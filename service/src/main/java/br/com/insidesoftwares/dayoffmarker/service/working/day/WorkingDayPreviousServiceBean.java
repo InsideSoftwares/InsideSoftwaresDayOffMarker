@@ -19,22 +19,22 @@ import java.util.Objects;
 @Transactional(readOnly = true)
 @Slf4j
 public class WorkingDayPreviousServiceBean extends WorkingDayBean implements WorkingDayPreviousService {
-	private static final int LIMIT = 5;
+    private static final int LIMIT = 5;
 
-	private final DayMapper dayMapper;
+    private final DayMapper dayMapper;
 
     @Override
-	public DayDTO findWorkingDayPrevious( final LocalDate date, final int numberOfDays ) {
+    public DayDTO findWorkingDayPrevious(final LocalDate date, final int numberOfDays) {
         int timesExecuted = 0;
-		boolean isSearchForFutureDates = checkIfSearchFutureDates(numberOfDays);
-		int range = rangeBetweenStartEnd(numberOfDays);
+        boolean isSearchForFutureDates = checkIfSearchFutureDates(numberOfDays);
+        int range = rangeBetweenStartEnd(numberOfDays);
 
         LocalDate dateStartSearch = updateDateByRange(date, !isSearchForFutureDates, range);
         LocalDate dateReceived = updateDateByRange(date, isSearchForFutureDates, numberOfDays);
-		LocalDate dateFinalSearch = updateDateByRange(date, isSearchForFutureDates, range);
+        LocalDate dateFinalSearch = updateDateByRange(date, isSearchForFutureDates, range);
 
-		return findWorkingDay(dateStartSearch, dateFinalSearch, dateReceived, isSearchForFutureDates, range, timesExecuted);
-	}
+        return findWorkingDay(dateStartSearch, dateFinalSearch, dateReceived, isSearchForFutureDates, range, timesExecuted);
+    }
 
     private DayDTO findWorkingDay(
             LocalDate dateStartSearch,
@@ -44,13 +44,13 @@ public class WorkingDayPreviousServiceBean extends WorkingDayBean implements Wor
             final int range,
             final int timesExecuted
     ) {
-        if(timesExecuted >= LIMIT) {
+        if (timesExecuted >= LIMIT) {
             throw new WorkingDayException();
         }
 
         List<Day> dates = findAllWorkingDays(dateStartSearch, dateFinalSearch, isSearchForFutureDates);
 
-        if(!dates.isEmpty()) {
+        if (!dates.isEmpty()) {
             Day result = searchForWorkDayInListOfDays(dateReceived, dates, range, false);
             if (Objects.nonNull(result)) {
                 return dayMapper.toDayDTO(result);
@@ -60,7 +60,7 @@ public class WorkingDayPreviousServiceBean extends WorkingDayBean implements Wor
         dateStartSearch = updateDateByRange(dateFinalSearch, !isSearchForFutureDates, range);
         dateFinalSearch = updateDateByRange(dateFinalSearch, isSearchForFutureDates, range);
 
-        return findWorkingDay(dateStartSearch, dateFinalSearch, dateReceived, isSearchForFutureDates, range, timesExecuted+1);
+        return findWorkingDay(dateStartSearch, dateFinalSearch, dateReceived, isSearchForFutureDates, range, timesExecuted + 1);
     }
 
 }

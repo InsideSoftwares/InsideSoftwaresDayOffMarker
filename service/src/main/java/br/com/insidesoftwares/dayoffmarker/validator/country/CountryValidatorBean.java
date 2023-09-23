@@ -20,22 +20,25 @@ class CountryValidatorBean implements Validator<Long, CountryRequestDTO> {
 
     @Override
     public void validator(final CountryRequestDTO countryRequestDTO) {
-        if(countryRepository.existsByName(countryRequestDTO.name())) throw new CountryNameExistExpetion();
-        if(countryRepository.existsByCode(countryRequestDTO.code())) throw new CountryCodeExistExpetion();
-        if(countryRepository.existsByAcronym(countryRequestDTO.acronym())) throw new CountryAcronymExistExpetion();
+        if (countryRepository.existsByName(countryRequestDTO.name())) throw new CountryNameExistExpetion();
+        if (countryRepository.existsByCode(countryRequestDTO.code())) throw new CountryCodeExistExpetion();
+        if (countryRepository.existsByAcronym(countryRequestDTO.acronym())) throw new CountryAcronymExistExpetion();
     }
 
     @Override
     public void validator(final Long countryId, final CountryRequestDTO countryRequestDTO) {
-        if(!countryRepository.existsById(countryId)) throw new CountryNotExistException();
-        if(countryRepository.existsByNameAndNotId(countryRequestDTO.name(), countryId)) throw new CountryNameExistExpetion();
-        if(countryRepository.existsByCodeAndNotId(countryRequestDTO.code(), countryId)) throw new CountryCodeExistExpetion();
-        if(countryRepository.existsByAcronymAndNotId(countryRequestDTO.acronym(), countryId)) throw new CountryAcronymExistExpetion();
+        if (!countryRepository.existsById(countryId)) throw new CountryNotExistException();
+        if (countryRepository.existsByNameAndNotId(countryRequestDTO.name(), countryId))
+            throw new CountryNameExistExpetion();
+        if (countryRepository.existsByCodeAndNotId(countryRequestDTO.code(), countryId))
+            throw new CountryCodeExistExpetion();
+        if (countryRepository.existsByAcronymAndNotId(countryRequestDTO.acronym(), countryId))
+            throw new CountryAcronymExistExpetion();
     }
 
-	@Override
-	public void validator(final Long countryId) {
-		if(!countryRepository.existsById(countryId)) throw new CountryNotExistException();
+    @Override
+    public void validator(final Long countryId) {
+        if (!countryRepository.existsById(countryId)) throw new CountryNotExistException();
 
-	}
+    }
 }

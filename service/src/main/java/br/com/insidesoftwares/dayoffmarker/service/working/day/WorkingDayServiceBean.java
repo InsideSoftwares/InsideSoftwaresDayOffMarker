@@ -22,44 +22,44 @@ import java.time.LocalDate;
 @Slf4j
 public class WorkingDayServiceBean implements WorkingDayService {
 
-	private final DayRepository dayRepository;
+    private final DayRepository dayRepository;
     private final WorkingDayNextService workingDayNextService;
     private final WorkingDayPreviousService workingDayPreviousService;
 
     @InsideAudit
     @Override
-	public InsideSoftwaresResponseDTO<DayDTO> findNextWorkingDay(
-		final LocalDate date,
-		final int numberOfDays
-	) {
-		DayDTO dayDTO = workingDayNextService.findWorkingDayNext(date, numberOfDays);
+    public InsideSoftwaresResponseDTO<DayDTO> findNextWorkingDay(
+            final LocalDate date,
+            final int numberOfDays
+    ) {
+        DayDTO dayDTO = workingDayNextService.findWorkingDayNext(date, numberOfDays);
 
-		return InsideSoftwaresResponseUtils.wrapResponse(dayDTO);
-	}
-
-    @InsideAudit
-    @Override
-	public InsideSoftwaresResponseDTO<DayDTO> findPreviousWorkingDay(
-		final LocalDate date,
-		final int numberOfDays
-	) {
-		DayDTO dayDTO = workingDayPreviousService.findWorkingDayPrevious(date, numberOfDays);
-
-		return InsideSoftwaresResponseUtils.wrapResponse(dayDTO);
-	}
+        return InsideSoftwaresResponseUtils.wrapResponse(dayDTO);
+    }
 
     @InsideAudit
     @Override
-	public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCurrentDay() {
-		LocalDate currentDay = LocalDate.now();
+    public InsideSoftwaresResponseDTO<DayDTO> findPreviousWorkingDay(
+            final LocalDate date,
+            final int numberOfDays
+    ) {
+        DayDTO dayDTO = workingDayPreviousService.findWorkingDayPrevious(date, numberOfDays);
 
-		boolean isWorkingDay = dayRepository.isWorkingDayByDateAndIsHolidayAndIsWeekend(currentDay, false, false);
+        return InsideSoftwaresResponseUtils.wrapResponse(dayDTO);
+    }
 
-		return InsideSoftwaresResponseUtils.wrapResponse(
-			WorkingCurrentDayResponseDTO.builder()
-				.isWorkingDay(isWorkingDay)
-				.build()
-		);
-	}
+    @InsideAudit
+    @Override
+    public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCurrentDay() {
+        LocalDate currentDay = LocalDate.now();
+
+        boolean isWorkingDay = dayRepository.isWorkingDayByDateAndIsHolidayAndIsWeekend(currentDay, false, false);
+
+        return InsideSoftwaresResponseUtils.wrapResponse(
+                WorkingCurrentDayResponseDTO.builder()
+                        .isWorkingDay(isWorkingDay)
+                        .build()
+        );
+    }
 
 }

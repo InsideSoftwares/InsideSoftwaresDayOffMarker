@@ -9,5 +9,5 @@ import java.time.LocalDate;
 @Repository
 public interface DayBatchRepository extends JpaRepository<DayBatch, Long> {
 
-	boolean existsByDate(final LocalDate date);
+    boolean existsByDate(final LocalDate date);
 }

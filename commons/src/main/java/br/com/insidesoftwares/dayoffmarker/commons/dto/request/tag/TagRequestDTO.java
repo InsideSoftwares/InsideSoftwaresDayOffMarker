@@ -10,13 +10,13 @@ import java.io.Serializable;
 @Builder
 public record TagRequestDTO(
 
-	@NotNull(message = "DOMV-003")
-	@NotEmpty(message = "DOMV-001")
-	String code,
+        @NotNull(message = "DOMV-003")
+        @NotEmpty(message = "DOMV-001")
+        String code,
 
-	@NotNull(message = "DOMV-003")
-	@NotEmpty(message = "DOMV-001")
-	String description
+        @NotNull(message = "DOMV-003")
+        @NotEmpty(message = "DOMV-001")
+        String description
 ) implements Serializable {
     @Serial
     private static final long serialVersionUID = 5419965774511563760L;

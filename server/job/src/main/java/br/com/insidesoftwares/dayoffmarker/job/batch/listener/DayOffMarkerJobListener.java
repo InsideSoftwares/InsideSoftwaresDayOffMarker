@@ -10,23 +10,23 @@ import org.springframework.batch.core.listener.CompositeJobExecutionListener;
 @RequiredArgsConstructor
 public class DayOffMarkerJobListener extends CompositeJobExecutionListener {
 
-	private final CacheJob cacheJob;
+    private final CacheJob cacheJob;
 
-	@Override
-	public void beforeJob(final JobExecution jobExecution) {
-		super.beforeJob(jobExecution);
-		log.info("Initialized step {}", jobExecution.getJobInstance().getJobName());
-		log.info("Start Time: {}", jobExecution.getStartTime());
-		log.info("Status {}", jobExecution.getStatus());
-	}
+    @Override
+    public void beforeJob(final JobExecution jobExecution) {
+        super.beforeJob(jobExecution);
+        log.info("Initialized step {}", jobExecution.getJobInstance().getJobName());
+        log.info("Start Time: {}", jobExecution.getStartTime());
+        log.info("Status {}", jobExecution.getStatus());
+    }
 
-	@Override
+    @Override
     public void afterJob(final JobExecution jobExecution) {
         super.afterJob(jobExecution);
-		log.info("Last Updated step {}", jobExecution.getLastUpdated());
-		log.info("Status {}", jobExecution.getStatus());
-		log.info("End Time: {}", jobExecution.getEndTime());
-		log.info("Finalized step {}", jobExecution.getJobInstance().getJobName());
-		cacheJob.clearCacheScheduled();
+        log.info("Last Updated step {}", jobExecution.getLastUpdated());
+        log.info("Status {}", jobExecution.getStatus());
+        log.info("End Time: {}", jobExecution.getEndTime());
+        log.info("Finalized step {}", jobExecution.getJobInstance().getJobName());
+        cacheJob.clearCacheScheduled();
     }
 }

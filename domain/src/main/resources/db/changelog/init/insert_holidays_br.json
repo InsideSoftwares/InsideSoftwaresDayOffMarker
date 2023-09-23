@@ -6,8 +6,8 @@
         "author": "System",
         "changes": [
           {
-            "tagDatabase":{
-              "tag":"INIT"
+            "tagDatabase": {
+              "tag": "INIT"
             }
           },
           {

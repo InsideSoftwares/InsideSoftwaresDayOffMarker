@@ -9,9 +9,9 @@ import lombok.Getter;
 public enum eOrderDay implements PropertiesOrder {
     ID("id"),
     DATE("date"),
-	IS_WEEKEND("isWeekend"),
-	IS_HOLIDAY("isHoliday"),
-	DAY_OF_YEAR("dayOfYear"),
+    IS_WEEKEND("isWeekend"),
+    IS_HOLIDAY("isHoliday"),
+    DAY_OF_YEAR("dayOfYear"),
     COUNTRY_NAME("country.name"),
     HOLIDAY_NAME("holiday.name");
 
@@ -24,9 +24,9 @@ public enum eOrderDay implements PropertiesOrder {
 
     @Override
     public String value(String name) {
-        try{
+        try {
             return eOrderCity.valueOf(name).getProperties();
-        }catch (Exception exception) {
+        } catch (Exception exception) {
             return this.getProperties();
         }
     }

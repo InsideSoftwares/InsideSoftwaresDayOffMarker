@@ -25,7 +25,7 @@ import java.util.UUID;
 public class DayBatch {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "DAY_BATCH_ID")
     private Long id;
 

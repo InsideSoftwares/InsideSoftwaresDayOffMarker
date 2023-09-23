@@ -20,63 +20,63 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ExtendWith(MockitoExtension.class)
 class FixedHolidayUpdateValidatorBeanTest {
 
-	@Mock
-	private FixedHolidayRepository fixedHolidayRepository;
+    @Mock
+    private FixedHolidayRepository fixedHolidayRepository;
 
-	@InjectMocks
-	private FixedHolidayUpdateValidatorBean fixedHolidayUpdateValidatorBean;
+    @InjectMocks
+    private FixedHolidayUpdateValidatorBean fixedHolidayUpdateValidatorBean;
 
-	@Test
-	void shouldThrowMethodNotImplementedExceptionByRunningMethodValidatorWithParameterFixedHolidayUpdateRequestDTO() {
-		assertThrows(
-			MethodNotImplementedException.class,
-			() -> fixedHolidayUpdateValidatorBean.validator(FixedHolidayUpdateRequestDTO.builder().build())
-		);
-	}
+    @Test
+    void shouldThrowMethodNotImplementedExceptionByRunningMethodValidatorWithParameterFixedHolidayUpdateRequestDTO() {
+        assertThrows(
+                MethodNotImplementedException.class,
+                () -> fixedHolidayUpdateValidatorBean.validator(FixedHolidayUpdateRequestDTO.builder().build())
+        );
+    }
 
-	@Test
-	void shouldntThrowByRunningMethodValidatorWithParameterLongAndFixedHolidayUpdateRequestDTO() {
-		Mockito.when(fixedHolidayRepository.existsById(ArgumentMatchers.any())).thenReturn(true);
+    @Test
+    void shouldntThrowByRunningMethodValidatorWithParameterLongAndFixedHolidayUpdateRequestDTO() {
+        Mockito.when(fixedHolidayRepository.existsById(ArgumentMatchers.any())).thenReturn(true);
 
-		fixedHolidayUpdateValidatorBean.validator(1L, createFixedHolidayUpdateRequestDTO());
-	}
+        fixedHolidayUpdateValidatorBean.validator(1L, createFixedHolidayUpdateRequestDTO());
+    }
 
-	@Test
-	void shouldThrowFixedHolidayNotExistExceptionByRunningMethodValidatorWithParameterLongAndFixedHolidayUpdateRequestDTO() {
-		Mockito.when(fixedHolidayRepository.existsById(ArgumentMatchers.any())).thenReturn(false);
+    @Test
+    void shouldThrowFixedHolidayNotExistExceptionByRunningMethodValidatorWithParameterLongAndFixedHolidayUpdateRequestDTO() {
+        Mockito.when(fixedHolidayRepository.existsById(ArgumentMatchers.any())).thenReturn(false);
 
-		assertThrows(
-			FixedHolidayNotExistException.class,
-			() -> fixedHolidayUpdateValidatorBean.validator(1L, createFixedHolidayUpdateRequestDTO())
-		);
+        assertThrows(
+                FixedHolidayNotExistException.class,
+                () -> fixedHolidayUpdateValidatorBean.validator(1L, createFixedHolidayUpdateRequestDTO())
+        );
 
-	}
+    }
 
-	@Test
-	void shouldntThrowByRunningMethodValidatorWithParameterLong() {
-		Mockito.when(fixedHolidayRepository.existsById(ArgumentMatchers.any())).thenReturn(true);
+    @Test
+    void shouldntThrowByRunningMethodValidatorWithParameterLong() {
+        Mockito.when(fixedHolidayRepository.existsById(ArgumentMatchers.any())).thenReturn(true);
 
-		fixedHolidayUpdateValidatorBean.validator(1L);
-	}
+        fixedHolidayUpdateValidatorBean.validator(1L);
+    }
 
-	@Test
-	void shouldThrowFixedHolidayNotExistExceptionByRunningMethodValidatorWithParameterLong() {
-		Mockito.when(fixedHolidayRepository.existsById(ArgumentMatchers.any())).thenReturn(false);
+    @Test
+    void shouldThrowFixedHolidayNotExistExceptionByRunningMethodValidatorWithParameterLong() {
+        Mockito.when(fixedHolidayRepository.existsById(ArgumentMatchers.any())).thenReturn(false);
 
-		assertThrows(
-			FixedHolidayNotExistException.class,
-			() -> fixedHolidayUpdateValidatorBean.validator(1L)
-		);
-	}
+        assertThrows(
+                FixedHolidayNotExistException.class,
+                () -> fixedHolidayUpdateValidatorBean.validator(1L)
+        );
+    }
 
-	private FixedHolidayUpdateRequestDTO createFixedHolidayUpdateRequestDTO() {
-		return FixedHolidayUpdateRequestDTO.builder()
-			.name("Name")
-			.description("Description")
-			.fromTime(LocalTime.now())
-			.isEnable(true)
-			.isOptional(false)
-			.build();
-	}
+    private FixedHolidayUpdateRequestDTO createFixedHolidayUpdateRequestDTO() {
+        return FixedHolidayUpdateRequestDTO.builder()
+                .name("Name")
+                .description("Description")
+                .fromTime(LocalTime.now())
+                .isEnable(true)
+                .isOptional(false)
+                .build();
+    }
 
 }

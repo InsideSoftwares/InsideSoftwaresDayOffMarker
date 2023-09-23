@@ -19,17 +19,18 @@ import java.time.LocalDate;
 @Transactional(readOnly = true)
 class DayValidatorBean implements ValidatorLink<LinkTagRequestDTO> {
 
-	private final DayRepository dayRepository;
-	private final TagRepository tagRepository;
+    private final DayRepository dayRepository;
+    private final TagRepository tagRepository;
 
-	@Override
-	public void validateLink(Long dayID, LinkTagRequestDTO linkTagRequestDTO) {
-		if(!dayRepository.existsById(dayID)) throw new DayNotExistException();
-		Long sizeTags = (long) linkTagRequestDTO.tagsID().size();
-		if(!tagRepository.existsByTags(sizeTags, linkTagRequestDTO.tagsID())) throw new TagNotExistException();
-		LocalDate date = dayRepository.findDateByID(dayID);
-		for (Long tagID : linkTagRequestDTO.tagsID()) {
-			if(dayRepository.existsByDateAndTag(dayID, tagID)) throw new TagExistDayException(DateUtils.returnDate(date));
-		}
-	}
+    @Override
+    public void validateLink(Long dayID, LinkTagRequestDTO linkTagRequestDTO) {
+        if (!dayRepository.existsById(dayID)) throw new DayNotExistException();
+        Long sizeTags = (long) linkTagRequestDTO.tagsID().size();
+        if (!tagRepository.existsByTags(sizeTags, linkTagRequestDTO.tagsID())) throw new TagNotExistException();
+        LocalDate date = dayRepository.findDateByID(dayID);
+        for (Long tagID : linkTagRequestDTO.tagsID()) {
+            if (dayRepository.existsByDateAndTag(dayID, tagID))
+                throw new TagExistDayException(DateUtils.returnDate(date));
+        }
+    }
 }

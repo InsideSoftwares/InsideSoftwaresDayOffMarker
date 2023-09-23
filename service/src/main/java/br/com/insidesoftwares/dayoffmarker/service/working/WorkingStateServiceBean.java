@@ -22,61 +22,61 @@ import java.time.LocalDate;
 @Slf4j
 public class WorkingStateServiceBean implements WorkingStateService {
 
-	private final StateService stateService;
-	private final DayService dayService;
-	private final StateRepository stateRepository;
+    private final StateService stateService;
+    private final DayService dayService;
+    private final StateRepository stateRepository;
 
     @InsideAudit
     @Override
-	public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingStateByDay(
-		final Long stateID,
-		final LocalDate date
-	) {
-		boolean isWorkingDay = isWorkingStateByDay(stateID, date);
+    public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingStateByDay(
+            final Long stateID,
+            final LocalDate date
+    ) {
+        boolean isWorkingDay = isWorkingStateByDay(stateID, date);
 
-		return InsideSoftwaresResponseUtils.wrapResponse(
-			WorkingCurrentDayResponseDTO.builder()
-				.isWorkingDay(isWorkingDay)
-				.build()
-		);
-	}
+        return InsideSoftwaresResponseUtils.wrapResponse(
+                WorkingCurrentDayResponseDTO.builder()
+                        .isWorkingDay(isWorkingDay)
+                        .build()
+        );
+    }
 
     @InsideAudit
     @Override
-	public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCurrentDayState(final Long stateID) {
+    public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCurrentDayState(final Long stateID) {
 
-		LocalDate currentDay = LocalDate.now();
-		boolean isWorkingDay = isWorkingStateByDay(stateID, currentDay);
+        LocalDate currentDay = LocalDate.now();
+        boolean isWorkingDay = isWorkingStateByDay(stateID, currentDay);
 
-		return InsideSoftwaresResponseUtils.wrapResponse(
-			WorkingCurrentDayResponseDTO.builder()
-				.isWorkingDay(isWorkingDay)
-				.build()
-		);
-	}
+        return InsideSoftwaresResponseUtils.wrapResponse(
+                WorkingCurrentDayResponseDTO.builder()
+                        .isWorkingDay(isWorkingDay)
+                        .build()
+        );
+    }
 
-	private boolean isWorkingStateByDay(final Long stateID, final LocalDate date){
-		State state = stateService.findStateByStateId(stateID);
-		boolean isWorkingDay;
-		boolean isNotWorkingDay = stateRepository.isStateHolidayByStateAndStateHolidayAndDate(
-			state,
-			true,
-			date
-		);
+    private boolean isWorkingStateByDay(final Long stateID, final LocalDate date) {
+        State state = stateService.findStateByStateId(stateID);
+        boolean isWorkingDay;
+        boolean isNotWorkingDay = stateRepository.isStateHolidayByStateAndStateHolidayAndDate(
+                state,
+                true,
+                date
+        );
 
-		if(isNotWorkingDay) {
-			isWorkingDay = false;
-		} else {
-			isWorkingDay = stateRepository.isStateHolidayByStateAndStateHolidayAndDate(
-				state,
-				false,
-				date
-			);
-			if(!isWorkingDay && state.getStateHolidays().isEmpty()) {
-				isWorkingDay = dayService.isDayByDateAndIsWeekend(date, false);
-			}
-		}
+        if (isNotWorkingDay) {
+            isWorkingDay = false;
+        } else {
+            isWorkingDay = stateRepository.isStateHolidayByStateAndStateHolidayAndDate(
+                    state,
+                    false,
+                    date
+            );
+            if (!isWorkingDay && state.getStateHolidays().isEmpty()) {
+                isWorkingDay = dayService.isDayByDateAndIsWeekend(date, false);
+            }
+        }
 
-		return isWorkingDay;
-	}
+        return isWorkingDay;
+    }
 }

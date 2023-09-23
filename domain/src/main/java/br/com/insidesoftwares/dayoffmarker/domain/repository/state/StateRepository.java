@@ -15,10 +15,10 @@ import java.util.Optional;
 @Repository
 public interface StateRepository extends JpaRepository<State, Long> {
 
-	@EntityGraph(value = "state-full")
-	Optional<State> findStateById(Long stateId);
+    @EntityGraph(value = "state-full")
+    Optional<State> findStateById(Long stateId);
 
-	@EntityGraph(value = "state-full")
+    @EntityGraph(value = "state-full")
     Page<State> findAllByCountry(Country country, Pageable pageable);
 
     @Query("""
@@ -57,20 +57,20 @@ public interface StateRepository extends JpaRepository<State, Long> {
             """)
     boolean existsByCountryIdAndAcronymAndNotId(Long countryID, String acronym, Long stateId);
 
-	@Query("""
-		SELECT count(s) > 0
-		FROM State s
-		INNER JOIN StateHoliday sh ON s.id =  sh.id.stateId
-		INNER JOIN Holiday h ON sh.id.holidayId = h.id
-		INNER JOIN Day d ON h.day.id = d.id
-		WHERE s = :state
-			AND sh.stateHoliday = :stateHoliday
-			AND d.date = :dateSearch
-		""")
-	boolean isStateHolidayByStateAndStateHolidayAndDate(
-		final State state,
-		final boolean stateHoliday,
-		final LocalDate dateSearch
-	);
+    @Query("""
+            SELECT count(s) > 0
+            FROM State s
+            INNER JOIN StateHoliday sh ON s.id =  sh.id.stateId
+            INNER JOIN Holiday h ON sh.id.holidayId = h.id
+            INNER JOIN Day d ON h.day.id = d.id
+            WHERE s = :state
+            	AND sh.stateHoliday = :stateHoliday
+            	AND d.date = :dateSearch
+            """)
+    boolean isStateHolidayByStateAndStateHolidayAndDate(
+            final State state,
+            final boolean stateHoliday,
+            final LocalDate dateSearch
+    );
 
 }

@@ -9,9 +9,9 @@ import java.util.Set;
 
 @Builder
 public record LinkTagRequestDTO(
-	@NotEmpty(message = "DOMV-003")
-	Set<Long> tagsID
+        @NotEmpty(message = "DOMV-003")
+        Set<Long> tagsID
 ) implements Serializable {
-	@Serial
-	private static final long serialVersionUID = 6539008299760592614L;
+    @Serial
+    private static final long serialVersionUID = 6539008299760592614L;
 }

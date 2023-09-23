@@ -9,14 +9,14 @@ import java.time.LocalTime;
 
 @Builder
 public record HolidayCreateRequestDTO(
-	String name,
-	String description,
-	TypeHoliday holidayType,
-	LocalTime fromTime,
-	boolean optional,
-    boolean nationalHoliday,
-	Long dayId,
-	Long fixedHolidayID
+        String name,
+        String description,
+        TypeHoliday holidayType,
+        LocalTime fromTime,
+        boolean optional,
+        boolean nationalHoliday,
+        Long dayId,
+        Long fixedHolidayID
 ) implements Serializable {
     @Serial
     private static final long serialVersionUID = 7948167387544767535L;

@@ -16,9 +16,9 @@ import lombok.Setter;
 @Embeddable
 public class DayTagPK {
 
-	@Column(name="DAY_ID")
-	private Long dayID;
-	@Column(name="TAG_ID")
-	private Long tagID;
+    @Column(name = "DAY_ID")
+    private Long dayID;
+    @Column(name = "TAG_ID")
+    private Long tagID;
 
 }

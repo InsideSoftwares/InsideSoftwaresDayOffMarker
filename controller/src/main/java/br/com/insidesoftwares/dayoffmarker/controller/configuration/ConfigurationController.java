@@ -26,42 +26,41 @@ public class ConfigurationController {
 
     private final ConfigurationService configurationService;
 
-	@Operation(
-		summary = "Set limit of days that can be created",
-		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Write"}),
-		parameters = {
-			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
-			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
-		}
-	)
-	@PreAuthorize("hasAnyRole('DayOff.Write')")
-	@InsideRequestPost(uri = "/v1/configuration/limit/year", httpCode = HttpStatus.ACCEPTED, nameCache = "ALL")
-	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP", ttl = 1)
+    @Operation(
+            summary = "Set limit of days that can be created",
+            security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Write"}),
+            parameters = {
+                    @Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+                    @Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+            }
+    )
+    @PreAuthorize("hasAnyRole('DayOff.Write')")
+    @InsideRequestPost(uri = "/v1/configuration/limit/year", httpCode = HttpStatus.ACCEPTED, nameCache = "ALL")
+    @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP", ttl = 1)
     public InsideSoftwaresResponseDTO<Void> configurationLimitYear(
-		@JdempotentRequestPayload @RequestBody final ConfigurationLimitYearRequestDTO configurationLimitYearRequestDTO
+            @JdempotentRequestPayload @RequestBody final ConfigurationLimitYearRequestDTO configurationLimitYearRequestDTO
     ) {
         configurationService.configurationLimitYear(configurationLimitYearRequestDTO);
-		return InsideSoftwaresResponseDTO.<Void>builder().build();
+        return InsideSoftwaresResponseDTO.<Void>builder().build();
     }
 
-	@Operation(
-		summary = "Defines the application's default country",
-		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Write"}),
-		parameters = {
-			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
-			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
-		}
-	)
-	@PreAuthorize("hasAnyRole('DayOff.Write')")
-	@InsideRequestPost(uri = "/v1/configuration/country", httpCode = HttpStatus.ACCEPTED, nameCache = "ALL")
-	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP", ttl = 1)
-	public InsideSoftwaresResponseDTO<Void> configurationCountry(
-		@JdempotentRequestPayload @RequestBody final ConfigurationCountryRequestDTO configurationCountryRequestDTO
-	) {
-		configurationService.configurationCountry(configurationCountryRequestDTO);
-		return InsideSoftwaresResponseDTO.<Void>builder().build();
-	}
-
+    @Operation(
+            summary = "Defines the application's default country",
+            security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Write"}),
+            parameters = {
+                    @Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+                    @Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+            }
+    )
+    @PreAuthorize("hasAnyRole('DayOff.Write')")
+    @InsideRequestPost(uri = "/v1/configuration/country", httpCode = HttpStatus.ACCEPTED, nameCache = "ALL")
+    @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP", ttl = 1)
+    public InsideSoftwaresResponseDTO<Void> configurationCountry(
+            @JdempotentRequestPayload @RequestBody final ConfigurationCountryRequestDTO configurationCountryRequestDTO
+    ) {
+        configurationService.configurationCountry(configurationCountryRequestDTO);
+        return InsideSoftwaresResponseDTO.<Void>builder().build();
+    }
 
 
 }

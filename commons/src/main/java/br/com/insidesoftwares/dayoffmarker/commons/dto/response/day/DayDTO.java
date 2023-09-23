@@ -12,15 +12,15 @@ import java.util.Set;
 
 @Builder
 public record DayDTO(
-	Long id,
-	LocalDate date,
-	boolean weekend,
-	boolean holiday,
-	DayOfWeek dayOfWeek,
-	Integer dayOfYear,
-	Set<HolidayResponseDTO> holidays,
-	Set<TagResponseDTO> tags
+        Long id,
+        LocalDate date,
+        boolean weekend,
+        boolean holiday,
+        DayOfWeek dayOfWeek,
+        Integer dayOfYear,
+        Set<HolidayResponseDTO> holidays,
+        Set<TagResponseDTO> tags
 ) implements Serializable {
-	@Serial
-	private static final long serialVersionUID = 7473865903890039251L;
+    @Serial
+    private static final long serialVersionUID = 7473865903890039251L;
 }

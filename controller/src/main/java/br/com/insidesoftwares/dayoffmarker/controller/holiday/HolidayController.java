@@ -36,49 +36,49 @@ public class HolidayController {
 
     private final HolidayService holidayService;
 
-	@Operation(
-		summary = "Get All Holidays",
-		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.Holiday.Read"}),
-		parameters = {
-			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
-			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
-		}
-	)
-	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.Holiday.Read')")
-	@InsideRequestGet(uri = "/v1/holiday", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_HOLIDAY")
+    @Operation(
+            summary = "Get All Holidays",
+            security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.Holiday.Read"}),
+            parameters = {
+                    @Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+                    @Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+            }
+    )
+    @PreAuthorize("hasAnyRole('DayOff.Read','DayOff.Holiday.Read')")
+    @InsideRequestGet(uri = "/v1/holiday", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_HOLIDAY")
     public InsideSoftwaresResponseDTO<List<HolidayResponseDTO>> findAll(
-			@RequestParam(value = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-			@RequestParam(value = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
-			InsidePaginationFilterDTO paginationFilter
+            @RequestParam(value = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+            @RequestParam(value = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
+            InsidePaginationFilterDTO paginationFilter
     ) {
         return holidayService.findAll(startDate, endDate, paginationFilter);
     }
 
-	@Operation(
-		summary = "Get Holiday by Id",
-		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.Holiday.Read"}),
-		parameters = {
-			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
-			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
-		}
-	)
-	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.Holiday.Read')")
-	@InsideRequestGet(uri = "/v1/holiday/{id}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_HOLIDAY")
+    @Operation(
+            summary = "Get Holiday by Id",
+            security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.Holiday.Read"}),
+            parameters = {
+                    @Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+                    @Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+            }
+    )
+    @PreAuthorize("hasAnyRole('DayOff.Read','DayOff.Holiday.Read')")
+    @InsideRequestGet(uri = "/v1/holiday/{id}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_HOLIDAY")
     public InsideSoftwaresResponseDTO<HolidayResponseDTO> findById(@PathVariable Long id) {
         return holidayService.findById(id);
     }
 
-	@Operation(
-		summary = "Create Holiday",
-		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Write", "DayOff.Holiday.Write"}),
-		parameters = {
-			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
-			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
-		}
-	)
-	@PreAuthorize("hasAnyRole('DayOff.Write','DayOff.Holiday.Write')")
-	@InsideRequestPost(uri = "/v1/holiday", httpCode = HttpStatus.CREATED,
-		nameCache = { "DAYOFF_MARKER_HOLIDAY", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_CITY", "DAYOFF_MARKER_STATE" })
+    @Operation(
+            summary = "Create Holiday",
+            security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Write", "DayOff.Holiday.Write"}),
+            parameters = {
+                    @Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+                    @Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+            }
+    )
+    @PreAuthorize("hasAnyRole('DayOff.Write','DayOff.Holiday.Write')")
+    @InsideRequestPost(uri = "/v1/holiday", httpCode = HttpStatus.CREATED,
+            nameCache = {"DAYOFF_MARKER_HOLIDAY", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_CITY", "DAYOFF_MARKER_STATE"})
     @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_HOLIDAY", ttl = 1)
     public InsideSoftwaresResponseDTO<Long> save(
             @JdempotentRequestPayload @RequestBody HolidayRequestDTO holidayRequestDTO
@@ -86,42 +86,42 @@ public class HolidayController {
         return holidayService.save(holidayRequestDTO);
     }
 
-	@Operation(
-		summary = "Create Holiday in Batch",
-		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Write", "DayOff.Holiday.Write"}),
-		parameters = {
-			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
-			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
-		}
-	)
-	@PreAuthorize("hasAnyRole('DayOff.Write','DayOff.Holiday.Write')")
-	@InsideRequestPost(uri = "/v1/holiday/batch", httpCode = HttpStatus.CREATED,
-		nameCache = { "DAYOFF_MARKER_HOLIDAY", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_CITY", "DAYOFF_MARKER_STATE", "DAYOFF_MARKER_WORKING" })
-	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_HOLIDAY", ttl = 1)
-	public InsideSoftwaresResponseDTO<List<Long>> saveInBatch(
-		@JdempotentRequestPayload @RequestBody HolidayBatchRequestDTO holidayBatchRequestDTO
-	) {
-		return holidayService.saveInBatch(holidayBatchRequestDTO);
-	}
+    @Operation(
+            summary = "Create Holiday in Batch",
+            security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Write", "DayOff.Holiday.Write"}),
+            parameters = {
+                    @Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+                    @Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+            }
+    )
+    @PreAuthorize("hasAnyRole('DayOff.Write','DayOff.Holiday.Write')")
+    @InsideRequestPost(uri = "/v1/holiday/batch", httpCode = HttpStatus.CREATED,
+            nameCache = {"DAYOFF_MARKER_HOLIDAY", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_CITY", "DAYOFF_MARKER_STATE", "DAYOFF_MARKER_WORKING"})
+    @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_HOLIDAY", ttl = 1)
+    public InsideSoftwaresResponseDTO<List<Long>> saveInBatch(
+            @JdempotentRequestPayload @RequestBody HolidayBatchRequestDTO holidayBatchRequestDTO
+    ) {
+        return holidayService.saveInBatch(holidayBatchRequestDTO);
+    }
 
-	@Operation(
-		summary = "Update Holiday by Id",
-		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Write", "DayOff.Holiday.Write"}),
-		parameters = {
-			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
-			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
-		}
-	)
-	@PreAuthorize("hasAnyRole('DayOff.Write','DayOff.Holiday.Write')")
-	@InsideRequestPut(uri = "/v1/holiday/{id}", httpCode = HttpStatus.CREATED,
-		nameCache = { "DAYOFF_MARKER_HOLIDAY", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_CITY", "DAYOFF_MARKER_STATE", "DAYOFF_MARKER_WORKING" })
-	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_HOLIDAY", ttl = 1)
+    @Operation(
+            summary = "Update Holiday by Id",
+            security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Write", "DayOff.Holiday.Write"}),
+            parameters = {
+                    @Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+                    @Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+            }
+    )
+    @PreAuthorize("hasAnyRole('DayOff.Write','DayOff.Holiday.Write')")
+    @InsideRequestPut(uri = "/v1/holiday/{id}", httpCode = HttpStatus.CREATED,
+            nameCache = {"DAYOFF_MARKER_HOLIDAY", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_CITY", "DAYOFF_MARKER_STATE", "DAYOFF_MARKER_WORKING"})
+    @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_HOLIDAY", ttl = 1)
     public InsideSoftwaresResponseDTO<Void> update(
-		@JdempotentRequestPayload @PathVariable Long id,
-		@JdempotentRequestPayload @RequestBody HolidayRequestDTO holidayRequestDTO
+            @JdempotentRequestPayload @PathVariable Long id,
+            @JdempotentRequestPayload @RequestBody HolidayRequestDTO holidayRequestDTO
     ) {
         holidayService.update(id, holidayRequestDTO);
-		return InsideSoftwaresResponseDTO.<Void>builder().build();
+        return InsideSoftwaresResponseDTO.<Void>builder().build();
     }
 
 }

@@ -31,15 +31,15 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "DOM_HOLIDAY")
 @NamedEntityGraph(
-	name = "holiday-full",
-	attributeNodes = {
-		@NamedAttributeNode("day")
-	}
+        name = "holiday-full",
+        attributeNodes = {
+                @NamedAttributeNode("day")
+        }
 )
 public class Holiday {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "HOLIDAY_ID")
     private Long id;
 
@@ -60,15 +60,15 @@ public class Holiday {
     @JoinColumn(name = "DAY_ID")
     private Day day;
 
-	@Column(name = "OPTIONAL")
-	private boolean optional;
+    @Column(name = "OPTIONAL")
+    private boolean optional;
 
-	@Column(name = "AUTOMATIC_UPDATE")
-	private boolean automaticUpdate;
+    @Column(name = "AUTOMATIC_UPDATE")
+    private boolean automaticUpdate;
 
     @Column(name = "NATIONAL_HOLIDAY")
     private boolean nationalHoliday;
 
-	@Column(name = "FIXED_HOLIDAY_ID")
-	private Long fixedHolidayID;
+    @Column(name = "FIXED_HOLIDAY_ID")
+    private Long fixedHolidayID;
 }

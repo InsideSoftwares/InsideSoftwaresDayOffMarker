@@ -25,27 +25,27 @@ import org.springframework.transaction.PlatformTransactionManager;
 public class BatchClearDayBatchConfiguration {
 
     private final JobRepository jobRepository;
-	private final PlatformTransactionManager platformTransactionManager;
-	private final DayOffMarkerJobListener dayOffMarkerJobListener;
-	private final DayOffMarkerJobProperties dayOffMarkerJobProperties;
+    private final PlatformTransactionManager platformTransactionManager;
+    private final DayOffMarkerJobListener dayOffMarkerJobListener;
+    private final DayOffMarkerJobProperties dayOffMarkerJobProperties;
     private final ProcessDayBatchNotProcessed processDayBatchNotProcessed;
-	private final WriteDayBatch writeDayBatch;
-	private final DeleteDayBatchList deleteDayBatchList;
+    private final WriteDayBatch writeDayBatch;
+    private final DeleteDayBatchList deleteDayBatchList;
 
-	@Autowired
-	@Qualifier("ReaderDayBatchNotProcessed")
-	private ItemReader<DayBatch> readerDayBatchNotProcessed;
+    @Autowired
+    @Qualifier("ReaderDayBatchNotProcessed")
+    private ItemReader<DayBatch> readerDayBatchNotProcessed;
 
-	@Autowired
-	@Qualifier("ReaderDayBatchProcessed")
-	private ItemReader<DayBatch> readerDayBatchProcessed;
+    @Autowired
+    @Qualifier("ReaderDayBatchProcessed")
+    private ItemReader<DayBatch> readerDayBatchProcessed;
 
 
     @Bean
     public Step processDayBatch() {
         return new StepBuilder("processDayBatch", jobRepository)
                 .<DayBatch, DayBatch>chunk(dayOffMarkerJobProperties.getProcessDayBatch(), platformTransactionManager)
-				.listener(dayOffMarkerJobListener)
+                .listener(dayOffMarkerJobListener)
                 .reader(readerDayBatchNotProcessed)
                 .processor(processDayBatchNotProcessed)
                 .writer(writeDayBatch)
@@ -56,7 +56,7 @@ public class BatchClearDayBatchConfiguration {
     public Step deleteAllDaysBatch() {
         return new StepBuilder("deleteAllDaysBatch", jobRepository)
                 .<DayBatch, DayBatch>chunk(dayOffMarkerJobProperties.getDeleteAllDaysBatch(), platformTransactionManager)
-				.listener(dayOffMarkerJobListener)
+                .listener(dayOffMarkerJobListener)
                 .reader(readerDayBatchProcessed)
                 .writer(deleteDayBatchList)
                 .build();

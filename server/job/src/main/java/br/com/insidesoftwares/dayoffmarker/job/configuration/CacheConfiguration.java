@@ -6,9 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @ConditionalOnProperty(
-	prefix="spring.cache", name = "enable",
-	havingValue = "true",
-	matchIfMissing = true)
+        prefix = "spring.cache", name = "enable",
+        havingValue = "true",
+        matchIfMissing = true)
 @Import({RedisAutoConfiguration.class})
 @Configuration
 public class CacheConfiguration {

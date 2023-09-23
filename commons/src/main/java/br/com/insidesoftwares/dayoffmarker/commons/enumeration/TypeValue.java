@@ -8,5 +8,5 @@ public enum TypeValue {
     DATE,
     DATETIME,
     TIME,
-	ARRAY;
+    ARRAY;
 }

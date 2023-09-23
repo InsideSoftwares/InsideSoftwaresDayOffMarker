@@ -6,6 +6,7 @@ import br.com.insidesoftwares.dayoffmarker.commons.dto.response.working.WorkingC
 import java.time.LocalDate;
 
 public interface WorkingStateService {
-	InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingStateByDay(final Long stateID, final LocalDate date);
-	InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCurrentDayState(final Long stateID);
+    InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingStateByDay(final Long stateID, final LocalDate date);
+
+    InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCurrentDayState(final Long stateID);
 }

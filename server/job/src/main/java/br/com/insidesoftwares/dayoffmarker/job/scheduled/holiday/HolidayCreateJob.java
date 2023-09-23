@@ -10,25 +10,25 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class HolidayCreateJob {
 
-	private final HolidayJobServiceBean holidayJobServiceBean;
+    private final HolidayJobServiceBean holidayJobServiceBean;
 
-	@Scheduled(
-			cron = "${application.scheduling.holiday.create.cron:0 0 */1 * * *}"
-	)
-	public void schedulingRunRequestForCreateDays() {
-		log.info("Starting the create of holidays");
-		holidayJobServiceBean.createHolidayFromFixedHoliday();
-		log.info("Finalizing the create of holidays");
-	}
+    @Scheduled(
+            cron = "${application.scheduling.holiday.create.cron:0 0 */1 * * *}"
+    )
+    public void schedulingRunRequestForCreateDays() {
+        log.info("Starting the create of holidays");
+        holidayJobServiceBean.createHolidayFromFixedHoliday();
+        log.info("Finalizing the create of holidays");
+    }
 
-	@Scheduled(
-			cron = "${application.scheduling.holiday.batch.create.cron:0 10 */1 * * *}"
-	)
-	public void schedulingRunBath() {
-		log.info("Starting the update holiday request run batch");
-		holidayJobServiceBean.schedulingRunBatch();
-		log.info("Finalizing the update holiday request run batch");
+    @Scheduled(
+            cron = "${application.scheduling.holiday.batch.create.cron:0 10 */1 * * *}"
+    )
+    public void schedulingRunBath() {
+        log.info("Starting the update holiday request run batch");
+        holidayJobServiceBean.schedulingRunBatch();
+        log.info("Finalizing the update holiday request run batch");
 
-	}
+    }
 
 }

@@ -9,5 +9,6 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface FixedHolidayMapper {
     FixedHolidayResponseDTO toDTO(FixedHoliday fixedHoliday);
+
     List<FixedHolidayResponseDTO> toDTOs(List<FixedHoliday> fixedHolidays);
 }

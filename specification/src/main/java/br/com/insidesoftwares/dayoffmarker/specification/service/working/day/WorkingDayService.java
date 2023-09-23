@@ -7,7 +7,9 @@ import br.com.insidesoftwares.dayoffmarker.commons.dto.response.working.WorkingC
 import java.time.LocalDate;
 
 public interface WorkingDayService {
-	InsideSoftwaresResponseDTO<DayDTO> findNextWorkingDay( final LocalDate date, final int numberOfDays );
-	InsideSoftwaresResponseDTO<DayDTO> findPreviousWorkingDay( final LocalDate date, final int numberOfDays );
-	InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCurrentDay();
+    InsideSoftwaresResponseDTO<DayDTO> findNextWorkingDay(final LocalDate date, final int numberOfDays);
+
+    InsideSoftwaresResponseDTO<DayDTO> findPreviousWorkingDay(final LocalDate date, final int numberOfDays);
+
+    InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCurrentDay();
 }

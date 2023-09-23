@@ -11,17 +11,17 @@ import java.util.Locale;
 @Component
 public class LocaleUtilsBean implements LocaleService {
 
-	@Autowired
-	private MessageSource messageSource;
+    @Autowired
+    private MessageSource messageSource;
 
-	@Override
-	public Locale getLocale(){
-		return LocaleContextHolder.getLocale(LocaleContextHolder.getLocaleContext());
-	}
+    @Override
+    public Locale getLocale() {
+        return LocaleContextHolder.getLocale(LocaleContextHolder.getLocaleContext());
+    }
 
-	@Override
-	public String getMessage(String code, Object... args){
-		return messageSource.getMessage(code, args, getLocale());
-	}
+    @Override
+    public String getMessage(String code, Object... args) {
+        return messageSource.getMessage(code, args, getLocale());
+    }
 
 }

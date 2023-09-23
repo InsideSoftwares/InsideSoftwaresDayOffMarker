@@ -20,15 +20,15 @@ class FixedHolidayUpdateValidatorBean implements Validator<Long, FixedHolidayUpd
     public void validator(final FixedHolidayUpdateRequestDTO fixedHolidayRequestDTO) {
         throw new MethodNotImplementedException();
     }
-    
+
     @Override
     public void validator(final Long fixedHolidayId, final FixedHolidayUpdateRequestDTO fixedHolidayRequestDTO) {
-        if(!fixedHolidayRepository.existsById(fixedHolidayId)) throw new FixedHolidayNotExistException();
+        if (!fixedHolidayRepository.existsById(fixedHolidayId)) throw new FixedHolidayNotExistException();
     }
-	
-	@Override
-	public void validator(final Long fixedHolidayId) {
-		if(!fixedHolidayRepository.existsById(fixedHolidayId)) throw new FixedHolidayNotExistException();
-	}
+
+    @Override
+    public void validator(final Long fixedHolidayId) {
+        if (!fixedHolidayRepository.existsById(fixedHolidayId)) throw new FixedHolidayNotExistException();
+    }
 
 }

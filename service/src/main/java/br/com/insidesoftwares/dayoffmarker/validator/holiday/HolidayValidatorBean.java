@@ -24,28 +24,28 @@ class HolidayValidatorBean implements Validator<Long, HolidayRequestDTO> {
 
     @Override
     public void validator(final HolidayRequestDTO holidayRequestDTO) {
-        if(!dayRepository.existsById(holidayRequestDTO.dayId())) throw new DayNotExistException();
+        if (!dayRepository.existsById(holidayRequestDTO.dayId())) throw new DayNotExistException();
         validTypeHoliday(holidayRequestDTO);
     }
 
     @Override
-    public void validator(final Long holidayId,final  HolidayRequestDTO holidayRequestDTO) {
-        if(!holidayRepository.existsById(holidayId)) throw new HolidayNotExistException();
-        if(!dayRepository.existsById(holidayRequestDTO.dayId())) throw new DayNotExistException();
+    public void validator(final Long holidayId, final HolidayRequestDTO holidayRequestDTO) {
+        if (!holidayRepository.existsById(holidayId)) throw new HolidayNotExistException();
+        if (!dayRepository.existsById(holidayRequestDTO.dayId())) throw new DayNotExistException();
         validTypeHoliday(holidayRequestDTO);
     }
 
-	@Override
-	public void validator(final Long holidayId) {
-		if(!holidayRepository.existsById(holidayId)) throw new HolidayNotExistException();
-	}
+    @Override
+    public void validator(final Long holidayId) {
+        if (!holidayRepository.existsById(holidayId)) throw new HolidayNotExistException();
+    }
 
-	private void validTypeHoliday(final HolidayRequestDTO holidayRequestDTO) throws HolidayFromTimeNotInformedException {
-		if (
-				holidayRequestDTO.holidayType() == TypeHoliday.HALF_PERIOD &&
-						Objects.isNull(holidayRequestDTO.fromTime())
-		) {
-			throw new HolidayFromTimeNotInformedException();
-		}
+    private void validTypeHoliday(final HolidayRequestDTO holidayRequestDTO) throws HolidayFromTimeNotInformedException {
+        if (
+                holidayRequestDTO.holidayType() == TypeHoliday.HALF_PERIOD &&
+                        Objects.isNull(holidayRequestDTO.fromTime())
+        ) {
+            throw new HolidayFromTimeNotInformedException();
+        }
     }
 }

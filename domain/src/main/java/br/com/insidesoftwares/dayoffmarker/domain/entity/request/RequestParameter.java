@@ -30,12 +30,12 @@ import java.util.UUID;
 @Table(name = "DOM_REQUEST_PARAMETER")
 public class RequestParameter {
 
-	@Id
-	@GeneratedValue(strategy= GenerationType.UUID)
-	@Column(name = "REQUEST_PARAMETER_ID")
-	private UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "REQUEST_PARAMETER_ID")
+    private UUID id;
 
-	@Column(name = "TYPE_PARAMETER")
+    @Column(name = "TYPE_PARAMETER")
     @Enumerated(EnumType.STRING)
     private TypeParameter typeParameter;
 

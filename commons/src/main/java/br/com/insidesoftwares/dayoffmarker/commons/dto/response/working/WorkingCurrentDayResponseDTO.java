@@ -7,8 +7,8 @@ import java.io.Serializable;
 
 @Builder
 public record WorkingCurrentDayResponseDTO(
-	boolean isWorkingDay
+        boolean isWorkingDay
 ) implements Serializable {
-	@Serial
-	private static final long serialVersionUID = 3589721837934614525L;
+    @Serial
+    private static final long serialVersionUID = 3589721837934614525L;
 }

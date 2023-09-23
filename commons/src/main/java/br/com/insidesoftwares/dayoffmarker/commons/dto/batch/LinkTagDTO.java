@@ -4,7 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record LinkTagDTO(
-	Long tagID,
-	Long dayID
+        Long tagID,
+        Long dayID
 ) {
 }

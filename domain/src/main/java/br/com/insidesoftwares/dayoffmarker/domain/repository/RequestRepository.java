@@ -13,25 +13,25 @@ import java.util.UUID;
 @Repository
 public interface RequestRepository extends JpaRepository<Request, UUID> {
 
-	@Query(" SELECT r FROM Request r WHERE statusRequest = :statusRequest AND r.typeRequest = :typeRequest")
-	List<Request> findAllByStatusRequest(final StatusRequest statusRequest, final TypeRequest typeRequest);
-
-	@Query("""
-		SELECT count(r.id) > 0 FROM Request r
-		WHERE statusRequest = :statusRequest
-		AND r.typeRequest = :typeRequest
-		""")
-	boolean existRequestByTypeRequestAndStatusRequest(final TypeRequest typeRequest, final StatusRequest statusRequest);
+    @Query(" SELECT r FROM Request r WHERE statusRequest = :statusRequest AND r.typeRequest = :typeRequest")
+    List<Request> findAllByStatusRequest(final StatusRequest statusRequest, final TypeRequest typeRequest);
 
     @Query("""
-		SELECT COUNT(r.id) > 0 FROM Request r
-		WHERE r.typeRequest = :typeRequest
-		AND r.requestHash = :requestHash
-		AND r.statusRequest NOT IN :statusRequest
-		""")
+            SELECT count(r.id) > 0 FROM Request r
+            WHERE statusRequest = :statusRequest
+            AND r.typeRequest = :typeRequest
+            """)
+    boolean existRequestByTypeRequestAndStatusRequest(final TypeRequest typeRequest, final StatusRequest statusRequest);
+
+    @Query("""
+            SELECT COUNT(r.id) > 0 FROM Request r
+            WHERE r.typeRequest = :typeRequest
+            AND r.requestHash = :requestHash
+            AND r.statusRequest NOT IN :statusRequest
+            """)
     boolean existRequestByTypeRequestAndHashRequestAndNotStatusRequest(
-		final TypeRequest typeRequest,
-		final String requestHash,
-		final List<StatusRequest> statusRequest
-	);
+            final TypeRequest typeRequest,
+            final String requestHash,
+            final List<StatusRequest> statusRequest
+    );
 }

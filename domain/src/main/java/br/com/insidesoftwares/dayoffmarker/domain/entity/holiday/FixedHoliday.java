@@ -24,7 +24,7 @@ import java.time.LocalTime;
 public class FixedHoliday {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "FIXED_HOLIDAY_ID")
     private Long id;
 
@@ -46,7 +46,7 @@ public class FixedHoliday {
     @Column(name = "FROM_TIME")
     private LocalTime fromTime;
 
-	@Column(name = "ENABLE")
-	private boolean isEnable;
+    @Column(name = "ENABLE")
+    private boolean isEnable;
 
 }

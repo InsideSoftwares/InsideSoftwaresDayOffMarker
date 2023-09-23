@@ -10,11 +10,11 @@ import org.springframework.context.annotation.ComponentScan;
 
 @EnableDiscoveryClient
 @AutoConfigurationPackage
-@ComponentScan(basePackages={"br.com.insidesoftwares.dayoffmarker.configuration", "br.com.insidesoftwares"})
-@SpringBootApplication( exclude = { RedisAutoConfiguration.class, DataSourceAutoConfiguration.class } )
+@ComponentScan(basePackages = {"br.com.insidesoftwares.dayoffmarker.configuration", "br.com.insidesoftwares"})
+@SpringBootApplication(exclude = {RedisAutoConfiguration.class, DataSourceAutoConfiguration.class})
 public class DayOffMarkerApplication {
-	public static void main(String[] args) {
-		SpringApplication.run(DayOffMarkerApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DayOffMarkerApplication.class, args);
+    }
 
 }

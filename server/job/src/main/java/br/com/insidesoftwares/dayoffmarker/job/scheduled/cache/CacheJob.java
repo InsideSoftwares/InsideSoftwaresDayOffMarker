@@ -13,39 +13,39 @@ import java.util.Objects;
 
 @Component
 @ConditionalOnProperty(
-	prefix="spring.cache", name = "enable",
-	havingValue = "true",
-	matchIfMissing = true)
+        prefix = "spring.cache", name = "enable",
+        havingValue = "true",
+        matchIfMissing = true)
 @EnableCaching
 @RequiredArgsConstructor
 @Slf4j
 public class CacheJob {
 
-	private final CacheManager cacheManager;
+    private final CacheManager cacheManager;
 
-	@Scheduled(
-		cron = "${application.scheduling.cache.clean:0 0 */12 * * *}"
-	)
-	public void clearCacheScheduled(){
-		log.info("Starting clear cache.");
-		try{
+    @Scheduled(
+            cron = "${application.scheduling.cache.clean:0 0 */12 * * *}"
+    )
+    public void clearCacheScheduled() {
+        log.info("Starting clear cache.");
+        try {
 
-			cacheManager.getCacheNames().forEach(cacheName ->
-				{
-					try{
-						Cache cache = cacheManager.getCache(cacheName);
-						Objects.requireNonNull(cache).clear();
-					}catch (Exception e){
-						log.error("Não foi possível limpar o cache: {}", cacheName);
-						log.error("Não foi possível limpar o cach", e);
-					}
-				}
-			);
-		}catch (Exception e){
-			log.info("An error occurred while trying to clean up the caches",e);
-		} finally {
-			log.info("Finalizing clear cache.");
-		}
-	}
+            cacheManager.getCacheNames().forEach(cacheName ->
+                    {
+                        try {
+                            Cache cache = cacheManager.getCache(cacheName);
+                            Objects.requireNonNull(cache).clear();
+                        } catch (Exception e) {
+                            log.error("Não foi possível limpar o cache: {}", cacheName);
+                            log.error("Não foi possível limpar o cach", e);
+                        }
+                    }
+            );
+        } catch (Exception e) {
+            log.info("An error occurred while trying to clean up the caches", e);
+        } finally {
+            log.info("Finalizing clear cache.");
+        }
+    }
 
 }

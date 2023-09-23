@@ -50,10 +50,10 @@ class CountryServiceBean implements CountryService {
                 .data(countryMapper.toDTOs(countries.getContent()))
                 .insidePaginatedDTO(
                         PaginationUtils.createPaginated(
-							countries.getTotalPages(),
-							countries.getTotalElements(),
-							countries.getContent().size(),
-							paginationFilter.getSizePerPage()
+                                countries.getTotalPages(),
+                                countries.getTotalElements(),
+                                countries.getContent().size(),
+                                paginationFilter.getSizePerPage()
                         )
                 )
                 .build();
@@ -87,7 +87,7 @@ class CountryServiceBean implements CountryService {
     }
 
     @InsideAudit
-    @Transactional(rollbackFor = {CountryNameExistExpetion.class,CountryCodeExistExpetion.class,CountryAcronymExistExpetion.class})
+    @Transactional(rollbackFor = {CountryNameExistExpetion.class, CountryCodeExistExpetion.class, CountryAcronymExistExpetion.class})
     @Override
     public void update(
             final Long countryID,
@@ -127,7 +127,7 @@ class CountryServiceBean implements CountryService {
 
     @InsideAudit
     @Override
-    public Country findCountryByNameOrDefault(final String name)  {
+    public Country findCountryByNameOrDefault(final String name) {
         String nameCountry = Objects.nonNull(name) ?
                 name :
                 configurationService.findValueConfigurationByKey(Configurationkey.COUNTRY_DEFAULT);
@@ -144,14 +144,14 @@ class CountryServiceBean implements CountryService {
     }
 
     @InsideAudit
-	@Override
-	public Country findCountryByCountryIdOrDefault(final Long countryId) {
-		if(Objects.isNull(countryId)) {
-			return findCountryDefault();
-		}
+    @Override
+    public Country findCountryByCountryIdOrDefault(final Long countryId) {
+        if (Objects.isNull(countryId)) {
+            return findCountryDefault();
+        }
 
-		Optional<Country> countryOptional = countryRepository.findById(countryId);
-		return countryOptional.orElseThrow(CountryNameInvalidException::new);
-	}
+        Optional<Country> countryOptional = countryRepository.findById(countryId);
+        return countryOptional.orElseThrow(CountryNameInvalidException::new);
+    }
 
 }

@@ -58,7 +58,7 @@ databaseChangeLog:
             tag: INIT
         - createTable:
             tableName: DOM_DAY
-            dbms:  'mysql, postgresql'
+            dbms: 'mysql, postgresql'
             columns:
               - column:
                   name: DAY_ID
@@ -99,7 +99,7 @@ databaseChangeLog:
             tag: INIT
         - createTable:
             tableName: DOM_STATE
-            dbms:  'mysql, postgresql'
+            dbms: 'mysql, postgresql'
             columns:
               - column:
                   name: STATE_ID

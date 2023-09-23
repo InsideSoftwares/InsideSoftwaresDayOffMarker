@@ -31,115 +31,115 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TagController {
 
-	private final TagService tagService;
+    private final TagService tagService;
 
-	@Operation(
-		summary = "Get All Tag",
-		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.Tag.Read"}),
-		parameters = {
-			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
-			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
-		}
-	)
-	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.Tag.Read')")
-	@InsideRequestGet(uri = "/v1/tag", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_TAG")
-	public InsideSoftwaresResponseDTO<List<TagResponseDTO>> findAll(
-		InsidePaginationFilterDTO paginationFilter
-	) {
-		return tagService.findAll(paginationFilter);
-	}
+    @Operation(
+            summary = "Get All Tag",
+            security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.Tag.Read"}),
+            parameters = {
+                    @Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+                    @Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+            }
+    )
+    @PreAuthorize("hasAnyRole('DayOff.Read','DayOff.Tag.Read')")
+    @InsideRequestGet(uri = "/v1/tag", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_TAG")
+    public InsideSoftwaresResponseDTO<List<TagResponseDTO>> findAll(
+            InsidePaginationFilterDTO paginationFilter
+    ) {
+        return tagService.findAll(paginationFilter);
+    }
 
-	@Operation(
-		summary = "Get Tag by Id",
-		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.Tag.Read"}),
-		parameters = {
-			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
-			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
-		}
-	)
-	@PreAuthorize("hasAnyRole('DayOff.Read','DayOff.Tag.Read')")
-	@InsideRequestGet(uri = "/v1/tag/{id}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_TAG")
-	public InsideSoftwaresResponseDTO<TagResponseDTO> findById(@PathVariable Long id) {
-		return tagService.findById(id);
-	}
+    @Operation(
+            summary = "Get Tag by Id",
+            security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Read", "DayOff.Tag.Read"}),
+            parameters = {
+                    @Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+                    @Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+            }
+    )
+    @PreAuthorize("hasAnyRole('DayOff.Read','DayOff.Tag.Read')")
+    @InsideRequestGet(uri = "/v1/tag/{id}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_TAG")
+    public InsideSoftwaresResponseDTO<TagResponseDTO> findById(@PathVariable Long id) {
+        return tagService.findById(id);
+    }
 
-	@Operation(
-		summary = "Create Tag",
-		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Write", "DayOff.Tag.Write"}),
-		parameters = {
-			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
-			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
-		}
-	)
-	@PreAuthorize("hasAnyRole('DayOff.Write','DayOff.Tag.Write')")
-	@InsideRequestPost(uri = "/v1/tag", httpCode = HttpStatus.CREATED,
-		nameCache = {"DAYOFF_MARKER_TAG", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_WORKING"}
-	)
-	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_TAG", ttl = 1)
-	public InsideSoftwaresResponseDTO<Void> save(
-			@JdempotentRequestPayload @RequestBody TagRequestDTO tagRequestDTO
-	) {
-		tagService.save(tagRequestDTO);
-		return InsideSoftwaresResponseDTO.<Void>builder().build();
-	}
+    @Operation(
+            summary = "Create Tag",
+            security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Write", "DayOff.Tag.Write"}),
+            parameters = {
+                    @Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+                    @Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+            }
+    )
+    @PreAuthorize("hasAnyRole('DayOff.Write','DayOff.Tag.Write')")
+    @InsideRequestPost(uri = "/v1/tag", httpCode = HttpStatus.CREATED,
+            nameCache = {"DAYOFF_MARKER_TAG", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_WORKING"}
+    )
+    @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_TAG", ttl = 1)
+    public InsideSoftwaresResponseDTO<Void> save(
+            @JdempotentRequestPayload @RequestBody TagRequestDTO tagRequestDTO
+    ) {
+        tagService.save(tagRequestDTO);
+        return InsideSoftwaresResponseDTO.<Void>builder().build();
+    }
 
-	@Operation(
-		summary = "Update Tag by Id",
-		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Write", "DayOff.Tag.Write"}),
-		parameters = {
-			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
-			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
-		}
-	)
-	@PreAuthorize("hasAnyRole('DayOff.Write','DayOff.Tag.Write')")
-	@InsideRequestPost(uri = "/v1/tag/{id}", httpCode = HttpStatus.CREATED,
-		nameCache = {"DAYOFF_MARKER_TAG", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_WORKING"}
-	)
-	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_TAG", ttl = 1)
-	public InsideSoftwaresResponseDTO<Void> update(
-		@JdempotentRequestPayload @PathVariable Long id,
-		@JdempotentRequestPayload @RequestBody TagRequestDTO tagRequestDTO
-	) {
-		tagService.update(id, tagRequestDTO);
-		return InsideSoftwaresResponseDTO.<Void>builder().build();
-	}
+    @Operation(
+            summary = "Update Tag by Id",
+            security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Write", "DayOff.Tag.Write"}),
+            parameters = {
+                    @Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+                    @Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+            }
+    )
+    @PreAuthorize("hasAnyRole('DayOff.Write','DayOff.Tag.Write')")
+    @InsideRequestPost(uri = "/v1/tag/{id}", httpCode = HttpStatus.CREATED,
+            nameCache = {"DAYOFF_MARKER_TAG", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_WORKING"}
+    )
+    @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_TAG", ttl = 1)
+    public InsideSoftwaresResponseDTO<Void> update(
+            @JdempotentRequestPayload @PathVariable Long id,
+            @JdempotentRequestPayload @RequestBody TagRequestDTO tagRequestDTO
+    ) {
+        tagService.update(id, tagRequestDTO);
+        return InsideSoftwaresResponseDTO.<Void>builder().build();
+    }
 
-	@Operation(
-		summary = "Performs the linking of Tags in batch according to the informed parameters",
-		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Write", "DayOff.Tag.Write"}),
-		parameters = {
-			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
-			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
-		}
-	)
-	@PreAuthorize("hasAnyRole('DayOff.Write','DayOff.Tag.Write')")
-	@InsideRequestPost(uri = "/v1/tag/link/day", httpCode = HttpStatus.CREATED,
-		nameCache = {"DAYOFF_MARKER_TAG", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_WORKING"}
-	)
-	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_TAG", ttl = 1)
-	public InsideSoftwaresResponseDTO<TagLinkResponseDTO> linkTagByDay(
-		@JdempotentRequestPayload @RequestBody TagLinkRequestDTO tagLinkRequestDTO
-	) {
-		return tagService.linkTagByDay(tagLinkRequestDTO);
-	}
+    @Operation(
+            summary = "Performs the linking of Tags in batch according to the informed parameters",
+            security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Write", "DayOff.Tag.Write"}),
+            parameters = {
+                    @Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+                    @Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+            }
+    )
+    @PreAuthorize("hasAnyRole('DayOff.Write','DayOff.Tag.Write')")
+    @InsideRequestPost(uri = "/v1/tag/link/day", httpCode = HttpStatus.CREATED,
+            nameCache = {"DAYOFF_MARKER_TAG", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_WORKING"}
+    )
+    @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_TAG", ttl = 1)
+    public InsideSoftwaresResponseDTO<TagLinkResponseDTO> linkTagByDay(
+            @JdempotentRequestPayload @RequestBody TagLinkRequestDTO tagLinkRequestDTO
+    ) {
+        return tagService.linkTagByDay(tagLinkRequestDTO);
+    }
 
-	@Operation(
-		summary = "Performs the unlinking of Tags in batch according to the informed parameters",
-		security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Write", "DayOff.Tag.Write"}),
-		parameters = {
-			@Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
-			@Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
-		}
-	)
-	@PreAuthorize("hasAnyRole('DayOff.Write','DayOff.Tag.Write')")
-	@InsideRequestPost(uri = "/v1/tag/unlink/day", httpCode = HttpStatus.CREATED,
-		nameCache = {"DAYOFF_MARKER_TAG", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_WORKING"}
-	)
-	@JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_TAG", ttl = 1)
-	public InsideSoftwaresResponseDTO<TagLinkResponseDTO> unlinkTagByDay(
-		@JdempotentRequestPayload @RequestBody TagLinkRequestDTO tagLinkRequestDTO
-	) {
-		return tagService.unlinkTagByDay(tagLinkRequestDTO);
-	}
+    @Operation(
+            summary = "Performs the unlinking of Tags in batch according to the informed parameters",
+            security = @SecurityRequirement(name = "DayOffMarker", scopes = {"DayOff.Write", "DayOff.Tag.Write"}),
+            parameters = {
+                    @Parameter(name = "Authorization", required = true, in = ParameterIn.HEADER, schema = @Schema(implementation = String.class)),
+                    @Parameter(name = "Accept-Language", in = ParameterIn.HEADER, schema = @Schema(implementation = String.class, allowableValues = {"pt-BR", "en-US"}))
+            }
+    )
+    @PreAuthorize("hasAnyRole('DayOff.Write','DayOff.Tag.Write')")
+    @InsideRequestPost(uri = "/v1/tag/unlink/day", httpCode = HttpStatus.CREATED,
+            nameCache = {"DAYOFF_MARKER_TAG", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_WORKING"}
+    )
+    @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_TAG", ttl = 1)
+    public InsideSoftwaresResponseDTO<TagLinkResponseDTO> unlinkTagByDay(
+            @JdempotentRequestPayload @RequestBody TagLinkRequestDTO tagLinkRequestDTO
+    ) {
+        return tagService.unlinkTagByDay(tagLinkRequestDTO);
+    }
 
 }

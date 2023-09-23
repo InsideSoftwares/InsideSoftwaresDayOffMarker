@@ -25,7 +25,7 @@ class BatchCreationDayImplementationService implements BatchCreationDayService {
     public void createDaysBatch(List<DayBatch> daysBatch) {
         log.info("Create Days Batch");
         daysBatch.forEach(dayBatch -> {
-            if(!dayBatchRepository.existsByDate(dayBatch.getDate())){
+            if (!dayBatchRepository.existsByDate(dayBatch.getDate())) {
                 dayBatchRepository.saveAndFlush(dayBatch);
             } else {
                 log.info("Day Batch exist {}", dayBatch.getDate());
@@ -33,17 +33,17 @@ class BatchCreationDayImplementationService implements BatchCreationDayService {
         });
     }
 
-	@Override
-	public void deleteDayBatch(DayBatch dayBatch) {
-		dayBatchRepository.delete(dayBatch);
-	}
+    @Override
+    public void deleteDayBatch(DayBatch dayBatch) {
+        dayBatchRepository.delete(dayBatch);
+    }
 
 
-	@Override
+    @Override
     public void createDays(List<Day> days) {
         log.info("Create Days");
         days.forEach(day -> {
-            if(!dayRepository.existsByDate(day.getDate())){
+            if (!dayRepository.existsByDate(day.getDate())) {
                 dayRepository.saveAndFlush(day);
             } else {
                 log.info("Day exist {}", day.getDate());
@@ -51,10 +51,10 @@ class BatchCreationDayImplementationService implements BatchCreationDayService {
         });
     }
 
-	@Transactional(readOnly = true)
-	@Override
-	public boolean existDayInDayBatch(LocalDate day) {
-		return dayBatchRepository.existsByDate(day);
-	}
+    @Transactional(readOnly = true)
+    @Override
+    public boolean existDayInDayBatch(LocalDate day) {
+        return dayBatchRepository.existsByDate(day);
+    }
 
 }

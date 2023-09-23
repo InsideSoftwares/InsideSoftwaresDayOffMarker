@@ -18,21 +18,18 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class ConfigurationServiceBeanTest {
 
-	@Mock
-	private ConfigurationRepository configurationRepository;
-
-	@Mock
-	private CountryRepository countryRepository;
-
-	@InjectMocks
-	private ConfigurationServiceBean configurationServiceBean;
-
     private static final String VALUE_LIMIT_BACK_DAYS_YEARS = "3";
     private static final String VALUE_DEFAULT_LIMIT_BACK_DAYS_YEARS = "6";
     private static final String VALUE_LIMIT_FORWARD_DAYS_YEARS = "20";
     private static final String VALUE_DEFAULT_LIMIT_FORWARD_DAYS_YEARS = "25";
     private static final String VALUE_COUNTRY_DEFAULT = "Brazil";
     private static final String VALUE_DEFAULT_COUNTRY_DEFAULT = "Brazil";
+    @Mock
+    private ConfigurationRepository configurationRepository;
+    @Mock
+    private CountryRepository countryRepository;
+    @InjectMocks
+    private ConfigurationServiceBean configurationServiceBean;
 
     @BeforeEach
     void before() {

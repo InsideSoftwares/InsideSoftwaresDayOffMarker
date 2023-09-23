@@ -27,5 +27,5 @@ public interface FixedHolidayRepository extends JpaRepository<FixedHoliday, Long
             """)
     boolean existsByDayAndMonthAndNotId(Integer day, Integer month, Long fixedHolidayId);
 
-	List<FixedHoliday> findAllByIsEnable(boolean isEnable);
+    List<FixedHoliday> findAllByIsEnable(boolean isEnable);
 }

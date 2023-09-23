@@ -16,9 +16,9 @@ public class WriteDayBatch implements ItemWriter<DayBatch> {
 
     private final BatchCreationDayService batchCreationDayService;
 
-	@Override
-	public void write(Chunk<? extends DayBatch> daysBatchChunk) {
-		List<DayBatch> daysBatch = new ArrayList<>(daysBatchChunk.getItems());
-		batchCreationDayService.createDaysBatch(daysBatch);
-	}
+    @Override
+    public void write(Chunk<? extends DayBatch> daysBatchChunk) {
+        List<DayBatch> daysBatch = new ArrayList<>(daysBatchChunk.getItems());
+        batchCreationDayService.createDaysBatch(daysBatch);
+    }
 }

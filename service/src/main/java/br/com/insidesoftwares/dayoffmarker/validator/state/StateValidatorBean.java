@@ -22,15 +22,15 @@ class StateValidatorBean implements Validator<Long, StateRequestDTO> {
 
     @Override
     public void validator(final StateRequestDTO stateRequestDTO) {
-        if(!countryRepository.existsById(stateRequestDTO.countryId())) throw new CountryNotExistException();
-        if(
+        if (!countryRepository.existsById(stateRequestDTO.countryId())) throw new CountryNotExistException();
+        if (
                 stateRepository.existsByNameAndCountryIdAndAcronym(
                         stateRequestDTO.name(),
                         stateRequestDTO.countryId(),
                         stateRequestDTO.acronym()
                 )
         ) throw new StateNameCountryAcronymExistException();
-        if(
+        if (
                 stateRepository.existsByCountryIdAndAcronym(
                         stateRequestDTO.countryId(),
                         stateRequestDTO.acronym()
@@ -41,9 +41,9 @@ class StateValidatorBean implements Validator<Long, StateRequestDTO> {
 
     @Override
     public void validator(final Long stateId, final StateRequestDTO stateRequestDTO) {
-        if(!stateRepository.existsById(stateId)) throw new StateNotExistException();
-        if(!countryRepository.existsById(stateRequestDTO.countryId())) throw new CountryNotExistException();
-        if(
+        if (!stateRepository.existsById(stateId)) throw new StateNotExistException();
+        if (!countryRepository.existsById(stateRequestDTO.countryId())) throw new CountryNotExistException();
+        if (
                 stateRepository.existsByNameAndCountryIdAndAcronymAndNotId(
                         stateRequestDTO.name(),
                         stateRequestDTO.countryId(),
@@ -51,7 +51,7 @@ class StateValidatorBean implements Validator<Long, StateRequestDTO> {
                         stateId
                 )
         ) throw new StateNameCountryAcronymExistException();
-        if(
+        if (
                 stateRepository.existsByCountryIdAndAcronymAndNotId(
                         stateRequestDTO.countryId(),
                         stateRequestDTO.acronym(),
@@ -60,8 +60,8 @@ class StateValidatorBean implements Validator<Long, StateRequestDTO> {
         ) throw new StateCountryAcronymExistException();
     }
 
-	@Override
-	public void validator(final Long stateId) {
-		if(!stateRepository.existsById(stateId)) throw new StateNotExistException();
-	}
+    @Override
+    public void validator(final Long stateId) {
+        if (!stateRepository.existsById(stateId)) throw new StateNotExistException();
+    }
 }

@@ -8,15 +8,15 @@ import java.time.LocalTime;
 
 @Builder
 public record FixedHolidayResponseDTO(
-	Long id,
-	String name,
-	String description,
-	Integer day,
-	Integer month,
-	boolean isOptional,
-	LocalTime fromTime,
-	Long countryId,
-	String countryName
+        Long id,
+        String name,
+        String description,
+        Integer day,
+        Integer month,
+        boolean isOptional,
+        LocalTime fromTime,
+        Long countryId,
+        String countryName
 ) implements Serializable {
     @Serial
     private static final long serialVersionUID = -4681536593086537632L;

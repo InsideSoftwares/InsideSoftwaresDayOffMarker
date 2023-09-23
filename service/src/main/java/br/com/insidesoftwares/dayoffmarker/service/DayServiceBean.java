@@ -42,45 +42,45 @@ import java.util.Optional;
 class DayServiceBean implements DayService {
 
     private final DayRepository dayRepository;
-	private final TagRepository tagRepository;
-	private final ValidatorLink<LinkTagRequestDTO> validateLink;
-	private final DayMapper dayMapper;
+    private final TagRepository tagRepository;
+    private final ValidatorLink<LinkTagRequestDTO> validateLink;
+    private final DayMapper dayMapper;
 
     @InsideAudit
-	@Transactional(rollbackFor = {
-			DayNotExistException.class,
-			InsideSoftwaresException.class,
-			TagNotExistException.class,
-			TagExistDayException.class
-	})
-	@Override
-	public void linkTag(Long dayID, LinkTagRequestDTO linkTagRequestDTO) {
-		Day day = findDayByID(dayID);
+    @Transactional(rollbackFor = {
+            DayNotExistException.class,
+            InsideSoftwaresException.class,
+            TagNotExistException.class,
+            TagExistDayException.class
+    })
+    @Override
+    public void linkTag(Long dayID, LinkTagRequestDTO linkTagRequestDTO) {
+        Day day = findDayByID(dayID);
 
-		validateLink.validateLink(dayID, linkTagRequestDTO);
+        validateLink.validateLink(dayID, linkTagRequestDTO);
 
-		linkTagRequestDTO.tagsID().forEach(tagID -> {
-			Tag tag = tagRepository.getReferenceById(tagID);
-			day.addTag(tag);
-		});
+        linkTagRequestDTO.tagsID().forEach(tagID -> {
+            Tag tag = tagRepository.getReferenceById(tagID);
+            day.addTag(tag);
+        });
 
-		dayRepository.save(day);
-	}
+        dayRepository.save(day);
+    }
 
     @InsideAudit
-	@Transactional(rollbackFor = {
-			DayNotExistException.class,
-			InsideSoftwaresException.class
-	})
-	@Override
-	public void unlinkTag(Long dayID, LinkTagRequestDTO linkTagRequestDTO) {
-		Day day = findDayByID(dayID);
-		linkTagRequestDTO.tagsID().forEach(tagID -> {
-			day.getTags().removeIf(tag -> tag.getId().equals(tagID));
-		});
+    @Transactional(rollbackFor = {
+            DayNotExistException.class,
+            InsideSoftwaresException.class
+    })
+    @Override
+    public void unlinkTag(Long dayID, LinkTagRequestDTO linkTagRequestDTO) {
+        Day day = findDayByID(dayID);
+        linkTagRequestDTO.tagsID().forEach(tagID -> {
+            day.getTags().removeIf(tag -> tag.getId().equals(tagID));
+        });
 
-		dayRepository.save(day);
-	}
+        dayRepository.save(day);
+    }
 
     @InsideAudit
     @Override
@@ -90,14 +90,14 @@ class DayServiceBean implements DayService {
     }
 
     @InsideAudit
-	@Override
-	public Day findDayByDate(final LocalDate date) {
-		Optional<Day> optionalDay = dayRepository.findByDate(date);
-		return optionalDay.orElseThrow(DayNotExistException::new);
-	}
+    @Override
+    public Day findDayByDate(final LocalDate date) {
+        Optional<Day> optionalDay = dayRepository.findByDate(date);
+        return optionalDay.orElseThrow(DayNotExistException::new);
+    }
 
     @InsideAudit
-	@Transactional(rollbackFor = {
+    @Transactional(rollbackFor = {
             DayNotExistException.class,
     })
     @Override
@@ -111,125 +111,125 @@ class DayServiceBean implements DayService {
     }
 
     @InsideAudit
-	@Override
-	public LocalDate getMaxDate() {
-		return dayRepository.findMaxDateByDate(DateUtils.getDateCurrent()).orElseThrow(DaysNotConfiguredException::new);
-	}
+    @Override
+    public LocalDate getMaxDate() {
+        return dayRepository.findMaxDateByDate(DateUtils.getDateCurrent()).orElseThrow(DaysNotConfiguredException::new);
+    }
 
     @InsideAudit
-	@Override
-	public LocalDate getMinDate() {
-		return dayRepository.findMinDateByDate(DateUtils.getDateCurrent()).orElseThrow(DaysNotConfiguredException::new);
-	}
+    @Override
+    public LocalDate getMinDate() {
+        return dayRepository.findMinDateByDate(DateUtils.getDateCurrent()).orElseThrow(DaysNotConfiguredException::new);
+    }
 
     @InsideAudit
-	@Override
-	public boolean ownsDays() {
-		return dayRepository.ownsDays(DateUtils.getDateCurrent());
-	}
+    @Override
+    public boolean ownsDays() {
+        return dayRepository.ownsDays(DateUtils.getDateCurrent());
+    }
 
     @InsideAudit
-	@Override
-	public InsideSoftwaresResponseDTO<List<DayDTO>> getAllDays(
-		final LocalDate startDate,
-		final LocalDate endDate,
-		final InsidePaginationFilterDTO paginationFilter
-	) {
-		Pageable pageable = PaginationUtils.createPageable(paginationFilter, eOrderDay.ID);
+    @Override
+    public InsideSoftwaresResponseDTO<List<DayDTO>> getAllDays(
+            final LocalDate startDate,
+            final LocalDate endDate,
+            final InsidePaginationFilterDTO paginationFilter
+    ) {
+        Pageable pageable = PaginationUtils.createPageable(paginationFilter, eOrderDay.ID);
 
-		Page<Day> days = dayRepository.findAll(DaySpecification.findAllByStartDateAndEndDate(startDate, endDate), pageable);
+        Page<Day> days = dayRepository.findAll(DaySpecification.findAllByStartDateAndEndDate(startDate, endDate), pageable);
 
-		return InsideSoftwaresResponseDTO.<List<DayDTO>>builder()
-			.data(dayMapper.toDTOs(days.getContent()))
-			.insidePaginatedDTO(
-				PaginationUtils.createPaginated(
-					days.getTotalPages(),
-					days.getTotalElements(),
-					days.getContent().size(),
-					paginationFilter.getSizePerPage()
-				)
-			)
-			.build();
-	}
-
-    @InsideAudit
-	@Override
-	public InsideSoftwaresResponseDTO<DayDTO> getDayByID(final Long id) {
-		Day day = findDayByID(id);
-		return InsideSoftwaresResponseUtils.wrapResponse(dayMapper.toDayDTO(day));
-	}
+        return InsideSoftwaresResponseDTO.<List<DayDTO>>builder()
+                .data(dayMapper.toDTOs(days.getContent()))
+                .insidePaginatedDTO(
+                        PaginationUtils.createPaginated(
+                                days.getTotalPages(),
+                                days.getTotalElements(),
+                                days.getContent().size(),
+                                paginationFilter.getSizePerPage()
+                        )
+                )
+                .build();
+    }
 
     @InsideAudit
-	@Override
-	public InsideSoftwaresResponseDTO<DayDTO> getDayByDate(final LocalDate date, final Long tagID, final String tagCode) {
-
-		Specification<Day> daySpecification = DaySpecification.findDayByDateOrTag(date, tagID, tagCode);
-
-		Day day = dayRepository.findOne(daySpecification).orElseThrow(DayNotExistException::new);
-
-		return InsideSoftwaresResponseUtils.wrapResponse(dayMapper.toDayDTO(day));
-	}
+    @Override
+    public InsideSoftwaresResponseDTO<DayDTO> getDayByID(final Long id) {
+        Day day = findDayByID(id);
+        return InsideSoftwaresResponseUtils.wrapResponse(dayMapper.toDayDTO(day));
+    }
 
     @InsideAudit
-	@Override
-	public InsideSoftwaresResponseDTO<List<DayDTO>> getDaysByTag(final Long tagID) {
+    @Override
+    public InsideSoftwaresResponseDTO<DayDTO> getDayByDate(final LocalDate date, final Long tagID, final String tagCode) {
 
-		List<Day> days = dayRepository.findDaysByTagId(tagID);
+        Specification<Day> daySpecification = DaySpecification.findDayByDateOrTag(date, tagID, tagCode);
 
-		return InsideSoftwaresResponseUtils.wrapResponse(dayMapper.toDTOs(days));
-	}
+        Day day = dayRepository.findOne(daySpecification).orElseThrow(DayNotExistException::new);
 
-    @InsideAudit
-	@Override
-	public InsideSoftwaresResponseDTO<List<DayDTO>> getDaysByTag(final String tagCode) {
-		List<Day> days = dayRepository.findDaysByTagCode(tagCode);
-
-		return InsideSoftwaresResponseUtils.wrapResponse(dayMapper.toDTOs(days));
-	}
+        return InsideSoftwaresResponseUtils.wrapResponse(dayMapper.toDayDTO(day));
+    }
 
     @InsideAudit
-	@Override
-	public InsideSoftwaresResponseDTO<List<DayDTO>> getDaysOfCurrentMonth() {
-		LocalDate currentDate = DateUtils.getDateCurrent();
-		Month month = currentDate.getMonth();
+    @Override
+    public InsideSoftwaresResponseDTO<List<DayDTO>> getDaysByTag(final Long tagID) {
 
-		LocalDate startDate = LocalDate.of(currentDate.getYear(), month, 1);
-		LocalDate endDate = LocalDate.of(currentDate.getYear(), month, month.maxLength());
+        List<Day> days = dayRepository.findDaysByTagId(tagID);
 
-		List<Day> days = dayRepository.findAllByDateSearch(startDate, endDate);
-		return InsideSoftwaresResponseUtils.wrapResponse(dayMapper.toDTOs(days));
-	}
+        return InsideSoftwaresResponseUtils.wrapResponse(dayMapper.toDTOs(days));
+    }
 
     @InsideAudit
-	@Override
-	public InsideSoftwaresResponseDTO<List<DayDTO>> getDaysOfMonth(final Month month, final Integer year) {
-		Integer yearSearch = year;
-		if(Objects.isNull(yearSearch)){
-			LocalDate currentDate = DateUtils.getDateCurrent();
-			yearSearch = currentDate.getYear();
-		}
+    @Override
+    public InsideSoftwaresResponseDTO<List<DayDTO>> getDaysByTag(final String tagCode) {
+        List<Day> days = dayRepository.findDaysByTagCode(tagCode);
 
-		LocalDate startDate = LocalDate.of(yearSearch, month, 1);
-		LocalDate endDate = LocalDate.of(yearSearch, month, month.maxLength());
-
-		List<Day> days = dayRepository.findAllByDateSearch(startDate, endDate);
-		return InsideSoftwaresResponseUtils.wrapResponse(dayMapper.toDTOs(days));
-	}
+        return InsideSoftwaresResponseUtils.wrapResponse(dayMapper.toDTOs(days));
+    }
 
     @InsideAudit
-	@Override
-	public boolean isDayByDateAndIsWeekend(final LocalDate date, final boolean isWeekend) {
-		return dayRepository.isWorkingDayByDateAndIsWeekend(date, isWeekend);
-	}
+    @Override
+    public InsideSoftwaresResponseDTO<List<DayDTO>> getDaysOfCurrentMonth() {
+        LocalDate currentDate = DateUtils.getDateCurrent();
+        Month month = currentDate.getMonth();
+
+        LocalDate startDate = LocalDate.of(currentDate.getYear(), month, 1);
+        LocalDate endDate = LocalDate.of(currentDate.getYear(), month, month.maxLength());
+
+        List<Day> days = dayRepository.findAllByDateSearch(startDate, endDate);
+        return InsideSoftwaresResponseUtils.wrapResponse(dayMapper.toDTOs(days));
+    }
 
     @InsideAudit
-	@Override
-	public boolean isDaysWithoutHolidaysByByDayAndMonthAndFixedHolidayIDOrNotHoliday(
-		final Integer day,
-		final Integer month,
-		final Long fixedHolidayID
-	) {
-		Integer year = DateUtils.getDateCurrent().getYear();
-		return dayRepository.isDaysWithoutHolidaysByByDayAndMonthAndYearAndFixedHolidayIDOrNotHoliday(day, month, year, fixedHolidayID);
-	}
+    @Override
+    public InsideSoftwaresResponseDTO<List<DayDTO>> getDaysOfMonth(final Month month, final Integer year) {
+        Integer yearSearch = year;
+        if (Objects.isNull(yearSearch)) {
+            LocalDate currentDate = DateUtils.getDateCurrent();
+            yearSearch = currentDate.getYear();
+        }
+
+        LocalDate startDate = LocalDate.of(yearSearch, month, 1);
+        LocalDate endDate = LocalDate.of(yearSearch, month, month.maxLength());
+
+        List<Day> days = dayRepository.findAllByDateSearch(startDate, endDate);
+        return InsideSoftwaresResponseUtils.wrapResponse(dayMapper.toDTOs(days));
+    }
+
+    @InsideAudit
+    @Override
+    public boolean isDayByDateAndIsWeekend(final LocalDate date, final boolean isWeekend) {
+        return dayRepository.isWorkingDayByDateAndIsWeekend(date, isWeekend);
+    }
+
+    @InsideAudit
+    @Override
+    public boolean isDaysWithoutHolidaysByByDayAndMonthAndFixedHolidayIDOrNotHoliday(
+            final Integer day,
+            final Integer month,
+            final Long fixedHolidayID
+    ) {
+        Integer year = DateUtils.getDateCurrent().getYear();
+        return dayRepository.isDaysWithoutHolidaysByByDayAndMonthAndYearAndFixedHolidayIDOrNotHoliday(day, month, year, fixedHolidayID);
+    }
 }

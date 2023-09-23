@@ -9,8 +9,11 @@ import java.util.List;
 
 @Validated
 public interface RequestService {
-	void saveRequest(final Request request);
-	void saveAndFlushRequest(Request request);
-	List<Request> findAllRequestByTypeAndStatus(final TypeRequest typeRequest, final StatusRequest statusRequest);
-	boolean existRequestByTypeAndStatusRequest(final TypeRequest typeRequest, final StatusRequest statusRequest);
+    void saveRequest(final Request request);
+
+    void saveAndFlushRequest(Request request);
+
+    List<Request> findAllRequestByTypeAndStatus(final TypeRequest typeRequest, final StatusRequest statusRequest);
+
+    boolean existRequestByTypeAndStatusRequest(final TypeRequest typeRequest, final StatusRequest statusRequest);
 }
