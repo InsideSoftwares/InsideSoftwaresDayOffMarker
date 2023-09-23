@@ -16,7 +16,9 @@ import static br.com.insidesoftwares.commons.utils.SpecificationRepository.speci
 
 public class DaySpecification {
 
-	private static final String DAY_DATE = "date";
+    private static final String DAY_DATE = "date";
+    private static final String DAY_IS_WEEKEND = "isWeekend";
+    private static final String DAY_IS_HOLIDAY = "isHoliday";
 	private static final String DAY_OF_WEEK = "dayOfWeek";
 	private static final String DAY_OF_YEAR = "dayOfYear";
 	private static final String DAY_TAG = "tags";
@@ -169,4 +171,33 @@ public class DaySpecification {
 		return daySpecification;
 	}
 
+    public static Specification<Day> findAllByDateSearchAndHolidayAndWeekendAndSearchFutureDates(
+            final LocalDate dateStartSearch,
+            final LocalDate dateFinalSearch,
+            final boolean isHoliday,
+            final boolean isWeekend,
+            final boolean isSearchForFutureDates
+    ) {
+        Specification<Day> daySpecification = Specification.where(null);
+
+        if(Objects.nonNull(dateStartSearch) && Objects.nonNull(dateFinalSearch) && isSearchForFutureDates) {
+            if (dateStartSearch.isAfter(dateFinalSearch)) {
+                throw new StartDateAfterEndDateException();
+            }
+            daySpecification = daySpecification.and(specificationBetween(DAY_DATE, dateStartSearch, dateFinalSearch));
+        }
+
+        if(Objects.nonNull(dateStartSearch) && Objects.nonNull(dateFinalSearch) && !isSearchForFutureDates) {
+            if (dateFinalSearch.isAfter(dateStartSearch)) {
+                throw new StartDateAfterEndDateException();
+            }
+            daySpecification = daySpecification.and(specificationBetween(DAY_DATE, dateFinalSearch, dateStartSearch));
+        }
+
+        daySpecification = daySpecification.and(specificationEqual(DAY_IS_HOLIDAY, isHoliday));
+        daySpecification = daySpecification.and(specificationEqual(DAY_IS_WEEKEND, isWeekend));
+
+
+        return daySpecification;
+    }
 }

@@ -1,4 +1,4 @@
-package br.com.insidesoftwares.dayoffmarker.specification.service;
+package br.com.insidesoftwares.dayoffmarker.specification.service.request;
 
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.StatusRequest;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeRequest;
@@ -9,12 +9,8 @@ import java.util.List;
 
 @Validated
 public interface RequestService {
-
 	void saveRequest(final Request request);
 	void saveAndFlushRequest(Request request);
-
 	List<Request> findAllRequestByTypeAndStatus(final TypeRequest typeRequest, final StatusRequest statusRequest);
-
 	boolean existRequestByTypeAndStatusRequest(final TypeRequest typeRequest, final StatusRequest statusRequest);
-
 }

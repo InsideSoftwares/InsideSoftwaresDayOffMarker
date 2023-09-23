@@ -19,9 +19,6 @@ public interface DayRepository extends JpaRepository<Day, Long>, JpaSpecificatio
 
 	Optional<Day> findByDate(final LocalDate date);
 
-	@EntityGraph(value = "day-full")
-	Optional<Day> findDayByDate(final LocalDate date);
-
     @EntityGraph(value = "day-full")
     Optional<Day> findDayById(final Long id);
 
@@ -54,6 +51,7 @@ public interface DayRepository extends JpaRepository<Day, Long>, JpaSpecificatio
 			""")
 	boolean existsByDateAndTag(final Long dayID, final Long tagID);
 
+    @EntityGraph(value = "day-full")
 	@Query("""
 			SELECT d FROM Day d
 			WHERE d.date BETWEEN :dateStartSearch AND :dateFinalSearch

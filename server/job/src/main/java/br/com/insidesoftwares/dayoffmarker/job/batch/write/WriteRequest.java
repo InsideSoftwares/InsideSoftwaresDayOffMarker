@@ -1,7 +1,7 @@
 package br.com.insidesoftwares.dayoffmarker.job.batch.write;
 
 import br.com.insidesoftwares.dayoffmarker.domain.entity.request.Request;
-import br.com.insidesoftwares.dayoffmarker.specification.service.RequestService;
+import br.com.insidesoftwares.dayoffmarker.specification.service.request.RequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;

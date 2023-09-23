@@ -109,7 +109,6 @@ class CityServiceBean implements CityService {
                 .name(cityRequestDTO.name())
                 .acronym(cityRequestDTO.acronym())
                 .code(cityRequestDTO.code())
-                .name(cityRequestDTO.name())
                 .state(state)
                 .build();
 

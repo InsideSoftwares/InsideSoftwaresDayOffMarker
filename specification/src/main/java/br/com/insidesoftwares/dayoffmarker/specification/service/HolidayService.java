@@ -15,21 +15,11 @@ import java.util.List;
 
 @Validated
 public interface HolidayService {
-
-	InsideSoftwaresResponseDTO<List<HolidayResponseDTO>> findAll(
-			final LocalDate startDate,
-			final LocalDate endDate,
-			final InsidePaginationFilterDTO paginationFilter
-	);
-
+    InsideSoftwaresResponseDTO<List<HolidayResponseDTO>> findAll( final LocalDate startDate, final LocalDate endDate, final InsidePaginationFilterDTO paginationFilter);
     InsideSoftwaresResponseDTO<HolidayResponseDTO> findById(final Long holidayID);
-
     InsideSoftwaresResponseDTO<Long> save(final @Valid HolidayRequestDTO holidayRequestDTO);
     InsideSoftwaresResponseDTO<List<Long>> saveInBatch(final @Valid HolidayBatchRequestDTO holidayBatchRequestDTO);
     void update(final Long holidayID, final @Valid HolidayRequestDTO holidayRequestDTO);
-
 	void saveHoliday(final @Valid HolidayCreateRequestDTO holidayCreateRequestDTO);
-
-	Holiday findHolidayById(final Long holidayID);
-
+    Holiday findHolidayById(final Long holidayID);
 }

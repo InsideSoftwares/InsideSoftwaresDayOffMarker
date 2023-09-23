@@ -2,7 +2,7 @@ package br.com.insidesoftwares.dayoffmarker.job.scheduled.tag;
 
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.StatusRequest;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeRequest;
-import br.com.insidesoftwares.dayoffmarker.specification.service.RequestService;
+import br.com.insidesoftwares.dayoffmarker.specification.service.request.RequestService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;

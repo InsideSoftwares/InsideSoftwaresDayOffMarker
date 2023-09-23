@@ -14,21 +14,12 @@ import java.util.List;
 
 @Validated
 public interface CityService {
-
-    InsideSoftwaresResponseDTO<List<CityResponseDTO>> findAll(
-            final Long stateID,
-            final InsidePaginationFilterDTO paginationFilter
-    );
-
+    InsideSoftwaresResponseDTO<List<CityResponseDTO>> findAll( final Long stateID, final InsidePaginationFilterDTO paginationFilter );
     InsideSoftwaresResponseDTO<CityResponseDTO> findById(final Long cityID);
-
     void save(final @Valid CityRequestDTO cityRequestDTO);
     void update(final Long cityID, final @Valid CityRequestDTO cityRequestDTO);
-
 	void addCityHoliday(final Long cityID, final @Valid CityHolidayRequestDTO cityHolidayRequestDTO);
 	void deleteCityHoliday(final Long cityID, final @Valid CityHolidayDeleteRequestDTO cityHolidayDeleteRequestDTO);
-
 	City findCityById(final Long cityID);
 	City findCityFullHolidayById(final Long cityID);
-
 }

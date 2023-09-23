@@ -1,4 +1,4 @@
-package br.com.insidesoftwares.dayoffmarker.specification.service;
+package br.com.insidesoftwares.dayoffmarker.specification.service.request;
 
 
 import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagLinkRequestDTO;
@@ -7,7 +7,6 @@ import org.springframework.validation.annotation.Validated;
 
 @Validated
 public interface RequestCreationService {
-
     String createInitialApplication();
 	String createLinkTagsInDays(final TagLinkRequestDTO tagLinkRequestDTO);
 	String createUnlinkTagsInDays(final TagLinkRequestDTO tagLinkRequestDTO);

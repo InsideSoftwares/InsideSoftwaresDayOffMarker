@@ -23,7 +23,6 @@ public interface CityMapper {
 		return cities.stream().map(this::toDTO).collect(Collectors.toList());
 	}
 
-
 	@Mappings({
 		@Mapping(source = "state.id", target = "stateID"),
 		@Mapping(source = "state.name", target = "stateName"),

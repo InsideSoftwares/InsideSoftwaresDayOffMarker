@@ -1,12 +1,14 @@
 package br.com.insidesoftwares.dayoffmarker.commons.dto.response.state;
 
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeHoliday;
+import lombok.Builder;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+@Builder
 public record StateHolidayResponseDTO(
 	Long id,
 	String name,

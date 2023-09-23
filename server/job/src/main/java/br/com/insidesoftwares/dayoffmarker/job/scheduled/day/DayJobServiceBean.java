@@ -6,8 +6,8 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.error.request.Param
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.request.RequestConflictParametersException;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.request.Request;
 import br.com.insidesoftwares.dayoffmarker.job.scheduled.utils.RequestUtils;
-import br.com.insidesoftwares.dayoffmarker.specification.service.RequestCreationService;
-import br.com.insidesoftwares.dayoffmarker.specification.service.RequestService;
+import br.com.insidesoftwares.dayoffmarker.specification.service.request.RequestCreationService;
+import br.com.insidesoftwares.dayoffmarker.specification.service.request.RequestService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;

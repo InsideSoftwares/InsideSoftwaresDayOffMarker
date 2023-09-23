@@ -13,15 +13,10 @@ import java.util.List;
 
 @Validated
 public interface TagService {
-
     InsideSoftwaresResponseDTO<List<TagResponseDTO>> findAll(final InsidePaginationFilterDTO paginationFilter);
-
     InsideSoftwaresResponseDTO<TagResponseDTO> findById(final Long tagID);
-
     void save(final @Valid TagRequestDTO tagRequestDTO);
     void update(final Long tagID, final @Valid TagRequestDTO tagRequestDTO);
-
 	InsideSoftwaresResponseDTO<TagLinkResponseDTO> linkTagByDay(final @Valid TagLinkRequestDTO tagLinkRequestDTO);
 	InsideSoftwaresResponseDTO<TagLinkResponseDTO> unlinkTagByDay(final @Valid TagLinkRequestDTO tagLinkRequestDTO);
-
 }

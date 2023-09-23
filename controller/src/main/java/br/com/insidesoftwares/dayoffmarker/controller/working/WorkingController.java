@@ -6,8 +6,8 @@ import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.day.DayDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.response.working.WorkingCurrentDayResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.specification.service.working.WorkingCityService;
-import br.com.insidesoftwares.dayoffmarker.specification.service.working.WorkingDayService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.working.WorkingStateService;
+import br.com.insidesoftwares.dayoffmarker.specification.service.working.day.WorkingDayService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -45,7 +45,7 @@ public class WorkingController {
 		@PathVariable final LocalDate date,
 		@RequestParam(value = "numberOfDays", required = false, defaultValue = "0") final int numberOfDays
 	) {
-		return workingDayService.findWorkingDay(date, numberOfDays);
+		return workingDayService.findNextWorkingDay(date, numberOfDays);
 	}
 
 	@Operation(

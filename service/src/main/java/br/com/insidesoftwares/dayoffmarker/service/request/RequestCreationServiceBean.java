@@ -13,8 +13,8 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.error.request.Reque
 import br.com.insidesoftwares.dayoffmarker.domain.entity.request.Request;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.request.RequestParameter;
 import br.com.insidesoftwares.dayoffmarker.specification.service.ConfigurationService;
-import br.com.insidesoftwares.dayoffmarker.specification.service.RequestCreationService;
-import br.com.insidesoftwares.dayoffmarker.specification.service.RequestService;
+import br.com.insidesoftwares.dayoffmarker.specification.service.request.RequestCreationService;
+import br.com.insidesoftwares.dayoffmarker.specification.service.request.RequestService;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.RequestValidator;
 import br.com.insidesoftwares.utils.AuthenticationUtils;
 import lombok.RequiredArgsConstructor;

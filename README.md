@@ -31,22 +31,23 @@ Todos esses processos dependem de datas específicas para serem realizados, a fi
 ## Build do projeto
 
 * Realizar o clone do projeto
-* Na pasta do clone rodar o seguinte comando ``` mvn clean install ``` projeto ira buildar como defeault ele ira utilizar
-  Keycloak como provedor de acesso e o Postgresql como base de dados
+* Na pasta do clone rodar o seguinte comando ``` mvn clean install ```
 
 ### Build com profile
 
 O projeto possui os seguintes profiles para banco de dados
-* postgresql (Default)
-* mysql
-
-Para provedor de acessos
-* keycloak (Default)
-  * Version: 22.0.1 ou Superior
+* analyze (Para executar a analise de codigo)
+* release (Para executar a criação de imagem docker latest)
 
 Ex:
 
-``` mvn clean install -P azure,postgresql ```
+``` mvn clean install -P analyze ```
+
+### Será necessarios os seguintes projetos buildados na sua maquina:
+* [InsideSoftwaresCommons](https://github.com/InsideSoftwares/InsideSoftwaresCommons)
+* [InsideSoftwaresSecurityCommons](https://github.com/InsideSoftwares/InsideSoftwaresSecurityCommons)
+* [Jdempotent](https://github.com/SawCunha/Jdempotent/tree/feature/spring_boot_3)
+
 
 ## Arquivos Extras
 

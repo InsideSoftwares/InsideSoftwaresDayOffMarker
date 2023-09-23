@@ -9,13 +9,9 @@ import org.springframework.validation.annotation.Validated;
 
 @Validated
 public interface ConfigurationService {
-
 	Configuration findConfigurationByKey(final Configurationkey configurationKey);
 	String findValueConfigurationByKey(final Configurationkey configurationKey);
 	void updateConfiguration(final Configurationkey configurationKey, final String value);
-
     void configurationLimitYear(final @Valid ConfigurationLimitYearRequestDTO configurationLimitYearRequestDTO);
-
 	void configurationCountry(final @Valid ConfigurationCountryRequestDTO configurationCountryRequestDTO);
-
 }

@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @Tag(name = "Country", description = "Get and register the countries")
 @InsideSoftwaresController
@@ -76,7 +75,7 @@ public class CountryController {
 	@InsideRequestPost(uri = "/v1/country", httpCode = HttpStatus.CREATED,
 		nameCache = {"DAYOFF_MARKER_COUNTRY", "DAYOFF_MARKER_CITY", "DAYOFF_MARKER_STATE"}
 	)
-    @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_COUNTRY", ttl = 1, ttlTimeUnit = TimeUnit.DAYS)
+    @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_COUNTRY", ttl = 1)
     public InsideSoftwaresResponseDTO<Void> save(
 		@JdempotentRequestPayload @RequestBody CountryRequestDTO countryRequestDTO
     ) {

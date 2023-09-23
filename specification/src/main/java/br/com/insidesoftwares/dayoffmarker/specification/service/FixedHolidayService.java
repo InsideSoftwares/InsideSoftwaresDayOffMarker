@@ -14,17 +14,10 @@ import java.util.List;
 
 @Validated
 public interface FixedHolidayService {
-
-    InsideSoftwaresResponseDTO<List<FixedHolidayResponseDTO>> findAll(
-            final InsidePaginationFilterDTO paginationFilter
-    );
-
-    InsideSoftwaresResponseDTO<FixedHolidayResponseDTO> findById(final Long fixedHolidayID) throws FixedHolidayNotExistException;
-
+    InsideSoftwaresResponseDTO<List<FixedHolidayResponseDTO>> findAll( final InsidePaginationFilterDTO paginationFilter );
+    InsideSoftwaresResponseDTO<FixedHolidayResponseDTO> findById(final Long fixedHolidayID);
     void save(final @Valid FixedHolidayRequestDTO fixedHolidayRequestDTO);
     void update(final Long fixedHolidayID, final @Valid FixedHolidayUpdateRequestDTO fixedHolidayRequestDTO);
-
 	List<FixedHoliday> findAllByEnable(final boolean enable);
 	FixedHoliday findFixedHolidayById(final Long fixedHolidayID) throws FixedHolidayNotExistException;
-
 }

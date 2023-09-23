@@ -4,7 +4,7 @@ import br.com.insidesoftwares.dayoffmarker.commons.enumeration.StatusRequest;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeRequest;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.request.Request;
 import br.com.insidesoftwares.dayoffmarker.domain.repository.RequestRepository;
-import br.com.insidesoftwares.dayoffmarker.specification.service.RequestService;
+import br.com.insidesoftwares.dayoffmarker.specification.service.request.RequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -14,14 +14,10 @@ import java.util.List;
 
 @Validated
 public interface CountryService {
-
     InsideSoftwaresResponseDTO<List<CountryResponseDTO>> findAll(final InsidePaginationFilterDTO paginationFilter);
-
     InsideSoftwaresResponseDTO<CountryResponseDTO> findById(final Long countryID) throws CountryNotExistException;
-
     void save(final @Valid CountryRequestDTO countryRequestDTO);
     void update(final Long countryID, final @Valid CountryRequestDTO countryRequestDTO);
-
     boolean validCountry(final String name);
     Country findCountryByName(final String name) throws CountryNameInvalidException;
     Country findCountryDefault();

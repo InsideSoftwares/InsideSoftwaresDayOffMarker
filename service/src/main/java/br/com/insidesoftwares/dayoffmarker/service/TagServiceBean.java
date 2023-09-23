@@ -20,8 +20,8 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagNotExi
 import br.com.insidesoftwares.dayoffmarker.domain.entity.tag.Tag;
 import br.com.insidesoftwares.dayoffmarker.domain.mapper.TagMapper;
 import br.com.insidesoftwares.dayoffmarker.domain.repository.day.TagRepository;
-import br.com.insidesoftwares.dayoffmarker.specification.service.RequestCreationService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.TagService;
+import br.com.insidesoftwares.dayoffmarker.specification.service.request.RequestCreationService;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.Validator;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.ValidatorLink;
 import lombok.RequiredArgsConstructor;
