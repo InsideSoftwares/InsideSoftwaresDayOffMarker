@@ -13,12 +13,13 @@ import static br.com.insidesoftwares.dayoffmarker.domain.specification.DaySpecif
 
 abstract class WorkingDayBean {
 
+    private static final int MINUMO = 5;
+    private static final int MUTIPLICATOR = 2;
+
     @Autowired
     private DayRepository dayRepository;
 
-    int rangeBetweenStartEnd(final int numberOfDays) {
-        int MINUMO = 5;
-        int MUTIPLICATOR = 2;
+    int getSearchRangeForDays(final int numberOfDays) {
         int numberAbsOfDays = Math.abs(numberOfDays);
         return Math.max(MINUMO, MUTIPLICATOR * numberAbsOfDays);
     }

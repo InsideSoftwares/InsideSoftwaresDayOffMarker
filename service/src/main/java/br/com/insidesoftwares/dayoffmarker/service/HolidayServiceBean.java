@@ -49,7 +49,6 @@ class HolidayServiceBean implements HolidayService {
             final LocalDate endDate,
             InsidePaginationFilterDTO paginationFilter
     ) {
-
         Pageable pageable = PaginationUtils.createPageable(paginationFilter, eOrderHoliday.ID);
 
         Specification<Holiday> holidaySpecification = HolidaySpecification.findAllByStartDateAndEndDate(startDate, endDate);
@@ -73,6 +72,7 @@ class HolidayServiceBean implements HolidayService {
     @Override
     public InsideSoftwaresResponseDTO<HolidayResponseDTO> findById(final Long holidayID) {
         Holiday holiday = findHolidayById(holidayID);
+
         return InsideSoftwaresResponseDTO.<HolidayResponseDTO>builder()
                 .data(holidayMapper.toDTO(holiday))
                 .build();
@@ -118,7 +118,6 @@ class HolidayServiceBean implements HolidayService {
                 .automaticUpdate(false)
                 .nationalHoliday(holidayRequestDTO.nationalHoliday())
                 .build();
-
         holiday = holidayRepository.save(holiday);
 
         dayService.defineDayIsHoliday(holidayRequestDTO.dayId());

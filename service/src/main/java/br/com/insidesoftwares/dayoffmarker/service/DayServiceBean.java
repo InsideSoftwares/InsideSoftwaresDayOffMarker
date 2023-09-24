@@ -55,9 +55,9 @@ class DayServiceBean implements DayService {
     })
     @Override
     public void linkTag(Long dayID, LinkTagRequestDTO linkTagRequestDTO) {
-        Day day = findDayByID(dayID);
-
         validateLink.validateLink(dayID, linkTagRequestDTO);
+
+        Day day = findDayByID(dayID);
 
         linkTagRequestDTO.tagsID().forEach(tagID -> {
             Tag tag = tagRepository.getReferenceById(tagID);
@@ -75,6 +75,7 @@ class DayServiceBean implements DayService {
     @Override
     public void unlinkTag(Long dayID, LinkTagRequestDTO linkTagRequestDTO) {
         Day day = findDayByID(dayID);
+
         linkTagRequestDTO.tagsID().forEach(tagID -> {
             day.getTags().removeIf(tag -> tag.getId().equals(tagID));
         });
@@ -86,6 +87,7 @@ class DayServiceBean implements DayService {
     @Override
     public Day findDayByID(final Long dayID) {
         Optional<Day> optionalDay = dayRepository.findById(dayID);
+
         return optionalDay.orElseThrow(DayNotExistException::new);
     }
 
@@ -93,6 +95,7 @@ class DayServiceBean implements DayService {
     @Override
     public Day findDayByDate(final LocalDate date) {
         Optional<Day> optionalDay = dayRepository.findByDate(date);
+
         return optionalDay.orElseThrow(DayNotExistException::new);
     }
 
@@ -102,8 +105,7 @@ class DayServiceBean implements DayService {
     })
     @Override
     public void defineDayIsHoliday(final Long dayID) {
-        Optional<Day> optionalDay = dayRepository.findDayById(dayID);
-        Day day = optionalDay.orElseThrow(DayNotExistException::new);
+        Day day = dayRepository.findDayById(dayID).orElseThrow(DayNotExistException::new);
 
         day.setHoliday(day.getHolidays().stream().anyMatch(Holiday::isNationalHoliday));
 
@@ -156,13 +158,13 @@ class DayServiceBean implements DayService {
     @Override
     public InsideSoftwaresResponseDTO<DayDTO> getDayByID(final Long id) {
         Day day = findDayByID(id);
+
         return InsideSoftwaresResponseUtils.wrapResponse(dayMapper.toDayDTO(day));
     }
 
     @InsideAudit
     @Override
     public InsideSoftwaresResponseDTO<DayDTO> getDayByDate(final LocalDate date, final Long tagID, final String tagCode) {
-
         Specification<Day> daySpecification = DaySpecification.findDayByDateOrTag(date, tagID, tagCode);
 
         Day day = dayRepository.findOne(daySpecification).orElseThrow(DayNotExistException::new);
@@ -173,7 +175,6 @@ class DayServiceBean implements DayService {
     @InsideAudit
     @Override
     public InsideSoftwaresResponseDTO<List<DayDTO>> getDaysByTag(final Long tagID) {
-
         List<Day> days = dayRepository.findDaysByTagId(tagID);
 
         return InsideSoftwaresResponseUtils.wrapResponse(dayMapper.toDTOs(days));
@@ -213,6 +214,7 @@ class DayServiceBean implements DayService {
         LocalDate endDate = LocalDate.of(yearSearch, month, month.maxLength());
 
         List<Day> days = dayRepository.findAllByDateSearch(startDate, endDate);
+
         return InsideSoftwaresResponseUtils.wrapResponse(dayMapper.toDTOs(days));
     }
 
@@ -230,6 +232,7 @@ class DayServiceBean implements DayService {
             final Long fixedHolidayID
     ) {
         Integer year = DateUtils.getDateCurrent().getYear();
+
         return dayRepository.isDaysWithoutHolidaysByByDayAndMonthAndYearAndFixedHolidayIDOrNotHoliday(day, month, year, fixedHolidayID);
     }
 }

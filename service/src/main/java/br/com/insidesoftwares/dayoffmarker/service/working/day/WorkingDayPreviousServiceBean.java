@@ -27,13 +27,13 @@ public class WorkingDayPreviousServiceBean extends WorkingDayBean implements Wor
     public DayDTO findWorkingDayPrevious(final LocalDate date, final int numberOfDays) {
         int timesExecuted = 0;
         boolean isSearchForFutureDates = checkIfSearchFutureDates(numberOfDays);
-        int range = rangeBetweenStartEnd(numberOfDays);
+        int daysSearchInterval = getSearchRangeForDays(numberOfDays);
 
-        LocalDate dateStartSearch = updateDateByRange(date, !isSearchForFutureDates, range);
+        LocalDate dateStartSearch = updateDateByRange(date, !isSearchForFutureDates, daysSearchInterval);
         LocalDate dateReceived = updateDateByRange(date, isSearchForFutureDates, numberOfDays);
-        LocalDate dateFinalSearch = updateDateByRange(date, isSearchForFutureDates, range);
+        LocalDate dateFinalSearch = updateDateByRange(date, isSearchForFutureDates, daysSearchInterval);
 
-        return findWorkingDay(dateStartSearch, dateFinalSearch, dateReceived, isSearchForFutureDates, range, timesExecuted);
+        return findWorkingDay(dateStartSearch, dateFinalSearch, dateReceived, isSearchForFutureDates, daysSearchInterval, timesExecuted);
     }
 
     private DayDTO findWorkingDay(
@@ -41,7 +41,7 @@ public class WorkingDayPreviousServiceBean extends WorkingDayBean implements Wor
             LocalDate dateFinalSearch,
             final LocalDate dateReceived,
             final boolean isSearchForFutureDates,
-            final int range,
+            final int daysSearchInterval,
             final int timesExecuted
     ) {
         if (timesExecuted >= LIMIT) {
@@ -51,16 +51,16 @@ public class WorkingDayPreviousServiceBean extends WorkingDayBean implements Wor
         List<Day> dates = findAllWorkingDays(dateStartSearch, dateFinalSearch, isSearchForFutureDates);
 
         if (!dates.isEmpty()) {
-            Day result = searchForWorkDayInListOfDays(dateReceived, dates, range, false);
+            Day result = searchForWorkDayInListOfDays(dateReceived, dates, daysSearchInterval, false);
             if (Objects.nonNull(result)) {
                 return dayMapper.toDayDTO(result);
             }
         }
 
-        dateStartSearch = updateDateByRange(dateFinalSearch, !isSearchForFutureDates, range);
-        dateFinalSearch = updateDateByRange(dateFinalSearch, isSearchForFutureDates, range);
+        dateStartSearch = updateDateByRange(dateFinalSearch, !isSearchForFutureDates, daysSearchInterval);
+        dateFinalSearch = updateDateByRange(dateFinalSearch, isSearchForFutureDates, daysSearchInterval);
 
-        return findWorkingDay(dateStartSearch, dateFinalSearch, dateReceived, isSearchForFutureDates, range, timesExecuted + 1);
+        return findWorkingDay(dateStartSearch, dateFinalSearch, dateReceived, isSearchForFutureDates, daysSearchInterval, timesExecuted + 1);
     }
 
 }

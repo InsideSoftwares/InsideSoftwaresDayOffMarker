@@ -27,12 +27,12 @@ public class WorkingDayNextServiceBean extends WorkingDayBean implements Working
     public DayDTO findWorkingDayNext(final LocalDate date, final int numberOfDays) {
         int timesExecuted = 0;
         boolean isSearchForFutureDates = checkIfSearchFutureDates(numberOfDays);
-        int range = rangeBetweenStartEnd(numberOfDays);
+        int daysSearchInterval = getSearchRangeForDays(numberOfDays);
 
         LocalDate dateReceived = updateDateByRange(date, isSearchForFutureDates, numberOfDays);
-        LocalDate dateFinalSearch = updateDateByRange(date, isSearchForFutureDates, range);
+        LocalDate dateFinalSearch = updateDateByRange(date, isSearchForFutureDates, daysSearchInterval);
 
-        return findWorkingDay(date, dateFinalSearch, dateReceived, isSearchForFutureDates, range, timesExecuted);
+        return findWorkingDay(date, dateFinalSearch, dateReceived, isSearchForFutureDates, daysSearchInterval, timesExecuted);
     }
 
     private DayDTO findWorkingDay(
@@ -40,7 +40,7 @@ public class WorkingDayNextServiceBean extends WorkingDayBean implements Working
             LocalDate dateFinalSearch,
             final LocalDate dateReceived,
             final boolean isSearchForFutureDates,
-            final int range,
+            final int daysSearchInterval,
             final int timesExecuted
     ) {
         if (timesExecuted >= LIMIT) {
@@ -50,16 +50,16 @@ public class WorkingDayNextServiceBean extends WorkingDayBean implements Working
         List<Day> dates = findAllWorkingDays(dateStartSearch, dateFinalSearch, isSearchForFutureDates);
 
         if (!dates.isEmpty()) {
-            Day result = searchForWorkDayInListOfDays(dateReceived, dates, range, true);
+            Day result = searchForWorkDayInListOfDays(dateReceived, dates, daysSearchInterval, true);
             if (Objects.nonNull(result)) {
                 return dayMapper.toDayDTO(result);
             }
         }
 
         dateStartSearch = dateFinalSearch;
-        dateFinalSearch = updateDateByRange(dateStartSearch, isSearchForFutureDates, range);
+        dateFinalSearch = updateDateByRange(dateStartSearch, isSearchForFutureDates, daysSearchInterval);
 
-        return findWorkingDay(dateStartSearch, dateFinalSearch, dateReceived, isSearchForFutureDates, range, timesExecuted + 1);
+        return findWorkingDay(dateStartSearch, dateFinalSearch, dateReceived, isSearchForFutureDates, daysSearchInterval, timesExecuted + 1);
     }
 
 }

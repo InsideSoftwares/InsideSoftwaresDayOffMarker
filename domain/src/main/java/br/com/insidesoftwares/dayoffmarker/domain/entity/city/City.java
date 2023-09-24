@@ -123,16 +123,6 @@ public class City {
         }
     }
 
-    public void updateHoliday(final CityHoliday cityHoliday, boolean isHoliday) {
-        if (Objects.nonNull(cityHolidays)) {
-            Optional<CityHoliday> cityHolidayOptional = cityHolidays.stream()
-                    .filter(holiday -> holiday.getId().getHolidayId().equals(cityHoliday.getId().getHolidayId())).findFirst();
-            cityHolidayOptional.ifPresent(holiday -> {
-                holiday.setCityHoliday(isHoliday);
-            });
-        }
-    }
-
     public Optional<CityHoliday> containsHoliday(final Long holidayId) {
         return this.cityHolidays.stream()
                 .filter(holiday -> holiday.getId().getHolidayId().equals(holidayId))

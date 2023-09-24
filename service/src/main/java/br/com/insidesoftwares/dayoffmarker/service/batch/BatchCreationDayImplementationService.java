@@ -24,13 +24,9 @@ class BatchCreationDayImplementationService implements BatchCreationDayService {
     @Override
     public void createDaysBatch(List<DayBatch> daysBatch) {
         log.info("Create Days Batch");
-        daysBatch.forEach(dayBatch -> {
-            if (!dayBatchRepository.existsByDate(dayBatch.getDate())) {
-                dayBatchRepository.saveAndFlush(dayBatch);
-            } else {
-                log.info("Day Batch exist {}", dayBatch.getDate());
-            }
-        });
+        daysBatch.removeIf(dayBatch -> existDayInDayBatch(dayBatch.getDate()));
+
+        dayBatchRepository.saveAllAndFlush(daysBatch);
     }
 
     @Override
@@ -42,13 +38,9 @@ class BatchCreationDayImplementationService implements BatchCreationDayService {
     @Override
     public void createDays(List<Day> days) {
         log.info("Create Days");
-        days.forEach(day -> {
-            if (!dayRepository.existsByDate(day.getDate())) {
-                dayRepository.saveAndFlush(day);
-            } else {
-                log.info("Day exist {}", day.getDate());
-            }
-        });
+        days.removeIf(day -> dayRepository.existsByDate(day.getDate()));
+
+        dayRepository.saveAllAndFlush(days);
     }
 
     @Transactional(readOnly = true)

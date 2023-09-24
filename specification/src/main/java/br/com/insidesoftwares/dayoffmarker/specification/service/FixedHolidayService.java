@@ -18,7 +18,7 @@ public interface FixedHolidayService {
 
     InsideSoftwaresResponseDTO<FixedHolidayResponseDTO> findById(final Long fixedHolidayID);
 
-    void save(final @Valid FixedHolidayRequestDTO fixedHolidayRequestDTO);
+    InsideSoftwaresResponseDTO<Long> save(final @Valid FixedHolidayRequestDTO fixedHolidayRequestDTO);
 
     void update(final Long fixedHolidayID, final @Valid FixedHolidayUpdateRequestDTO fixedHolidayRequestDTO);
 

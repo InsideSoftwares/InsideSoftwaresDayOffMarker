@@ -17,7 +17,7 @@ public interface TagService {
 
     InsideSoftwaresResponseDTO<TagResponseDTO> findById(final Long tagID);
 
-    void save(final @Valid TagRequestDTO tagRequestDTO);
+    InsideSoftwaresResponseDTO<Long> save(final @Valid TagRequestDTO tagRequestDTO);
 
     void update(final Long tagID, final @Valid TagRequestDTO tagRequestDTO);
 

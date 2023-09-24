@@ -48,7 +48,6 @@ class TagServiceBean implements TagService {
     @InsideAudit
     @Override
     public InsideSoftwaresResponseDTO<List<TagResponseDTO>> findAll(final InsidePaginationFilterDTO paginationFilter) {
-
         Pageable pageable = PaginationUtils.createPageable(paginationFilter, eOrderTag.ID);
 
         Page<Tag> tagPage = tagRepository.findAll(pageable);
@@ -70,6 +69,7 @@ class TagServiceBean implements TagService {
     @Override
     public InsideSoftwaresResponseDTO<TagResponseDTO> findById(final Long tagID) {
         Tag tag = findTagById(tagID);
+
         return InsideSoftwaresResponseDTO.<TagResponseDTO>builder()
                 .data(tagMapper.toDTO(tag))
                 .build();
@@ -80,11 +80,13 @@ class TagServiceBean implements TagService {
             TagCodeExistException.class
     })
     @Override
-    public void save(final TagRequestDTO tagRequestDTO) {
+    public InsideSoftwaresResponseDTO<Long> save(final TagRequestDTO tagRequestDTO) {
         tagValidator.validator(tagRequestDTO);
 
         Tag tag = tagMapper.toEntity(tagRequestDTO);
-        tagRepository.save(tag);
+        tag = tagRepository.save(tag);
+
+        return InsideSoftwaresResponseDTO.<Long>builder().data(tag.getId()).build();
     }
 
     @InsideAudit

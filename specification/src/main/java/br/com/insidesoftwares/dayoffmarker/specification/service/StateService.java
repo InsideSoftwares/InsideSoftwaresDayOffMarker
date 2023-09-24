@@ -18,7 +18,7 @@ public interface StateService {
 
     InsideSoftwaresResponseDTO<StateResponseDTO> findById(final Long stateID);
 
-    void save(final @Valid StateRequestDTO stateRequestDTO);
+    InsideSoftwaresResponseDTO<Long> save(final @Valid StateRequestDTO stateRequestDTO);
 
     void update(final Long stateID, final @Valid StateRequestDTO stateRequestDTO);
 

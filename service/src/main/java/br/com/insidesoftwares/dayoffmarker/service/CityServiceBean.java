@@ -100,7 +100,7 @@ class CityServiceBean implements CityService {
             CityNameStateExistException.class
     })
     @Override
-    public void save(final @Valid CityRequestDTO cityRequestDTO) {
+    public InsideSoftwaresResponseDTO<Long> save(final @Valid CityRequestDTO cityRequestDTO) {
         cityValidator.validator(cityRequestDTO);
 
         State state = stateService.findStateByStateId(cityRequestDTO.stateID());
@@ -112,9 +112,10 @@ class CityServiceBean implements CityService {
                 .state(state)
                 .build();
 
-        cityRepository.save(city);
-    }
+        city = cityRepository.save(city);
 
+        return InsideSoftwaresResponseDTO.<Long>builder().data(city.getId()).build();
+    }
 
     @InsideAudit(description = "Update the city by ID")
     @Transactional(rollbackFor = {
@@ -156,7 +157,7 @@ class CityServiceBean implements CityService {
             final Long cityID,
             @Valid final CityHolidayRequestDTO cityHolidayRequestDTO
     ) {
-        City city = cityRepository.findCityById(cityID).orElseThrow(CityNotExistException::new);
+        City city = findCityById(cityID);
 
         cityHolidayRequestDTO.holidaysId().forEach(holidayId -> {
             Holiday holiday = holidayService.findHolidayById(holidayId);
@@ -183,7 +184,7 @@ class CityServiceBean implements CityService {
             final Long cityID,
             @Valid final CityHolidayDeleteRequestDTO cityHolidayDeleteRequestDTO
     ) {
-        City city = cityRepository.findCityById(cityID).orElseThrow(CityNotExistException::new);
+        City city = findCityById(cityID);
 
         cityHolidayDeleteRequestDTO.holidaysId().forEach(holidayId -> {
             Optional<CityHoliday> cityHolidayOptional = city.containsHoliday(holidayId);

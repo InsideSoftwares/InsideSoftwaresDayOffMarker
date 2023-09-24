@@ -18,7 +18,7 @@ public interface CityService {
 
     InsideSoftwaresResponseDTO<CityResponseDTO> findById(final Long cityID);
 
-    void save(final @Valid CityRequestDTO cityRequestDTO);
+    InsideSoftwaresResponseDTO<Long> save(final @Valid CityRequestDTO cityRequestDTO);
 
     void update(final Long cityID, final @Valid CityRequestDTO cityRequestDTO);
 

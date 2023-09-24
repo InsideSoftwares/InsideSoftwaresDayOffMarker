@@ -62,9 +62,7 @@ class CountryServiceBean implements CountryService {
     @InsideAudit
     @Override
     public InsideSoftwaresResponseDTO<CountryResponseDTO> findById(final Long countryID) throws CountryNotExistException {
-        Country country = countryRepository
-                .findById(countryID)
-                .orElseThrow(CountryNotExistException::new);
+        Country country = findCountryByCountryId(countryID);
 
         return InsideSoftwaresResponseDTO.<CountryResponseDTO>builder()
                 .data(countryMapper.toDTO(country))
@@ -74,7 +72,7 @@ class CountryServiceBean implements CountryService {
     @InsideAudit
     @Transactional(rollbackFor = {CountryNameExistExpetion.class, CountryCodeExistExpetion.class, CountryAcronymExistExpetion.class})
     @Override
-    public void save(final @Valid CountryRequestDTO countryRequestDTO) {
+    public InsideSoftwaresResponseDTO<Long> save(final @Valid CountryRequestDTO countryRequestDTO) {
         countryValidator.validator(countryRequestDTO);
 
         Country country = Country.builder()
@@ -83,7 +81,9 @@ class CountryServiceBean implements CountryService {
                 .acronym(countryRequestDTO.acronym())
                 .build();
 
-        countryRepository.save(country);
+        country = countryRepository.save(country);
+
+        return InsideSoftwaresResponseDTO.<Long>builder().data(country.getId()).build();
     }
 
     @InsideAudit
@@ -105,31 +105,15 @@ class CountryServiceBean implements CountryService {
 
     @InsideAudit
     @Override
-    public boolean validCountry(final String name) {
-        Optional<Country> countryOptional = countryRepository.findCountryByName(name);
-        return countryOptional.isPresent();
-    }
-
-    @InsideAudit
-    @Override
-    public Country findCountryByName(final String name) throws CountryNameInvalidException {
-        Optional<Country> countryOptional = countryRepository.findCountryByName(name);
-        return countryOptional.orElseThrow(CountryNameInvalidException::new);
-    }
-
-    @InsideAudit
-    @Override
     public Country findCountryDefault() {
         String countryDefault = configurationService.findValueConfigurationByKey(Configurationkey.COUNTRY_DEFAULT);
-        Optional<Country> countryOptional = countryRepository.findCountryByName(countryDefault);
-        return countryOptional.orElseThrow(CountryNameInvalidException::new);
+        return findCountryByNameOrDefault(countryDefault);
     }
 
     @InsideAudit
     @Override
     public Country findCountryByNameOrDefault(final String name) {
-        String nameCountry = Objects.nonNull(name) ?
-                name :
+        String nameCountry = Objects.nonNull(name) ? name :
                 configurationService.findValueConfigurationByKey(Configurationkey.COUNTRY_DEFAULT);
 
         Optional<Country> countryOptional = countryRepository.findCountryByName(nameCountry);
@@ -140,18 +124,7 @@ class CountryServiceBean implements CountryService {
     @Override
     public Country findCountryByCountryId(final Long countryId) {
         Optional<Country> countryOptional = countryRepository.findById(countryId);
-        return countryOptional.orElseThrow(CountryNameInvalidException::new);
-    }
-
-    @InsideAudit
-    @Override
-    public Country findCountryByCountryIdOrDefault(final Long countryId) {
-        if (Objects.isNull(countryId)) {
-            return findCountryDefault();
-        }
-
-        Optional<Country> countryOptional = countryRepository.findById(countryId);
-        return countryOptional.orElseThrow(CountryNameInvalidException::new);
+        return countryOptional.orElseThrow(CountryNotExistException::new);
     }
 
 }

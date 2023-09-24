@@ -79,6 +79,7 @@ class StateServiceBean implements StateService {
     @Override
     public InsideSoftwaresResponseDTO<StateResponseDTO> findById(final Long stateID) {
         State state = stateRepository.findStateById(stateID).orElseThrow(StateNotExistException::new);
+
         return InsideSoftwaresResponseDTO.<StateResponseDTO>builder()
                 .data(stateMapper.toFullDTO(state))
                 .build();
@@ -92,7 +93,7 @@ class StateServiceBean implements StateService {
             StateNotExistException.class
     })
     @Override
-    public void save(StateRequestDTO stateRequestDTO) {
+    public InsideSoftwaresResponseDTO<Long> save(StateRequestDTO stateRequestDTO) {
         stateValidator.validator(stateRequestDTO);
 
         Country country = countryService.findCountryByCountryId(stateRequestDTO.countryId());
@@ -104,7 +105,9 @@ class StateServiceBean implements StateService {
                 .country(country)
                 .build();
 
-        stateRepository.save(state);
+        state = stateRepository.save(state);
+
+        return InsideSoftwaresResponseDTO.<Long>builder().data(state.getId()).build();
     }
 
     @InsideAudit
@@ -116,24 +119,18 @@ class StateServiceBean implements StateService {
     @Override
     public void update(Long stateID, StateRequestDTO stateRequestDTO) {
         stateValidator.validator(stateID, stateRequestDTO);
+
         State state = stateRepository.getReferenceById(stateID);
 
         if (!stateRequestDTO.countryId().equals(state.getCountry().getId())) {
             Country country = countryService.findCountryByCountryId(stateRequestDTO.countryId());
             state.setCountry(country);
         }
-
         state.setName(stateRequestDTO.name());
         state.setAcronym(stateRequestDTO.acronym());
         state.setCode(stateRequestDTO.code());
-        stateRepository.save(state);
-    }
 
-    @InsideAudit
-    @Override
-    public State findStateByStateId(final Long stateId) {
-        Optional<State> optionalState = stateRepository.findById(stateId);
-        return optionalState.orElseThrow(StateNotExistException::new);
+        stateRepository.save(state);
     }
 
     @InsideAudit
@@ -147,7 +144,7 @@ class StateServiceBean implements StateService {
             final Long stateID,
             @Valid final StateHolidayRequestDTO stateHolidayRequestDTO
     ) {
-        State state = stateRepository.findById(stateID).orElseThrow(StateNotExistException::new);
+        State state = findStateByStateId(stateID);
 
         stateHolidayRequestDTO.holidaysId().forEach(holidayId -> {
             Holiday holiday = holidayService.findHolidayById(holidayId);
@@ -174,7 +171,7 @@ class StateServiceBean implements StateService {
             final Long stateID,
             @Valid final StateHolidayDeleteRequestDTO stateHolidayDeleteRequestDTO
     ) {
-        State state = stateRepository.findById(stateID).orElseThrow(StateNotExistException::new);
+        State state = findStateByStateId(stateID);
 
         stateHolidayDeleteRequestDTO.holidaysId().forEach(holidayId -> {
             Optional<StateHoliday> stateHolidayOptional = state.containsHoliday(holidayId);
@@ -186,5 +183,11 @@ class StateServiceBean implements StateService {
         });
 
         stateRepository.save(state);
+    }
+
+    @InsideAudit
+    @Override
+    public State findStateByStateId(final Long stateId) {
+        return stateRepository.findById(stateId).orElseThrow(StateNotExistException::new);
     }
 }

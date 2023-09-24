@@ -42,7 +42,6 @@ class FixedHolidayServiceBean implements FixedHolidayService {
     public InsideSoftwaresResponseDTO<List<FixedHolidayResponseDTO>> findAll(
             final InsidePaginationFilterDTO paginationFilter
     ) {
-
         Pageable pageable = PaginationUtils.createPageable(paginationFilter, eOrderFixedHoliday.ID);
 
         Page<FixedHoliday> fixedHolidays = fixedHolidayRepository.findAll(pageable);
@@ -79,7 +78,7 @@ class FixedHolidayServiceBean implements FixedHolidayService {
             FixedHolidayDayMonthCountryExistException.class
     })
     @Override
-    public void save(final @Valid FixedHolidayRequestDTO fixedHolidayRequestDTO) {
+    public InsideSoftwaresResponseDTO<Long> save(final @Valid FixedHolidayRequestDTO fixedHolidayRequestDTO) {
         fixedHolidayValidator.validator(fixedHolidayRequestDTO);
 
         boolean isOptional = fixedHolidayRequestDTO.isOptional();
@@ -94,7 +93,9 @@ class FixedHolidayServiceBean implements FixedHolidayService {
                 .isEnable(Objects.nonNull(fixedHolidayRequestDTO.isEnable()) ? fixedHolidayRequestDTO.isEnable() : true)
                 .build();
 
-        fixedHolidayRepository.save(fixedHoliday);
+        fixedHoliday = fixedHolidayRepository.save(fixedHoliday);
+
+        return InsideSoftwaresResponseDTO.<Long>builder().data(fixedHoliday.getId()).build();
     }
 
     @InsideAudit
@@ -131,7 +132,6 @@ class FixedHolidayServiceBean implements FixedHolidayService {
     @InsideAudit
     @Override
     public FixedHoliday findFixedHolidayById(Long fixedHolidayID) throws FixedHolidayNotExistException {
-        return fixedHolidayRepository.findById(fixedHolidayID)
-                .orElseThrow(FixedHolidayNotExistException::new);
+        return fixedHolidayRepository.findById(fixedHolidayID).orElseThrow(FixedHolidayNotExistException::new);
     }
 }

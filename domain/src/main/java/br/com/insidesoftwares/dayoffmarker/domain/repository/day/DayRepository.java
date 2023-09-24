@@ -51,20 +51,6 @@ public interface DayRepository extends JpaRepository<Day, Long>, JpaSpecificatio
             """)
     boolean existsByDateAndTag(final Long dayID, final Long tagID);
 
-    @EntityGraph(value = "day-full")
-    @Query("""
-            SELECT d FROM Day d
-            WHERE d.date BETWEEN :dateStartSearch AND :dateFinalSearch
-            AND d.isHoliday = :isHoliday
-            AND d.isWeekend = :isWeekend
-            """)
-    List<Day> findAllByDateSearchAndHolidayAndWeekend(
-            final LocalDate dateStartSearch,
-            final LocalDate dateFinalSearch,
-            final boolean isHoliday,
-            final boolean isWeekend
-    );
-
     @Query("""
             SELECT d FROM Day d
             WHERE d.date BETWEEN :dateStartSearch AND :dateFinalSearch
