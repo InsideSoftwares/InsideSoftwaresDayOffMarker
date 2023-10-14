@@ -3,8 +3,8 @@ package br.com.insidesoftwares.dayoffmarker.job.scheduled.holiday;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.StatusRequest;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeRequest;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.holiday.FixedHoliday;
-import br.com.insidesoftwares.dayoffmarker.specification.service.DayService;
-import br.com.insidesoftwares.dayoffmarker.specification.service.FixedHolidayService;
+import br.com.insidesoftwares.dayoffmarker.specification.search.DaySearchService;
+import br.com.insidesoftwares.dayoffmarker.specification.search.FixedHolidaySearchService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.request.RequestCreationService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.request.RequestService;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +26,8 @@ import java.util.List;
 @Slf4j
 public class HolidayJobServiceBean {
 
-    private final DayService dayService;
-    private final FixedHolidayService fixedHolidayService;
+    private final DaySearchService daySearchService;
+    private final FixedHolidaySearchService fixedHolidaySearchService;
     private final RequestService requestService;
     private final RequestCreationService requestCreationService;
     private final JobLauncher jobLauncher;
@@ -42,16 +42,16 @@ public class HolidayJobServiceBean {
         try {
             log.info("Starting the create of holidays.");
             if (
-                    dayService.ownsDays() &&
+                    daySearchService.ownsDays() &&
                             !requestService.existRequestByTypeAndStatusRequest(TypeRequest.CREATE_HOLIDAY, StatusRequest.CREATED)
             ) {
 
                 log.info("Create the Holidays.");
-                List<FixedHoliday> fixedHolidays = fixedHolidayService.findAllByEnable(true);
+                List<FixedHoliday> fixedHolidays = fixedHolidaySearchService.findAllByEnable(true);
 
                 fixedHolidays.forEach(fixedHoliday -> {
                     try {
-                        boolean isDayNotHoliday = dayService.isDaysWithoutHolidaysByByDayAndMonthAndFixedHolidayIDOrNotHoliday(
+                        boolean isDayNotHoliday = daySearchService.isDaysWithoutHolidaysByByDayAndMonthAndFixedHolidayIDOrNotHoliday(
                                 fixedHoliday.getDay(),
                                 fixedHoliday.getMonth(),
                                 fixedHoliday.getId()

@@ -1,0 +1,2959 @@
+openapi: 3.0.3
+info:
+  title: Day Off Marker
+  description: |
+    The purpose of the system is to improve date management by city, state, and country, as well as to control each branch of the company for better management.
+    It provides calculations, queries, and date validations to optimize processes that require dates, such as invoice generation, service orders, and scheduling routines,
+    aiming to reduce conflicts where critical operations are scheduled for weekends or holidays, or generating invoices with due dates in similar situations.
+  termsOfService: http://licencas.softwarelivre.org/gpl-3.0.pt-br.html
+  contact:
+    name: Samuel Cunha
+    url: https://github.com/InsideSoftwares
+    email: samuel.cunha@insidesoftwares.com.br
+  license:
+    name: License - GNU
+    url: http://licencas.softwarelivre.org/gpl-3.0.pt-br.html
+  version: '1.0'
+servers:
+  - url: /dayoffmarker/api
+    description: Generated server url
+tags:
+  - name: Tag
+    description: Register tags to be assigned to the Day.
+  - name: Country
+    description: Get and register the countries
+  - name: City
+    description: Get and register the cities
+  - name: Holiday
+    description: Get and register the holidays
+  - name: Day
+    description: Performs a search on the days registered in the system
+  - name: Working
+    description: Search days of work.
+  - name: State
+    description: Get and register the states
+  - name: Configuration
+    description: Performs basic system settings.
+  - name: Fixed Holiday
+    description: Get and register the fixed holidays
+paths:
+  /v1/state/{id}:
+    get:
+      tags:
+        - State
+      summary: Get State by Id
+      operationId: findById_1
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOStateResponseDTO'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Read
+            - DayOff.State.Read
+    put:
+      tags:
+        - State
+      summary: Update state by Id
+      operationId: update
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StateRequestDTO'
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOVoid'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Write
+            - DayOff.State.Write
+  /v1/holiday/{id}:
+    get:
+      tags:
+        - Holiday
+      summary: Get Holiday by Id
+      operationId: findById_2
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOHolidayResponseDTO'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Read
+            - DayOff.Holiday.Read
+    put:
+      tags:
+        - Holiday
+      summary: Update Holiday by Id
+      operationId: update_1
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HolidayRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOVoid'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Write
+            - DayOff.Holiday.Write
+  /v1/fixed-holiday/{id}:
+    get:
+      tags:
+        - Fixed Holiday
+      summary: Get Fixed Holiday by Id
+      operationId: findById_3
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOFixedHolidayResponseDTO'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Read
+            - DayOff.FixedHoliday.Read
+    put:
+      tags:
+        - Fixed Holiday
+      summary: Update Fixed Holiday by Id
+      operationId: update_2
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FixedHolidayUpdateRequestDTO'
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOVoid'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Write
+            - DayOff.FixedHoliday.Write
+  /v1/country/{id}:
+    get:
+      tags:
+        - Country
+      summary: Get Country by Id
+      operationId: findById_5
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOCountryResponseDTO'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Read
+            - DayOff.Country.Read
+    put:
+      tags:
+        - Country
+      summary: Update Country by Id
+      operationId: update_3
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CountryRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOVoid'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Write
+            - DayOff.Country.Write
+  /v1/city/{id}:
+    get:
+      tags:
+        - City
+      summary: Get City by Id
+      operationId: findById_6
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOCityResponseDTO'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Read
+            - DayOff.City.Read
+    put:
+      tags:
+        - City
+      summary: Update City by Id
+      operationId: update_4
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CityRequestDTO'
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOVoid'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Write
+            - DayOff.City.Write
+  /v1/tag:
+    get:
+      tags:
+        - Tag
+      summary: Get All Tag
+      operationId: findAll
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: paginationFilter
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/InsidePaginationFilterDTO'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOListTagResponseDTO'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Read
+            - DayOff.Tag.Read
+    post:
+      tags:
+        - Tag
+      summary: Create Tag
+      operationId: save
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOVoid'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Write
+            - DayOff.Tag.Write
+  /v1/tag/{id}:
+    get:
+      tags:
+        - Tag
+      summary: Get Tag by Id
+      operationId: findById
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOTagResponseDTO'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Read
+            - DayOff.Tag.Read
+    post:
+      tags:
+        - Tag
+      summary: Update Tag by Id
+      operationId: update_5
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOVoid'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Write
+            - DayOff.Tag.Write
+  /v1/tag/unlink/day:
+    post:
+      tags:
+        - Tag
+      summary: Performs the unlinking of Tags in batch according to the informed parameters
+      operationId: unlinkTagByDay
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagLinkUnlinkRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOTagLinkResponseDTO'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Write
+            - DayOff.Tag.Write
+  /v1/tag/link/day:
+    post:
+      tags:
+        - Tag
+      summary: Performs the linking of Tags in batch according to the informed parameters
+      operationId: linkTagByDay
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagLinkUnlinkRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOTagLinkResponseDTO'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Write
+            - DayOff.Tag.Write
+  /v1/state:
+    get:
+      tags:
+        - State
+      summary: Get All States
+      operationId: findAll_1
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: country
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: paginationFilter
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/InsidePaginationFilterDTO'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOListStateResponseDTO'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Read
+            - DayOff.State.Read
+    post:
+      tags:
+        - State
+      summary: Create State
+      operationId: save_1
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StateRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOVoid'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Write
+            - DayOff.State.Write
+  /v1/state/{id}/holiday:
+    post:
+      tags:
+        - State
+      summary: Add holidays to State by Id
+      operationId: addCityHoliday
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StateHolidayRequestDTO'
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOVoid'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Write
+            - DayOff.State.Write
+    put:
+      tags:
+        - State
+      summary: Remove holidays to State by Id
+      operationId: deleteCityHoliday
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StateHolidayDeleteRequestDTO'
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOVoid'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Write
+            - DayOff.State.Write
+  /v1/holiday:
+    get:
+      tags:
+        - Holiday
+      summary: Get All Holidays
+      operationId: findAll_2
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: startDate
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: paginationFilter
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/InsidePaginationFilterDTO'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOListHolidayResponseDTO'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Read
+            - DayOff.Holiday.Read
+    post:
+      tags:
+        - Holiday
+      summary: Create Holiday
+      operationId: save_2
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HolidayRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOLong'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Write
+            - DayOff.Holiday.Write
+  /v1/holiday/batch:
+    post:
+      tags:
+        - Holiday
+      summary: Create Holiday in Batch
+      operationId: saveInBatch
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HolidayBatchRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOListLong'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Write
+            - DayOff.Holiday.Write
+  /v1/fixed-holiday:
+    get:
+      tags:
+        - Fixed Holiday
+      summary: Get All Fixed Holidays
+      operationId: findAll_3
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: paginationFilter
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/InsidePaginationFilterDTO'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOListFixedHolidayResponseDTO'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Read
+            - DayOff.FixedHoliday.Read
+    post:
+      tags:
+        - Fixed Holiday
+      summary: Create Fixed Holiday
+      operationId: save_3
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FixedHolidayRequestDTO'
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOVoid'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Write
+            - DayOff.FixedHoliday.Write
+  /v1/day/{id}/unlink-tags:
+    post:
+      tags:
+        - Day
+      summary: Unlink Tag on Day by Id
+      operationId: unlinkTag
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinkTagRequestDTO'
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOVoid'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Write
+            - DayOff.Day.Write
+  /v1/day/{id}/link-tags:
+    post:
+      tags:
+        - Day
+      summary: Link Tag on Day by Id
+      operationId: linkTag
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinkTagRequestDTO'
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOVoid'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Write
+            - DayOff.Day.Write
+  /v1/country:
+    get:
+      tags:
+        - Country
+      summary: Get All Countries
+      operationId: findAll_5
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: paginationFilter
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/InsidePaginationFilterDTO'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOListCountryResponseDTO'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Read
+            - DayOff.Country.Read
+    post:
+      tags:
+        - Country
+      summary: Create Country
+      operationId: save_4
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CountryRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOVoid'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Write
+            - DayOff.Country.Write
+  /v1/configuration/limit/year:
+    post:
+      tags:
+        - Configuration
+      summary: Set limit of days that can be created
+      operationId: configurationLimitYear
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigurationLimitYearRequestDTO'
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOVoid'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Write
+  /v1/configuration/country:
+    post:
+      tags:
+        - Configuration
+      summary: Defines the application's default country
+      operationId: configurationCountry
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigurationCountryRequestDTO'
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOVoid'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Write
+  /v1/city:
+    get:
+      tags:
+        - City
+      summary: Get All Cities
+      operationId: findAll_6
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: stateID
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: paginationFilter
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/InsidePaginationFilterDTO'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOListCityResponseDTO'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Read
+            - DayOff.City.Read
+    post:
+      tags:
+        - City
+      summary: Create City
+      operationId: save_5
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CityRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOVoid'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Write
+            - DayOff.City.Write
+  /v1/city/{id}/holiday:
+    post:
+      tags:
+        - City
+      summary: Add holidays to City
+      operationId: addCityHoliday_1
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CityHolidayRequestDTO'
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOVoid'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Write
+            - DayOff.City.Write
+    put:
+      tags:
+        - City
+      summary: Remove holidays to City
+      operationId: deleteCityHoliday_1
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CityHolidayDeleteRequestDTO'
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOVoid'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Write
+            - DayOff.City.Write
+  /v1/working/day/{date}:
+    get:
+      tags:
+        - Working
+      summary: Valid if the day is a working day or returns the next day
+      operationId: findWorkingDay
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: date
+          in: path
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: numberOfDays
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTODayDTO'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Read
+            - DayOff.WorkingDay.Read
+  /v1/working/day/{date}/state/{stateID}:
+    get:
+      tags:
+        - Working
+      summary: Returns if the informed day is a working day in the state
+      operationId: findWorkingStateByDay
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: date
+          in: path
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: stateID
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOWorkingCurrentDayResponseDTO'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Read
+            - DayOff.WorkingDay.Read
+  /v1/working/day/{date}/city/{cityID}:
+    get:
+      tags:
+        - Working
+      summary: Returns if the informed day is a working day in the city
+      operationId: findWorkingCityByDay
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: date
+          in: path
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: cityID
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOWorkingCurrentDayResponseDTO'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Read
+            - DayOff.WorkingDay.Read
+  /v1/working/day/previous/{date}:
+    get:
+      tags:
+        - Working
+      summary: Valid if the day is a working day or returns the previous day
+      operationId: findPreviousWorkingDay
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: date
+          in: path
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: numberOfDays
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTODayDTO'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Read
+            - DayOff.WorkingDay.Read
+  /v1/working/current/day:
+    get:
+      tags:
+        - Working
+      summary: Returns if the current day is a working day
+      operationId: findWorkingCurrentDay
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOWorkingCurrentDayResponseDTO'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Read
+            - DayOff.WorkingDay.Read
+  /v1/working/current/day/state/{stateID}:
+    get:
+      tags:
+        - Working
+      summary: Returns whether the current day is a working day in the state
+      operationId: findWorkingCurrentDayState
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: stateID
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOWorkingCurrentDayResponseDTO'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Read
+            - DayOff.WorkingDay.Read
+  /v1/working/current/day/city/{cityID}:
+    get:
+      tags:
+        - Working
+      summary: Returns whether the current day is a working day in the city
+      operationId: findWorkingCurrentDayCity
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: cityID
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOWorkingCurrentDayResponseDTO'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Read
+            - DayOff.WorkingDay.Read
+  /v1/day:
+    get:
+      tags:
+        - Day
+      summary: Get All Day
+      operationId: findAll_4
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: startDate
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: paginationFilter
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/InsidePaginationFilterDTO'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOListDayDTO'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Read
+            - DayOff.Day.Read
+  /v1/day/{id}:
+    get:
+      tags:
+        - Day
+      summary: Get Day by Id
+      operationId: findById_4
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTODayDTO'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Read
+            - DayOff.Day.Read
+  /v1/day/tag/{tagID}:
+    get:
+      tags:
+        - Day
+      summary: Get Day by Tag Id
+      operationId: findDaysByTag
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: tagID
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOListDayDTO'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Read
+            - DayOff.Day.Read
+  /v1/day/tag/code/{codeTag}:
+    get:
+      tags:
+        - Day
+      summary: Get Day by Tag Code
+      operationId: findDaysByTag_1
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: codeTag
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOListDayDTO'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Read
+            - DayOff.Day.Read
+  /v1/day/month/{month}:
+    get:
+      tags:
+        - Day
+      summary: Get All Day By Month
+      operationId: findDaysOfMonth
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: month
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - JANUARY
+              - FEBRUARY
+              - MARCH
+              - APRIL
+              - MAY
+              - JUNE
+              - JULY
+              - AUGUST
+              - SEPTEMBER
+              - OCTOBER
+              - NOVEMBER
+              - DECEMBER
+        - name: year
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOListDayDTO'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Read
+            - DayOff.Day.Read
+  /v1/day/date/{date}:
+    get:
+      tags:
+        - Day
+      summary: Get Day by Date
+      operationId: findDayByDate
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+        - name: date
+          in: path
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: tagID
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: tagCode
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTODayDTO'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Read
+            - DayOff.Day.Read
+  /v1/day/current/month:
+    get:
+      tags:
+        - Day
+      summary: Get All Day by Current Month
+      operationId: findDaysOfCurrentMonth
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/InsideSoftwaresResponseDTO'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        $ref: '#/components/schemas/InsideSoftwaresResponseDTOListDayDTO'
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsideSoftwaresResponseDTOExceptionResponse'
+      security:
+        - OAuth2:
+            - DayOff.Read
+            - DayOff.Day.Read
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            read: Grants read access
+            write: Grants write access
+            admin: Grants access to admin operations
+  schemas:
+
+    InsideSoftwaresResponseDTO:
+      type: object
+      properties:
+        duration:
+          type: string
+        insidePaginatedDTO:
+          $ref: '#/components/schemas/InsidePaginatedDTO'
+
+    AttributeNotValid:
+      type: object
+      properties:
+        attribute:
+          type: string
+        message:
+          type: string
+    ExceptionResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        codeError:
+          type: string
+        validationErrors:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeNotValid'
+    InsidePaginatedDTO:
+      type: object
+      properties:
+        sizePerPage:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        totalElementsPerPage:
+          type: integer
+          format: int64
+    InsideSoftwaresResponseDTOExceptionResponse:
+      type: object
+      properties:
+        duration:
+          type: string
+        data:
+          $ref: '#/components/schemas/ExceptionResponse'
+        insidePaginatedDTO:
+          $ref: '#/components/schemas/InsidePaginatedDTO'
+    StateRequestDTO:
+      required:
+        - acronym
+        - code
+        - countryId
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+        acronym:
+          maxLength: 10
+          minLength: 2
+          type: string
+        code:
+          maxLength: 15
+          minLength: 3
+          type: string
+        countryId:
+          type: integer
+          format: int64
+    InsideSoftwaresResponseDTOVoid:
+      type: object
+      properties:
+        duration:
+          type: string
+        data:
+          type: object
+        insidePaginatedDTO:
+          $ref: '#/components/schemas/InsidePaginatedDTO'
+    HolidayRequestDTO:
+      required:
+        - dayId
+        - description
+        - holidayType
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        holidayType:
+          type: string
+          enum:
+            - OPTIONAL
+            - HALF_PERIOD
+            - MANDATORY
+        fromTime:
+          $ref: '#/components/schemas/LocalTime'
+        optional:
+          type: boolean
+        nationalHoliday:
+          type: boolean
+        dayId:
+          type: integer
+          format: int64
+    LocalTime:
+      type: object
+      properties:
+        hour:
+          type: integer
+          format: int32
+        minute:
+          type: integer
+          format: int32
+        second:
+          type: integer
+          format: int32
+        nano:
+          type: integer
+          format: int32
+    FixedHolidayUpdateRequestDTO:
+      required:
+        - description
+        - isOptional
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        isOptional:
+          type: boolean
+        fromTime:
+          $ref: '#/components/schemas/LocalTime'
+        isEnable:
+          type: boolean
+    CountryRequestDTO:
+      required:
+        - acronym
+        - code
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+        acronym:
+          maxLength: 10
+          minLength: 2
+          type: string
+        code:
+          maxLength: 15
+          minLength: 3
+          type: string
+    CityRequestDTO:
+      required:
+        - acronym
+        - code
+        - name
+        - stateID
+      type: object
+      properties:
+        name:
+          type: string
+        acronym:
+          maxLength: 10
+          minLength: 2
+          type: string
+        code:
+          maxLength: 15
+          minLength: 3
+          type: string
+        stateID:
+          type: integer
+          format: int64
+    TagRequestDTO:
+      required:
+        - code
+        - description
+      type: object
+      properties:
+        code:
+          type: string
+        description:
+          type: string
+    TagLinkUnlinkRequestDTO:
+      required:
+        - tagsID
+      type: object
+      properties:
+        tagsID:
+          uniqueItems: true
+          type: array
+          items:
+            type: integer
+            format: int64
+        dayOfWeek:
+          type: string
+          enum:
+            - MONDAY
+            - TUESDAY
+            - WEDNESDAY
+            - THURSDAY
+            - FRIDAY
+            - SATURDAY
+            - SUNDAY
+        dayOfYear:
+          maximum: 366
+          minimum: 1
+          type: integer
+          format: int32
+        day:
+          maximum: 31
+          minimum: 1
+          type: integer
+          format: int32
+        month:
+          maximum: 12
+          minimum: 1
+          type: integer
+          format: int32
+        year:
+          minimum: 2023
+          type: integer
+          format: int32
+    InsideSoftwaresResponseDTOTagLinkResponseDTO:
+      type: object
+      properties:
+        duration:
+          type: string
+        data:
+          $ref: '#/components/schemas/TagLinkResponseDTO'
+        insidePaginatedDTO:
+          $ref: '#/components/schemas/InsidePaginatedDTO'
+    TagLinkResponseDTO:
+      type: object
+      properties:
+        requestID:
+          type: string
+    StateHolidayRequestDTO:
+      required:
+        - holidaysId
+      type: object
+      properties:
+        isHoliday:
+          type: boolean
+        holidaysId:
+          uniqueItems: true
+          type: array
+          items:
+            type: integer
+            format: int64
+    InsideSoftwaresResponseDTOLong:
+      type: object
+      properties:
+        duration:
+          type: string
+        data:
+          type: integer
+          format: int64
+        insidePaginatedDTO:
+          $ref: '#/components/schemas/InsidePaginatedDTO'
+    HolidayBatchRequestDTO:
+      required:
+        - daysId
+        - description
+        - holidayType
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        holidayType:
+          type: string
+          enum:
+            - OPTIONAL
+            - HALF_PERIOD
+            - MANDATORY
+        fromTime:
+          $ref: '#/components/schemas/LocalTime'
+        optional:
+          type: boolean
+        daysId:
+          maxItems: 31
+          minItems: 1
+          uniqueItems: true
+          type: array
+          items:
+            maximum: 31
+            minimum: 1
+            type: integer
+            format: int64
+    InsideSoftwaresResponseDTOListLong:
+      type: object
+      properties:
+        duration:
+          type: string
+        data:
+          type: array
+          items:
+            type: integer
+            format: int64
+        insidePaginatedDTO:
+          $ref: '#/components/schemas/InsidePaginatedDTO'
+    FixedHolidayRequestDTO:
+      required:
+        - day
+        - description
+        - isOptional
+        - month
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        day:
+          maximum: 31
+          minimum: 1
+          type: integer
+          format: int32
+        month:
+          maximum: 12
+          minimum: 1
+          type: integer
+          format: int32
+        isOptional:
+          type: boolean
+        fromTime:
+          $ref: '#/components/schemas/LocalTime'
+        isEnable:
+          type: boolean
+    LinkTagRequestDTO:
+      required:
+        - tagsID
+      type: object
+      properties:
+        tagsID:
+          uniqueItems: true
+          type: array
+          items:
+            type: integer
+            format: int64
+    ConfigurationLimitYearRequestDTO:
+      required:
+        - numberBackYears
+        - numberForwardYears
+      type: object
+      properties:
+        numberBackYears:
+          maximum: 15
+          minimum: 1
+          type: integer
+          format: int32
+        numberForwardYears:
+          maximum: 25
+          minimum: 1
+          type: integer
+          format: int32
+    ConfigurationCountryRequestDTO:
+      required:
+        - country
+      type: object
+      properties:
+        country:
+          type: string
+    CityHolidayRequestDTO:
+      required:
+        - holidaysId
+      type: object
+      properties:
+        isHoliday:
+          type: boolean
+        holidaysId:
+          uniqueItems: true
+          type: array
+          items:
+            type: integer
+            format: int64
+    DayDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        date:
+          type: string
+          format: date
+        weekend:
+          type: boolean
+        holiday:
+          type: boolean
+        dayOfWeek:
+          type: string
+          enum:
+            - MONDAY
+            - TUESDAY
+            - WEDNESDAY
+            - THURSDAY
+            - FRIDAY
+            - SATURDAY
+            - SUNDAY
+        dayOfYear:
+          type: integer
+          format: int32
+        holidays:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/HolidayResponseDTO'
+        tags:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/TagResponseDTO'
+    HolidayResponseDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        holidayType:
+          type: string
+          enum:
+            - OPTIONAL
+            - HALF_PERIOD
+            - MANDATORY
+        fromTime:
+          $ref: '#/components/schemas/LocalTime'
+        day:
+          type: string
+          format: date
+        optional:
+          type: boolean
+        nationalHoliday:
+          type: boolean
+    InsideSoftwaresResponseDTODayDTO:
+      type: object
+      properties:
+        duration:
+          type: string
+        data:
+          $ref: '#/components/schemas/DayDTO'
+        insidePaginatedDTO:
+          $ref: '#/components/schemas/InsidePaginatedDTO'
+    TagResponseDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        code:
+          type: string
+        description:
+          type: string
+    InsideSoftwaresResponseDTOWorkingCurrentDayResponseDTO:
+      type: object
+      properties:
+        duration:
+          type: string
+        data:
+          $ref: '#/components/schemas/WorkingCurrentDayResponseDTO'
+        insidePaginatedDTO:
+          $ref: '#/components/schemas/InsidePaginatedDTO'
+    WorkingCurrentDayResponseDTO:
+      type: object
+      properties:
+        isWorkingDay:
+          type: boolean
+    InsidePaginationFilterDTO:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        sizePerPage:
+          type: integer
+          format: int32
+        direction:
+          type: string
+          enum:
+            - ASC
+            - DESC
+        order:
+          type: string
+    InsideSoftwaresResponseDTOListTagResponseDTO:
+      type: object
+      properties:
+        duration:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagResponseDTO'
+        insidePaginatedDTO:
+          $ref: '#/components/schemas/InsidePaginatedDTO'
+    InsideSoftwaresResponseDTOTagResponseDTO:
+      type: object
+      properties:
+        duration:
+          type: string
+        data:
+          $ref: '#/components/schemas/TagResponseDTO'
+        insidePaginatedDTO:
+          $ref: '#/components/schemas/InsidePaginatedDTO'
+    InsideSoftwaresResponseDTOListStateResponseDTO:
+      type: object
+      properties:
+        duration:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/StateResponseDTO'
+        insidePaginatedDTO:
+          $ref: '#/components/schemas/InsidePaginatedDTO'
+    StateHolidayResponseDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        holidayType:
+          type: string
+          enum:
+            - OPTIONAL
+            - HALF_PERIOD
+            - MANDATORY
+        fromTime:
+          $ref: '#/components/schemas/LocalTime'
+        day:
+          type: string
+          format: date
+        stateHoliday:
+          type: boolean
+    StateResponseDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        acronym:
+          type: string
+        code:
+          type: string
+        countryId:
+          type: integer
+          format: int64
+        countryName:
+          type: string
+        stateHolidays:
+          type: array
+          items:
+            $ref: '#/components/schemas/StateHolidayResponseDTO'
+    InsideSoftwaresResponseDTOStateResponseDTO:
+      type: object
+      properties:
+        duration:
+          type: string
+        data:
+          $ref: '#/components/schemas/StateResponseDTO'
+        insidePaginatedDTO:
+          $ref: '#/components/schemas/InsidePaginatedDTO'
+    InsideSoftwaresResponseDTOListHolidayResponseDTO:
+      type: object
+      properties:
+        duration:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/HolidayResponseDTO'
+        insidePaginatedDTO:
+          $ref: '#/components/schemas/InsidePaginatedDTO'
+    InsideSoftwaresResponseDTOHolidayResponseDTO:
+      type: object
+      properties:
+        duration:
+          type: string
+        data:
+          $ref: '#/components/schemas/HolidayResponseDTO'
+        insidePaginatedDTO:
+          $ref: '#/components/schemas/InsidePaginatedDTO'
+    FixedHolidayResponseDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        day:
+          type: integer
+          format: int32
+        month:
+          type: integer
+          format: int32
+        isOptional:
+          type: boolean
+        fromTime:
+          $ref: '#/components/schemas/LocalTime'
+        countryId:
+          type: integer
+          format: int64
+        countryName:
+          type: string
+    InsideSoftwaresResponseDTOListFixedHolidayResponseDTO:
+      type: object
+      properties:
+        duration:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/FixedHolidayResponseDTO'
+        insidePaginatedDTO:
+          $ref: '#/components/schemas/InsidePaginatedDTO'
+    InsideSoftwaresResponseDTOFixedHolidayResponseDTO:
+      type: object
+      properties:
+        duration:
+          type: string
+        data:
+          $ref: '#/components/schemas/FixedHolidayResponseDTO'
+        insidePaginatedDTO:
+          $ref: '#/components/schemas/InsidePaginatedDTO'
+    InsideSoftwaresResponseDTOListDayDTO:
+      type: array
+      items:
+        $ref: '#/components/schemas/DayDTO'
+    CountryResponseDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        acronym:
+          type: string
+        code:
+          type: string
+    InsideSoftwaresResponseDTOListCountryResponseDTO:
+      type: object
+      properties:
+        duration:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CountryResponseDTO'
+        insidePaginatedDTO:
+          $ref: '#/components/schemas/InsidePaginatedDTO'
+    InsideSoftwaresResponseDTOCountryResponseDTO:
+      type: object
+      properties:
+        duration:
+          type: string
+        data:
+          $ref: '#/components/schemas/CountryResponseDTO'
+        insidePaginatedDTO:
+          $ref: '#/components/schemas/InsidePaginatedDTO'
+    CityHolidayResponseDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        holidayType:
+          type: string
+          enum:
+            - OPTIONAL
+            - HALF_PERIOD
+            - MANDATORY
+        fromTime:
+          $ref: '#/components/schemas/LocalTime'
+        day:
+          type: string
+          format: date
+        cityHoliday:
+          type: boolean
+    CityResponseDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        acronym:
+          type: string
+        code:
+          type: string
+        stateID:
+          type: integer
+          format: int64
+        stateName:
+          type: string
+        stateAcronym:
+          type: string
+        cityHolidays:
+          type: array
+          items:
+            $ref: '#/components/schemas/CityHolidayResponseDTO'
+    InsideSoftwaresResponseDTOListCityResponseDTO:
+      type: object
+      properties:
+        duration:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CityResponseDTO'
+        insidePaginatedDTO:
+          $ref: '#/components/schemas/InsidePaginatedDTO'
+    InsideSoftwaresResponseDTOCityResponseDTO:
+      type: object
+      properties:
+        duration:
+          type: string
+        data:
+          $ref: '#/components/schemas/CityResponseDTO'
+        insidePaginatedDTO:
+          $ref: '#/components/schemas/InsidePaginatedDTO'
+    StateHolidayDeleteRequestDTO:
+      required:
+        - holidaysId
+      type: object
+      properties:
+        holidaysId:
+          uniqueItems: true
+          type: array
+          items:
+            type: integer
+            format: int64
+    CityHolidayDeleteRequestDTO:
+      required:
+        - holidaysId
+      type: object
+      properties:
+        holidaysId:
+          uniqueItems: true
+          type: array
+          items:
+            type: integer
+            format: int64

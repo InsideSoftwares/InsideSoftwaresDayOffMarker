@@ -8,10 +8,14 @@
         <module>commons</module>
         <module>domain</module>
         <module>configuration</module>
-        <module>specification</module>
-        <module>service</module>
-        <module>controller</module>
-        <module>server/application</module>
+        <module>specification/specification-administration</module>
+        <module>specification/specification-search</module>
+        <module>service/service-administration</module>
+        <module>service/service-search</module>
+        <module>controller/controller-administration</module>
+        <module>controller/controller-search</module>
+        <module>server/application-administration</module>
+        <module>server/application-search</module>
         <module>server/job</module>
         <module>coverage</module>
     </modules>
@@ -32,19 +36,20 @@
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
+        <java.version>21</java.version>
 
         <spring-boot.version>3.1.4</spring-boot.version>
         <spring.framework.version>6.0.12</spring.framework.version>
         <spring-data-redis.version>3.1.4</spring-data-redis.version>
 
-        <checkstyle-maven-plugin.version>3.0.0</checkstyle-maven-plugin.version>
+        <checkstyle-maven-plugin.version>3.3.0</checkstyle-maven-plugin.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
         <lombok.version>1.18.30</lombok.version>
         <gson.version>2.10.1</gson.version>
 
         <postgresql.version>42.6.0</postgresql.version>
         <mysql-connector-j.version>8.1.0</mysql-connector-j.version>
-        <liquibase.version>4.23.1</liquibase.version>
+        <liquibase.version>4.23.2</liquibase.version>
 
         <mockito.version>5.5.0</mockito.version>
         <mockito-inline.version>5.2.0</mockito-inline.version>
@@ -212,8 +217,13 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>br.com.insidesoftwares.dayoffmarker</groupId>
-                <artifactId>service</artifactId>
+                <groupId>br.com.insidesoftwares.dayoffmarker.service</groupId>
+                <artifactId>service-administration</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>br.com.insidesoftwares.dayoffmarker.service</groupId>
+                <artifactId>service-search</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -232,13 +242,23 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>br.com.insidesoftwares.dayoffmarker</groupId>
-                <artifactId>specification</artifactId>
+                <groupId>br.com.insidesoftwares.dayoffmarker.specification</groupId>
+                <artifactId>specification-administration</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>br.com.insidesoftwares.dayoffmarker.specification</groupId>
+                <artifactId>specification-search</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>br.com.insidesoftwares.dayoffmarker.controller</groupId>
+                <artifactId>controller-administration</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>br.com.insidesoftwares.dayoffmarker</groupId>
-                <artifactId>controller</artifactId>
+                <groupId>br.com.insidesoftwares.dayoffmarker.controller</groupId>
+                <artifactId>controller-search</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- test -->
@@ -304,13 +324,6 @@
                 <scope>test</scope>
             </dependency>
             <!-- test -->
-            <!-- Swagger -->
-            <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-                <version>2.2.0</version>
-            </dependency>
-
             <dependency>
                 <groupId>org.yaml</groupId>
                 <artifactId>snakeyaml</artifactId>

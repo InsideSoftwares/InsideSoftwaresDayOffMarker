@@ -75,7 +75,7 @@ abstract class CityRepositoryIntegrationTest {
 
     @Test
     void shouldReturnPaginatedListOfCitiesWhenInformedStateIDAndPaginationConfigurationSortASCAndOrderByID() {
-        Pageable pageable = createPageable(1, 2, Sort.Direction.ASC, eOrderCity.ID);
+        Pageable pageable = createPageable(1, 2, Sort.Direction.ASC, eOrderCity.ID.name());
 
         Page<City> cityPage = cityRepository.findCityByStateID(STATE_MINAS_GERAIS_ID, pageable);
 
@@ -89,7 +89,7 @@ abstract class CityRepositoryIntegrationTest {
 
     @Test
     void shouldReturnPaginatedListOfCitiesWhenInformedStateIDAndPaginationConfigurationSortDESCAndOrderByID() {
-        Pageable pageable = createPageable(1, 2, Sort.Direction.DESC, eOrderCity.ID);
+        Pageable pageable = createPageable(1, 2, Sort.Direction.DESC, eOrderCity.ID.name());
 
         Page<City> cityPage = cityRepository.findCityByStateID(STATE_MINAS_GERAIS_ID, pageable);
 
@@ -103,7 +103,7 @@ abstract class CityRepositoryIntegrationTest {
 
     @Test
     void shouldReturnPaginatedListOfCitiesWhenInformedStateIDAndPaginationConfigurationSortDESCAndOrderByCode() {
-        Pageable pageable = createPageable(1, 2, Sort.Direction.DESC, eOrderCity.CODE);
+        Pageable pageable = createPageable(1, 2, Sort.Direction.DESC, eOrderCity.CODE.name());
 
         Page<City> cityPage = cityRepository.findCityByStateID(STATE_MINAS_GERAIS_ID, pageable);
 
@@ -120,7 +120,7 @@ abstract class CityRepositoryIntegrationTest {
 
     @Test
     void shouldReturnPaginatedListOfCitiesWhenInformedStateIDAndPaginationConfigurationSortDESCAndOrderByCodeAndAllItems() {
-        Pageable pageable = createPageable(1, 6, Sort.Direction.DESC, eOrderCity.CODE);
+        Pageable pageable = createPageable(1, 6, Sort.Direction.DESC, eOrderCity.CODE.name());
 
         Page<City> cityPage = cityRepository.findCityByStateID(STATE_MINAS_GERAIS_ID, pageable);
 
@@ -139,7 +139,7 @@ abstract class CityRepositoryIntegrationTest {
     @Test
     void shouldReturnPaginatedListOfCitiesWhenInformedCountryIDAndPaginationConfigurationSortDESCAndOrderByCode() {
         Country country = countryRepository.getReferenceById(COUNTRY_ID);
-        Pageable pageable = createPageable(1, 2, Sort.Direction.DESC, eOrderCity.CODE);
+        Pageable pageable = createPageable(1, 2, Sort.Direction.DESC, eOrderCity.CODE.name());
 
         Page<City> cityPage = cityRepository.findCityByCountry(country, pageable);
 
@@ -157,7 +157,7 @@ abstract class CityRepositoryIntegrationTest {
     @Test
     void shouldReturnPaginatedListOfCitiesWhenInformedTheStateIDAndConfigurationPaginationSortASCAndOrderByIDAndAllItems() {
         Country country = countryRepository.getReferenceById(COUNTRY_ID);
-        Pageable pageable = createPageable(1, 12, Sort.Direction.ASC, eOrderCity.ID);
+        Pageable pageable = createPageable(1, 12, Sort.Direction.ASC, eOrderCity.ID.name());
 
         Page<City> cityPage = cityRepository.findCityByCountry(country, pageable);
 

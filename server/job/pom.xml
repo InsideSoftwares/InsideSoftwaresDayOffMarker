@@ -30,20 +30,6 @@
         </dependency>
         <dependency>
             <groupId>br.com.insidesoftwares.dayoffmarker</groupId>
-            <artifactId>specification</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>br.com.insidesoftwares.dayoffmarker</groupId>
-                    <artifactId>domain</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>br.com.insidesoftwares.dayoffmarker</groupId>
-                    <artifactId>commons</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>br.com.insidesoftwares.dayoffmarker</groupId>
             <artifactId>commons</artifactId>
             <exclusions>
                 <exclusion>
@@ -67,8 +53,8 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>br.com.insidesoftwares.dayoffmarker</groupId>
-            <artifactId>service</artifactId>
+            <groupId>br.com.insidesoftwares.dayoffmarker.service</groupId>
+            <artifactId>service-administration</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>br.com.insidesoftwares.dayoffmarker</groupId>

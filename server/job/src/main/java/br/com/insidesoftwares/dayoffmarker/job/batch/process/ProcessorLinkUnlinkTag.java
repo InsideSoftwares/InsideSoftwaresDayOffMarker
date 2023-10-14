@@ -1,6 +1,6 @@
 package br.com.insidesoftwares.dayoffmarker.job.batch.process;
 
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagLinkRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagLinkUnlinkRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.day.Day;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.request.Request;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.request.RequestParameter;
@@ -36,12 +36,12 @@ public class ProcessorLinkUnlinkTag implements ItemProcessor<Request, List<DayTa
     public List<DayTag> process(final Request request) {
         List<DayTag> dayTagList = new ArrayList<>();
 
-        TagLinkRequestDTO tagLinkRequestDTO = createTagLinkRequestDTO(request.getRequestParameter());
-        Specification<Day> daySpecification = DaySpecification.findAllDayByTagLinkRequestDTO(tagLinkRequestDTO);
+        TagLinkUnlinkRequestDTO tagLinkUnlinkRequestDTO = createTagLinkRequestDTO(request.getRequestParameter());
+        Specification<Day> daySpecification = DaySpecification.findAllDayByTagLinkRequestDTO(tagLinkUnlinkRequestDTO);
 
         List<Day> days = dayRepository.findAll(daySpecification);
 
-        tagLinkRequestDTO.tagsID().forEach(tagID -> days.forEach(day -> {
+        tagLinkUnlinkRequestDTO.tagsID().forEach(tagID -> days.forEach(day -> {
             boolean containsTag = containsTag(day.getTags(), tagID);
             switch (request.getTypeRequest()) {
                 case LINK_TAG -> {
@@ -60,7 +60,7 @@ public class ProcessorLinkUnlinkTag implements ItemProcessor<Request, List<DayTa
         return dayTagList;
     }
 
-    private TagLinkRequestDTO createTagLinkRequestDTO(final Set<RequestParameter> requestParameters) {
+    private TagLinkUnlinkRequestDTO createTagLinkRequestDTO(final Set<RequestParameter> requestParameters) {
         Set<Long> tagsID = getTagsID(requestParameters);
         Integer day = getDay(requestParameters);
         Integer month = getMonth(requestParameters);
@@ -68,7 +68,7 @@ public class ProcessorLinkUnlinkTag implements ItemProcessor<Request, List<DayTa
         Integer dayOfYear = getDayOfYear(requestParameters);
         DayOfWeek dayOfWeek = getDayOfWeek(requestParameters);
 
-        return TagLinkRequestDTO.builder()
+        return TagLinkUnlinkRequestDTO.builder()
                 .tagsID(tagsID)
                 .day(day)
                 .month(month)

@@ -49,7 +49,7 @@ abstract class StateRepositoryIntegrationTest {
     @Test
     void shouldReturnPaginatedListOfStatesWhenInformedTheCountryAndConfigurationPaginacaoSortASCAndOrderByID() {
         Country country = countryRepository.getReferenceById(COUNTRY_ID);
-        Pageable pageable = createPageable(1, 1, Sort.Direction.ASC, eOrderCity.ID);
+        Pageable pageable = createPageable(1, 1, Sort.Direction.ASC, eOrderCity.ID.name());
 
         Page<State> statePage = stateRepository.findAllByCountry(country, pageable);
 
@@ -65,7 +65,7 @@ abstract class StateRepositoryIntegrationTest {
     @Test
     void shouldReturnPaginatedListOfStatesWhenInformedOEstadoIDAndSettingsPaginacaoSortDESCAndOrderByID() {
         Country country = countryRepository.getReferenceById(COUNTRY_ID);
-        Pageable pageable = createPageable(1, 1, Sort.Direction.DESC, eOrderCity.ID);
+        Pageable pageable = createPageable(1, 1, Sort.Direction.DESC, eOrderCity.ID.name());
 
         Page<State> statePage = stateRepository.findAllByCountry(country, pageable);
 
@@ -81,7 +81,7 @@ abstract class StateRepositoryIntegrationTest {
     @Test
     void shouldReturnPaginatedListOfStatesWhenInformedTheCountryAndConfigurationPaginacaoSortASCAndOrderByCode() {
         Country country = countryRepository.getReferenceById(COUNTRY_ID);
-        Pageable pageable = createPageable(1, 1, Sort.Direction.ASC, eOrderCity.CODE);
+        Pageable pageable = createPageable(1, 1, Sort.Direction.ASC, eOrderCity.CODE.name());
 
         Page<State> statePage = stateRepository.findAllByCountry(country, pageable);
 
@@ -97,7 +97,7 @@ abstract class StateRepositoryIntegrationTest {
     @Test
     void shouldReturnPaginatedListOfStatesWhenInformedOEstadoIDAndSettingsPaginacaoSortDESCAndOrderByCode() {
         Country country = countryRepository.getReferenceById(COUNTRY_ID);
-        Pageable pageable = createPageable(1, 1, Sort.Direction.DESC, eOrderCity.CODE);
+        Pageable pageable = createPageable(1, 1, Sort.Direction.DESC, eOrderCity.CODE.name());
 
         Page<State> statePage = stateRepository.findAllByCountry(country, pageable);
 
@@ -113,7 +113,7 @@ abstract class StateRepositoryIntegrationTest {
     @Test
     void shouldReturnPaginatedListOfStatesWhenInformedTheCountryAndConfigurationPaginacaoSortASCAndOrderByCodeAndAllItems() {
         Country country = countryRepository.getReferenceById(COUNTRY_ID);
-        Pageable pageable = createPageable(1, 5, Sort.Direction.ASC, eOrderCity.CODE);
+        Pageable pageable = createPageable(1, 5, Sort.Direction.ASC, eOrderCity.CODE.name());
 
         Page<State> statePage = stateRepository.findAllByCountry(country, pageable);
 
@@ -133,7 +133,7 @@ abstract class StateRepositoryIntegrationTest {
     @Test
     void shouldReturnPaginatedListOfStatesWhenInformedOEstadoIDAndSettingsPaginacaoSortDESCAndOrderByCodeAndAllItems() {
         Country country = countryRepository.getReferenceById(COUNTRY_ID);
-        Pageable pageable = createPageable(1, 5, Sort.Direction.DESC, eOrderCity.CODE);
+        Pageable pageable = createPageable(1, 5, Sort.Direction.DESC, eOrderCity.CODE.name());
 
         Page<State> statePage = stateRepository.findAllByCountry(country, pageable);
 

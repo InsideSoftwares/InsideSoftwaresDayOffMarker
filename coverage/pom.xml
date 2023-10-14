@@ -30,8 +30,8 @@
             <artifactId>commons</artifactId>
         </dependency>
         <dependency>
-            <groupId>br.com.insidesoftwares.dayoffmarker</groupId>
-            <artifactId>service</artifactId>
+            <groupId>br.com.insidesoftwares.dayoffmarker.service</groupId>
+            <artifactId>service-administration</artifactId>
         </dependency>
         <dependency>
             <groupId>br.com.insidesoftwares.dayoffmarker</groupId>
@@ -42,12 +42,12 @@
             <artifactId>job</artifactId>
         </dependency>
         <dependency>
-            <groupId>br.com.insidesoftwares.dayoffmarker</groupId>
-            <artifactId>specification</artifactId>
+            <groupId>br.com.insidesoftwares.dayoffmarker.controller</groupId>
+            <artifactId>controller-administration</artifactId>
         </dependency>
         <dependency>
-            <groupId>br.com.insidesoftwares.dayoffmarker</groupId>
-            <artifactId>controller</artifactId>
+            <groupId>br.com.insidesoftwares.dayoffmarker.controller</groupId>
+            <artifactId>controller-search</artifactId>
         </dependency>
     </dependencies>
 

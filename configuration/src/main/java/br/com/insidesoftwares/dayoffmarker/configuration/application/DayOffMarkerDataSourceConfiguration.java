@@ -3,6 +3,7 @@ package br.com.insidesoftwares.dayoffmarker.configuration.application;
 import jakarta.persistence.EntityManagerFactory;
 import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -63,6 +64,7 @@ public class DayOffMarkerDataSourceConfiguration {
         return new JpaTransactionManager(entityManagerFactory);
     }
 
+    @ConditionalOnProperty(prefix="spring.liquibase", name = "enable", havingValue = "true")
     @Bean("DayOffMarkerSpringLiquibase")
     @Primary
     @ConfigurationProperties(prefix = "spring.liquibase", ignoreUnknownFields = false)

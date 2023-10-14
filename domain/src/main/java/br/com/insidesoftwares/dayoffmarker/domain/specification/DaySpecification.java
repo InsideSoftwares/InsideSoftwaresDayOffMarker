@@ -1,7 +1,7 @@
 package br.com.insidesoftwares.dayoffmarker.domain.specification;
 
 import br.com.insidesoftwares.commons.enums.SpecificationFunction;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagLinkRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagLinkUnlinkRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.StartDateAfterEndDateException;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.day.Day;
 import org.springframework.data.jpa.domain.Specification;
@@ -59,113 +59,113 @@ public class DaySpecification {
         return daySpecification;
     }
 
-    public static Specification<Day> exitsDayByTagLinkRequestDTO(final TagLinkRequestDTO tagLinkRequestDTO) {
+    public static Specification<Day> exitsDayByTagLinkRequestDTO(final TagLinkUnlinkRequestDTO tagLinkUnlinkRequestDTO) {
         Specification<Day> daySpecification = Specification.where(null);
 
-        if (Objects.nonNull(tagLinkRequestDTO.dayOfWeek())) {
-            daySpecification = daySpecification.and(specificationEqual(DAY_OF_WEEK, tagLinkRequestDTO.dayOfWeek()));
+        if (Objects.nonNull(tagLinkUnlinkRequestDTO.dayOfWeek())) {
+            daySpecification = daySpecification.and(specificationEqual(DAY_OF_WEEK, tagLinkUnlinkRequestDTO.dayOfWeek()));
         }
 
-        if (Objects.nonNull(tagLinkRequestDTO.dayOfYear())) {
-            daySpecification = daySpecification.and(specificationEqual(DAY_OF_YEAR, tagLinkRequestDTO.dayOfYear()));
+        if (Objects.nonNull(tagLinkUnlinkRequestDTO.dayOfYear())) {
+            daySpecification = daySpecification.and(specificationEqual(DAY_OF_YEAR, tagLinkUnlinkRequestDTO.dayOfYear()));
         }
 
         if (
-                Objects.nonNull(tagLinkRequestDTO.day()) &&
-                        Objects.nonNull(tagLinkRequestDTO.month()) &&
-                        Objects.nonNull(tagLinkRequestDTO.year())
+                Objects.nonNull(tagLinkUnlinkRequestDTO.day()) &&
+                        Objects.nonNull(tagLinkUnlinkRequestDTO.month()) &&
+                        Objects.nonNull(tagLinkUnlinkRequestDTO.year())
         ) {
-            LocalDate date = LocalDate.of(tagLinkRequestDTO.year(), tagLinkRequestDTO.month(), tagLinkRequestDTO.day());
+            LocalDate date = LocalDate.of(tagLinkUnlinkRequestDTO.year(), tagLinkUnlinkRequestDTO.month(), tagLinkUnlinkRequestDTO.day());
             daySpecification = daySpecification.and(specificationEqual(DAY_DATE, date));
         }
 
         if (
-                Objects.nonNull(tagLinkRequestDTO.day()) &&
-                        Objects.nonNull(tagLinkRequestDTO.month()) &&
-                        Objects.isNull(tagLinkRequestDTO.year())
+                Objects.nonNull(tagLinkUnlinkRequestDTO.day()) &&
+                        Objects.nonNull(tagLinkUnlinkRequestDTO.month()) &&
+                        Objects.isNull(tagLinkUnlinkRequestDTO.year())
         ) {
-            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.DAY, tagLinkRequestDTO.day()));
-            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.MONTH, tagLinkRequestDTO.month()));
+            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.DAY, tagLinkUnlinkRequestDTO.day()));
+            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.MONTH, tagLinkUnlinkRequestDTO.month()));
         }
 
         if (
-                Objects.nonNull(tagLinkRequestDTO.day()) &&
-                        Objects.isNull(tagLinkRequestDTO.month()) &&
-                        Objects.isNull(tagLinkRequestDTO.year())
+                Objects.nonNull(tagLinkUnlinkRequestDTO.day()) &&
+                        Objects.isNull(tagLinkUnlinkRequestDTO.month()) &&
+                        Objects.isNull(tagLinkUnlinkRequestDTO.year())
         ) {
-            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.DAY, tagLinkRequestDTO.day()));
+            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.DAY, tagLinkUnlinkRequestDTO.day()));
         }
 
         if (
-                Objects.isNull(tagLinkRequestDTO.day()) &&
-                        Objects.nonNull(tagLinkRequestDTO.month()) &&
-                        Objects.isNull(tagLinkRequestDTO.year())
+                Objects.isNull(tagLinkUnlinkRequestDTO.day()) &&
+                        Objects.nonNull(tagLinkUnlinkRequestDTO.month()) &&
+                        Objects.isNull(tagLinkUnlinkRequestDTO.year())
         ) {
-            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.MONTH, tagLinkRequestDTO.month()));
+            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.MONTH, tagLinkUnlinkRequestDTO.month()));
         }
 
         if (
-                Objects.isNull(tagLinkRequestDTO.day()) &&
-                        Objects.isNull(tagLinkRequestDTO.month()) &&
-                        Objects.nonNull(tagLinkRequestDTO.year())
+                Objects.isNull(tagLinkUnlinkRequestDTO.day()) &&
+                        Objects.isNull(tagLinkUnlinkRequestDTO.month()) &&
+                        Objects.nonNull(tagLinkUnlinkRequestDTO.year())
         ) {
-            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.YEAR, tagLinkRequestDTO.year()));
+            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.YEAR, tagLinkUnlinkRequestDTO.year()));
         }
 
         return daySpecification;
     }
 
-    public static Specification<Day> findAllDayByTagLinkRequestDTO(final TagLinkRequestDTO tagLinkRequestDTO) {
+    public static Specification<Day> findAllDayByTagLinkRequestDTO(final TagLinkUnlinkRequestDTO tagLinkUnlinkRequestDTO) {
         Specification<Day> daySpecification = Specification.where(null);
 
-        if (Objects.nonNull(tagLinkRequestDTO.dayOfWeek())) {
-            daySpecification = daySpecification.and(specificationEqual(DAY_OF_WEEK, tagLinkRequestDTO.dayOfWeek()));
+        if (Objects.nonNull(tagLinkUnlinkRequestDTO.dayOfWeek())) {
+            daySpecification = daySpecification.and(specificationEqual(DAY_OF_WEEK, tagLinkUnlinkRequestDTO.dayOfWeek()));
         }
 
-        if (Objects.nonNull(tagLinkRequestDTO.dayOfYear())) {
-            daySpecification = daySpecification.and(specificationEqual(DAY_OF_YEAR, tagLinkRequestDTO.dayOfYear()));
+        if (Objects.nonNull(tagLinkUnlinkRequestDTO.dayOfYear())) {
+            daySpecification = daySpecification.and(specificationEqual(DAY_OF_YEAR, tagLinkUnlinkRequestDTO.dayOfYear()));
         }
 
         if (
-                Objects.nonNull(tagLinkRequestDTO.day()) &&
-                        Objects.nonNull(tagLinkRequestDTO.month()) &&
-                        Objects.nonNull(tagLinkRequestDTO.year())
+                Objects.nonNull(tagLinkUnlinkRequestDTO.day()) &&
+                        Objects.nonNull(tagLinkUnlinkRequestDTO.month()) &&
+                        Objects.nonNull(tagLinkUnlinkRequestDTO.year())
         ) {
-            LocalDate date = LocalDate.of(tagLinkRequestDTO.year(), tagLinkRequestDTO.month(), tagLinkRequestDTO.day());
+            LocalDate date = LocalDate.of(tagLinkUnlinkRequestDTO.year(), tagLinkUnlinkRequestDTO.month(), tagLinkUnlinkRequestDTO.day());
             daySpecification = daySpecification.and(specificationEqual(DAY_DATE, date));
         }
 
         if (
-                Objects.nonNull(tagLinkRequestDTO.day()) &&
-                        Objects.nonNull(tagLinkRequestDTO.month()) &&
-                        Objects.isNull(tagLinkRequestDTO.year())
+                Objects.nonNull(tagLinkUnlinkRequestDTO.day()) &&
+                        Objects.nonNull(tagLinkUnlinkRequestDTO.month()) &&
+                        Objects.isNull(tagLinkUnlinkRequestDTO.year())
         ) {
-            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.DAY, tagLinkRequestDTO.day()));
-            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.MONTH, tagLinkRequestDTO.month()));
+            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.DAY, tagLinkUnlinkRequestDTO.day()));
+            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.MONTH, tagLinkUnlinkRequestDTO.month()));
         }
 
         if (
-                Objects.nonNull(tagLinkRequestDTO.day()) &&
-                        Objects.isNull(tagLinkRequestDTO.month()) &&
-                        Objects.isNull(tagLinkRequestDTO.year())
+                Objects.nonNull(tagLinkUnlinkRequestDTO.day()) &&
+                        Objects.isNull(tagLinkUnlinkRequestDTO.month()) &&
+                        Objects.isNull(tagLinkUnlinkRequestDTO.year())
         ) {
-            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.DAY, tagLinkRequestDTO.day()));
+            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.DAY, tagLinkUnlinkRequestDTO.day()));
         }
 
         if (
-                Objects.isNull(tagLinkRequestDTO.day()) &&
-                        Objects.nonNull(tagLinkRequestDTO.month()) &&
-                        Objects.isNull(tagLinkRequestDTO.year())
+                Objects.isNull(tagLinkUnlinkRequestDTO.day()) &&
+                        Objects.nonNull(tagLinkUnlinkRequestDTO.month()) &&
+                        Objects.isNull(tagLinkUnlinkRequestDTO.year())
         ) {
-            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.MONTH, tagLinkRequestDTO.month()));
+            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.MONTH, tagLinkUnlinkRequestDTO.month()));
         }
 
         if (
-                Objects.isNull(tagLinkRequestDTO.day()) &&
-                        Objects.isNull(tagLinkRequestDTO.month()) &&
-                        Objects.nonNull(tagLinkRequestDTO.year())
+                Objects.isNull(tagLinkUnlinkRequestDTO.day()) &&
+                        Objects.isNull(tagLinkUnlinkRequestDTO.month()) &&
+                        Objects.nonNull(tagLinkUnlinkRequestDTO.year())
         ) {
-            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.YEAR, tagLinkRequestDTO.year()));
+            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.YEAR, tagLinkUnlinkRequestDTO.year()));
         }
 
         return daySpecification;

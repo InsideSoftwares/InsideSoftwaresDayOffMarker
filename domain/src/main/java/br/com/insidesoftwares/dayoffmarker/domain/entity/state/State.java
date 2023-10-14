@@ -21,8 +21,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -61,7 +59,6 @@ import java.util.Set;
 })
 public class State {
 
-    @Fetch(FetchMode.JOIN)
     @OneToMany(mappedBy = "state", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     Set<StateHoliday> stateHolidays;
     @Id
