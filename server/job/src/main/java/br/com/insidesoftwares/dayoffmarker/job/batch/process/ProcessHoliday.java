@@ -1,7 +1,7 @@
 package br.com.insidesoftwares.dayoffmarker.job.batch.process;
 
 import br.com.insidesoftwares.commons.utils.DateUtils;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayCreateRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.holiday.HolidayCreateRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeHoliday;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.day.Day;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.holiday.FixedHoliday;
@@ -19,6 +19,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -33,7 +34,7 @@ public class ProcessHoliday implements ItemProcessor<Request, List<HolidayCreate
 
         List<HolidayCreateRequestDTO> holidays = new ArrayList<>();
 
-        Long fixedHolidayID = RequestParametersUtils.getFixedHolidayID(request.getRequestParameter());
+        UUID fixedHolidayID = RequestParametersUtils.getFixedHolidayID(request.getRequestParameter());
         try {
 
             int yearMin = batchHolidayService.getMinDateYear();

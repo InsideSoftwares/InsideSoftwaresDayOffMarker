@@ -1,6 +1,6 @@
 package br.com.insidesoftwares.dayoffmarker.validator.holiday;
 
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.holiday.HolidayRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeHoliday;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.day.DayNotExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.holiday.HolidayFromTimeNotInformedException;
@@ -13,11 +13,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Component
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-class HolidayValidatorBean implements Validator<Long, HolidayRequestDTO> {
+class HolidayValidatorBean implements Validator<UUID, HolidayRequestDTO> {
 
     private final HolidayRepository holidayRepository;
     private final DayRepository dayRepository;
@@ -29,14 +30,14 @@ class HolidayValidatorBean implements Validator<Long, HolidayRequestDTO> {
     }
 
     @Override
-    public void validator(final Long holidayId, final HolidayRequestDTO holidayRequestDTO) {
+    public void validator(final UUID holidayId, final HolidayRequestDTO holidayRequestDTO) {
         if (!holidayRepository.existsById(holidayId)) throw new HolidayNotExistException();
         if (!dayRepository.existsById(holidayRequestDTO.dayId())) throw new DayNotExistException();
         validTypeHoliday(holidayRequestDTO);
     }
 
     @Override
-    public void validator(final Long holidayId) {
+    public void validator(final UUID holidayId) {
         if (!holidayRepository.existsById(holidayId)) throw new HolidayNotExistException();
     }
 

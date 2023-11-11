@@ -1,7 +1,7 @@
 package br.com.insidesoftwares.dayoffmarker.domain.repository.city;
 
-import br.com.insidesoftwares.dayoffmarker.domain.entity.Country;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.city.City;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.country.Country;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -10,15 +10,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface CityRepository extends JpaRepository<City, Long> {
+public interface CityRepository extends JpaRepository<City, UUID> {
 
     @EntityGraph(value = "city-full")
-    Optional<City> findCityById(Long cityID);
+    Optional<City> findCityById(UUID cityID);
 
     @EntityGraph(value = "city-full-holiday")
-    Optional<City> findCityFullHolidayById(Long cityID);
+    Optional<City> findCityFullHolidayById(UUID cityID);
 
     @Query("""
             SELECT c FROM City c
@@ -26,7 +27,7 @@ public interface CityRepository extends JpaRepository<City, Long> {
             c.state.id = :stateID
             """)
     @EntityGraph(value = "city-full")
-    Page<City> findCityByStateID(Long stateID, Pageable pageable);
+    Page<City> findCityByStateID(UUID stateID, Pageable pageable);
 
     @Query("""
             SELECT c FROM City c
@@ -42,7 +43,7 @@ public interface CityRepository extends JpaRepository<City, Long> {
             WHERE c.state.id = :stateID AND
             LOWER(c.name) = LOWER(:name)
             """)
-    boolean existsByNameAndStateID(String name, Long stateID);
+    boolean existsByNameAndStateID(String name, UUID stateID);
 
     @Query("""
             SELECT count(c)>0
@@ -50,7 +51,7 @@ public interface CityRepository extends JpaRepository<City, Long> {
             WHERE c.state.id = :stateID AND
             LOWER(c.code) = LOWER(:code)
             """)
-    boolean existsByCodeAndStateID(String code, Long stateID);
+    boolean existsByCodeAndStateID(String code, UUID stateID);
 
     @Query("""
             SELECT count(c)>0
@@ -59,7 +60,7 @@ public interface CityRepository extends JpaRepository<City, Long> {
             LOWER(c.code) = LOWER(:code) AND
             LOWER(c.acronym) = LOWER(:acronym)
             """)
-    boolean existsByCodeAndAcronymAndStateID(String code, String acronym, Long stateID);
+    boolean existsByCodeAndAcronymAndStateID(String code, String acronym, UUID stateID);
 
     @Query("""
             SELECT count(c)>0
@@ -68,7 +69,7 @@ public interface CityRepository extends JpaRepository<City, Long> {
             LOWER(c.name) = LOWER(:name) AND
             c.id != :cityID
             """)
-    boolean existsByNameAndStateIDAndNotId(String name, Long stateID, Long cityID);
+    boolean existsByNameAndStateIDAndNotId(String name, UUID stateID, UUID cityID);
 
     @Query("""
             SELECT count(c)>0
@@ -77,7 +78,7 @@ public interface CityRepository extends JpaRepository<City, Long> {
             LOWER(c.code) = LOWER(:code) AND
             c.id != :cityID
             """)
-    boolean existsByCodeAndStateIDAndNotId(String code, Long stateID, Long cityID);
+    boolean existsByCodeAndStateIDAndNotId(String code, UUID stateID, UUID cityID);
 
     @Query("""
             SELECT count(c)>0
@@ -87,5 +88,5 @@ public interface CityRepository extends JpaRepository<City, Long> {
             LOWER(c.acronym) = LOWER(:acronym) AND
             c.id != :cityID
             """)
-    boolean existsByCodeAndAcronymAndStateIDAndNotId(String code, String acronym, Long stateID, Long cityID);
+    boolean existsByCodeAndAcronymAndStateIDAndNotId(String code, String acronym, UUID stateID, UUID cityID);
 }

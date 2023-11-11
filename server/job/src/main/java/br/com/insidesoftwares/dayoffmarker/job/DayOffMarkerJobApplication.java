@@ -13,11 +13,14 @@ import org.springframework.context.annotation.FilterType;
 
 @EnableDiscoveryClient
 @AutoConfigurationPackage
-@ComponentScan(basePackages = {"br.com.insidesoftwares.dayoffmarker.job.configuration", "br.com.insidesoftwares"}, excludeFilters = {
-        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = DayOffMarkerStartupListener.class)
-}, includeFilters = {
-        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = DataSourceAutoConfiguration.class)
-})
+@ComponentScan(
+        basePackages = {"br.com.insidesoftwares.dayoffmarker.job.configuration", "br.com.insidesoftwares"},
+        excludeFilters = {
+                @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = DayOffMarkerStartupListener.class)
+        },
+        includeFilters = {
+                @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = DataSourceAutoConfiguration.class)
+        })
 @SpringBootApplication(exclude = {RedisAutoConfiguration.class, LiquibaseAutoConfiguration.class})
 public class DayOffMarkerJobApplication {
 

@@ -4,9 +4,9 @@ import br.com.insidesoftwares.commons.annotation.InsideSoftwaresController;
 import br.com.insidesoftwares.commons.annotation.request.InsideRequestPost;
 import br.com.insidesoftwares.commons.annotation.request.InsideRequestPut;
 import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayBatchRequestDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayRequestDTO;
-import br.com.insidesoftwares.dayoffmarker.specification.service.HolidayService;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.holiday.HolidayBatchRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.holiday.HolidayRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.specification.service.holiday.HolidayService;
 import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
 import com.trendyol.jdempotent.core.annotation.JdempotentResource;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.UUID;
 
 @InsideSoftwaresController
 @RequiredArgsConstructor
@@ -27,7 +28,7 @@ public class HolidayController {
     @InsideRequestPost(uri = "/v1/holiday", httpCode = HttpStatus.CREATED,
             nameCache = {"DAYOFF_MARKER_HOLIDAY", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_CITY", "DAYOFF_MARKER_STATE"})
     @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_HOLIDAY", ttl = 1)
-    public InsideSoftwaresResponseDTO<Long> save(
+    public InsideSoftwaresResponseDTO<UUID> save(
             @JdempotentRequestPayload @RequestBody HolidayRequestDTO holidayRequestDTO
     ) {
         return holidayService.save(holidayRequestDTO);
@@ -37,7 +38,7 @@ public class HolidayController {
     @InsideRequestPost(uri = "/v1/holiday/batch", httpCode = HttpStatus.CREATED,
             nameCache = {"DAYOFF_MARKER_HOLIDAY", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_CITY", "DAYOFF_MARKER_STATE", "DAYOFF_MARKER_WORKING"})
     @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_HOLIDAY", ttl = 1)
-    public InsideSoftwaresResponseDTO<List<Long>> saveInBatch(
+    public InsideSoftwaresResponseDTO<List<UUID>> saveInBatch(
             @JdempotentRequestPayload @RequestBody HolidayBatchRequestDTO holidayBatchRequestDTO
     ) {
         return holidayService.saveInBatch(holidayBatchRequestDTO);
@@ -48,7 +49,7 @@ public class HolidayController {
             nameCache = {"DAYOFF_MARKER_HOLIDAY", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_CITY", "DAYOFF_MARKER_STATE", "DAYOFF_MARKER_WORKING"})
     @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_HOLIDAY", ttl = 1)
     public InsideSoftwaresResponseDTO<Void> update(
-            @JdempotentRequestPayload @PathVariable Long id,
+            @JdempotentRequestPayload @PathVariable UUID id,
             @JdempotentRequestPayload @RequestBody HolidayRequestDTO holidayRequestDTO
     ) {
         holidayService.update(id, holidayRequestDTO);

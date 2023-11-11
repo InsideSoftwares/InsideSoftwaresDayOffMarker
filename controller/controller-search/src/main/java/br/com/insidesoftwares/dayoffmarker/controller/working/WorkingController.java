@@ -3,8 +3,8 @@ package br.com.insidesoftwares.dayoffmarker.controller.working;
 import br.com.insidesoftwares.commons.annotation.InsideSoftwaresController;
 import br.com.insidesoftwares.commons.annotation.request.InsideRequestGet;
 import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.response.day.DayDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.response.working.WorkingCurrentDayResponseDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.day.DayDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.working.WorkingCurrentDayResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.specification.search.working.WorkingCityService;
 import br.com.insidesoftwares.dayoffmarker.specification.search.working.WorkingStateService;
 import br.com.insidesoftwares.dayoffmarker.specification.search.working.day.WorkingDayService;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @InsideSoftwaresController
 @RequiredArgsConstructor
@@ -52,7 +53,7 @@ public class WorkingController {
     @InsideRequestGet(uri = "/v1/working/day/{date}/state/{stateID}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_WORKING")
     public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingStateByDay(
             @PathVariable final LocalDate date,
-            @PathVariable final Long stateID
+            @PathVariable final UUID stateID
     ) {
         return workingStateService.findWorkingStateByDay(stateID, date);
     }
@@ -60,7 +61,7 @@ public class WorkingController {
     @PreAuthorize("hasAnyRole('DayOff.Read','DayOff.WorkingState.Read')")
     @InsideRequestGet(uri = "/v1/working/current/day/state/{stateID}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_WORKING")
     public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCurrentDayState(
-            @PathVariable final Long stateID
+            @PathVariable final UUID stateID
     ) {
         return workingStateService.findWorkingCurrentDayState(stateID);
     }
@@ -69,7 +70,7 @@ public class WorkingController {
     @InsideRequestGet(uri = "/v1/working/day/{date}/city/{cityID}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_WORKING")
     public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCityByDay(
             @PathVariable final LocalDate date,
-            @PathVariable final Long cityID
+            @PathVariable final UUID cityID
     ) {
         return workingCityService.findWorkingCityByDay(cityID, date);
     }
@@ -77,7 +78,7 @@ public class WorkingController {
     @PreAuthorize("hasAnyRole('DayOff.Read','DayOff.WorkingState.Read')")
     @InsideRequestGet(uri = "/v1/working/current/day/city/{cityID}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_WORKING")
     public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCurrentDayCity(
-            @PathVariable final Long cityID
+            @PathVariable final UUID cityID
     ) {
         return workingCityService.findWorkingCurrentDayCity(cityID);
     }

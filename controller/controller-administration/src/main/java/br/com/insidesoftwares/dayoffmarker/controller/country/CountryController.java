@@ -4,8 +4,8 @@ import br.com.insidesoftwares.commons.annotation.InsideSoftwaresController;
 import br.com.insidesoftwares.commons.annotation.request.InsideRequestPost;
 import br.com.insidesoftwares.commons.annotation.request.InsideRequestPut;
 import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.CountryRequestDTO;
-import br.com.insidesoftwares.dayoffmarker.specification.service.CountryService;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.country.CountryRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.specification.service.country.CountryService;
 import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
 import com.trendyol.jdempotent.core.annotation.JdempotentResource;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.UUID;
 
 @InsideSoftwaresController
 @RequiredArgsConstructor
@@ -25,7 +27,7 @@ public class CountryController {
             nameCache = {"DAYOFF_MARKER_COUNTRY", "DAYOFF_MARKER_CITY", "DAYOFF_MARKER_STATE"}
     )
     @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_COUNTRY", ttl = 1)
-    public InsideSoftwaresResponseDTO<Long> save(
+    public InsideSoftwaresResponseDTO<UUID> save(
             @JdempotentRequestPayload @RequestBody CountryRequestDTO countryRequestDTO
     ) {
         return countryService.save(countryRequestDTO);
@@ -37,7 +39,7 @@ public class CountryController {
     )
     @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_COUNTRY", ttl = 1)
     public InsideSoftwaresResponseDTO<Void> update(
-            @JdempotentRequestPayload @PathVariable Long id,
+            @JdempotentRequestPayload @PathVariable UUID id,
             @JdempotentRequestPayload @RequestBody CountryRequestDTO countryRequestDTO
     ) {
         countryService.update(id, countryRequestDTO);

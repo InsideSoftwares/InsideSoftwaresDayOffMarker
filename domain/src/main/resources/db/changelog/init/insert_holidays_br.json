@@ -12,7 +12,7 @@
           },
           {
             "insert": {
-              "dbms": "h2, mysql, postgresql",
+              "dbms": "postgresql",
               "tableName": "DOM_FIXED_HOLIDAY",
               "columns": [
                 {
@@ -56,7 +56,7 @@
           },
           {
             "insert": {
-              "dbms": "h2, mysql, postgresql",
+              "dbms": "postgresql",
               "tableName": "DOM_FIXED_HOLIDAY",
               "columns": [
                 {
@@ -100,7 +100,7 @@
           },
           {
             "insert": {
-              "dbms": "h2, mysql, postgresql",
+              "dbms": "postgresql",
               "tableName": "DOM_FIXED_HOLIDAY",
               "columns": [
                 {
@@ -144,7 +144,7 @@
           },
           {
             "insert": {
-              "dbms": "h2, mysql, postgresql",
+              "dbms": "postgresql",
               "tableName": "DOM_FIXED_HOLIDAY",
               "columns": [
                 {
@@ -188,7 +188,7 @@
           },
           {
             "insert": {
-              "dbms": "h2, mysql, postgresql",
+              "dbms": "postgresql",
               "tableName": "DOM_FIXED_HOLIDAY",
               "columns": [
                 {
@@ -232,7 +232,7 @@
           },
           {
             "insert": {
-              "dbms": "h2, mysql, postgresql",
+              "dbms": "postgresql",
               "tableName": "DOM_FIXED_HOLIDAY",
               "columns": [
                 {
@@ -276,7 +276,7 @@
           },
           {
             "insert": {
-              "dbms": "h2, mysql, postgresql",
+              "dbms": "postgresql",
               "tableName": "DOM_FIXED_HOLIDAY",
               "columns": [
                 {
@@ -320,7 +320,7 @@
           },
           {
             "insert": {
-              "dbms": "h2, mysql, postgresql",
+              "dbms": "postgresql",
               "tableName": "DOM_FIXED_HOLIDAY",
               "columns": [
                 {
@@ -364,7 +364,7 @@
           },
           {
             "insert": {
-              "dbms": "h2, mysql, postgresql",
+              "dbms": "postgresql",
               "tableName": "DOM_FIXED_HOLIDAY",
               "columns": [
                 {
@@ -408,7 +408,7 @@
           },
           {
             "insert": {
-              "dbms": "h2, mysql, postgresql",
+              "dbms": "postgresql",
               "tableName": "DOM_FIXED_HOLIDAY",
               "columns": [
                 {

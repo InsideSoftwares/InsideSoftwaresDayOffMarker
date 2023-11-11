@@ -7,8 +7,10 @@ import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableDiscoveryClient
+@EnableScheduling
 @AutoConfigurationPackage
 @ComponentScan(basePackages = {"br.com.insidesoftwares.dayoffmarker.configuration", "br.com.insidesoftwares"})
 @SpringBootApplication(exclude = {RedisAutoConfiguration.class, DataSourceAutoConfiguration.class})

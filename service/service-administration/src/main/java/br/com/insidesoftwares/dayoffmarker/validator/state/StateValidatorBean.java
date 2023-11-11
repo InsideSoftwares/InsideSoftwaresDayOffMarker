@@ -1,21 +1,23 @@
 package br.com.insidesoftwares.dayoffmarker.validator.state;
 
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.state.StateRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.state.StateRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.country.CountryNotExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.state.StateCountryAcronymExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.state.StateNameCountryAcronymExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.state.StateNotExistException;
-import br.com.insidesoftwares.dayoffmarker.domain.repository.CountryRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.country.CountryRepository;
 import br.com.insidesoftwares.dayoffmarker.domain.repository.state.StateRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.Validator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Component
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-class StateValidatorBean implements Validator<Long, StateRequestDTO> {
+class StateValidatorBean implements Validator<UUID, StateRequestDTO> {
 
     private final StateRepository stateRepository;
     private final CountryRepository countryRepository;
@@ -40,7 +42,7 @@ class StateValidatorBean implements Validator<Long, StateRequestDTO> {
     }
 
     @Override
-    public void validator(final Long stateId, final StateRequestDTO stateRequestDTO) {
+    public void validator(final UUID stateId, final StateRequestDTO stateRequestDTO) {
         if (!stateRepository.existsById(stateId)) throw new StateNotExistException();
         if (!countryRepository.existsById(stateRequestDTO.countryId())) throw new CountryNotExistException();
         if (
@@ -61,7 +63,7 @@ class StateValidatorBean implements Validator<Long, StateRequestDTO> {
     }
 
     @Override
-    public void validator(final Long stateId) {
+    public void validator(final UUID stateId) {
         if (!stateRepository.existsById(stateId)) throw new StateNotExistException();
     }
 }

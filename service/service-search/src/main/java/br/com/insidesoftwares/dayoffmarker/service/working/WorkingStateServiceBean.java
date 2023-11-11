@@ -3,11 +3,11 @@ package br.com.insidesoftwares.dayoffmarker.service.working;
 import br.com.insidesoftwares.commons.annotation.InsideAudit;
 import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
 import br.com.insidesoftwares.commons.utils.InsideSoftwaresResponseUtils;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.response.working.WorkingCurrentDayResponseDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.working.WorkingCurrentDayResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.state.State;
 import br.com.insidesoftwares.dayoffmarker.domain.repository.state.StateRepository;
-import br.com.insidesoftwares.dayoffmarker.specification.search.DaySearchService;
-import br.com.insidesoftwares.dayoffmarker.specification.search.StateSearchService;
+import br.com.insidesoftwares.dayoffmarker.specification.search.day.DaySearchService;
+import br.com.insidesoftwares.dayoffmarker.specification.search.state.StateSearchService;
 import br.com.insidesoftwares.dayoffmarker.specification.search.working.WorkingStateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +30,7 @@ class WorkingStateServiceBean implements WorkingStateService {
     @InsideAudit
     @Override
     public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingStateByDay(
-            final Long stateID,
+            final UUID stateID,
             final LocalDate date
     ) {
         boolean isWorkingDay = isWorkingStateByDay(stateID, date);
@@ -43,7 +44,7 @@ class WorkingStateServiceBean implements WorkingStateService {
 
     @InsideAudit
     @Override
-    public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCurrentDayState(final Long stateID) {
+    public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCurrentDayState(final UUID stateID) {
 
         LocalDate currentDay = LocalDate.now();
         boolean isWorkingDay = isWorkingStateByDay(stateID, currentDay);
@@ -55,7 +56,7 @@ class WorkingStateServiceBean implements WorkingStateService {
         );
     }
 
-    private boolean isWorkingStateByDay(final Long stateID, final LocalDate date) {
+    private boolean isWorkingStateByDay(final UUID stateID, final LocalDate date) {
         State state = stateSearchService.findStateByStateId(stateID);
         boolean isWorkingDay;
         boolean isNotWorkingDay = stateRepository.isStateHolidayByStateAndStateHolidayAndDate(

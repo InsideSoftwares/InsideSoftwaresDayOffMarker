@@ -3,10 +3,10 @@ package br.com.insidesoftwares.dayoffmarker.controller.tag;
 import br.com.insidesoftwares.commons.annotation.InsideSoftwaresController;
 import br.com.insidesoftwares.commons.annotation.request.InsideRequestPost;
 import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagLinkUnlinkRequestDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagRequestDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.response.tag.TagLinkResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.specification.service.TagService;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.tag.TagLinkUnlinkRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.tag.TagRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.tag.TagLinkResponseDTO;
+import br.com.insidesoftwares.dayoffmarker.specification.service.tag.TagService;
 import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
 import com.trendyol.jdempotent.core.annotation.JdempotentResource;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.UUID;
 
 @InsideSoftwaresController
 @RequiredArgsConstructor
@@ -26,7 +28,7 @@ public class TagController {
             nameCache = {"DAYOFF_MARKER_TAG", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_WORKING"}
     )
     @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_TAG", ttl = 1)
-    public InsideSoftwaresResponseDTO<Long> save(
+    public InsideSoftwaresResponseDTO<UUID> save(
             @JdempotentRequestPayload @RequestBody TagRequestDTO tagRequestDTO
     ) {
         return tagService.save(tagRequestDTO);
@@ -38,7 +40,7 @@ public class TagController {
     )
     @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_TAG", ttl = 1)
     public InsideSoftwaresResponseDTO<Void> update(
-            @JdempotentRequestPayload @PathVariable Long id,
+            @JdempotentRequestPayload @PathVariable UUID id,
             @JdempotentRequestPayload @RequestBody TagRequestDTO tagRequestDTO
     ) {
         tagService.update(id, tagRequestDTO);

@@ -7,6 +7,7 @@ import java.time.DayOfWeek;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static java.lang.Integer.parseInt;
@@ -52,9 +53,9 @@ public class RequestParametersUtils {
         return nonNull(requestParameter) ? parseInt(requestParameter.getValue()) : null;
     }
 
-    public static Long getFixedHolidayID(Set<RequestParameter> requestParameters) {
+    public static UUID getFixedHolidayID(Set<RequestParameter> requestParameters) {
         RequestParameter requestParameter = getParameter(requestParameters, TypeParameter.FIXED_HOLIDAY_ID);
-        return nonNull(requestParameter) ? Long.parseLong(requestParameter.getValue()) : null;
+        return nonNull(requestParameter) ? UUID.fromString(requestParameter.getValue()) : null;
     }
 
     public static Long getTagID(Set<RequestParameter> requestParameters) {
@@ -62,9 +63,9 @@ public class RequestParametersUtils {
         return nonNull(requestParameter) ? Long.parseLong(requestParameter.getValue()) : null;
     }
 
-    public static Set<Long> getTagsID(Set<RequestParameter> requestParameters) {
+    public static Set<UUID> getTagsID(Set<RequestParameter> requestParameters) {
         RequestParameter requestParameter = getParameter(requestParameters, TypeParameter.TAG_ID);
         if (isNull(requestParameter)) return null;
-        return Arrays.stream(requestParameter.getValue().split(PIPE_REGEX)).map(Long::parseLong).collect(Collectors.toSet());
+        return Arrays.stream(requestParameter.getValue().split(PIPE_REGEX)).map(UUID::fromString).collect(Collectors.toSet());
     }
 }

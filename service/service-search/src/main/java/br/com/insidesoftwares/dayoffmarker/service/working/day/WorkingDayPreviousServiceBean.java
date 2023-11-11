@@ -1,9 +1,9 @@
 package br.com.insidesoftwares.dayoffmarker.service.working.day;
 
-import br.com.insidesoftwares.dayoffmarker.commons.dto.response.day.DayDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.day.DayDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.working.WorkingDayException;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.day.Day;
-import br.com.insidesoftwares.dayoffmarker.domain.mapper.DayMapper;
+import br.com.insidesoftwares.dayoffmarker.domain.mapper.day.DayMapper;
 import br.com.insidesoftwares.dayoffmarker.specification.search.working.day.WorkingDayPreviousService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

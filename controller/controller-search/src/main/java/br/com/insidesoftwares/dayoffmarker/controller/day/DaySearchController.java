@@ -4,8 +4,8 @@ import br.com.insidesoftwares.commons.annotation.InsideSoftwaresController;
 import br.com.insidesoftwares.commons.annotation.request.InsideRequestGet;
 import br.com.insidesoftwares.commons.dto.request.InsidePaginationFilterDTO;
 import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.response.day.DayDTO;
-import br.com.insidesoftwares.dayoffmarker.specification.search.DaySearchService;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.day.DayDTO;
+import br.com.insidesoftwares.dayoffmarker.specification.search.day.DaySearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
+import java.util.UUID;
 
 @InsideSoftwaresController
 @RequiredArgsConstructor
@@ -35,7 +36,7 @@ public class DaySearchController {
 
     @PreAuthorize("hasAnyRole('DayOff.Read','DayOff.Day.Read')")
     @InsideRequestGet(uri = "/v1/day/{id}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_DAY")
-    public InsideSoftwaresResponseDTO<DayDTO> findById(@PathVariable final Long id) {
+    public InsideSoftwaresResponseDTO<DayDTO> findById(@PathVariable final UUID id) {
         return dayService.getDayByID(id);
     }
 
@@ -43,7 +44,7 @@ public class DaySearchController {
     @InsideRequestGet(uri = "/v1/day/date/{date}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_DAY")
     public InsideSoftwaresResponseDTO<DayDTO> findDayByDate(
             @PathVariable final LocalDate date,
-            @RequestParam(value = "tagID", required = false) Long tagID,
+            @RequestParam(value = "tagID", required = false) UUID tagID,
             @RequestParam(value = "tagCode", required = false) String tagCode
     ) {
         return dayService.getDayByDate(date, tagID, tagCode);
@@ -52,7 +53,7 @@ public class DaySearchController {
     @PreAuthorize("hasAnyRole('DayOff.Read','DayOff.Day.Read')")
     @InsideRequestGet(uri = "/v1/day/tag/{tagID}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_DAY")
     public InsideSoftwaresResponseDTO<List<DayDTO>> findDaysByTag(
-            @PathVariable final Long tagID
+            @PathVariable final UUID tagID
     ) {
         return dayService.getDaysByTag(tagID);
     }

@@ -1,5 +1,6 @@
 package br.com.insidesoftwares.dayoffmarker.job.scheduled.day;
 
+import br.com.insidesoftwares.dayoffmarker.specification.job.day.DayJobService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
@@ -11,7 +12,8 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class DayCreateJob {
 
-    private final DayJobServiceBean dayJobServiceBean;
+    private final DayJobServiceOldBean dayJobServiceBean;
+    private final DayJobService dayJobService;
 
     @Async
     @Scheduled(
@@ -19,17 +21,8 @@ public class DayCreateJob {
     )
     public void schedulingFindRequestForCreatingDays() {
         log.info("Starting request query to create the days.");
-        dayJobServiceBean.findRequestForCreatingDays();
+        dayJobService.processCreationDayBatch();
         log.info("Finalizing request query to create the days.");
-    }
-
-    @Scheduled(
-            cron = "${application.scheduling.day.create_date.run_request_create_date:0 0 */3 * * *}"
-    )
-    public void schedulingRunRequestForCreatingDays() {
-        log.info("Starting the day creation request run");
-        dayJobServiceBean.runRequestForCreatingDays();
-        log.info("Finalizing the day creation request run");
     }
 
     @Scheduled(

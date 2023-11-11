@@ -1,21 +1,46 @@
 package br.com.insidesoftwares.dayoffmarker.repository.country;
 
-import br.com.insidesoftwares.dayoffmarker.domain.entity.Country;
-import br.com.insidesoftwares.dayoffmarker.domain.repository.CountryRepository;
+import br.com.insidesoftwares.dayoffmarker.RepositoryTestApplication;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.country.Country;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.country.CountryRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.jdbc.Sql;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Sql(scripts = "classpath:postgresql/insert_country_state_city.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "classpath:postgresql/delete_country_state_city.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@SpringBootTest(classes = RepositoryTestApplication.class)
+@Testcontainers
+class CountryRepositoryIntegrationTest {
 
-abstract class CountryRepositoryIntegrationTest {
+    @Container
+    static PostgreSQLContainer container = new PostgreSQLContainer("postgres:latest");
+
+    @DynamicPropertySource
+    private static void setupProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", container::getJdbcUrl);
+        registry.add("spring.datasource.username", container::getUsername);
+        registry.add("spring.datasource.password", container::getPassword);
+        registry.add("spring.datasource.driver-class-name", container::getDriverClassName);
+    }
 
     @Autowired
     private CountryRepository countryRepository;
+
+    private static final UUID COUNTRY_ID = UUID.randomUUID();
 
     @Test
     void shouldReturnExistCountryWhenCodeBR01() {
@@ -84,42 +109,42 @@ abstract class CountryRepositoryIntegrationTest {
 
     @Test
     void shouldReturnExistCountryWhenNameBrasilAndNotID2() {
-        boolean exist = countryRepository.existsByNameAndNotId("Brasil", 2L);
+        boolean exist = countryRepository.existsByNameAndNotId("Brasil", COUNTRY_ID);
 
         assertTrue(exist);
     }
 
     @Test
     void shouldntReturnExistCountryWhenNameCanadaAndNotID2() {
-        boolean exist = countryRepository.existsByNameAndNotId("Canada", 2L);
+        boolean exist = countryRepository.existsByNameAndNotId("Canada", COUNTRY_ID);
 
         assertFalse(exist);
     }
 
     @Test
     void shouldReturnExistCountryWhenAcronymBRSAndNotID2() {
-        boolean exist = countryRepository.existsByAcronymAndNotId("BRS", 2L);
+        boolean exist = countryRepository.existsByAcronymAndNotId("BRS", COUNTRY_ID);
 
         assertTrue(exist);
     }
 
     @Test
     void shouldntReturnExistCountryWhenAcronymCNDAndNotID2() {
-        boolean exist = countryRepository.existsByAcronymAndNotId("CND", 2L);
+        boolean exist = countryRepository.existsByAcronymAndNotId("CND", COUNTRY_ID);
 
         assertFalse(exist);
     }
 
     @Test
     void shouldReturnExistCountryWhenCodeBR01AndNotID2() {
-        boolean exist = countryRepository.existsByCodeAndNotId("BR01", 2L);
+        boolean exist = countryRepository.existsByCodeAndNotId("BR01", COUNTRY_ID);
 
         assertTrue(exist);
     }
 
     @Test
     void shouldntReturnExistCountryWhenCodeBR50AndNotID2() {
-        boolean exist = countryRepository.existsByCodeAndNotId("BR50", 2L);
+        boolean exist = countryRepository.existsByCodeAndNotId("BR50", COUNTRY_ID);
 
         assertFalse(exist);
     }

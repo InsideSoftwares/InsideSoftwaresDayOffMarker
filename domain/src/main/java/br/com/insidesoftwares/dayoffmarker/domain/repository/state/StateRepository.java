@@ -1,6 +1,6 @@
 package br.com.insidesoftwares.dayoffmarker.domain.repository.state;
 
-import br.com.insidesoftwares.dayoffmarker.domain.entity.Country;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.country.Country;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.state.State;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,12 +11,13 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface StateRepository extends JpaRepository<State, Long> {
+public interface StateRepository extends JpaRepository<State, UUID> {
 
     @EntityGraph(value = "state-full")
-    Optional<State> findStateById(Long stateId);
+    Optional<State> findStateById(UUID stateId);
 
     @EntityGraph(value = "state-full")
     Page<State> findAllByCountry(Country country, Pageable pageable);
@@ -28,7 +29,7 @@ public interface StateRepository extends JpaRepository<State, Long> {
             s.country.id = :countryID AND
             LOWER(s.acronym) = LOWER(:acronym)
             """)
-    boolean existsByNameAndCountryIdAndAcronym(String name, Long countryID, String acronym);
+    boolean existsByNameAndCountryIdAndAcronym(String name, UUID countryID, String acronym);
 
     @Query("""
             SELECT count(s)>0
@@ -36,7 +37,7 @@ public interface StateRepository extends JpaRepository<State, Long> {
             WHERE s.country.id = :countryID AND
             LOWER(s.acronym) = LOWER(:acronym)
             """)
-    boolean existsByCountryIdAndAcronym(Long countryID, String acronym);
+    boolean existsByCountryIdAndAcronym(UUID countryID, String acronym);
 
     @Query("""
             SELECT count(s)>0
@@ -46,7 +47,7 @@ public interface StateRepository extends JpaRepository<State, Long> {
             LOWER(s.acronym) = LOWER(:acronym) AND
             s.id != :stateId
             """)
-    boolean existsByNameAndCountryIdAndAcronymAndNotId(String name, Long countryID, String acronym, Long stateId);
+    boolean existsByNameAndCountryIdAndAcronymAndNotId(String name, UUID countryID, String acronym, UUID stateId);
 
     @Query("""
             SELECT count(s)>0
@@ -55,7 +56,7 @@ public interface StateRepository extends JpaRepository<State, Long> {
             LOWER(s.acronym) = LOWER(:acronym) AND
             s.id != :stateId
             """)
-    boolean existsByCountryIdAndAcronymAndNotId(Long countryID, String acronym, Long stateId);
+    boolean existsByCountryIdAndAcronymAndNotId(UUID countryID, String acronym, UUID stateId);
 
     @Query("""
             SELECT count(s) > 0
@@ -64,8 +65,8 @@ public interface StateRepository extends JpaRepository<State, Long> {
             INNER JOIN Holiday h ON sh.id.holidayId = h.id
             INNER JOIN Day d ON h.day.id = d.id
             WHERE s = :state
-            	AND sh.stateHoliday = :stateHoliday
-            	AND d.date = :dateSearch
+            AND sh.stateHoliday = :stateHoliday
+            AND d.date = :dateSearch
             """)
     boolean isStateHolidayByStateAndStateHolidayAndDate(
             final State state,

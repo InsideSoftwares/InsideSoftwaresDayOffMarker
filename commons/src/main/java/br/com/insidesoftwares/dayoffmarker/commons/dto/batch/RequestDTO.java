@@ -18,7 +18,6 @@ import java.util.UUID;
 @Builder
 @ToString
 public class RequestDTO {
-
     private UUID id;
     private String requesting;
     private LocalDate startDate;
@@ -26,5 +25,4 @@ public class RequestDTO {
     private StatusRequest statusRequest;
     private TypeRequest typeRequest;
     private Set<RequestParameterDTO> requestParameter;
-
 }

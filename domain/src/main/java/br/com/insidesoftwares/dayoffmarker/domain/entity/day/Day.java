@@ -19,6 +19,7 @@ import jakarta.persistence.NamedEntityGraphs;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,7 +31,9 @@ import java.time.Year;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
+@Builder
 @Getter
 @Setter
 @AllArgsConstructor
@@ -56,29 +59,22 @@ import java.util.Set;
 public class Day {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "DAY_ID")
-    private Long id;
-
+    private UUID id;
     @Column(name = "DATE")
     private LocalDate date;
-
     @Column(name = "WEEKEND")
     private boolean isWeekend;
-
     @Column(name = "HOLIDAY")
     private boolean isHoliday;
-
     @Column(name = "DAY_OF_WEEK")
     @Enumerated(EnumType.STRING)
     private DayOfWeek dayOfWeek;
-
     @Column(name = "DAY_OF_YEAR")
     private int dayOfYear;
-
     @OneToMany(mappedBy = "day", fetch = FetchType.LAZY)
     private Set<Holiday> holidays;
-
     @Column(name = "DAY_TAG")
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "DOM_DAY_TAG", joinColumns =

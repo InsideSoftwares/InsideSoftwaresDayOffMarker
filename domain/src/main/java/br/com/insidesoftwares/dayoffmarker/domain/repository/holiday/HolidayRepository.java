@@ -9,14 +9,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
+
 @Repository
-public interface HolidayRepository extends JpaRepository<Holiday, Long>, JpaSpecificationExecutor<Holiday> {
+public interface HolidayRepository extends JpaRepository<Holiday, UUID>, JpaSpecificationExecutor<Holiday> {
 
     @EntityGraph(value = "holiday-full")
     @Override
-    Page<Holiday> findAll(
-            Specification<Holiday> holidaySpecification,
-            Pageable pageable
-    );
+    Page<Holiday> findAll(Specification<Holiday> holidaySpecification, Pageable pageable);
 
 }

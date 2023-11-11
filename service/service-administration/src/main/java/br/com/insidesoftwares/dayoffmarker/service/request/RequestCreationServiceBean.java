@@ -1,7 +1,7 @@
 package br.com.insidesoftwares.dayoffmarker.service.request;
 
 import br.com.insidesoftwares.commons.utils.DateUtils;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagLinkUnlinkRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.tag.TagLinkUnlinkRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.Configurationkey;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.StatusRequest;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeParameter;
@@ -11,7 +11,7 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.error.request.Param
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.request.RequestConflictParametersException;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.request.Request;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.request.RequestParameter;
-import br.com.insidesoftwares.dayoffmarker.specification.search.ConfigurationSearchService;
+import br.com.insidesoftwares.dayoffmarker.specification.search.configuration.ConfigurationSearchService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.request.RequestCreationService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.request.RequestService;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.RequestValidator;
@@ -146,7 +146,7 @@ class RequestCreationServiceBean extends RequestBean implements RequestCreationS
             ParameterNotExistException.class
     })
     @Override
-    public String createHolidayRequest(final Long fixedHolidayID) {
+    public String createHolidayRequest(final UUID fixedHolidayID) {
         UUID keyRequest = UUID.randomUUID();
 
         Request request = Request.builder()

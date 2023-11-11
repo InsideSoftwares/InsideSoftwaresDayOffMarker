@@ -3,7 +3,7 @@ package br.com.insidesoftwares.dayoffmarker.validator.request;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.StatusRequest;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.TypeRequest;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.request.RequestConflictParametersException;
-import br.com.insidesoftwares.dayoffmarker.domain.repository.RequestRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.request.RequestRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.RequestValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

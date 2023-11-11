@@ -1,11 +1,11 @@
 package br.com.insidesoftwares.dayoffmarker.validator.day;
 
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.link.LinkTagRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.tag.LinkTagRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.day.DayNotExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagExistDayException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagNotExistException;
 import br.com.insidesoftwares.dayoffmarker.domain.repository.day.DayRepository;
-import br.com.insidesoftwares.dayoffmarker.domain.repository.day.TagRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.tag.TagRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.Set;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -23,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class DayValidatorBeanTest {
 
     private final LocalDate DATE = LocalDate.now();
-    private final Long DAY_ID = 1L;
+    private final UUID DAY_ID = UUID.randomUUID();
     @Mock
     private TagRepository tagRepository;
     @Mock
@@ -77,7 +78,7 @@ class DayValidatorBeanTest {
 
     private LinkTagRequestDTO createLinkTagRequestDTO() {
         return LinkTagRequestDTO.builder()
-                .tagsID(Set.of(2L))
+                .tagsID(Set.of(UUID.randomUUID()))
                 .build();
     }
 }

@@ -34,7 +34,6 @@ public class ProcessorDayBatch implements ItemProcessor<Request, List<DayBatch>>
                         .isProcessed(false)
                         .isWeekend(DateUtils.isWeenkend(dateBase))
                         .isHoliday(false)
-                        .requestID(request.getId())
                         .build();
 
                 dayBatches.add(dayBatch);

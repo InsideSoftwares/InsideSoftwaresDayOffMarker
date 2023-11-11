@@ -5,10 +5,10 @@ import br.com.insidesoftwares.commons.annotation.request.InsideRequestDelete;
 import br.com.insidesoftwares.commons.annotation.request.InsideRequestPost;
 import br.com.insidesoftwares.commons.annotation.request.InsideRequestPut;
 import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.state.StateHolidayDeleteRequestDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.state.StateHolidayRequestDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.state.StateRequestDTO;
-import br.com.insidesoftwares.dayoffmarker.specification.service.StateService;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.state.StateHolidayDeleteRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.state.StateHolidayRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.state.StateRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.specification.service.state.StateService;
 import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
 import com.trendyol.jdempotent.core.annotation.JdempotentResource;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.UUID;
 
 @InsideSoftwaresController
 @RequiredArgsConstructor
@@ -28,7 +30,7 @@ public class StateController {
             nameCache = {"DAYOFF_MARKER_STATE", "DAYOFF_MARKER_CITY", "DAYOFF_MARKER_DAY", "DAYOFF_MARKER_WORKING"}
     )
     @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_STATE", ttl = 1)
-    public InsideSoftwaresResponseDTO<Long> save(
+    public InsideSoftwaresResponseDTO<UUID> save(
             @JdempotentRequestPayload @RequestBody StateRequestDTO stateRequestDTO
     ) {
         return stateService.save(stateRequestDTO);
@@ -40,7 +42,7 @@ public class StateController {
     )
     @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_STATE", ttl = 1)
     public InsideSoftwaresResponseDTO<Void> update(
-            @JdempotentRequestPayload @PathVariable Long id,
+            @JdempotentRequestPayload @PathVariable UUID id,
             @JdempotentRequestPayload @RequestBody StateRequestDTO stateRequestDTO
     ) {
         stateService.update(id, stateRequestDTO);
@@ -53,7 +55,7 @@ public class StateController {
     )
     @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_STATE", ttl = 1)
     public InsideSoftwaresResponseDTO<Void> addCityHoliday(
-            @JdempotentRequestPayload @PathVariable Long id,
+            @JdempotentRequestPayload @PathVariable UUID id,
             @JdempotentRequestPayload @RequestBody StateHolidayRequestDTO stateHolidayRequestDTO
     ) {
         stateService.addStateHoliday(id, stateHolidayRequestDTO);
@@ -66,7 +68,7 @@ public class StateController {
     )
     @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_STATE", ttl = 1)
     public InsideSoftwaresResponseDTO<Void> deleteCityHoliday(
-            @JdempotentRequestPayload @PathVariable Long id,
+            @JdempotentRequestPayload @PathVariable UUID id,
             @JdempotentRequestPayload @RequestBody StateHolidayDeleteRequestDTO stateHolidayDeleteRequestDTO
     ) {
         stateService.deleteStateHoliday(id, stateHolidayDeleteRequestDTO);

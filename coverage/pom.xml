@@ -34,6 +34,10 @@
             <artifactId>service-administration</artifactId>
         </dependency>
         <dependency>
+            <groupId>br.com.insidesoftwares.dayoffmarker.service</groupId>
+            <artifactId>service-search</artifactId>
+        </dependency>
+        <dependency>
             <groupId>br.com.insidesoftwares.dayoffmarker</groupId>
             <artifactId>configuration</artifactId>
         </dependency>

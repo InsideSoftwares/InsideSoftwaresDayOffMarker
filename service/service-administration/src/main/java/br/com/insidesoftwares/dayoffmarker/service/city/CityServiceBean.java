@@ -2,9 +2,9 @@ package br.com.insidesoftwares.dayoffmarker.service.city;
 
 import br.com.insidesoftwares.commons.annotation.InsideAudit;
 import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.city.CityHolidayDeleteRequestDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.city.CityHolidayRequestDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.city.CityRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.city.CityHolidayDeleteRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.city.CityHolidayRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.city.CityRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.city.CityCodeAcronymStateExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.city.CityCodeStateExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.city.CityNameStateExistException;
@@ -18,10 +18,10 @@ import br.com.insidesoftwares.dayoffmarker.domain.entity.holiday.Holiday;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.state.State;
 import br.com.insidesoftwares.dayoffmarker.domain.repository.city.CityHolidayRepository;
 import br.com.insidesoftwares.dayoffmarker.domain.repository.city.CityRepository;
-import br.com.insidesoftwares.dayoffmarker.specification.search.CitySearchService;
-import br.com.insidesoftwares.dayoffmarker.specification.search.HolidaySearchService;
-import br.com.insidesoftwares.dayoffmarker.specification.search.StateSearchService;
-import br.com.insidesoftwares.dayoffmarker.specification.service.CityService;
+import br.com.insidesoftwares.dayoffmarker.specification.search.city.CitySearchService;
+import br.com.insidesoftwares.dayoffmarker.specification.search.holiday.HolidaySearchService;
+import br.com.insidesoftwares.dayoffmarker.specification.search.state.StateSearchService;
+import br.com.insidesoftwares.dayoffmarker.specification.service.city.CityService;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.Validator;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +40,7 @@ class CityServiceBean implements CityService {
     private final CityHolidayRepository cityHolidayRepository;
     private final StateSearchService stateSearchService;
     private final HolidaySearchService holidaySearchService;
-    private final Validator<Long, CityRequestDTO> cityValidator;
+    private final Validator<UUID, CityRequestDTO> cityValidator;
 
     @InsideAudit(description = "Save the City")
     @Transactional(rollbackFor = {
@@ -49,7 +50,7 @@ class CityServiceBean implements CityService {
             CityNameStateExistException.class
     })
     @Override
-    public InsideSoftwaresResponseDTO<Long> save(final @Valid CityRequestDTO cityRequestDTO) {
+    public InsideSoftwaresResponseDTO<UUID> save(final @Valid CityRequestDTO cityRequestDTO) {
         cityValidator.validator(cityRequestDTO);
 
         State state = stateSearchService.findStateByStateId(cityRequestDTO.stateID());
@@ -63,7 +64,7 @@ class CityServiceBean implements CityService {
 
         city = cityRepository.save(city);
 
-        return InsideSoftwaresResponseDTO.<Long>builder().data(city.getId()).build();
+        return InsideSoftwaresResponseDTO.<UUID>builder().data(city.getId()).build();
     }
 
     @InsideAudit(description = "Update the city by ID")
@@ -76,7 +77,7 @@ class CityServiceBean implements CityService {
     })
     @Override
     public void update(
-            final Long cityID,
+            final UUID cityID,
             final @Valid CityRequestDTO cityRequestDTO
     ) {
         cityValidator.validator(cityID, cityRequestDTO);
@@ -103,7 +104,7 @@ class CityServiceBean implements CityService {
     })
     @Override
     public void addCityHoliday(
-            final Long cityID,
+            final UUID cityID,
             @Valid final CityHolidayRequestDTO cityHolidayRequestDTO
     ) {
         City city = citySearchService.findCityById(cityID);
@@ -130,7 +131,7 @@ class CityServiceBean implements CityService {
     })
     @Override
     public void deleteCityHoliday(
-            final Long cityID,
+            final UUID cityID,
             @Valid final CityHolidayDeleteRequestDTO cityHolidayDeleteRequestDTO
     ) {
         City city = citySearchService.findCityById(cityID);

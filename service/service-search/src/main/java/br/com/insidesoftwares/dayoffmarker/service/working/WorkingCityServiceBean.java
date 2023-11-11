@@ -3,13 +3,13 @@ package br.com.insidesoftwares.dayoffmarker.service.working;
 import br.com.insidesoftwares.commons.annotation.InsideAudit;
 import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
 import br.com.insidesoftwares.commons.utils.InsideSoftwaresResponseUtils;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.response.working.WorkingCurrentDayResponseDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.working.WorkingCurrentDayResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.city.City;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.city.CityHoliday;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.holiday.Holiday;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.state.StateHoliday;
-import br.com.insidesoftwares.dayoffmarker.specification.search.CitySearchService;
-import br.com.insidesoftwares.dayoffmarker.specification.search.DaySearchService;
+import br.com.insidesoftwares.dayoffmarker.specification.search.city.CitySearchService;
+import br.com.insidesoftwares.dayoffmarker.specification.search.day.DaySearchService;
 import br.com.insidesoftwares.dayoffmarker.specification.search.working.WorkingCityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +32,7 @@ class WorkingCityServiceBean implements WorkingCityService {
     @InsideAudit
     @Override
     public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCityByDay(
-            final Long cityID,
+            final UUID cityID,
             final LocalDate date
     ) {
         boolean isWorkingDay = isWorkingCityByDay(cityID, date);
@@ -45,7 +46,7 @@ class WorkingCityServiceBean implements WorkingCityService {
 
     @InsideAudit
     @Override
-    public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCurrentDayCity(final Long cityID) {
+    public InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCurrentDayCity(final UUID cityID) {
 
         LocalDate currentDay = LocalDate.now();
         boolean isWorkingDay = isWorkingCityByDay(cityID, currentDay);
@@ -57,7 +58,7 @@ class WorkingCityServiceBean implements WorkingCityService {
         );
     }
 
-    private boolean isWorkingCityByDay(final Long cityID, final LocalDate date) {
+    private boolean isWorkingCityByDay(final UUID cityID, final LocalDate date) {
         City city = citySearchService.findCityFullHolidayById(cityID);
         boolean isWorkingDay;
         Optional<StateHoliday> stateHolidayOptional = city.getState().getStateHolidays().stream()

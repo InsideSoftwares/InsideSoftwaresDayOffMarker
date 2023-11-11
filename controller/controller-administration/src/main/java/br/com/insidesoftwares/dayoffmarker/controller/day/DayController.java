@@ -3,8 +3,8 @@ package br.com.insidesoftwares.dayoffmarker.controller.day;
 import br.com.insidesoftwares.commons.annotation.InsideSoftwaresController;
 import br.com.insidesoftwares.commons.annotation.request.InsideRequestPost;
 import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.link.LinkTagRequestDTO;
-import br.com.insidesoftwares.dayoffmarker.specification.service.DayService;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.tag.LinkTagRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.specification.service.day.DayService;
 import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
 import com.trendyol.jdempotent.core.annotation.JdempotentResource;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.UUID;
 
 @InsideSoftwaresController
 @RequiredArgsConstructor
@@ -25,7 +27,7 @@ public class DayController {
     )
     @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_LINK_TAG", ttl = 1)
     public InsideSoftwaresResponseDTO<Void> linkTag(
-            @JdempotentRequestPayload @PathVariable Long id,
+            @JdempotentRequestPayload @PathVariable UUID id,
             @JdempotentRequestPayload @RequestBody LinkTagRequestDTO linkTagRequestDTO
     ) {
         dayService.linkTag(id, linkTagRequestDTO);
@@ -38,7 +40,7 @@ public class DayController {
     )
     @JdempotentResource(cachePrefix = "DAYOFF_MARKER_IDP_UNLINK_TAG", ttl = 1)
     public InsideSoftwaresResponseDTO<Void> unlinkTag(
-            @JdempotentRequestPayload @PathVariable Long id,
+            @JdempotentRequestPayload @PathVariable UUID id,
             @JdempotentRequestPayload @RequestBody LinkTagRequestDTO linkTagRequestDTO
     ) {
         dayService.unlinkTag(id, linkTagRequestDTO);

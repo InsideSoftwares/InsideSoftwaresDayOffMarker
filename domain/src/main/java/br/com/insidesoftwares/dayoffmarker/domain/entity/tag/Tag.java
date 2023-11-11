@@ -12,6 +12,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Builder
 @Getter
 @Setter
@@ -22,13 +24,11 @@ import lombok.Setter;
 public class Tag {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "TAG_ID")
-    private Long id;
-
+    private UUID id;
     @Column(name = "CODE")
     private String code;
-
     @Column(name = "DESCRIPTION")
     private String description;
 

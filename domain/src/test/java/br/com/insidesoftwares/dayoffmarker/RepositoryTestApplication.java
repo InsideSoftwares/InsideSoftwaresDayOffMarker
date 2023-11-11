@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication(exclude = {RedisAutoConfiguration.class})
 @SpringBootConfiguration
-@ComponentScan({"*ignore*", "br.com.insidesoftwares.commons.configuration.mysql"})
+@ComponentScan({"*ignore*"})
 public class RepositoryTestApplication {
 
     public static void main(String[] args) {

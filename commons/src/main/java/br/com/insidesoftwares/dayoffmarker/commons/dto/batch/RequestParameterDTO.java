@@ -16,7 +16,6 @@ import java.util.UUID;
 @Builder
 @ToString
 public class RequestParameterDTO {
-
     private UUID id;
     private TypeParameter typeParameter;
     private TypeValue typeValue;

@@ -1,7 +1,7 @@
 package br.com.insidesoftwares.dayoffmarker.validator.fixedholiday;
 
 import br.com.insidesoftwares.commons.utils.DateUtils;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.FixedHolidayRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.holiday.FixedHolidayRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.day.DayMonthInvalidException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.fixedholiday.FixedHolidayDayMonthCountryExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.fixedholiday.FixedHolidayNotExistException;
@@ -11,10 +11,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Component
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-class FixedHolidayValidatorBean implements Validator<Long, FixedHolidayRequestDTO> {
+class FixedHolidayValidatorBean implements Validator<UUID, FixedHolidayRequestDTO> {
 
     private final FixedHolidayRepository fixedHolidayRepository;
 
@@ -36,7 +38,7 @@ class FixedHolidayValidatorBean implements Validator<Long, FixedHolidayRequestDT
     }
 
     @Override
-    public void validator(final Long fixedHolidayId, final FixedHolidayRequestDTO fixedHolidayRequestDTO) {
+    public void validator(final UUID fixedHolidayId, final FixedHolidayRequestDTO fixedHolidayRequestDTO) {
         if (!fixedHolidayRepository.existsById(fixedHolidayId)) throw new FixedHolidayNotExistException();
         if (
                 !DateUtils.isDateValid(
@@ -54,7 +56,7 @@ class FixedHolidayValidatorBean implements Validator<Long, FixedHolidayRequestDT
     }
 
     @Override
-    public void validator(final Long fixedHolidayId) {
+    public void validator(final UUID fixedHolidayId) {
         if (!fixedHolidayRepository.existsById(fixedHolidayId)) throw new FixedHolidayNotExistException();
     }
 

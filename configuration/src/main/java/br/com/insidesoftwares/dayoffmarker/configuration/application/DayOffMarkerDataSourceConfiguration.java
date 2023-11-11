@@ -78,6 +78,7 @@ public class DayOffMarkerDataSourceConfiguration {
         liquibase.setShouldRun(properties.isEnabled());
         liquibase.setChangeLogParameters(properties.getParameters());
         liquibase.setRollbackFile(properties.getRollbackFile());
+        liquibase.setTestRollbackOnUpdate(false);
         return liquibase;
     }
 }

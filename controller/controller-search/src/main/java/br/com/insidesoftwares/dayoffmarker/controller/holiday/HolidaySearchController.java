@@ -4,8 +4,8 @@ import br.com.insidesoftwares.commons.annotation.InsideSoftwaresController;
 import br.com.insidesoftwares.commons.annotation.request.InsideRequestGet;
 import br.com.insidesoftwares.commons.dto.request.InsidePaginationFilterDTO;
 import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.response.holiday.HolidayResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.specification.search.HolidaySearchService;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.holiday.HolidayResponseDTO;
+import br.com.insidesoftwares.dayoffmarker.specification.search.holiday.HolidaySearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @InsideSoftwaresController
 @RequiredArgsConstructor
@@ -34,7 +35,7 @@ public class HolidaySearchController {
 
     @PreAuthorize("hasAnyRole('DayOff.Read','DayOff.Holiday.Read')")
     @InsideRequestGet(uri = "/v1/holiday/{id}", httpCode = HttpStatus.OK, nameCache = "DAYOFF_MARKER_HOLIDAY")
-    public InsideSoftwaresResponseDTO<HolidayResponseDTO> findById(@PathVariable Long id) {
+    public InsideSoftwaresResponseDTO<HolidayResponseDTO> findById(@PathVariable UUID id) {
         return holidayService.findById(id);
     }
 

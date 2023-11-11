@@ -1,6 +1,6 @@
 package br.com.insidesoftwares.dayoffmarker.validator.city;
 
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.city.CityRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.city.CityRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.city.CityCodeAcronymStateExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.city.CityCodeStateExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.city.CityNameStateExistException;
@@ -13,10 +13,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Component
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-class CityValidatorBean implements Validator<Long, CityRequestDTO> {
+class CityValidatorBean implements Validator<UUID, CityRequestDTO> {
 
     private final CityRepository cityRepository;
     private final StateRepository stateRepository;
@@ -46,7 +48,7 @@ class CityValidatorBean implements Validator<Long, CityRequestDTO> {
     }
 
     @Override
-    public void validator(final Long cityID, final CityRequestDTO cityRequestDTO) {
+    public void validator(final UUID cityID, final CityRequestDTO cityRequestDTO) {
         if (!cityRepository.existsById(cityID)) throw new CityNotExistException();
         if (!stateRepository.existsById(cityRequestDTO.stateID())) throw new StateNotExistException();
         if (
@@ -74,7 +76,7 @@ class CityValidatorBean implements Validator<Long, CityRequestDTO> {
     }
 
     @Override
-    public void validator(final Long cityID) {
+    public void validator(final UUID cityID) {
         if (!cityRepository.existsById(cityID)) throw new CityNotExistException();
     }
 

@@ -1,6 +1,6 @@
 package br.com.insidesoftwares.dayoffmarker.domain.entity.state;
 
-import br.com.insidesoftwares.dayoffmarker.domain.entity.Country;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.country.Country;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,6 +26,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 @Builder
 @Getter
@@ -59,12 +60,10 @@ import java.util.Set;
 })
 public class State {
 
-    @OneToMany(mappedBy = "state", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    Set<StateHoliday> stateHolidays;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "STATE_ID")
-    private Long id;
+    private UUID id;
     @Column(name = "NAME")
     private String name;
     @Column(name = "ACRONYM")
@@ -74,6 +73,8 @@ public class State {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "COUNTRY_ID")
     private Country country;
+    @OneToMany(mappedBy = "state", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<StateHoliday> stateHolidays;
 
     public void addHoliday(final StateHoliday stateHoliday) {
         if (Objects.isNull(stateHolidays)) {
@@ -84,7 +85,7 @@ public class State {
         }
     }
 
-    public void deleteHoliday(final Long holidayId) {
+    public void deleteHoliday(final UUID holidayId) {
         if (Objects.nonNull(stateHolidays)) {
             stateHolidays.removeIf(holiday -> holiday.getId().getHolidayId().equals(holidayId));
         }
@@ -100,7 +101,7 @@ public class State {
         }
     }
 
-    public Optional<StateHoliday> containsHoliday(final Long holidayId) {
+    public Optional<StateHoliday> containsHoliday(final UUID holidayId) {
         return this.stateHolidays.stream()
                 .filter(holiday -> holiday.getId().getHolidayId().equals(holidayId))
                 .findFirst();

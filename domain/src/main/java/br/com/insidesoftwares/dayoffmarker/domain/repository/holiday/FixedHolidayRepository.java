@@ -6,9 +6,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
-public interface FixedHolidayRepository extends JpaRepository<FixedHoliday, Long> {
+public interface FixedHolidayRepository extends JpaRepository<FixedHoliday, UUID> {
 
     @Query("""
             SELECT count(f)>0
@@ -25,7 +26,7 @@ public interface FixedHolidayRepository extends JpaRepository<FixedHoliday, Long
             f.month = :month AND
             f.id != :fixedHolidayId
             """)
-    boolean existsByDayAndMonthAndNotId(Integer day, Integer month, Long fixedHolidayId);
+    boolean existsByDayAndMonthAndNotId(Integer day, Integer month, UUID fixedHolidayId);
 
     List<FixedHoliday> findAllByIsEnable(boolean isEnable);
 }

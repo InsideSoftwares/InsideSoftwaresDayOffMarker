@@ -1,6 +1,6 @@
 package br.com.insidesoftwares.dayoffmarker.job.batch.configuration;
 
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayCreateRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.holiday.HolidayCreateRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.request.Request;
 import br.com.insidesoftwares.dayoffmarker.job.batch.listener.DayOffMarkerJobListener;
 import br.com.insidesoftwares.dayoffmarker.job.batch.process.ProcessHoliday;

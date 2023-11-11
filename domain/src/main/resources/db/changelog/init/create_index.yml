@@ -9,7 +9,7 @@ databaseChangeLog:
             clustered: true
             indexName: IDX_DD_DATE
             tableName: DOM_DAY
-            dbms: 'mysql, postgresql'
+            dbms: 'postgresql'
             columns:
               - column:
                   name: DATE
@@ -17,7 +17,7 @@ databaseChangeLog:
             clustered: true
             indexName: IDX_DD_DATE_WEEKEND_HOLIDAY
             tableName: DOM_DAY
-            dbms: 'mysql, postgresql'
+            dbms: 'postgresql'
             columns:
               - column:
                   name: DATE
@@ -29,7 +29,7 @@ databaseChangeLog:
             clustered: true
             indexName: IDX_DDB_PROCESSED
             tableName: DOM_DAY_BATCH
-            dbms: 'mysql, postgresql'
+            dbms: 'postgresql'
             columns:
               - column:
                   name: PROCESSED
@@ -37,7 +37,7 @@ databaseChangeLog:
             clustered: true
             indexName: IDX_DDB_DATE
             tableName: DOM_DAY_BATCH
-            dbms: 'mysql, postgresql'
+            dbms: 'postgresql'
             columns:
               - column:
                   name: DATE
@@ -45,7 +45,7 @@ databaseChangeLog:
             clustered: true
             indexName: IDX_DT_CODE
             tableName: DOM_TAG
-            dbms: 'mysql, postgresql'
+            dbms: 'postgresql'
             columns:
               - column:
                   name: CODE

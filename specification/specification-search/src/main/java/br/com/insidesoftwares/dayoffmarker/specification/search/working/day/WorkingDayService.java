@@ -1,8 +1,8 @@
 package br.com.insidesoftwares.dayoffmarker.specification.search.working.day;
 
 import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.response.day.DayDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.response.working.WorkingCurrentDayResponseDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.day.DayDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.working.WorkingCurrentDayResponseDTO;
 
 import java.time.LocalDate;
 

@@ -1,6 +1,6 @@
 package br.com.insidesoftwares.dayoffmarker.job.batch.process;
 
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.tag.TagLinkUnlinkRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.tag.TagLinkUnlinkRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.day.Day;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.request.Request;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.request.RequestParameter;
@@ -8,7 +8,7 @@ import br.com.insidesoftwares.dayoffmarker.domain.entity.tag.DayTag;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.tag.DayTagPK;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.tag.Tag;
 import br.com.insidesoftwares.dayoffmarker.domain.repository.day.DayRepository;
-import br.com.insidesoftwares.dayoffmarker.domain.specification.DaySpecification;
+import br.com.insidesoftwares.dayoffmarker.domain.specification.day.DaySpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.data.jpa.domain.Specification;
@@ -18,6 +18,7 @@ import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import static br.com.insidesoftwares.dayoffmarker.job.utils.request.RequestParametersUtils.getDay;
 import static br.com.insidesoftwares.dayoffmarker.job.utils.request.RequestParametersUtils.getDayOfWeek;
@@ -61,7 +62,7 @@ public class ProcessorLinkUnlinkTag implements ItemProcessor<Request, List<DayTa
     }
 
     private TagLinkUnlinkRequestDTO createTagLinkRequestDTO(final Set<RequestParameter> requestParameters) {
-        Set<Long> tagsID = getTagsID(requestParameters);
+        Set<UUID> tagsID = getTagsID(requestParameters);
         Integer day = getDay(requestParameters);
         Integer month = getMonth(requestParameters);
         Integer year = getYear(requestParameters);
@@ -79,11 +80,11 @@ public class ProcessorLinkUnlinkTag implements ItemProcessor<Request, List<DayTa
 
     }
 
-    private boolean containsTag(Set<Tag> tags, Long tagID) {
+    private boolean containsTag(Set<Tag> tags, UUID tagID) {
         return tags.stream().anyMatch(tag -> tag.getId().equals(tagID));
     }
 
-    private DayTag createDayTag(final Long dayID, final Long tagID) {
+    private DayTag createDayTag(final UUID dayID, final UUID tagID) {
         DayTagPK dayTagPK = DayTagPK.builder()
                 .dayID(dayID)
                 .tagID(tagID)

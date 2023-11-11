@@ -13,14 +13,15 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface DayRepository extends JpaRepository<Day, Long>, JpaSpecificationExecutor<Day> {
+public interface DayRepository extends JpaRepository<Day, UUID>, JpaSpecificationExecutor<Day> {
 
     Optional<Day> findByDate(final LocalDate date);
 
     @EntityGraph(value = "day-full")
-    Optional<Day> findDayById(final Long id);
+    Optional<Day> findDayById(final UUID id);
 
     @EntityGraph(value = "day-full")
     @Override
@@ -37,7 +38,7 @@ public interface DayRepository extends JpaRepository<Day, Long>, JpaSpecificatio
     Optional<LocalDate> findMinDateByDate(final LocalDate date);
 
     @Query("SELECT d.date FROM Day d WHERE d.id = :dayID")
-    LocalDate findDateByID(final Long dayID);
+    LocalDate findDateByID(final UUID dayID);
 
     @Query("SELECT count(d) > 0 FROM Day d WHERE d.date > :date ")
     boolean ownsDays(final LocalDate date);
@@ -49,7 +50,7 @@ public interface DayRepository extends JpaRepository<Day, Long>, JpaSpecificatio
             WHERE d.id = :dayID AND
             t.id = :tagID
             """)
-    boolean existsByDateAndTag(final Long dayID, final Long tagID);
+    boolean existsByDateAndTag(final UUID dayID, final UUID tagID);
 
     @Query("""
             SELECT d FROM Day d
@@ -75,7 +76,7 @@ public interface DayRepository extends JpaRepository<Day, Long>, JpaSpecificatio
             WHERE t.id = :tagID
             """)
     @EntityGraph(value = "day-full")
-    List<Day> findDaysByTagId(final Long tagID);
+    List<Day> findDaysByTagId(final UUID tagID);
 
     @Query("""
             SELECT d
@@ -123,7 +124,7 @@ public interface DayRepository extends JpaRepository<Day, Long>, JpaSpecificatio
             final Integer day,
             final Integer month,
             final Integer year,
-            final Long fixedHolidayID
+            final UUID fixedHolidayID
     );
 
     @Override

@@ -26,6 +26,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 @Builder
 @Getter
@@ -92,12 +93,11 @@ import java.util.Set;
 })
 public class City {
 
-    @OneToMany(mappedBy = "city", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    Set<CityHoliday> cityHolidays;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "CITY_ID")
-    private Long id;
+    private UUID id;
     @Column(name = "NAME")
     private String name;
     @Column(name = "ACRONYM")
@@ -107,6 +107,8 @@ public class City {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "STATE_ID")
     private State state;
+    @OneToMany(mappedBy = "city", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CityHoliday> cityHolidays;
 
     public void addHoliday(final CityHoliday cityHoliday) {
         if (Objects.isNull(cityHolidays)) {
@@ -117,13 +119,13 @@ public class City {
         }
     }
 
-    public void deleteHoliday(final Long holidayId) {
+    public void deleteHoliday(final UUID holidayId) {
         if (Objects.nonNull(cityHolidays)) {
             cityHolidays.removeIf(holiday -> holiday.getId().getHolidayId().equals(holidayId));
         }
     }
 
-    public Optional<CityHoliday> containsHoliday(final Long holidayId) {
+    public Optional<CityHoliday> containsHoliday(final UUID holidayId) {
         return this.cityHolidays.stream()
                 .filter(holiday -> holiday.getId().getHolidayId().equals(holidayId))
                 .findFirst();

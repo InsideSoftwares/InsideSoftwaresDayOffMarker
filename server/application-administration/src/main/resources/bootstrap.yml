@@ -10,7 +10,6 @@ spring:
     allow-circular-references: true
     allow-bean-definition-overriding: true
   liquibase:
-    enabled: true
     database-change-log-lock-table: DOM_DATABASECHANGELOGLOCK
     database-change-log-table: DOM_DATABASECHANGELOG
   mvc:
@@ -28,6 +27,11 @@ spring:
         url: ${CLOUD_ADMIN_URL:http://localhost:8889/admin}
       instance:
         prefer-ip: true
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: false
 
 eureka:
   client:

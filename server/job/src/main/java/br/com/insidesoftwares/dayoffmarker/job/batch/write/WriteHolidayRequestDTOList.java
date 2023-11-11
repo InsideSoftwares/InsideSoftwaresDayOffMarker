@@ -1,6 +1,6 @@
 package br.com.insidesoftwares.dayoffmarker.job.batch.write;
 
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.HolidayCreateRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.holiday.HolidayCreateRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.specification.batch.BatchHolidayService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.Chunk;

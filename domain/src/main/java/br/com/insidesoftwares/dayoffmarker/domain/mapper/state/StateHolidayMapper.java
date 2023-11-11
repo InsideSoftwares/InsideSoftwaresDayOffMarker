@@ -1,6 +1,6 @@
 package br.com.insidesoftwares.dayoffmarker.domain.mapper.state;
 
-import br.com.insidesoftwares.dayoffmarker.commons.dto.response.state.StateHolidayResponseDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.state.StateHolidayResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.state.StateHoliday;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

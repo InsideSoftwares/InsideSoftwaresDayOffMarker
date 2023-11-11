@@ -2,9 +2,11 @@ package br.com.insidesoftwares.dayoffmarker.commons.dto.batch;
 
 import lombok.Builder;
 
+import java.util.UUID;
+
 @Builder
 public record LinkTagDTO(
-        Long tagID,
-        Long dayID
+        UUID tagID,
+        UUID dayID
 ) {
 }

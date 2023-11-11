@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Builder
 @Getter
 @Setter
@@ -16,7 +18,7 @@ import lombok.Setter;
 @Embeddable
 public class StateHolidayPK {
     @Column(name = "STATE_ID")
-    private Long stateId;
+    private UUID stateId;
     @Column(name = "HOLIDAY_ID")
-    private Long holidayId;
+    private UUID holidayId;
 }

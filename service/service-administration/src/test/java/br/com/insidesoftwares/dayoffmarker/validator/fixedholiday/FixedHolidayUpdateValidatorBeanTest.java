@@ -1,7 +1,7 @@
 package br.com.insidesoftwares.dayoffmarker.validator.fixedholiday;
 
 
-import br.com.insidesoftwares.dayoffmarker.commons.dto.request.holiday.FixedHolidayUpdateRequestDTO;
+import br.com.insidesoftwares.dayoffmarker.commons.dto.holiday.FixedHolidayUpdateRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.MethodNotImplementedException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.fixedholiday.FixedHolidayNotExistException;
 import br.com.insidesoftwares.dayoffmarker.domain.repository.holiday.FixedHolidayRepository;
@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalTime;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -22,9 +23,10 @@ class FixedHolidayUpdateValidatorBeanTest {
 
     @Mock
     private FixedHolidayRepository fixedHolidayRepository;
-
     @InjectMocks
     private FixedHolidayUpdateValidatorBean fixedHolidayUpdateValidatorBean;
+
+    private static final UUID FIXED_HOLIDAY_ID = UUID.randomUUID();
 
     @Test
     void shouldThrowMethodNotImplementedExceptionByRunningMethodValidatorWithParameterFixedHolidayUpdateRequestDTO() {
@@ -38,7 +40,7 @@ class FixedHolidayUpdateValidatorBeanTest {
     void shouldntThrowByRunningMethodValidatorWithParameterLongAndFixedHolidayUpdateRequestDTO() {
         Mockito.when(fixedHolidayRepository.existsById(ArgumentMatchers.any())).thenReturn(true);
 
-        fixedHolidayUpdateValidatorBean.validator(1L, createFixedHolidayUpdateRequestDTO());
+        fixedHolidayUpdateValidatorBean.validator(FIXED_HOLIDAY_ID, createFixedHolidayUpdateRequestDTO());
     }
 
     @Test
@@ -47,7 +49,7 @@ class FixedHolidayUpdateValidatorBeanTest {
 
         assertThrows(
                 FixedHolidayNotExistException.class,
-                () -> fixedHolidayUpdateValidatorBean.validator(1L, createFixedHolidayUpdateRequestDTO())
+                () -> fixedHolidayUpdateValidatorBean.validator(FIXED_HOLIDAY_ID, createFixedHolidayUpdateRequestDTO())
         );
 
     }
@@ -56,7 +58,7 @@ class FixedHolidayUpdateValidatorBeanTest {
     void shouldntThrowByRunningMethodValidatorWithParameterLong() {
         Mockito.when(fixedHolidayRepository.existsById(ArgumentMatchers.any())).thenReturn(true);
 
-        fixedHolidayUpdateValidatorBean.validator(1L);
+        fixedHolidayUpdateValidatorBean.validator(FIXED_HOLIDAY_ID);
     }
 
     @Test
@@ -65,7 +67,7 @@ class FixedHolidayUpdateValidatorBeanTest {
 
         assertThrows(
                 FixedHolidayNotExistException.class,
-                () -> fixedHolidayUpdateValidatorBean.validator(1L)
+                () -> fixedHolidayUpdateValidatorBean.validator(FIXED_HOLIDAY_ID)
         );
     }
 

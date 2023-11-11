@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static br.com.insidesoftwares.dayoffmarker.domain.specification.DaySpecification.findAllByDateSearchAndHolidayAndWeekendAndSearchFutureDates;
+import static br.com.insidesoftwares.dayoffmarker.domain.specification.day.DaySpecification.findAllByDateSearchAndHolidayAndWeekendAndSearchFutureDates;
 
 abstract class WorkingDayBean {
 

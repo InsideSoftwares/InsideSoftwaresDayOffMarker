@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Builder
 @Getter
 @Setter
@@ -17,8 +19,8 @@ import lombok.Setter;
 public class DayTagPK {
 
     @Column(name = "DAY_ID")
-    private Long dayID;
+    private UUID dayID;
     @Column(name = "TAG_ID")
-    private Long tagID;
+    private UUID tagID;
 
 }

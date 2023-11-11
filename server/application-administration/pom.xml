@@ -45,6 +45,10 @@
             <artifactId>service-administration</artifactId>
         </dependency>
         <dependency>
+            <groupId>br.com.insidesoftwares.dayoffmarker.service</groupId>
+            <artifactId>service-job</artifactId>
+        </dependency>
+        <dependency>
             <groupId>br.com.insidesoftwares.dayoffmarker</groupId>
             <artifactId>commons</artifactId>
         </dependency>

@@ -1,5 +1,15 @@
 databaseChangeLog:
   - changeSet:
+      id: postgres-extension-uuid
+      author: System
+      changes:
+        - sql:
+            dbms: 'postgresql'
+            endDelimiter: \nGO
+            splitStatements: true
+            sql: CREATE EXTENSION IF NOT EXISTS "uuid-ossp"
+            stripComments: false
+  - changeSet:
       id: create_DOM_COUNTRY
       author: System
       changes:
@@ -7,12 +17,12 @@ databaseChangeLog:
             tag: INIT
         - createTable:
             tableName: DOM_COUNTRY
-            dbms: 'mysql, postgresql'
+            dbms: 'postgresql'
             columns:
               - column:
                   name: COUNTRY_ID
-                  autoIncrement: true
-                  type: BIGINT
+                  autoIncrement: false
+                  type: UUID
                   constraints:
                     primaryKey: true
                     primaryKeyName: PK_DOM_COUNTRY
@@ -58,12 +68,12 @@ databaseChangeLog:
             tag: INIT
         - createTable:
             tableName: DOM_DAY
-            dbms: 'mysql, postgresql'
+            dbms: 'postgresql'
             columns:
               - column:
                   name: DAY_ID
-                  autoIncrement: true
-                  type: BIGINT
+                  autoIncrement: false
+                  type: UUID
                   constraints:
                     primaryKey: true
                     primaryKeyName: PK_DOM_DAY
@@ -99,12 +109,12 @@ databaseChangeLog:
             tag: INIT
         - createTable:
             tableName: DOM_STATE
-            dbms: 'mysql, postgresql'
+            dbms: 'postgresql'
             columns:
               - column:
                   name: STATE_ID
-                  autoIncrement: true
-                  type: BIGINT
+                  autoIncrement: false
+                  type: UUID
                   constraints:
                     primaryKey: true
                     primaryKeyName: PK_DOM_STATE
@@ -124,7 +134,7 @@ databaseChangeLog:
               - column:
                   name: COUNTRY_ID
                   autoIncrement: false
-                  type: BIGINT
+                  type: UUID
                   constraints:
                     nullable: false
                     foreignKeyName: FK_COUNTRY_ID_DOM_STATE
@@ -149,12 +159,12 @@ databaseChangeLog:
             tag: INIT
         - createTable:
             tableName: DOM_CITY
-            dbms: 'mysql, postgresql'
+            dbms: 'postgresql'
             columns:
               - column:
                   name: CITY_ID
-                  autoIncrement: true
-                  type: BIGINT
+                  autoIncrement: false
+                  type: UUID
                   constraints:
                     primaryKey: true
                     primaryKeyName: PK_DOM_CITY
@@ -180,7 +190,7 @@ databaseChangeLog:
               - column:
                   name: STATE_ID
                   autoIncrement: false
-                  type: BIGINT
+                  type: UUID
                   constraints:
                     nullable: false
                     foreignKeyName: FK_STATE_ID_DOM_CITY
@@ -210,12 +220,12 @@ databaseChangeLog:
             tag: INIT
         - createTable:
             tableName: DOM_HOLIDAY
-            dbms: 'mysql, postgresql'
+            dbms: 'postgresql'
             columns:
               - column:
                   name: HOLIDAY_ID
-                  autoIncrement: true
-                  type: BIGINT
+                  autoIncrement: false
+                  type: UUID
                   constraints:
                     primaryKey: true
                     primaryKeyName: PK_DOM_HOLIDAY
@@ -261,7 +271,7 @@ databaseChangeLog:
               - column:
                   name: DAY_ID
                   autoIncrement: false
-                  type: BIGINT
+                  type: UUID
                   constraints:
                     nullable: false
                     foreignKeyName: FK_DAY_ID_DOM_HOLIDAY
@@ -281,12 +291,12 @@ databaseChangeLog:
             tag: INIT
         - createTable:
             tableName: DOM_CITY_HOLIDAY
-            dbms: 'mysql, postgresql'
+            dbms: 'postgresql'
             columns:
               - column:
                   name: CITY_ID
                   autoIncrement: false
-                  type: BIGINT
+                  type: UUID
                   constraints:
                     nullable: false
                     foreignKeyName: FK_CITY_ID_DOM_CITY_HOLIDAY
@@ -296,7 +306,7 @@ databaseChangeLog:
               - column:
                   name: HOLIDAY_ID
                   autoIncrement: false
-                  type: BIGINT
+                  type: UUID
                   constraints:
                     nullable: false
                     foreignKeyName: FK_HOLIDAY_ID_DOM_CITY_HOLIDAY
@@ -323,12 +333,12 @@ databaseChangeLog:
             tag: INIT
         - createTable:
             tableName: DOM_STATE_HOLIDAY
-            dbms: 'mysql, postgresql'
+            dbms: 'postgresql'
             columns:
               - column:
                   name: STATE_ID
                   autoIncrement: false
-                  type: BIGINT
+                  type: UUID
                   constraints:
                     nullable: false
                     foreignKeyName: FK_STATE_ID_DOM_STATE_HOLIDAY
@@ -338,7 +348,7 @@ databaseChangeLog:
               - column:
                   name: HOLIDAY_ID
                   autoIncrement: false
-                  type: BIGINT
+                  type: UUID
                   constraints:
                     nullable: false
                     foreignKeyName: FK_HOLIDAY_ID_DOM_STATE_HOLIDAY
@@ -365,12 +375,13 @@ databaseChangeLog:
             tag: INIT
         - createTable:
             tableName: DOM_FIXED_HOLIDAY
-            dbms: 'mysql, postgresql'
+            dbms: 'postgresql'
             columns:
               - column:
                   name: FIXED_HOLIDAY_ID
-                  autoIncrement: true
-                  type: BIGINT
+                  autoIncrement: false
+                  type: UUID
+                  defaultValueComputed: ${uuid_function}
                   constraints:
                     primaryKey: true
                     primaryKeyName: PK_DOM_FIXED_HOLIDAY
@@ -425,12 +436,13 @@ databaseChangeLog:
             tag: INIT
         - createTable:
             tableName: DOM_CONFIGURATION
-            dbms: 'mysql, postgresql'
+            dbms: 'postgresql'
             columns:
               - column:
                   name: CONFIGURATION_ID
-                  autoIncrement: true
-                  type: BIGINT
+                  autoIncrement: false
+                  type: UUID
+                  defaultValueComputed: ${uuid_function}
                   constraints:
                     primaryKey: true
                     primaryKeyName: PK_DOM_CONFIGURATION
@@ -472,7 +484,7 @@ databaseChangeLog:
             tag: INIT
         - createTable:
             tableName: DOM_REQUEST
-            dbms: 'mysql, postgresql'
+            dbms: 'postgresql'
             columns:
               - column:
                   name: REQUEST_ID
@@ -532,7 +544,7 @@ databaseChangeLog:
             tag: INIT
         - createTable:
             tableName: DOM_REQUEST_PARAMETER
-            dbms: 'mysql, postgresql'
+            dbms: 'postgresql'
             columns:
               - column:
                   name: REQUEST_PARAMETER_ID
@@ -571,59 +583,6 @@ databaseChangeLog:
                     referencedColumnNames: REQUEST_ID
                     referencedTableName: DOM_REQUEST
   - changeSet:
-      id: create_DOM_DAY_BATCH
-      author: System
-      changes:
-        - tagDatabase:
-            tag: INIT
-        - createTable:
-            tableName: DOM_DAY_BATCH
-            dbms: 'mysql, postgresql'
-            columns:
-              - column:
-                  name: DAY_BATCH_ID
-                  autoIncrement: true
-                  type: BIGINT
-                  constraints:
-                    primaryKey: true
-                    primaryKeyName: PK_DOM_DAY_BATCH
-                    nullable: false
-              - column:
-                  name: DATE
-                  autoIncrement: false
-                  type: DATE
-                  constraints:
-                    nullable: false
-              - column:
-                  name: WEEKEND
-                  autoIncrement: false
-                  type: ${typeBoolean}
-                  constraints:
-                    nullable: false
-              - column:
-                  name: HOLIDAY
-                  autoIncrement: false
-                  type: ${typeBoolean}
-                  constraints:
-                    nullable: false
-              - column:
-                  name: PROCESSED
-                  autoIncrement: false
-                  type: ${typeBoolean}
-                  constraints:
-                    nullable: false
-              - column:
-                  name: REQUEST_ID
-                  autoIncrement: false
-                  type: ${UUIDType}
-                  constraints:
-                    nullable: false
-        - addUniqueConstraint:
-            columnNames: DATE
-            constraintName: UK_DATE_DOM_DAY_BATCH
-            tableName: DOM_DAY_BATCH
-            validate: true
-  - changeSet:
       id: create_DOM_TAG
       author: System
       changes:
@@ -631,12 +590,12 @@ databaseChangeLog:
             tag: INIT
         - createTable:
             tableName: DOM_TAG
-            dbms: 'mysql, postgresql'
+            dbms: 'postgresql'
             columns:
               - column:
                   name: TAG_ID
-                  autoIncrement: true
-                  type: BIGINT
+                  autoIncrement: false
+                  type: UUID
                   constraints:
                     primaryKey: true
                     primaryKeyName: PK_DOM_TAG
@@ -666,12 +625,12 @@ databaseChangeLog:
             tag: INIT
         - createTable:
             tableName: DOM_DAY_TAG
-            dbms: 'mysql, postgresql'
+            dbms: 'postgresql'
             columns:
               - column:
                   name: DAY_ID
                   autoIncrement: false
-                  type: BIGINT
+                  type: UUID
                   constraints:
                     nullable: false
                     foreignKeyName: FK_DAY_ID_DOM_DAY_TAG
@@ -681,7 +640,7 @@ databaseChangeLog:
               - column:
                   name: TAG_ID
                   autoIncrement: false
-                  type: BIGINT
+                  type: UUID
                   constraints:
                     nullable: false
                     foreignKeyName: FK_TAG_ID_DOM_DAY_TAG

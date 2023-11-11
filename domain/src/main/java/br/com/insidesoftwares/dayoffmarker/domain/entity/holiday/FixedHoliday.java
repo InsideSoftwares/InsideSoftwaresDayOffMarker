@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalTime;
+import java.util.UUID;
 
 @Builder
 @Getter
@@ -24,28 +25,21 @@ import java.time.LocalTime;
 public class FixedHoliday {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "FIXED_HOLIDAY_ID")
-    private Long id;
-
+    private UUID id;
     @Column(name = "NAME")
     private String name;
-
     @Column(name = "DESCRIPTION")
     private String description;
-
     @Column(name = "DAY_HOLIDAY")
     private int day;
-
     @Column(name = "MONTH_HOLIDAY")
     private int month;
-
     @Column(name = "OPTIONAL")
     private boolean isOptional;
-
     @Column(name = "FROM_TIME")
     private LocalTime fromTime;
-
     @Column(name = "ENABLE")
     private boolean isEnable;
 

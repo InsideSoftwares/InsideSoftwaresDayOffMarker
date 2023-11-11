@@ -1,34 +1,58 @@
 package br.com.insidesoftwares.dayoffmarker.repository.city;
 
+import br.com.insidesoftwares.dayoffmarker.RepositoryTestApplication;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.sort.eOrderCity;
-import br.com.insidesoftwares.dayoffmarker.domain.entity.Country;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.city.City;
-import br.com.insidesoftwares.dayoffmarker.domain.repository.CountryRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.country.Country;
 import br.com.insidesoftwares.dayoffmarker.domain.repository.city.CityRepository;
+import br.com.insidesoftwares.dayoffmarker.domain.repository.country.CountryRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.jdbc.Sql;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static br.com.insidesoftwares.dayoffmarker.RepositoryTestUtils.createPageable;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Sql(scripts = "classpath:postgresql/insert_country_state_city.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "classpath:postgresql/delete_country_state_city.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@SpringBootTest(classes = RepositoryTestApplication.class)
+@Testcontainers
 abstract class CityRepositoryIntegrationTest {
 
-    private static final Long COUNTRY_ID = 1L;
-    private static final Long STATE_MINAS_GERAIS_ID = 1L;
-    private static final Long STATE_SAO_PAULO_ID = 2L;
-    private static final Long CITY_BARBACENA_ID = 1L;
+    @Container
+    static PostgreSQLContainer container = new PostgreSQLContainer("postgres:latest");
+
+    @DynamicPropertySource
+    private static void setupProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", container::getJdbcUrl);
+        registry.add("spring.datasource.username", container::getUsername);
+        registry.add("spring.datasource.password", container::getPassword);
+        registry.add("spring.datasource.driver-class-name", container::getDriverClassName);
+    }
+
+    private static final UUID COUNTRY_ID = UUID.fromString("d0c22fb5-132c-4350-b25d-daacab6fe517");
+    private static final UUID STATE_MINAS_GERAIS_ID = UUID.fromString("d0c22fb5-132c-4350-b25d-daacab6fe517");
+    private static final UUID STATE_SAO_PAULO_ID = UUID.fromString("d0c22fb5-132c-4350-b25d-daacab6fe517");
+    private static final UUID CITY_BARBACENA_ID = UUID.fromString("d0c22fb5-132c-4350-b25d-daacab6fe517");
     private static final String CITY_NAME_BARBACENA = "Barbacena";
     private static final String CITY_CODE_BARB01 = "BARB01";
     private static final String CITY_ACRONYM_BARB = "BARB";
     private static final String CITY_ACRONYM_PELIS = "PELIS";
-    private static final Long CITY_ID_INVALID = 9999L;
+    private static final UUID CITY_ID_INVALID = UUID.fromString("d0c22fb5-132c-4350-b25d-daacab6fe517");
     @Autowired
     private CityRepository cityRepository;
     @Autowired
@@ -190,7 +214,7 @@ abstract class CityRepositoryIntegrationTest {
 
     @Test
     void shouldReturnFalseWhenInformingBarbacenaCityandNonexistentState() {
-        boolean exists = cityRepository.existsByNameAndStateID(CITY_NAME_BARBACENA, 12311L);
+        boolean exists = cityRepository.existsByNameAndStateID(CITY_NAME_BARBACENA, UUID.randomUUID());
 
         assertFalse(exists);
     }
@@ -211,7 +235,7 @@ abstract class CityRepositoryIntegrationTest {
 
     @Test
     void shouldReturnTrueWhenInformingCodeBarbacenaAndStateNonexistent() {
-        boolean exists = cityRepository.existsByCodeAndStateID(CITY_CODE_BARB01, 12311L);
+        boolean exists = cityRepository.existsByCodeAndStateID(CITY_CODE_BARB01, UUID.randomUUID());
 
         assertFalse(exists);
     }
@@ -239,7 +263,7 @@ abstract class CityRepositoryIntegrationTest {
 
     @Test
     void shouldReturnTrueWhenInformingCodeBarbacenaAndAcronynmBarbAndStateNonexistent() {
-        boolean exists = cityRepository.existsByCodeAndAcronymAndStateID(CITY_CODE_BARB01, CITY_ACRONYM_BARB, 12311L);
+        boolean exists = cityRepository.existsByCodeAndAcronymAndStateID(CITY_CODE_BARB01, CITY_ACRONYM_BARB, UUID.randomUUID());
 
         assertFalse(exists);
     }

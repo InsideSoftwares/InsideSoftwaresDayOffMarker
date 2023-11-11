@@ -6,7 +6,7 @@ databaseChangeLog:
         - tagDatabase:
             tag: INIT
         - insert:
-            dbms: 'mysql, postgresql'
+            dbms: 'postgresql'
             tableName: DOM_CONFIGURATION
             columns:
               - column:
@@ -22,7 +22,7 @@ databaseChangeLog:
                   name: DEFAULT_VALUE
                   value: '30'
         - insert:
-            dbms: 'mysql, postgresql'
+            dbms: 'postgresql'
             tableName: DOM_CONFIGURATION
             columns:
               - column:
@@ -38,7 +38,7 @@ databaseChangeLog:
                   name: DEFAULT_VALUE
                   value: '2'
         - insert:
-            dbms: 'mysql, postgresql'
+            dbms: 'postgresql'
             tableName: DOM_CONFIGURATION
             columns:
               - column:

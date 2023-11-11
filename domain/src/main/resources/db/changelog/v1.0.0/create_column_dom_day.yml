@@ -28,7 +28,7 @@ databaseChangeLog:
             clustered: true
             indexName: IDX_DD_DATE_OF_WEEK
             tableName: DOM_DAY
-            dbms: 'mysql, postgresql'
+            dbms: 'postgresql'
             columns:
               - column:
                   name: DAY_OF_WEEK
@@ -36,7 +36,7 @@ databaseChangeLog:
             clustered: true
             indexName: IDX_DD_DATE_WEEKEND
             tableName: DOM_DAY
-            dbms: 'mysql, postgresql'
+            dbms: 'postgresql'
             columns:
               - column:
                   name: DATE
@@ -46,7 +46,7 @@ databaseChangeLog:
             clustered: true
             indexName: IDX_DD_DATE_HOLIDAY
             tableName: DOM_DAY
-            dbms: 'mysql, postgresql'
+            dbms: 'postgresql'
             columns:
               - column:
                   name: DATE
