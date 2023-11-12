@@ -9,8 +9,6 @@ import java.util.UUID;
 @Validated
 public interface DayService {
     void linkTag(final UUID dayID, final @Valid LinkTagRequestDTO linkTagRequestDTO);
-
     void unlinkTag(final UUID dayID, final @Valid LinkTagRequestDTO linkTagRequestDTO);
-
     void defineDayIsHoliday(final UUID dayID);
 }

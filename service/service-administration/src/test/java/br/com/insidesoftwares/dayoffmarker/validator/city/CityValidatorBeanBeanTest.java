@@ -1,10 +1,6 @@
 package br.com.insidesoftwares.dayoffmarker.validator.city;
 
-import br.com.insidesoftwares.dayoffmarker.domain.repository.city.CityRepository;
-import br.com.insidesoftwares.dayoffmarker.domain.repository.state.StateRepository;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
@@ -15,12 +11,12 @@ public class CityValidatorBeanBeanTest {
     private static final String CITY_CODE = "code";
     private static final Long CITY_ID = 1L;
     private static final Long STATE_ID = 1L;
-    @Mock
-    private StateRepository stateRepository;
-    @Mock
-    private CityRepository cityRepository;
-    @InjectMocks
-    private CityValidatorBean cityValidatorBean;
+//    @Mock
+//    private StateRepository stateRepository;
+//    @Mock
+//    private CityRepository cityRepository;
+//    @InjectMocks
+//    private CityValidatorBean cityValidatorBean;
 
 //    @Test
 //    public void shouldntThrowExceptionByRunningMethodValidatorDTOParameter() {

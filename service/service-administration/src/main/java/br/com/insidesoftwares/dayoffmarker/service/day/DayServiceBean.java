@@ -59,9 +59,7 @@ class DayServiceBean implements DayService {
     public void unlinkTag(UUID dayID, LinkTagRequestDTO linkTagRequestDTO) {
         Day day = daySearchService.findDayByID(dayID);
 
-        linkTagRequestDTO.tagsID().forEach(tagID -> {
-            day.getTags().removeIf(tag -> tag.getId().equals(tagID));
-        });
+        linkTagRequestDTO.tagsID().forEach(day::removeTag);
 
         dayRepository.save(day);
     }

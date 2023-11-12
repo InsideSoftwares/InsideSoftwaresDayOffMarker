@@ -3,7 +3,6 @@ package br.com.insidesoftwares.dayoffmarker.service.holiday;
 import br.com.insidesoftwares.commons.annotation.InsideAudit;
 import br.com.insidesoftwares.commons.dto.response.InsideSoftwaresResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.holiday.HolidayBatchRequestDTO;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.holiday.HolidayCreateRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.holiday.HolidayRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.day.DayNotExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.holiday.HolidayDayExistException;
@@ -113,30 +112,5 @@ class HolidayServiceBean implements HolidayService {
         holidayRepository.save(holiday);
 
         dayService.defineDayIsHoliday(holidayRequestDTO.dayId());
-    }
-
-    @InsideAudit
-    @Transactional(rollbackFor = {
-            DayNotExistException.class,
-            HolidayDayExistException.class,
-            HolidayFromTimeNotInformedException.class
-    })
-    @Override
-    public void saveHoliday(final HolidayCreateRequestDTO holidayCreateRequestDTO) {
-        Day day = daySearchService.findDayByID(holidayCreateRequestDTO.dayId());
-
-        Holiday holiday = Holiday.builder()
-                .name(holidayCreateRequestDTO.name())
-                .description(holidayCreateRequestDTO.description())
-                .holidayType(holidayCreateRequestDTO.holidayType())
-                .fromTime(holidayCreateRequestDTO.fromTime())
-                .day(day)
-                .automaticUpdate(true)
-                .fixedHolidayID(holidayCreateRequestDTO.fixedHolidayID())
-                .nationalHoliday(holidayCreateRequestDTO.nationalHoliday())
-                .build();
-        holidayRepository.save(holiday);
-
-        dayService.defineDayIsHoliday(holidayCreateRequestDTO.dayId());
     }
 }

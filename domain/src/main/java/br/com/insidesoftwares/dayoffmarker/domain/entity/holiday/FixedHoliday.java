@@ -1,5 +1,6 @@
 package br.com.insidesoftwares.dayoffmarker.domain.entity.holiday;
 
+import com.querydsl.core.annotations.QueryEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,6 +22,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@QueryEntity
 @Table(name = "DOM_FIXED_HOLIDAY")
 public class FixedHoliday {
 
@@ -37,10 +39,10 @@ public class FixedHoliday {
     @Column(name = "MONTH_HOLIDAY")
     private int month;
     @Column(name = "OPTIONAL")
-    private boolean isOptional;
+    private boolean optional;
     @Column(name = "FROM_TIME")
     private LocalTime fromTime;
     @Column(name = "ENABLE")
-    private boolean isEnable;
+    private boolean enable;
 
 }

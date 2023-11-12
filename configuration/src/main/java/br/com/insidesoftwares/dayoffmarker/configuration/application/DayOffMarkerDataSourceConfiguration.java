@@ -64,7 +64,7 @@ public class DayOffMarkerDataSourceConfiguration {
         return new JpaTransactionManager(entityManagerFactory);
     }
 
-    @ConditionalOnProperty(prefix="spring.liquibase", name = "enable", havingValue = "true")
+    @ConditionalOnProperty(prefix="liquibase", name = "enable", havingValue = "true")
     @Bean("DayOffMarkerSpringLiquibase")
     @Primary
     @ConfigurationProperties(prefix = "spring.liquibase", ignoreUnknownFields = false)
@@ -79,6 +79,7 @@ public class DayOffMarkerDataSourceConfiguration {
         liquibase.setChangeLogParameters(properties.getParameters());
         liquibase.setRollbackFile(properties.getRollbackFile());
         liquibase.setTestRollbackOnUpdate(false);
+        liquibase.setShouldRun(properties.isEnabled());
         return liquibase;
     }
 }

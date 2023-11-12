@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.5</version>
+        <version>3.1.4</version>
         <relativePath/>
     </parent>
 
@@ -38,9 +38,9 @@
         <maven.compiler.target>21</maven.compiler.target>
         <java.version>21</java.version>
 
-        <spring-boot.version>3.1.5</spring-boot.version>
+        <spring-boot.version>3.1.4</spring-boot.version>
         <spring.framework.version>6.0.12</spring.framework.version>
-        <spring-data-redis.version>3.1.5</spring-data-redis.version>
+        <spring-data-redis.version>3.1.4</spring-data-redis.version>
 
         <checkstyle-maven-plugin.version>3.3.0</checkstyle-maven-plugin.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
@@ -48,7 +48,8 @@
         <gson.version>2.10.1</gson.version>
 
         <postgresql.version>42.6.0</postgresql.version>
-        <liquibase.version>4.24.0</liquibase.version>
+        <liquibase.version>4.23.2</liquibase.version>
+        <querydsl.version>5.0.0</querydsl.version>
 
         <mockito.version>5.5.0</mockito.version>
         <mockito-inline.version>5.2.0</mockito-inline.version>
@@ -168,6 +169,19 @@
             </dependency>
             <!-- Spring End -->
             <!-- Database Start -->
+            <dependency>
+                <groupId>com.querydsl</groupId>
+                <artifactId>querydsl-jpa</artifactId>
+                <version>${querydsl.version}</version>
+                <classifier>jakarta</classifier>
+            </dependency>
+            <dependency>
+                <groupId>com.querydsl</groupId>
+                <artifactId>querydsl-apt</artifactId>
+                <scope>provided</scope>
+                <version>${querydsl.version}</version>
+                <classifier>jakarta</classifier>
+            </dependency>
             <dependency>
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>

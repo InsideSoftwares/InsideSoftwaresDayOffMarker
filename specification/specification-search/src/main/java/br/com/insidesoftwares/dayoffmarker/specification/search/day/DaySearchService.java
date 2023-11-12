@@ -21,12 +21,6 @@ public interface DaySearchService {
     InsideSoftwaresResponseDTO<List<DayDTO>> getDaysByTag(final String tag);
     InsideSoftwaresResponseDTO<List<DayDTO>> getDaysOfCurrentMonth();
     InsideSoftwaresResponseDTO<List<DayDTO>> getDaysOfMonth(final Month month, final Integer year);
-    LocalDate getMaxDate();
-    LocalDate getMinDate();
-    boolean ownsDays();
     boolean isDayByDateAndIsWeekend(final LocalDate date, final boolean isWeekend);
-    boolean isDayByDate(final LocalDate date);
-    boolean isDaysWithoutHolidaysByByDayAndMonthAndFixedHolidayIDOrNotHoliday(final Integer day, final Integer month, final UUID fixedHolidayID);
     Day findDayByID(final UUID dayID);
-    Day findDayByDate(final LocalDate date);
 }

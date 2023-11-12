@@ -21,15 +21,15 @@ public record FixedHolidayRequestDTO(
         @NotNull(message = "DOMV-003")
         @Min(value = 1, message = "DOMV-002")
         @Max(value = 31, message = "DOMV-004")
-        Integer day,
+        int day,
         @NotNull(message = "DOMV-003")
         @Min(value = 1, message = "DOMV-002")
         @Max(value = 12, message = "DOMV-004")
-        Integer month,
+        int month,
         @NotNull(message = "DOMV-003")
-        Boolean isOptional,
+        boolean optional,
         LocalTime fromTime,
-        Boolean isEnable
+        boolean enable
 ) implements Serializable {
     @Serial
     private static final long serialVersionUID = -2741754088344751346L;

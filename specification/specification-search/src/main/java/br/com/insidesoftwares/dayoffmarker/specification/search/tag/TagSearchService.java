@@ -11,6 +11,5 @@ import java.util.UUID;
 @Validated
 public interface TagSearchService {
     InsideSoftwaresResponseDTO<List<TagResponseDTO>> findAll(final InsidePaginationFilterDTO paginationFilter);
-
     InsideSoftwaresResponseDTO<TagResponseDTO> findById(final UUID tagID);
 }

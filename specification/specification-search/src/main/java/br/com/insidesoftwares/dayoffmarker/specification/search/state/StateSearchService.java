@@ -12,8 +12,6 @@ import java.util.UUID;
 @Validated
 public interface StateSearchService {
     InsideSoftwaresResponseDTO<List<StateResponseDTO>> findAll(final String nameCountry, final InsidePaginationFilterDTO paginationFilter);
-
     InsideSoftwaresResponseDTO<StateResponseDTO> findById(final UUID stateID);
-
     State findStateByStateId(final UUID stateId);
 }

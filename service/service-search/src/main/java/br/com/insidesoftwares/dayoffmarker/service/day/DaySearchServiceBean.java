@@ -9,7 +9,6 @@ import br.com.insidesoftwares.commons.utils.PaginationUtils;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.day.DayDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.sort.eOrderDay;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.day.DayNotExistException;
-import br.com.insidesoftwares.dayoffmarker.commons.exception.error.day.DaysNotConfiguredException;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.day.Day;
 import br.com.insidesoftwares.dayoffmarker.domain.mapper.day.DayMapper;
 import br.com.insidesoftwares.dayoffmarker.domain.repository.day.DayRepository;
@@ -20,7 +19,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -29,6 +27,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+
+import static br.com.insidesoftwares.dayoffmarker.domain.specification.day.DaySpecification.findDayByDateOrTag;
+import static br.com.insidesoftwares.dayoffmarker.domain.specification.day.DaySpecification.findWorkingDayByDateAndIsHolidayAndIsWeekend;
 
 @Service
 @Transactional(readOnly = true)
@@ -44,32 +45,6 @@ class DaySearchServiceBean implements DaySearchService {
         Optional<Day> optionalDay = dayRepository.findById(dayID);
 
         return optionalDay.orElseThrow(DayNotExistException::new);
-    }
-
-    @InsideAudit
-    @Override
-    public Day findDayByDate(final LocalDate date) {
-        Optional<Day> optionalDay = dayRepository.findByDate(date);
-
-        return optionalDay.orElseThrow(DayNotExistException::new);
-    }
-
-    @InsideAudit
-    @Override
-    public LocalDate getMaxDate() {
-        return dayRepository.findMaxDateByDate(DateUtils.getDateCurrent()).orElseThrow(DaysNotConfiguredException::new);
-    }
-
-    @InsideAudit
-    @Override
-    public LocalDate getMinDate() {
-        return dayRepository.findMinDateByDate(DateUtils.getDateCurrent()).orElseThrow(DaysNotConfiguredException::new);
-    }
-
-    @InsideAudit
-    @Override
-    public boolean ownsDays() {
-        return dayRepository.ownsDays(DateUtils.getDateCurrent());
     }
 
     @InsideAudit
@@ -107,7 +82,7 @@ class DaySearchServiceBean implements DaySearchService {
     @InsideAudit
     @Override
     public InsideSoftwaresResponseDTO<DayDTO> getDayByDate(final LocalDate date, final UUID tagID, final String tagCode) {
-        Specification<Day> daySpecification = DaySpecification.findDayByDateOrTag(date, tagID, tagCode);
+        Specification<Day> daySpecification = findDayByDateOrTag(date, tagID, tagCode);
 
         Day day = dayRepository.findOne(daySpecification).orElseThrow(DayNotExistException::new);
 
@@ -163,24 +138,8 @@ class DaySearchServiceBean implements DaySearchService {
     @InsideAudit
     @Override
     public boolean isDayByDateAndIsWeekend(final LocalDate date, final boolean isWeekend) {
-        return dayRepository.isWorkingDayByDateAndIsWeekend(date, isWeekend);
-    }
+        Specification<Day> daySpecification = findWorkingDayByDateAndIsHolidayAndIsWeekend(date, null, isWeekend);
 
-    @Transactional(readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
-    @Override
-    public boolean isDayByDate(LocalDate date) {
-        return dayRepository.existsByDate(date);
-    }
-
-    @InsideAudit
-    @Override
-    public boolean isDaysWithoutHolidaysByByDayAndMonthAndFixedHolidayIDOrNotHoliday(
-            final Integer day,
-            final Integer month,
-            final UUID fixedHolidayID
-    ) {
-        Integer year = DateUtils.getDateCurrent().getYear();
-
-        return dayRepository.isDaysWithoutHolidaysByByDayAndMonthAndYearAndFixedHolidayIDOrNotHoliday(day, month, year, fixedHolidayID);
+        return dayRepository.exists(daySpecification);
     }
 }

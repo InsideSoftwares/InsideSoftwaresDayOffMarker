@@ -8,6 +8,5 @@ import java.util.UUID;
 
 public interface WorkingCityService {
     InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCityByDay(final UUID cityID, final LocalDate date);
-
     InsideSoftwaresResponseDTO<WorkingCurrentDayResponseDTO> findWorkingCurrentDayCity(final UUID cityID);
 }

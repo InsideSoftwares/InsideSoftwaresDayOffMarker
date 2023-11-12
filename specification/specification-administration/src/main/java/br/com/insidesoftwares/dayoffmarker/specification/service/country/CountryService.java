@@ -11,6 +11,5 @@ import java.util.UUID;
 public interface CountryService {
 
     InsideSoftwaresResponseDTO<UUID> save(final @Valid CountryRequestDTO countryRequestDTO);
-
     void update(final UUID countryID, final @Valid CountryRequestDTO countryRequestDTO);
 }

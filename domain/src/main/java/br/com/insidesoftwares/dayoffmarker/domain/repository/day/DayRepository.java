@@ -1,6 +1,7 @@
 package br.com.insidesoftwares.dayoffmarker.domain.repository.day;
 
 import br.com.insidesoftwares.dayoffmarker.domain.entity.day.Day;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.holiday.FixedHoliday;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -8,6 +9,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -16,9 +18,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface DayRepository extends JpaRepository<Day, UUID>, JpaSpecificationExecutor<Day> {
-
-    Optional<Day> findByDate(final LocalDate date);
+public interface DayRepository extends JpaRepository<Day, UUID>, JpaSpecificationExecutor<Day>, QuerydslPredicateExecutor<FixedHoliday> {
 
     @EntityGraph(value = "day-full")
     Optional<Day> findDayById(final UUID id);
@@ -31,26 +31,8 @@ public interface DayRepository extends JpaRepository<Day, UUID>, JpaSpecificatio
     @Override
     Optional<Day> findOne(Specification<Day> daySpecification);
 
-    @Query("SELECT MAX(d.date) FROM Day d WHERE d.date >= :date")
-    Optional<LocalDate> findMaxDateByDate(final LocalDate date);
-
-    @Query("SELECT MIN(d.date) FROM Day d WHERE d.date >= :date")
-    Optional<LocalDate> findMinDateByDate(final LocalDate date);
-
     @Query("SELECT d.date FROM Day d WHERE d.id = :dayID")
     LocalDate findDateByID(final UUID dayID);
-
-    @Query("SELECT count(d) > 0 FROM Day d WHERE d.date > :date ")
-    boolean ownsDays(final LocalDate date);
-
-    @Query("""
-            SELECT count(d) > 0
-            FROM Day d
-            JOIN d.tags t
-            WHERE d.id = :dayID AND
-            t.id = :tagID
-            """)
-    boolean existsByDateAndTag(final UUID dayID, final UUID tagID);
 
     @Query("""
             SELECT d FROM Day d
@@ -86,47 +68,6 @@ public interface DayRepository extends JpaRepository<Day, UUID>, JpaSpecificatio
             """)
     @EntityGraph(value = "day-full")
     List<Day> findDaysByTagCode(final String tagCode);
-
-    @Query("""
-            SELECT count(d) > 0
-             FROM Day d
-             WHERE d.date = :dateSearch
-            	AND d.isWeekend = :isWeekend
-            """)
-    boolean isWorkingDayByDateAndIsWeekend(
-            final LocalDate dateSearch,
-            final boolean isWeekend
-    );
-
-    @Query("""
-            SELECT count(d) > 0
-             FROM Day d
-             WHERE d.date = :dateSearch
-            	AND d.isHoliday = :isHoliday
-            	AND d.isWeekend = :isWeekend
-            """)
-    boolean isWorkingDayByDateAndIsHolidayAndIsWeekend(
-            final LocalDate dateSearch,
-            final boolean isHoliday,
-            final boolean isWeekend
-    );
-
-    @Query("""
-            SELECT count(d) > 0
-             FROM Day d
-             LEFT JOIN Holiday h ON h.day = d
-             WHERE ( h is null OR h.fixedHolidayID <> :fixedHolidayID)
-             AND DAY(d.date) = :day
-             AND MONTH(d.date) = :month
-             AND YEAR(d.date) >= :year
-            """)
-    boolean isDaysWithoutHolidaysByByDayAndMonthAndYearAndFixedHolidayIDOrNotHoliday(
-            final Integer day,
-            final Integer month,
-            final Integer year,
-            final UUID fixedHolidayID
-    );
-
     @Override
     boolean exists(Specification<Day> daySpecification);
 

@@ -9,6 +9,7 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.error.day.DayMonthI
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.fixedholiday.FixedHolidayDayMonthCountryExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.fixedholiday.FixedHolidayNotExistException;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.holiday.FixedHoliday;
+import br.com.insidesoftwares.dayoffmarker.domain.mapper.holiday.FixedHolidayMapper;
 import br.com.insidesoftwares.dayoffmarker.domain.repository.holiday.FixedHolidayRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.service.holiday.FixedHolidayService;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.Validator;
@@ -27,6 +28,7 @@ class FixedHolidayServiceBean implements FixedHolidayService {
     private final FixedHolidayRepository fixedHolidayRepository;
     private final Validator<UUID, FixedHolidayRequestDTO> fixedHolidayValidator;
     private final Validator<UUID, FixedHolidayUpdateRequestDTO> fixedHolidayUpdateValidator;
+    private final FixedHolidayMapper holidayMapper;
 
     @InsideAudit
     @Transactional(rollbackFor = {
@@ -38,18 +40,7 @@ class FixedHolidayServiceBean implements FixedHolidayService {
     public InsideSoftwaresResponseDTO<UUID> save(final @Valid FixedHolidayRequestDTO fixedHolidayRequestDTO) {
         fixedHolidayValidator.validator(fixedHolidayRequestDTO);
 
-        boolean isOptional = fixedHolidayRequestDTO.isOptional();
-
-        FixedHoliday fixedHoliday = FixedHoliday.builder()
-                .name(fixedHolidayRequestDTO.name())
-                .description(fixedHolidayRequestDTO.description())
-                .day(fixedHolidayRequestDTO.day())
-                .month(fixedHolidayRequestDTO.month())
-                .isOptional(isOptional)
-                .fromTime(fixedHolidayRequestDTO.fromTime())
-                .isEnable(Objects.nonNull(fixedHolidayRequestDTO.isEnable()) ? fixedHolidayRequestDTO.isEnable() : true)
-                .build();
-
+        FixedHoliday fixedHoliday = holidayMapper.toEntity(fixedHolidayRequestDTO);
         fixedHoliday = fixedHolidayRepository.save(fixedHoliday);
 
         return InsideSoftwaresResponseDTO.<UUID>builder().data(fixedHoliday.getId()).build();

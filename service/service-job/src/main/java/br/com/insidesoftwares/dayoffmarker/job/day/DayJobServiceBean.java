@@ -7,7 +7,7 @@ import br.com.insidesoftwares.dayoffmarker.domain.entity.request.Request;
 import br.com.insidesoftwares.dayoffmarker.job.RequestJobBean;
 import br.com.insidesoftwares.dayoffmarker.specification.job.day.DayJobService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.day.DayBatchService;
-import br.com.insidesoftwares.dayoffmarker.specification.service.request.RequestService;
+import br.com.insidesoftwares.dayoffmarker.specification.service.request.RequestCreationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,24 +22,18 @@ import java.util.concurrent.ExecutionException;
 @Slf4j
 public class DayJobServiceBean extends RequestJobBean implements DayJobService {
 
-    private final RequestService requestService;
     private final DayBatchService dayBatchService;
+    private final RequestCreationService requestCreationService;
 
     @Override
     public void processCreationDayBatch() {
         List<Request> requests = requestService.findAllRequestByTypeAndStatus(TypeRequest.REQUEST_CREATION_DATE, StatusRequest.CREATED);
 
-        requests.forEach(request -> {
-            request.setStatusRequest(StatusRequest.RUNNING);
-            requestService.saveAndFlushRequest(request);
-        });
+        startRequest(requests);
 
         requests.stream().parallel().forEach(this::createDayBath);
 
-        requests.forEach(request -> {
-            request.setStatusRequest(StatusRequest.FINALIZED);
-            requestService.saveAndFlushRequest(request);
-        });
+        finalizeRequest(requests);
     }
 
     private void createDayBath(final Request request) {
@@ -68,6 +62,13 @@ public class DayJobServiceBean extends RequestJobBean implements DayJobService {
             });
 
             startYear++;
+        }
+
+        try {
+            String requestId = requestCreationService.createHolidayRequest();
+            log.info("Request holiday created: {}", requestId);
+        } catch (Exception e) {
+            log.error("It was not possible to create the Holidays.", e);
         }
 
         log.info("Finalizing the creation of requests to create days.");

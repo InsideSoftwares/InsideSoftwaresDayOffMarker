@@ -14,7 +14,7 @@ public record FixedHolidayResponseDTO(
         String description,
         Integer day,
         Integer month,
-        boolean isOptional,
+        boolean optional,
         LocalTime fromTime,
         UUID countryId,
         String countryName

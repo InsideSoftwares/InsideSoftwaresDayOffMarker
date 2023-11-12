@@ -25,20 +25,14 @@ class RequestServiceBean implements RequestService {
 
     @Transactional
     @Override
-    public void saveAndFlushRequest(final Request request) {
-        requestRepository.saveAndFlush(request);
+    public void saveAllAndFlush(final List<Request> requests) {
+        requestRepository.saveAllAndFlush(requests);
     }
 
     @Transactional(readOnly = true)
     @Override
     public List<Request> findAllRequestByTypeAndStatus(final TypeRequest typeRequest, final StatusRequest statusRequest) {
-        return requestRepository.findAllByStatusRequest(statusRequest, typeRequest);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public boolean existRequestByTypeAndStatusRequest(TypeRequest typeRequest, StatusRequest statusRequest) {
-        return requestRepository.existRequestByTypeRequestAndStatusRequest(typeRequest, statusRequest);
+        return requestRepository.findAllByStatusRequestAndTypeRequest(statusRequest, typeRequest);
     }
 
 }

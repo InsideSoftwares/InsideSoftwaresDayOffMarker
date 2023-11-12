@@ -87,9 +87,25 @@ public class Day {
     }
 
     public void addTag(Tag tag) {
-        if (Objects.isNull(tags)) {
-            tags = new HashSet<>();
+        if (Objects.isNull(this.tags)) {
+            this.tags = new HashSet<>();
         }
-        tags.add(tag);
+        if(!existTag(tag.getId())) {
+            this.tags.add(tag);
+        }
+    }
+
+    public void removeTag(Tag tag) {
+        removeTag(tag.getId());
+    }
+
+    public void removeTag(UUID tagId) {
+        if(existTag(tagId)) {
+            this.tags.removeIf(tag -> tag.getId().equals(tagId));
+        }
+    }
+
+    private boolean existTag(final UUID tagId) {
+        return this.tags.stream().anyMatch(tag -> tag.getId().equals(tagId));
     }
 }

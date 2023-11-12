@@ -61,16 +61,4 @@ class FixedSearchHolidayServiceBean implements FixedHolidaySearchService {
                 .data(fixedHolidayMapper.toDTO(fixedHoliday))
                 .build();
     }
-
-    @InsideAudit
-    @Override
-    public List<FixedHoliday> findAllByEnable(final boolean isEnable) {
-        return fixedHolidayRepository.findAllByIsEnable(isEnable);
-    }
-
-    @InsideAudit
-    @Override
-    public FixedHoliday findFixedHolidayById(UUID fixedHolidayID) throws FixedHolidayNotExistException {
-        return fixedHolidayRepository.findById(fixedHolidayID).orElseThrow(FixedHolidayNotExistException::new);
-    }
 }

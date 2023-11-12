@@ -13,10 +13,7 @@ import java.util.UUID;
 public interface TagService {
 
     InsideSoftwaresResponseDTO<UUID> save(final @Valid TagRequestDTO tagRequestDTO);
-
     void update(final UUID tagID, final @Valid TagRequestDTO tagRequestDTO);
-
     InsideSoftwaresResponseDTO<TagLinkResponseDTO> linkTagByDay(final @Valid TagLinkUnlinkRequestDTO tagLinkUnlinkRequestDTO);
-
     InsideSoftwaresResponseDTO<TagLinkResponseDTO> unlinkTagByDay(final @Valid TagLinkUnlinkRequestDTO tagLinkUnlinkRequestDTO);
 }

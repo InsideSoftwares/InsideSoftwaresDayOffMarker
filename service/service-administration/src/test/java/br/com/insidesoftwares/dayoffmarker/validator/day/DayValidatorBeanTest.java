@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -37,7 +38,7 @@ class DayValidatorBeanTest {
         Mockito.when(dayRepository.existsById(ArgumentMatchers.any())).thenReturn(true);
         Mockito.when(tagRepository.existsByTags(ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(true);
         Mockito.when(dayRepository.findDateByID(ArgumentMatchers.any())).thenReturn(DATE);
-        Mockito.when(dayRepository.existsByDateAndTag(ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(false);
+        Mockito.when(dayRepository.exists(ArgumentMatchers.any(Specification.class))).thenReturn(false);
 
         dayValidatorBean.validateLink(DAY_ID, createLinkTagRequestDTO());
     }
@@ -68,7 +69,7 @@ class DayValidatorBeanTest {
         Mockito.when(dayRepository.existsById(ArgumentMatchers.any())).thenReturn(true);
         Mockito.when(tagRepository.existsByTags(ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(true);
         Mockito.when(dayRepository.findDateByID(ArgumentMatchers.any())).thenReturn(DATE);
-        Mockito.when(dayRepository.existsByDateAndTag(ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(true);
+        Mockito.when(dayRepository.exists(ArgumentMatchers.any(Specification.class))).thenReturn(false);
 
         assertThrows(
                 TagExistDayException.class,

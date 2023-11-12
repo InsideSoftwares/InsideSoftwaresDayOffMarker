@@ -13,8 +13,6 @@ import java.util.UUID;
 @Validated
 public interface HolidaySearchService {
     InsideSoftwaresResponseDTO<List<HolidayResponseDTO>> findAll(final LocalDate startDate, final LocalDate endDate, final InsidePaginationFilterDTO paginationFilter);
-
     InsideSoftwaresResponseDTO<HolidayResponseDTO> findById(final UUID holidayID);
-
     Holiday findHolidayById(final UUID holidayID);
 }

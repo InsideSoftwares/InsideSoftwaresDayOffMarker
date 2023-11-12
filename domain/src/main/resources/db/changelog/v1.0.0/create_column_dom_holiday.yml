@@ -11,7 +11,7 @@ databaseChangeLog:
               - column:
                   name: FIXED_HOLIDAY_ID
                   autoIncrement: false
-                  type: BIGINT
+                  type: UUID
   - changeSet:
       id: addColumn-DOM_HOLIDAY-NH
       author: System

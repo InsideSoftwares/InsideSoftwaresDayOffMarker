@@ -42,6 +42,8 @@ eureka:
 
 liquibase:
   change-log: classpath:db.changelog-master.yaml
+  enable: true
+
 management:
   endpoints:
     web:

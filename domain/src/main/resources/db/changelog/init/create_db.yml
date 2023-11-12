@@ -23,6 +23,7 @@ databaseChangeLog:
                   name: COUNTRY_ID
                   autoIncrement: false
                   type: UUID
+                  defaultValueComputed: ${uuid_function}
                   constraints:
                     primaryKey: true
                     primaryKeyName: PK_DOM_COUNTRY
@@ -74,6 +75,7 @@ databaseChangeLog:
                   name: DAY_ID
                   autoIncrement: false
                   type: UUID
+                  defaultValueComputed: ${uuid_function}
                   constraints:
                     primaryKey: true
                     primaryKeyName: PK_DOM_DAY
@@ -115,6 +117,7 @@ databaseChangeLog:
                   name: STATE_ID
                   autoIncrement: false
                   type: UUID
+                  defaultValueComputed: ${uuid_function}
                   constraints:
                     primaryKey: true
                     primaryKeyName: PK_DOM_STATE
@@ -165,6 +168,7 @@ databaseChangeLog:
                   name: CITY_ID
                   autoIncrement: false
                   type: UUID
+                  defaultValueComputed: ${uuid_function}
                   constraints:
                     primaryKey: true
                     primaryKeyName: PK_DOM_CITY
@@ -226,6 +230,7 @@ databaseChangeLog:
                   name: HOLIDAY_ID
                   autoIncrement: false
                   type: UUID
+                  defaultValueComputed: ${uuid_function}
                   constraints:
                     primaryKey: true
                     primaryKeyName: PK_DOM_HOLIDAY
@@ -297,6 +302,7 @@ databaseChangeLog:
                   name: CITY_ID
                   autoIncrement: false
                   type: UUID
+                  defaultValueComputed: ${uuid_function}
                   constraints:
                     nullable: false
                     foreignKeyName: FK_CITY_ID_DOM_CITY_HOLIDAY
@@ -339,6 +345,7 @@ databaseChangeLog:
                   name: STATE_ID
                   autoIncrement: false
                   type: UUID
+                  defaultValueComputed: ${uuid_function}
                   constraints:
                     nullable: false
                     foreignKeyName: FK_STATE_ID_DOM_STATE_HOLIDAY
@@ -489,7 +496,8 @@ databaseChangeLog:
               - column:
                   name: REQUEST_ID
                   autoIncrement: false
-                  type: ${UUIDType}
+                  type: UUID
+                  defaultValueComputed: ${uuid_function}
                   constraints:
                     primaryKey: true
                     primaryKeyName: PK_DOM_REQUEST
@@ -530,12 +538,6 @@ databaseChangeLog:
                   type: DATETIME
                   constraints:
                     nullable: true
-              - column:
-                  name: JOB_ID
-                  autoIncrement: false
-                  type: BIGINT
-                  constraints:
-                    nullable: true
   - changeSet:
       id: create_DOM_REQUEST_PARAMETER
       author: System
@@ -549,7 +551,8 @@ databaseChangeLog:
               - column:
                   name: REQUEST_PARAMETER_ID
                   autoIncrement: false
-                  type: ${UUIDType}
+                  type: UUID
+                  defaultValueComputed: ${uuid_function}
                   constraints:
                     primaryKey: true
                     primaryKeyName: PK_DOM_REQUEST_PARAMETER
@@ -596,6 +599,7 @@ databaseChangeLog:
                   name: TAG_ID
                   autoIncrement: false
                   type: UUID
+                  defaultValueComputed: ${uuid_function}
                   constraints:
                     primaryKey: true
                     primaryKeyName: PK_DOM_TAG
@@ -631,6 +635,7 @@ databaseChangeLog:
                   name: DAY_ID
                   autoIncrement: false
                   type: UUID
+                  defaultValueComputed: ${uuid_function}
                   constraints:
                     nullable: false
                     foreignKeyName: FK_DAY_ID_DOM_DAY_TAG

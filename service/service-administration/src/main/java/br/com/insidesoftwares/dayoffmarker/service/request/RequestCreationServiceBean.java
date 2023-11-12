@@ -14,7 +14,6 @@ import br.com.insidesoftwares.dayoffmarker.domain.entity.request.RequestParamete
 import br.com.insidesoftwares.dayoffmarker.specification.search.configuration.ConfigurationSearchService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.request.RequestCreationService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.request.RequestService;
-import br.com.insidesoftwares.dayoffmarker.specification.validator.RequestValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +32,6 @@ class RequestCreationServiceBean extends RequestBean implements RequestCreationS
 
     private final ConfigurationSearchService configurationSearchService;
     private final RequestService requestService;
-    private final RequestValidator requestValidator;
 
     @Transactional(rollbackFor = {
             RequestConflictParametersException.class,
@@ -112,40 +110,6 @@ class RequestCreationServiceBean extends RequestBean implements RequestCreationS
             ParameterNotExistException.class
     })
     @Override
-    public String createDateRequest(
-            final Request request,
-            final Integer month,
-            final Integer year
-    ) {
-        UUID keyRequest = UUID.randomUUID();
-
-        Request newRequest = Request.builder()
-                .id(keyRequest)
-                .statusRequest(StatusRequest.CREATED)
-                .typeRequest(TypeRequest.CREATE_DATE)
-                .createDate(LocalDateTime.now())
-                .requesting(request.getRequesting())
-                .build();
-
-        Set<RequestParameter> requestParameters =
-                createRequestParameter(
-                        newRequest,
-                        month.toString(),
-                        year.toString(),
-                        request.getId().toString()
-                );
-
-        newRequest.setRequestParameter(requestParameters);
-
-        requestService.saveRequest(newRequest);
-        return keyRequest.toString();
-    }
-
-    @Transactional(rollbackFor = {
-            RequestConflictParametersException.class,
-            ParameterNotExistException.class
-    })
-    @Override
     public String createHolidayRequest(final UUID fixedHolidayID) {
         UUID keyRequest = UUID.randomUUID();
 
@@ -157,16 +121,26 @@ class RequestCreationServiceBean extends RequestBean implements RequestCreationS
                 .requesting(REQUESTING)
                 .build();
 
-        Set<RequestParameter> requestParameters =
-                createRequestParameter(
-                        request,
-                        fixedHolidayID.toString()
-                );
+        if(Objects.nonNull(fixedHolidayID)) {
+            Set<RequestParameter> requestParameters =
+                    createRequestParameter(
+                            request,
+                            fixedHolidayID.toString()
+                    );
 
-        request.setRequestParameter(requestParameters);
-
+            request.setRequestParameter(requestParameters);
+        }
         requestService.saveRequest(request);
         return keyRequest.toString();
+    }
+
+    @Transactional(rollbackFor = {
+            RequestConflictParametersException.class,
+            ParameterNotExistException.class
+    })
+    @Override
+    public String createHolidayRequest() {
+        return createHolidayRequest(null);
     }
 
     private Set<RequestParameter> createRequestParameter(
@@ -184,38 +158,6 @@ class RequestCreationServiceBean extends RequestBean implements RequestCreationS
                         .request(request)
                         .build()
         );
-
-        String requestParametersHash = getHashValues(requestParameters, request.getTypeRequest().name());
-        request.setRequestHash(requestParametersHash);
-
-        requestValidator.validateRequest(requestParametersHash, request.getTypeRequest());
-
-        return requestParameters;
-    }
-
-    private Set<RequestParameter> createRequestParameter(
-            final Request request,
-            final String month,
-            final String year,
-            final String requestID
-    ) {
-
-        Set<RequestParameter> requestParameters = new HashSet<>();
-
-        requestParameters.add(
-                createRequestParameter(request, TypeParameter.MONTH, TypeValue.INT, month)
-        );
-        requestParameters.add(
-                createRequestParameter(request, TypeParameter.YEAR, TypeValue.INT, year)
-        );
-        requestParameters.add(
-                createRequestParameter(request, TypeParameter.REQUEST_ORIGINAL, TypeValue.STRING, requestID)
-        );
-
-        String requestParametersHash = getHashValues(requestParameters, request.getTypeRequest().name());
-        request.setRequestHash(requestParametersHash);
-
-        requestValidator.validateRequest(requestParametersHash, request.getTypeRequest());
 
         return requestParameters;
     }
@@ -236,11 +178,6 @@ class RequestCreationServiceBean extends RequestBean implements RequestCreationS
         requestParameters.add(
                 createRequestParameter(request, TypeParameter.END_YEAR, TypeValue.INT, endYear)
         );
-
-        String requestParametersHash = getHashValues(requestParameters, request.getTypeRequest().name());
-        request.setRequestHash(requestParametersHash);
-
-        requestValidator.validateRequest(requestParametersHash, request.getTypeRequest());
 
         return requestParameters;
     }
@@ -284,11 +221,6 @@ class RequestCreationServiceBean extends RequestBean implements RequestCreationS
                     createRequestParameter(request, TypeParameter.TAG_ID, TypeValue.ARRAY, tagsID)
             );
         }
-
-        String requestParametersHash = getHashValues(requestParameters, request.getTypeRequest().name());
-        request.setRequestHash(requestParametersHash);
-
-        requestValidator.validateRequest(requestParametersHash, request.getTypeRequest());
 
         return requestParameters;
     }

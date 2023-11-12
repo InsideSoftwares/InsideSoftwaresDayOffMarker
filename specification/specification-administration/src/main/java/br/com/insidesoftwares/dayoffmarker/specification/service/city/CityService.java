@@ -13,10 +13,7 @@ import java.util.UUID;
 public interface CityService {
 
     InsideSoftwaresResponseDTO<UUID> save(final @Valid CityRequestDTO cityRequestDTO);
-
     void update(final UUID cityID, final @Valid CityRequestDTO cityRequestDTO);
-
     void addCityHoliday(final UUID cityID, final @Valid CityHolidayRequestDTO cityHolidayRequestDTO);
-
     void deleteCityHoliday(final UUID cityID, final @Valid CityHolidayDeleteRequestDTO cityHolidayDeleteRequestDTO);
 }

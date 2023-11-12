@@ -13,10 +13,7 @@ import java.util.UUID;
 public interface StateService {
 
     InsideSoftwaresResponseDTO<UUID> save(final @Valid StateRequestDTO stateRequestDTO);
-
     void update(final UUID stateID, final @Valid StateRequestDTO stateRequestDTO);
-
     void addStateHoliday(final UUID stateID, final @Valid StateHolidayRequestDTO stateHolidayRequestDTO);
-
     void deleteStateHoliday(final UUID stateID, final @Valid StateHolidayDeleteRequestDTO stateHolidayDeleteRequestDTO);
 }

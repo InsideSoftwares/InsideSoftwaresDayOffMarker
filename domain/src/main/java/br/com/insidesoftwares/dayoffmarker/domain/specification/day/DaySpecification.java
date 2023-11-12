@@ -1,13 +1,19 @@
 package br.com.insidesoftwares.dayoffmarker.domain.specification.day;
 
 import br.com.insidesoftwares.commons.enums.SpecificationFunction;
-import br.com.insidesoftwares.dayoffmarker.commons.dto.tag.TagLinkUnlinkRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.StartDateAfterEndDateException;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.day.Day;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.holiday.Holiday;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Predicate;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 import static br.com.insidesoftwares.commons.utils.SpecificationRepository.specificationBetween;
@@ -15,16 +21,18 @@ import static br.com.insidesoftwares.commons.utils.SpecificationRepository.speci
 import static br.com.insidesoftwares.commons.utils.SpecificationRepository.specificationGreaterThanOrEqualTo;
 import static br.com.insidesoftwares.commons.utils.SpecificationRepository.specificationLessThanOrEqualTo;
 
-public class DaySpecification {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class DaySpecification {
 
+    private static final String DAY_ID = "id";
     private static final String DAY_DATE = "date";
     private static final String DAY_IS_WEEKEND = "isWeekend";
     private static final String DAY_IS_HOLIDAY = "isHoliday";
-    private static final String DAY_OF_WEEK = "dayOfWeek";
-    private static final String DAY_OF_YEAR = "dayOfYear";
     private static final String DAY_TAG = "tags";
     private static final String DAY_TAG_ID = "id";
     private static final String DAY_TAG_CODE = "code";
+    private static final String DAY_HOLIDAY = "holidays";
+    private static final String DAY_HOLIDAY_FIXED_HOLIDAY_ID = "fixedHolidayID";
 
     public static Specification<Day> findAllByStartDateAndEndDate(final LocalDate startDate, final LocalDate endDate) {
         Specification<Day> daySpecification = Specification.where(null);
@@ -60,117 +68,7 @@ public class DaySpecification {
         return daySpecification;
     }
 
-    public static Specification<Day> exitsDayByTagLinkRequestDTO(final TagLinkUnlinkRequestDTO tagLinkUnlinkRequestDTO) {
-        Specification<Day> daySpecification = Specification.where(null);
 
-        if (Objects.nonNull(tagLinkUnlinkRequestDTO.dayOfWeek())) {
-            daySpecification = daySpecification.and(specificationEqual(DAY_OF_WEEK, tagLinkUnlinkRequestDTO.dayOfWeek()));
-        }
-
-        if (Objects.nonNull(tagLinkUnlinkRequestDTO.dayOfYear())) {
-            daySpecification = daySpecification.and(specificationEqual(DAY_OF_YEAR, tagLinkUnlinkRequestDTO.dayOfYear()));
-        }
-
-        if (
-                Objects.nonNull(tagLinkUnlinkRequestDTO.day()) &&
-                        Objects.nonNull(tagLinkUnlinkRequestDTO.month()) &&
-                        Objects.nonNull(tagLinkUnlinkRequestDTO.year())
-        ) {
-            LocalDate date = LocalDate.of(tagLinkUnlinkRequestDTO.year(), tagLinkUnlinkRequestDTO.month(), tagLinkUnlinkRequestDTO.day());
-            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, date));
-        }
-
-        if (
-                Objects.nonNull(tagLinkUnlinkRequestDTO.day()) &&
-                        Objects.nonNull(tagLinkUnlinkRequestDTO.month()) &&
-                        Objects.isNull(tagLinkUnlinkRequestDTO.year())
-        ) {
-            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.DAY, tagLinkUnlinkRequestDTO.day()));
-            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.MONTH, tagLinkUnlinkRequestDTO.month()));
-        }
-
-        if (
-                Objects.nonNull(tagLinkUnlinkRequestDTO.day()) &&
-                        Objects.isNull(tagLinkUnlinkRequestDTO.month()) &&
-                        Objects.isNull(tagLinkUnlinkRequestDTO.year())
-        ) {
-            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.DAY, tagLinkUnlinkRequestDTO.day()));
-        }
-
-        if (
-                Objects.isNull(tagLinkUnlinkRequestDTO.day()) &&
-                        Objects.nonNull(tagLinkUnlinkRequestDTO.month()) &&
-                        Objects.isNull(tagLinkUnlinkRequestDTO.year())
-        ) {
-            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.MONTH, tagLinkUnlinkRequestDTO.month()));
-        }
-
-        if (
-                Objects.isNull(tagLinkUnlinkRequestDTO.day()) &&
-                        Objects.isNull(tagLinkUnlinkRequestDTO.month()) &&
-                        Objects.nonNull(tagLinkUnlinkRequestDTO.year())
-        ) {
-            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.YEAR, tagLinkUnlinkRequestDTO.year()));
-        }
-
-        return daySpecification;
-    }
-
-    public static Specification<Day> findAllDayByTagLinkRequestDTO(final TagLinkUnlinkRequestDTO tagLinkUnlinkRequestDTO) {
-        Specification<Day> daySpecification = Specification.where(null);
-
-        if (Objects.nonNull(tagLinkUnlinkRequestDTO.dayOfWeek())) {
-            daySpecification = daySpecification.and(specificationEqual(DAY_OF_WEEK, tagLinkUnlinkRequestDTO.dayOfWeek()));
-        }
-
-        if (Objects.nonNull(tagLinkUnlinkRequestDTO.dayOfYear())) {
-            daySpecification = daySpecification.and(specificationEqual(DAY_OF_YEAR, tagLinkUnlinkRequestDTO.dayOfYear()));
-        }
-
-        if (
-                Objects.nonNull(tagLinkUnlinkRequestDTO.day()) &&
-                        Objects.nonNull(tagLinkUnlinkRequestDTO.month()) &&
-                        Objects.nonNull(tagLinkUnlinkRequestDTO.year())
-        ) {
-            LocalDate date = LocalDate.of(tagLinkUnlinkRequestDTO.year(), tagLinkUnlinkRequestDTO.month(), tagLinkUnlinkRequestDTO.day());
-            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, date));
-        }
-
-        if (
-                Objects.nonNull(tagLinkUnlinkRequestDTO.day()) &&
-                        Objects.nonNull(tagLinkUnlinkRequestDTO.month()) &&
-                        Objects.isNull(tagLinkUnlinkRequestDTO.year())
-        ) {
-            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.DAY, tagLinkUnlinkRequestDTO.day()));
-            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.MONTH, tagLinkUnlinkRequestDTO.month()));
-        }
-
-        if (
-                Objects.nonNull(tagLinkUnlinkRequestDTO.day()) &&
-                        Objects.isNull(tagLinkUnlinkRequestDTO.month()) &&
-                        Objects.isNull(tagLinkUnlinkRequestDTO.year())
-        ) {
-            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.DAY, tagLinkUnlinkRequestDTO.day()));
-        }
-
-        if (
-                Objects.isNull(tagLinkUnlinkRequestDTO.day()) &&
-                        Objects.nonNull(tagLinkUnlinkRequestDTO.month()) &&
-                        Objects.isNull(tagLinkUnlinkRequestDTO.year())
-        ) {
-            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.MONTH, tagLinkUnlinkRequestDTO.month()));
-        }
-
-        if (
-                Objects.isNull(tagLinkUnlinkRequestDTO.day()) &&
-                        Objects.isNull(tagLinkUnlinkRequestDTO.month()) &&
-                        Objects.nonNull(tagLinkUnlinkRequestDTO.year())
-        ) {
-            daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.YEAR, tagLinkUnlinkRequestDTO.year()));
-        }
-
-        return daySpecification;
-    }
 
     public static Specification<Day> findAllByDateSearchAndHolidayAndWeekendAndSearchFutureDates(
             final LocalDate dateStartSearch,
@@ -198,6 +96,55 @@ public class DaySpecification {
         daySpecification = daySpecification.and(specificationEqual(DAY_IS_HOLIDAY, isHoliday));
         daySpecification = daySpecification.and(specificationEqual(DAY_IS_WEEKEND, isWeekend));
 
+
+        return daySpecification;
+    }
+
+    public static Specification<Day> findWorkingDayByDateAndIsHolidayAndIsWeekend(
+            final LocalDate date,
+            final Boolean isHoliday,
+            final Boolean isWeekend
+    ) {
+        Specification<Day> daySpecification = Specification.where(specificationEqual(DAY_DATE, date));
+
+        if(Objects.nonNull(isHoliday)) {
+            daySpecification = daySpecification.and(specificationEqual(DAY_IS_HOLIDAY, isHoliday));
+        }
+        if(Objects.nonNull(isWeekend)) {
+            daySpecification = daySpecification.and(specificationEqual(DAY_IS_WEEKEND, isWeekend));
+        }
+
+        return daySpecification;
+    }
+
+    public static Specification<Day> findDayByDayIdAndTagIds(final UUID dayID, final Set<UUID> tagsID) {
+        Specification<Day> daySpecification = Specification.where(specificationEqual(DAY_ID, dayID));
+
+        daySpecification = daySpecification.and((root, query, criteriaBuilder) -> root.get(DAY_TAG).get(DAY_TAG_ID).in(tagsID));
+
+        return daySpecification;
+    }
+
+    public static Specification<Day> findDayWithoutHolidaysByDayAndMonthAndYearAndFixedHolidayIdOrNotHoliday(
+            final int day,
+            final int month,
+            final UUID fixedHolidayID
+    ) {
+        Specification<Day> daySpecification = Specification.where((root, query, criteriaBuilder) -> {
+            Predicate predicate = criteriaBuilder.conjunction();
+
+            Join<Day, Holiday> holidayJoin = root.join(DAY_HOLIDAY, JoinType.LEFT);
+
+            Predicate conditionFixedHolidayIdOrNotHoliday = criteriaBuilder.or(
+                    criteriaBuilder.isNull(holidayJoin.get(DAY_HOLIDAY_FIXED_HOLIDAY_ID)),
+                    criteriaBuilder.notEqual(holidayJoin.get(DAY_HOLIDAY_FIXED_HOLIDAY_ID), fixedHolidayID)
+            );
+
+            return criteriaBuilder.and(predicate, conditionFixedHolidayIdOrNotHoliday);
+        });
+
+        daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.DATE_PART_DAY, day));
+        daySpecification = daySpecification.and(specificationEqual(DAY_DATE, SpecificationFunction.DATE_PART_MONTH, month));
 
         return daySpecification;
     }

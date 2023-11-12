@@ -27,22 +27,6 @@ databaseChangeLog:
                   name: HOLIDAY
         - createIndex:
             clustered: true
-            indexName: IDX_DDB_PROCESSED
-            tableName: DOM_DAY_BATCH
-            dbms: 'postgresql'
-            columns:
-              - column:
-                  name: PROCESSED
-        - createIndex:
-            clustered: true
-            indexName: IDX_DDB_DATE
-            tableName: DOM_DAY_BATCH
-            dbms: 'postgresql'
-            columns:
-              - column:
-                  name: DATE
-        - createIndex:
-            clustered: true
             indexName: IDX_DT_CODE
             tableName: DOM_TAG
             dbms: 'postgresql'

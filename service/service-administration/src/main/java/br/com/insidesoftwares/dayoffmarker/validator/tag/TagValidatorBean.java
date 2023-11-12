@@ -12,7 +12,6 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.error.tag.TagNotExi
 import br.com.insidesoftwares.dayoffmarker.domain.entity.day.Day;
 import br.com.insidesoftwares.dayoffmarker.domain.repository.day.DayRepository;
 import br.com.insidesoftwares.dayoffmarker.domain.repository.tag.TagRepository;
-import br.com.insidesoftwares.dayoffmarker.domain.specification.day.DaySpecification;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.Validator;
 import br.com.insidesoftwares.dayoffmarker.specification.validator.ValidatorLink;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 import java.util.UUID;
+
+import static br.com.insidesoftwares.dayoffmarker.domain.specification.tag.TagSpecification.findAllDayByTagLinkRequestDTO;
 
 @Component
 @Transactional(readOnly = true)
@@ -75,7 +76,7 @@ class TagValidatorBean implements Validator<UUID, TagRequestDTO>, ValidatorLink<
             throw new TagLinkDateInvalidException();
         }
 
-        Specification<Day> daySpecification = DaySpecification.exitsDayByTagLinkRequestDTO(tagLinkUnlinkRequestDTO);
+        Specification<Day> daySpecification = findAllDayByTagLinkRequestDTO(tagLinkUnlinkRequestDTO);
         boolean exitsDayByTagLinkRequestDTO = dayRepository.exists(daySpecification);
 
         if (!exitsDayByTagLinkRequestDTO) {

@@ -10,9 +10,7 @@ import java.util.UUID;
 
 @Validated
 public interface FixedHolidayService {
-
     InsideSoftwaresResponseDTO<UUID> save(final @Valid FixedHolidayRequestDTO fixedHolidayRequestDTO);
-
     void update(final UUID fixedHolidayID, final @Valid FixedHolidayUpdateRequestDTO fixedHolidayRequestDTO);
 
 }
