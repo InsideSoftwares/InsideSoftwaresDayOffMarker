@@ -58,7 +58,7 @@
         <testcontainers-bom.version>1.19.0</testcontainers-bom.version>
 
         <snakeyaml.version>2.1</snakeyaml.version>
-        <json.version>20230618</json.version>
+        <json.version>20231013</json.version>
 	</properties>
 
 	<profiles>
