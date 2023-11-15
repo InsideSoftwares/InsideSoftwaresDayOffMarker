@@ -7,17 +7,15 @@ import br.com.insidesoftwares.dayoffmarker.commons.enumeration.Configurationkey;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.ConfigurationNotExistException;
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.country.CountryNameInvalidException;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.configuration.Configuration;
-import br.com.insidesoftwares.dayoffmarker.domain.entity.country.Country;
 import br.com.insidesoftwares.dayoffmarker.domain.repository.configuration.ConfigurationRepository;
 import br.com.insidesoftwares.dayoffmarker.domain.repository.country.CountryRepository;
 import br.com.insidesoftwares.dayoffmarker.specification.search.configuration.ConfigurationSearchService;
 import br.com.insidesoftwares.dayoffmarker.specification.service.configuration.ConfigurationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -44,23 +42,23 @@ class ConfigurationServiceBean implements ConfigurationService {
             Exception.class
     })
     @Override
-    public void configurationLimitYear(final ConfigurationLimitYearRequestDTO configurationLimitYearRequestDTO) {
+    public void configurationLimitYear(@Valid final ConfigurationLimitYearRequestDTO configurationLimitYearRequestDTO) {
         log.info("Updating configuration Limit Back and Forward days years");
         updateConfiguration(Configurationkey.LIMIT_BACK_DAYS_YEARS, configurationLimitYearRequestDTO.numberBackYears().toString());
         updateConfiguration(Configurationkey.LIMIT_FORWARD_DAYS_YEARS, configurationLimitYearRequestDTO.numberForwardYears().toString());
     }
 
-    @InsideAudit(description = "Configure system default parents")
+    @InsideAudit(description = "Configure Country Default")
     @Transactional(rollbackFor = {
             ConfigurationNotExistException.class,
             CountryNameInvalidException.class,
             Exception.class
     })
     @Override
-    public void configurationCountry(final ConfigurationCountryRequestDTO configurationCountryRequestDTO) {
+    public void configurationCountry(@Valid final ConfigurationCountryRequestDTO configurationCountryRequestDTO) {
         log.info("Updating configuration country default");
-        Optional<Country> countryOptional = countryRepository.findCountryByName(configurationCountryRequestDTO.country());
-        String countryName = countryOptional.orElseThrow(CountryNameInvalidException::new).getName();
+        String countryName = countryRepository.findCountryByName(configurationCountryRequestDTO.country())
+                .orElseThrow(CountryNameInvalidException::new).getName();
 
         updateConfiguration(Configurationkey.COUNTRY_DEFAULT, countryName);
     }

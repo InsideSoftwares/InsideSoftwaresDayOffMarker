@@ -1,65 +1,81 @@
 package br.com.insidesoftwares.dayoffmarker.domain.repository.country;
 
 import br.com.insidesoftwares.dayoffmarker.domain.entity.country.Country;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.country.QCountry;
+import com.querydsl.core.BooleanBuilder;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface CountryRepository extends JpaRepository<Country, UUID> {
+public interface CountryRepository extends JpaRepository<Country, UUID>, QuerydslPredicateExecutor<Country> {
 
-    @Query("""
-            SELECT c
-            FROM Country c
-            WHERE LOWER(c.name) LIKE LOWER(CONCAT('%', :name,'%'))
-            """)
-    Optional<Country> findCountryByName(String name);
+    default Optional<Country> findCountryByName(String name) {
+        QCountry qCountry = QCountry.country;
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
 
-    @Query("""
-            SELECT count(c)>0
-            FROM Country c
-            WHERE LOWER(c.name) = LOWER(:name)
-            """)
-    boolean existsByName(String name);
+        booleanBuilder.and(qCountry.name.containsIgnoreCase(name));
 
-    @Query("""
-            SELECT count(c)>0
-            FROM Country c
-            WHERE LOWER(c.acronym) = LOWER(:acronym)
-            """)
-    boolean existsByAcronym(String acronym);
+        return findOne(booleanBuilder.getValue());
+    }
 
-    @Query("""
-            SELECT count(c)>0
-            FROM Country c
-            WHERE LOWER(c.code) = LOWER(:code)
-            """)
-    boolean existsByCode(String code);
+    default boolean existsByName(String name) {
+        QCountry qCountry = QCountry.country;
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
 
-    @Query("""
-            SELECT count(c)>0
-            FROM Country c
-            WHERE LOWER(c.name) = LOWER(:name) AND
-            c.id != :countryId
-            """)
-    boolean existsByNameAndNotId(String name, UUID countryId);
+        booleanBuilder.and(qCountry.name.equalsIgnoreCase(name));
 
-    @Query("""
-            SELECT count(c)>0
-            FROM Country c
-            WHERE LOWER(c.acronym) = LOWER(:acronym) AND
-            c.id != :countryId
-            """)
-    boolean existsByAcronymAndNotId(String acronym, UUID countryId);
+        return exists(booleanBuilder.getValue());
+    }
 
-    @Query("""
-            SELECT count(c)>0
-            FROM Country c
-            WHERE LOWER(c.code) = LOWER(:code) AND
-            c.id != :countryId
-            """)
-    boolean existsByCodeAndNotId(String code, UUID countryId);
+    default boolean existsByAcronym(String acronym) {
+        QCountry qCountry = QCountry.country;
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+
+        booleanBuilder.and(qCountry.acronym.equalsIgnoreCase(acronym));
+
+        return exists(booleanBuilder.getValue());
+    }
+
+    default boolean existsByCode(String code) {
+        QCountry qCountry = QCountry.country;
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+
+        booleanBuilder.and(qCountry.code.equalsIgnoreCase(code));
+
+        return exists(booleanBuilder.getValue());
+    }
+
+    default boolean existsByNameAndNotId(String name, UUID countryId) {
+        QCountry qCountry = QCountry.country;
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+
+        booleanBuilder.and(qCountry.name.equalsIgnoreCase(name));
+        booleanBuilder.and(qCountry.id.ne(countryId));
+
+        return exists(booleanBuilder.getValue());
+    }
+
+    default boolean existsByAcronymAndNotId(String acronym, UUID countryId) {
+        QCountry qCountry = QCountry.country;
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+
+        booleanBuilder.and(qCountry.acronym.equalsIgnoreCase(acronym));
+        booleanBuilder.and(qCountry.id.ne(countryId));
+
+        return exists(booleanBuilder.getValue());
+    }
+
+    default boolean existsByCodeAndNotId(String code, UUID countryId) {
+        QCountry qCountry = QCountry.country;
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+
+        booleanBuilder.and(qCountry.code.equalsIgnoreCase(code));
+        booleanBuilder.and(qCountry.id.ne(countryId));
+
+        return exists(booleanBuilder.getValue());
+    }
 }

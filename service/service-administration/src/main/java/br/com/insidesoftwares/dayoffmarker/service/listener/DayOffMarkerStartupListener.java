@@ -39,7 +39,7 @@ public class DayOffMarkerStartupListener implements InsideSoftwaresStartupListen
 
     private boolean validateHasDays() {
         log.info("Validate has days");
-        return dayRepository.existsDay(1);
+        return dayRepository.existsDay();
     }
 
 }

@@ -1,20 +1,22 @@
 package br.com.insidesoftwares.dayoffmarker.domain.repository.state;
 
 import br.com.insidesoftwares.dayoffmarker.domain.entity.country.Country;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.state.QState;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.state.State;
+import com.querydsl.core.BooleanBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface StateRepository extends JpaRepository<State, UUID> {
+public interface StateRepository extends JpaRepository<State, UUID>, JpaSpecificationExecutor<State>, QuerydslPredicateExecutor<State> {
 
     @EntityGraph(value = "state-full")
     Optional<State> findStateById(UUID stateId);
@@ -22,56 +24,48 @@ public interface StateRepository extends JpaRepository<State, UUID> {
     @EntityGraph(value = "state-full")
     Page<State> findAllByCountry(Country country, Pageable pageable);
 
-    @Query("""
-            SELECT count(s)>0
-            FROM State s
-            WHERE LOWER(s.name) = LOWER(:name) AND
-            s.country.id = :countryID AND
-            LOWER(s.acronym) = LOWER(:acronym)
-            """)
-    boolean existsByNameAndCountryIdAndAcronym(String name, UUID countryID, String acronym);
+    default boolean existsByNameAndCountryIdAndAcronym(String name, UUID countryID, String acronym) {
+        QState qState = QState.state;
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
 
-    @Query("""
-            SELECT count(s)>0
-            FROM State s
-            WHERE s.country.id = :countryID AND
-            LOWER(s.acronym) = LOWER(:acronym)
-            """)
-    boolean existsByCountryIdAndAcronym(UUID countryID, String acronym);
+        booleanBuilder.and(qState.name.containsIgnoreCase(name));
+        booleanBuilder.and(qState.acronym.containsIgnoreCase(acronym));
+        booleanBuilder.and(qState.country.id.eq(countryID));
 
-    @Query("""
-            SELECT count(s)>0
-            FROM State s
-            WHERE LOWER(s.name) = LOWER(:name) AND
-            s.country.id = :countryID AND
-            LOWER(s.acronym) = LOWER(:acronym) AND
-            s.id != :stateId
-            """)
-    boolean existsByNameAndCountryIdAndAcronymAndNotId(String name, UUID countryID, String acronym, UUID stateId);
+        return exists(booleanBuilder.getValue());
+    }
 
-    @Query("""
-            SELECT count(s)>0
-            FROM State s
-            WHERE s.country.id = :countryID AND
-            LOWER(s.acronym) = LOWER(:acronym) AND
-            s.id != :stateId
-            """)
-    boolean existsByCountryIdAndAcronymAndNotId(UUID countryID, String acronym, UUID stateId);
+    default boolean existsByCountryIdAndAcronym(UUID countryID, String acronym) {
+        QState qState = QState.state;
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
 
-    @Query("""
-            SELECT count(s) > 0
-            FROM State s
-            INNER JOIN StateHoliday sh ON s.id =  sh.id.stateId
-            INNER JOIN Holiday h ON sh.id.holidayId = h.id
-            INNER JOIN Day d ON h.day.id = d.id
-            WHERE s = :state
-            AND sh.stateHoliday = :stateHoliday
-            AND d.date = :dateSearch
-            """)
-    boolean isStateHolidayByStateAndStateHolidayAndDate(
-            final State state,
-            final boolean stateHoliday,
-            final LocalDate dateSearch
-    );
+        booleanBuilder.and(qState.acronym.containsIgnoreCase(acronym));
+        booleanBuilder.and(qState.country.id.eq(countryID));
+
+        return exists(booleanBuilder.getValue());
+    }
+
+    default boolean existsByNameAndCountryIdAndAcronymAndNotId(String name, UUID countryID, String acronym, UUID stateId) {
+        QState qState = QState.state;
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+
+        booleanBuilder.and(qState.name.containsIgnoreCase(name));
+        booleanBuilder.and(qState.acronym.containsIgnoreCase(acronym));
+        booleanBuilder.and(qState.country.id.eq(countryID));
+        booleanBuilder.and(qState.id.ne(stateId));
+
+        return exists(booleanBuilder.getValue());
+    }
+
+    default boolean existsByCountryIdAndAcronymAndNotId(UUID countryID, String acronym, UUID stateId) {
+        QState qState = QState.state;
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+
+        booleanBuilder.and(qState.acronym.containsIgnoreCase(acronym));
+        booleanBuilder.and(qState.country.id.eq(countryID));
+        booleanBuilder.and(qState.id.ne(stateId));
+
+        return exists(booleanBuilder.getValue());
+    }
 
 }

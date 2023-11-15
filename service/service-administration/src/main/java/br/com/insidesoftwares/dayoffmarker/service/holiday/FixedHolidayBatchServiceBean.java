@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import static br.com.insidesoftwares.dayoffmarker.domain.specification.day.DaySpecification.findDayWithoutHolidaysByDayAndMonthAndYearAndFixedHolidayIdOrNotHoliday;
+import static br.com.insidesoftwares.dayoffmarker.domain.specification.holiday.FixedHolidaySpecification.findDayWithoutHolidaysByDayAndMonthAndYearAndFixedHolidayIdOrNotHoliday;
 
 @Service
 @RequiredArgsConstructor

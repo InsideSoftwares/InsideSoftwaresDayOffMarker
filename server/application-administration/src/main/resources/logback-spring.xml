@@ -32,16 +32,9 @@
         </rollingPolicy>
     </appender>
 
-    <!-- LOG everything at INFO level -->
     <root level="info">
         <appender-ref ref="RollingFile"/>
         <appender-ref ref="Console"/>
     </root>
-
-    <!-- LOG "br.com.insidesoftwares.dayoffmarker*" at TRACE level -->
-    <logger name="br.com.insidesoftwares.dayoffmarker" level="trace" additivity="false">
-        <appender-ref ref="RollingFile"/>
-        <appender-ref ref="Console"/>
-    </logger>
 
 </configuration>

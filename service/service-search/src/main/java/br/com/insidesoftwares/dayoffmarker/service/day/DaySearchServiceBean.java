@@ -12,7 +12,6 @@ import br.com.insidesoftwares.dayoffmarker.commons.exception.error.day.DayNotExi
 import br.com.insidesoftwares.dayoffmarker.domain.entity.day.Day;
 import br.com.insidesoftwares.dayoffmarker.domain.mapper.day.DayMapper;
 import br.com.insidesoftwares.dayoffmarker.domain.repository.day.DayRepository;
-import br.com.insidesoftwares.dayoffmarker.domain.specification.day.DaySpecification;
 import br.com.insidesoftwares.dayoffmarker.specification.search.day.DaySearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -30,6 +29,7 @@ import java.util.UUID;
 
 import static br.com.insidesoftwares.dayoffmarker.domain.specification.day.DaySpecification.findDayByDateOrTag;
 import static br.com.insidesoftwares.dayoffmarker.domain.specification.day.DaySpecification.findWorkingDayByDateAndIsHolidayAndIsWeekend;
+import static br.com.insidesoftwares.dayoffmarker.domain.specification.day.PageableDaySpecification.findAllPageableByStartDateAndEndDate;
 
 @Service
 @Transactional(readOnly = true)
@@ -56,7 +56,7 @@ class DaySearchServiceBean implements DaySearchService {
     ) {
         Pageable pageable = PaginationUtils.createPageable(paginationFilter, eOrderDay.ID);
 
-        Page<Day> days = dayRepository.findAll(DaySpecification.findAllByStartDateAndEndDate(startDate, endDate), pageable);
+        Page<Day> days = dayRepository.findAll(findAllPageableByStartDateAndEndDate(startDate, endDate), pageable);
 
         return InsideSoftwaresResponseDTO.<List<DayDTO>>builder()
                 .data(dayMapper.toDTOs(days.getContent()))

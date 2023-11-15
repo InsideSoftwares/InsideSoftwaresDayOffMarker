@@ -9,7 +9,6 @@ import org.mapstruct.Named;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface CityHolidayMapper {
@@ -26,6 +25,6 @@ public interface CityHolidayMapper {
 
     @Named("toCityHolidaysDTO")
     default List<CityHolidayResponseDTO> toDTOs(Set<CityHoliday> cityHolidays) {
-        return cityHolidays.stream().map(this::toDTO).collect(Collectors.toList());
+        return cityHolidays.stream().map(this::toDTO).toList();
     }
 }

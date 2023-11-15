@@ -10,6 +10,6 @@ import org.springframework.validation.annotation.Validated;
 public interface ConfigurationService {
 
     void updateConfiguration(final Configurationkey configurationKey, final String value);
-    void configurationLimitYear(final @Valid ConfigurationLimitYearRequestDTO configurationLimitYearRequestDTO);
-    void configurationCountry(final @Valid ConfigurationCountryRequestDTO configurationCountryRequestDTO);
+    void configurationLimitYear(@Valid final ConfigurationLimitYearRequestDTO configurationLimitYearRequestDTO);
+    void configurationCountry(@Valid final ConfigurationCountryRequestDTO configurationCountryRequestDTO);
 }

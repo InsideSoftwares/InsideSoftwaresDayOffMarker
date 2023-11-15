@@ -1,0 +1,30 @@
+= Day Off Marker Manual
+:toc:
+:toc-title: Sumário
+
+== `Objetivo desse documento`
+* Este manual descreverá os recursos adicionados, obsoletos e removidos.
+* Também descreverá como configurar o ambiente e os requisitos mínimos.
+* Por fim, apresentar os resultados no ambiente de homologação.
+
+:chapter: Configuração
+== `Configuração`
+include::configuration/configuration.adoc[]
+
+:chapter: V1.0.0
+== `Versão: 1.0.0`
+include::version/v1/v1.adoc[]
+
+:chapter: Homologação
+== `Homologação`
+
+
+
+|===
+|Data |Observação |Revisor
+
+|15/11/2023
+|Criação do manual
+|Samuel Cunha
+
+|===

@@ -11,11 +11,14 @@ import br.com.insidesoftwares.dayoffmarker.specification.search.state.StateSearc
 import br.com.insidesoftwares.dayoffmarker.specification.search.working.WorkingStateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.UUID;
+
+import static br.com.insidesoftwares.dayoffmarker.domain.specification.state.StateSpecification.findByStateHolidayByStateAndStateHolidayAndDate;
 
 @Service
 @RequiredArgsConstructor
@@ -59,19 +62,15 @@ class WorkingStateServiceBean implements WorkingStateService {
     private boolean isWorkingStateByDay(final UUID stateID, final LocalDate date) {
         State state = stateSearchService.findStateByStateId(stateID);
         boolean isWorkingDay;
-        boolean isNotWorkingDay = stateRepository.isStateHolidayByStateAndStateHolidayAndDate(
-                state,
-                true,
-                date
+        boolean isNotWorkingDay = stateRepository.exists(
+                createSpecificationByStateAndStateHolidayAndDate(state.getId(), true, date)
         );
 
         if (isNotWorkingDay) {
             isWorkingDay = false;
         } else {
-            isWorkingDay = stateRepository.isStateHolidayByStateAndStateHolidayAndDate(
-                    state,
-                    false,
-                    date
+            isWorkingDay = stateRepository.exists(
+                    createSpecificationByStateAndStateHolidayAndDate(state.getId(), false, date)
             );
             if (!isWorkingDay && state.getStateHolidays().isEmpty()) {
                 isWorkingDay = daySearchService.isDayByDateAndIsWeekend(date, false);
@@ -79,5 +78,13 @@ class WorkingStateServiceBean implements WorkingStateService {
         }
 
         return isWorkingDay;
+    }
+
+    private Specification<State> createSpecificationByStateAndStateHolidayAndDate (
+            final UUID stateId,
+            final boolean stateHoliday,
+            final LocalDate dateSearch
+    ) {
+        return findByStateHolidayByStateAndStateHolidayAndDate(stateId, stateHoliday, dateSearch);
     }
 }

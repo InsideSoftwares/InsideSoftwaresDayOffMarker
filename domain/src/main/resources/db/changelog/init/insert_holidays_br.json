@@ -450,6 +450,13 @@
               ]
             }
           }
+        ],
+        "rollback": [
+          {
+            "sql": {
+              "sql": "TRUNCATE TABLE DOM_FIXED_HOLIDAY;"
+            }
+          }
         ]
       }
     }

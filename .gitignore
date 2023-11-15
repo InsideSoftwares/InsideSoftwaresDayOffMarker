@@ -140,6 +140,7 @@ replay_pid*
 
 target/**/*
 */target/**/*
+*/**/target/**/*
 server/**/target/**/*
 
 *.lst

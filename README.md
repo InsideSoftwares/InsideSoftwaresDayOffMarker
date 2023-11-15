@@ -16,7 +16,7 @@ Todos esses processos dependem de datas específicas para serem realizados, a fi
 ## Bibliotecas, Framework e Projetos utilizado para implementação do sistema
 
 * [Spring Boot](https://spring.io/projects/spring-boot)
-    * Versão: 3.1.4
+    * Versão: 3.1.5
 * [Java](https://www.java.com/pt-BR/)
     * Versão: 21 ou superior
 * [Liquibase](https://www.liquibase.org/)
@@ -30,7 +30,6 @@ Todos esses processos dependem de datas específicas para serem realizados, a fi
 
 ## Bancos suportados
 
-* Mysql: 8.0.34 ou superior
 * Postgres: 15.4 ou superior
 
 ## Build do projeto

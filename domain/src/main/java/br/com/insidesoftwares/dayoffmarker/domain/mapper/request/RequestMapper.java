@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface RequestMapper {
 
-    RequestDTO toDTO(Request address);
+    RequestDTO toDTO(Request request);
 
     List<RequestDTO> toDTOs(List<Request> requests);
 

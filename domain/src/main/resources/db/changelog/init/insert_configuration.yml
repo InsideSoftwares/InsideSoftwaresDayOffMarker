@@ -53,3 +53,6 @@ databaseChangeLog:
               - column:
                   name: DEFAULT_VALUE
                   value: 'BRAZIL'
+      rollback:
+        - sql:
+            sql: TRUNCATE TABLE DOM_CONFIGURATION

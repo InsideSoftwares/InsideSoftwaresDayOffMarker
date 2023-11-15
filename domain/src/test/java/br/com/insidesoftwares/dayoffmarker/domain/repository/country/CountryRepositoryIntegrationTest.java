@@ -1,6 +1,7 @@
-package br.com.insidesoftwares.dayoffmarker.repository.country;
+package br.com.insidesoftwares.dayoffmarker.domain.repository.country;
 
 import br.com.insidesoftwares.dayoffmarker.RepositoryTestApplication;
+import br.com.insidesoftwares.dayoffmarker.RepositoryTestUtils;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.country.Country;
 import br.com.insidesoftwares.dayoffmarker.domain.repository.country.CountryRepository;
 import org.junit.jupiter.api.Test;
@@ -14,17 +15,16 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@Sql(scripts = "classpath:postgresql/insert_country_state_city.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-@Sql(scripts = "classpath:postgresql/delete_country_state_city.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@Sql(scripts = "classpath:postgresql/setsup_database.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "classpath:postgresql/delete_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 @SpringBootTest(classes = RepositoryTestApplication.class)
 @Testcontainers
-class CountryRepositoryIntegrationTest {
+class CountryRepositoryIntegrationTest extends RepositoryTestUtils {
 
     @Container
     static PostgreSQLContainer container = new PostgreSQLContainer("postgres:latest");
@@ -39,8 +39,6 @@ class CountryRepositoryIntegrationTest {
 
     @Autowired
     private CountryRepository countryRepository;
-
-    private static final UUID COUNTRY_ID = UUID.randomUUID();
 
     @Test
     void shouldReturnExistCountryWhenCodeBR01() {
@@ -58,7 +56,7 @@ class CountryRepositoryIntegrationTest {
 
     @Test
     void shouldReturnCountryWhenNameBrasil() {
-        Optional<Country> country = countryRepository.findCountryByName("Brasil");
+        Optional<Country> country = countryRepository.findCountryByName("BrA");
 
         assertTrue(country.isPresent());
         assertEquals("Brasil", country.get().getName());
@@ -108,43 +106,43 @@ class CountryRepositoryIntegrationTest {
     }
 
     @Test
-    void shouldReturnExistCountryWhenNameBrasilAndNotID2() {
-        boolean exist = countryRepository.existsByNameAndNotId("Brasil", COUNTRY_ID);
+    void shouldReturnExistCountryWhenNameBrasilAndNotID() {
+        boolean exist = countryRepository.existsByNameAndNotId("Brasil", COUNTRY_EUA_ID);
 
         assertTrue(exist);
     }
 
     @Test
-    void shouldntReturnExistCountryWhenNameCanadaAndNotID2() {
-        boolean exist = countryRepository.existsByNameAndNotId("Canada", COUNTRY_ID);
+    void shouldntReturnExistCountryWhenNameCanadaAndNotID() {
+        boolean exist = countryRepository.existsByNameAndNotId("Canada", COUNTRY_BRS_ID);
 
         assertFalse(exist);
     }
 
     @Test
-    void shouldReturnExistCountryWhenAcronymBRSAndNotID2() {
-        boolean exist = countryRepository.existsByAcronymAndNotId("BRS", COUNTRY_ID);
+    void shouldReturnExistCountryWhenAcronymBRSAndNotID() {
+        boolean exist = countryRepository.existsByAcronymAndNotId("BRS", COUNTRY_EUA_ID);
 
         assertTrue(exist);
     }
 
     @Test
-    void shouldntReturnExistCountryWhenAcronymCNDAndNotID2() {
-        boolean exist = countryRepository.existsByAcronymAndNotId("CND", COUNTRY_ID);
+    void shouldntReturnExistCountryWhenAcronymCNDAndNotID() {
+        boolean exist = countryRepository.existsByAcronymAndNotId("CND", COUNTRY_BRS_ID);
 
         assertFalse(exist);
     }
 
     @Test
-    void shouldReturnExistCountryWhenCodeBR01AndNotID2() {
-        boolean exist = countryRepository.existsByCodeAndNotId("BR01", COUNTRY_ID);
+    void shouldReturnExistCountryWhenCodeBR01AndNotID() {
+        boolean exist = countryRepository.existsByCodeAndNotId("BR01", COUNTRY_EUA_ID);
 
         assertTrue(exist);
     }
 
     @Test
-    void shouldntReturnExistCountryWhenCodeBR50AndNotID2() {
-        boolean exist = countryRepository.existsByCodeAndNotId("BR50", COUNTRY_ID);
+    void shouldntReturnExistCountryWhenCodeBR50AndNotID() {
+        boolean exist = countryRepository.existsByCodeAndNotId("BR50", COUNTRY_BRS_ID);
 
         assertFalse(exist);
     }

@@ -1,19 +1,22 @@
 package br.com.insidesoftwares.dayoffmarker.domain.repository.city;
 
 import br.com.insidesoftwares.dayoffmarker.domain.entity.city.City;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.city.QCity;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.country.Country;
+import com.querydsl.core.BooleanBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface CityRepository extends JpaRepository<City, UUID> {
+public interface CityRepository extends JpaRepository<City, UUID>, QuerydslPredicateExecutor<City> {
 
     @EntityGraph(value = "city-full")
     Optional<City> findCityById(UUID cityID);
@@ -37,56 +40,68 @@ public interface CityRepository extends JpaRepository<City, UUID> {
     @EntityGraph(value = "city-full")
     Page<City> findCityByCountry(Country country, Pageable pageable);
 
-    @Query("""
-            SELECT count(c)>0
-            FROM City c
-            WHERE c.state.id = :stateID AND
-            LOWER(c.name) = LOWER(:name)
-            """)
-    boolean existsByNameAndStateID(String name, UUID stateID);
+    default boolean existsByNameAndStateID(String name, UUID stateID) {
+        QCity qCity = QCity.city;
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
 
-    @Query("""
-            SELECT count(c)>0
-            FROM City c
-            WHERE c.state.id = :stateID AND
-            LOWER(c.code) = LOWER(:code)
-            """)
-    boolean existsByCodeAndStateID(String code, UUID stateID);
+        booleanBuilder.and(qCity.name.containsIgnoreCase(name));
+        booleanBuilder.and(qCity.state.id.eq(stateID));
 
-    @Query("""
-            SELECT count(c)>0
-            FROM City c
-            WHERE c.state.id = :stateID AND
-            LOWER(c.code) = LOWER(:code) AND
-            LOWER(c.acronym) = LOWER(:acronym)
-            """)
-    boolean existsByCodeAndAcronymAndStateID(String code, String acronym, UUID stateID);
+        return exists(booleanBuilder.getValue());
+    }
 
-    @Query("""
-            SELECT count(c)>0
-            FROM City c
-            WHERE c.state.id = :stateID AND
-            LOWER(c.name) = LOWER(:name) AND
-            c.id != :cityID
-            """)
-    boolean existsByNameAndStateIDAndNotId(String name, UUID stateID, UUID cityID);
+    default boolean existsByCodeAndStateID(String code, UUID stateID) {
+        QCity qCity = QCity.city;
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
 
-    @Query("""
-            SELECT count(c)>0
-            FROM City c
-            WHERE c.state.id = :stateID AND
-            LOWER(c.code) = LOWER(:code) AND
-            c.id != :cityID
-            """)
-    boolean existsByCodeAndStateIDAndNotId(String code, UUID stateID, UUID cityID);
+        booleanBuilder.and(qCity.code.containsIgnoreCase(code));
+        booleanBuilder.and(qCity.state.id.eq(stateID));
 
-    @Query("""
-            SELECT count(c)>0
-            FROM City c
-            WHERE c.state.id = :stateID AND
-            LOWER(c.code) = LOWER(:code) AND
-            LOWER(c.acronym) = LOWER(:acronym) AND
-            c.id != :cityID
-            """)
-    boolean existsByCodeAndAcronymAndStateIDAndNotId(String code, String acronym, UUID stateID, UUID cityID);
+        return exists(booleanBuilder.getValue());
+    }
+
+    default boolean existsByCodeAndAcronymAndStateID(String code, String acronym, UUID stateID) {
+        QCity qCity = QCity.city;
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+
+        booleanBuilder.and(qCity.code.containsIgnoreCase(code));
+        booleanBuilder.and(qCity.acronym.containsIgnoreCase(acronym));
+        booleanBuilder.and(qCity.state.id.eq(stateID));
+
+        return exists(booleanBuilder.getValue());
+    }
+
+    default boolean existsByNameAndStateIDAndNotId(String name, UUID stateID, UUID cityID) {
+        QCity qCity = QCity.city;
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+
+        booleanBuilder.and(qCity.name.containsIgnoreCase(name));
+        booleanBuilder.and(qCity.state.id.eq(stateID));
+        booleanBuilder.and(qCity.id.ne(cityID));
+
+        return exists(booleanBuilder.getValue());
+    }
+
+    default boolean existsByCodeAndStateIDAndNotId(String code, UUID stateID, UUID cityID) {
+        QCity qCity = QCity.city;
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+
+        booleanBuilder.and(qCity.code.containsIgnoreCase(code));
+        booleanBuilder.and(qCity.state.id.eq(stateID));
+        booleanBuilder.and(qCity.id.ne(cityID));
+
+        return exists(booleanBuilder.getValue());
+    }
+
+    default boolean existsByCodeAndAcronymAndStateIDAndNotId(String code, String acronym, UUID stateID, UUID cityID) {
+        QCity qCity = QCity.city;
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+
+        booleanBuilder.and(qCity.code.containsIgnoreCase(code));
+        booleanBuilder.and(qCity.acronym.containsIgnoreCase(acronym));
+        booleanBuilder.and(qCity.state.id.eq(stateID));
+        booleanBuilder.and(qCity.id.ne(cityID));
+
+        return exists(booleanBuilder.getValue());
+    }
 }

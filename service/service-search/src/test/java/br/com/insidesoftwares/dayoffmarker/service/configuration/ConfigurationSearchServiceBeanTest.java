@@ -16,7 +16,7 @@ import java.util.Optional;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class ConfigurationSearchServiceBeanTest {
+abstract class ConfigurationSearchServiceBeanTest {
 
     private static final String VALUE_LIMIT_BACK_DAYS_YEARS = "3";
     private static final String VALUE_DEFAULT_LIMIT_BACK_DAYS_YEARS = "6";

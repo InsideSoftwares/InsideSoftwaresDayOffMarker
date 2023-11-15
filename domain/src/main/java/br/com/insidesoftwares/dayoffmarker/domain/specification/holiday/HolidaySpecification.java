@@ -2,12 +2,15 @@ package br.com.insidesoftwares.dayoffmarker.domain.specification.holiday;
 
 import br.com.insidesoftwares.dayoffmarker.commons.exception.error.StartDateAfterEndDateException;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.holiday.Holiday;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class HolidaySpecification {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class HolidaySpecification {
 
     private static final String HOLIDAY_DAY_DATE = "date";
     private static final String HOLIDAY_DAY = "day";

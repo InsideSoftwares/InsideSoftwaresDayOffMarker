@@ -9,6 +9,9 @@ databaseChangeLog:
             splitStatements: true
             sql: CREATE EXTENSION IF NOT EXISTS "uuid-ossp"
             stripComments: false
+      rollback:
+        - sql:
+            sql: DROP EXTENSION "uuid-ossp"
   - changeSet:
       id: create_DOM_COUNTRY
       author: System

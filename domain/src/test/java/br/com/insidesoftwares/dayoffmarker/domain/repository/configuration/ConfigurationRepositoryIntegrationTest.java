@@ -1,4 +1,4 @@
-package br.com.insidesoftwares.dayoffmarker.repository.configuration;
+package br.com.insidesoftwares.dayoffmarker.domain.repository.configuration;
 
 import br.com.insidesoftwares.dayoffmarker.RepositoryTestApplication;
 import br.com.insidesoftwares.dayoffmarker.commons.enumeration.Configurationkey;
@@ -18,8 +18,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@Sql(scripts = "classpath:postgresql/insert_country_state_city.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-@Sql(scripts = "classpath:postgresql/delete_country_state_city.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@Sql(scripts = "classpath:postgresql/setsup_database.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "classpath:postgresql/delete_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 @SpringBootTest(classes = RepositoryTestApplication.class)
 @Testcontainers
 class ConfigurationRepositoryIntegrationTest {

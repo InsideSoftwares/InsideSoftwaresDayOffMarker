@@ -1,7 +1,9 @@
 package br.com.insidesoftwares.dayoffmarker.domain.repository.day;
 
 import br.com.insidesoftwares.dayoffmarker.domain.entity.day.Day;
+import br.com.insidesoftwares.dayoffmarker.domain.entity.day.QDay;
 import br.com.insidesoftwares.dayoffmarker.domain.entity.holiday.FixedHoliday;
+import com.querydsl.core.BooleanBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -44,12 +46,18 @@ public interface DayRepository extends JpaRepository<Day, UUID>, JpaSpecificatio
             final LocalDate dateFinalSearch
     );
 
-    @Query("""
-            SELECT count(d) > 0
-            FROM Day d
-            WHERE d.date > CURRENT_DATE
-            """)
-    boolean existsDay(final int limit);
+    default boolean existsDay() {
+        return existsByDate(LocalDate.now());
+    }
+
+    default boolean existsByDate(final LocalDate date) {
+        QDay qDay = QDay.day;
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+
+        booleanBuilder.and(qDay.date.eq(date));
+
+        return exists(booleanBuilder.getValue());
+    }
 
     @Query("""
             SELECT d
@@ -68,10 +76,6 @@ public interface DayRepository extends JpaRepository<Day, UUID>, JpaSpecificatio
             """)
     @EntityGraph(value = "day-full")
     List<Day> findDaysByTagCode(final String tagCode);
-    @Override
-    boolean exists(Specification<Day> daySpecification);
-
-    boolean existsByDate(final LocalDate date);
 
     @Override
     @EntityGraph(value = "day-tags")
