@@ -25,7 +25,7 @@
             <artifactId>audit</artifactId>
             <exclusions>
                 <exclusion>
-                    <groupId>com.trendyol</groupId>
+                    <groupId>br.com.insidesoftwares</groupId>
                     <artifactId>Jdempotent-spring-boot-redis-starter</artifactId>
                 </exclusion>
             </exclusions>
@@ -35,7 +35,7 @@
             <artifactId>controller-search</artifactId>
             <exclusions>
                 <exclusion>
-                    <groupId>com.trendyol</groupId>
+                    <groupId>br.com.insidesoftwares</groupId>
                     <artifactId>Jdempotent-spring-boot-redis-starter</artifactId>
                 </exclusion>
             </exclusions>
@@ -45,7 +45,7 @@
             <artifactId>domain</artifactId>
             <exclusions>
                 <exclusion>
-                    <groupId>com.trendyol</groupId>
+                    <groupId>br.com.insidesoftwares</groupId>
                     <artifactId>Jdempotent-spring-boot-redis-starter</artifactId>
                 </exclusion>
             </exclusions>
@@ -55,7 +55,7 @@
             <artifactId>specification-search</artifactId>
             <exclusions>
                 <exclusion>
-                    <groupId>com.trendyol</groupId>
+                    <groupId>br.com.insidesoftwares</groupId>
                     <artifactId>Jdempotent-spring-boot-redis-starter</artifactId>
                 </exclusion>
             </exclusions>
@@ -65,7 +65,7 @@
             <artifactId>service-search</artifactId>
             <exclusions>
                 <exclusion>
-                    <groupId>com.trendyol</groupId>
+                    <groupId>br.com.insidesoftwares</groupId>
                     <artifactId>Jdempotent-spring-boot-redis-starter</artifactId>
                 </exclusion>
             </exclusions>
@@ -75,7 +75,7 @@
             <artifactId>commons</artifactId>
             <exclusions>
                 <exclusion>
-                    <groupId>com.trendyol</groupId>
+                    <groupId>br.com.insidesoftwares</groupId>
                     <artifactId>Jdempotent-spring-boot-redis-starter</artifactId>
                 </exclusion>
             </exclusions>
@@ -85,7 +85,7 @@
             <artifactId>configuration</artifactId>
             <exclusions>
                 <exclusion>
-                    <groupId>com.trendyol</groupId>
+                    <groupId>br.com.insidesoftwares</groupId>
                     <artifactId>Jdempotent-spring-boot-redis-starter</artifactId>
                 </exclusion>
             </exclusions>
@@ -105,10 +105,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-starter-client</artifactId>
         </dependency>
     </dependencies>
 
@@ -183,7 +179,7 @@
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
-                        <version>0.8.10</version>
+                        <version>0.8.11</version>
                         <executions>
                             <execution>
                                 <id>default-prepare-agent</id>
@@ -202,7 +198,7 @@
                     <plugin>
                         <groupId>org.owasp</groupId>
                         <artifactId>dependency-check-maven</artifactId>
-                        <version>8.3.1</version>
+                        <version>8.4.2</version>
                         <executions>
                             <execution>
                                 <goals>

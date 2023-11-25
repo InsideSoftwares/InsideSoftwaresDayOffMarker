@@ -106,7 +106,7 @@
                     <artifactId>lettuce-core</artifactId>
                 </exclusion>
                 <exclusion>
-                    <groupId>com.trendyol</groupId>
+                    <groupId>br.com.insidesoftwares</groupId>
                     <artifactId>Jdempotent-spring-boot-redis-starter</artifactId>
                 </exclusion>
                 <exclusion>
@@ -157,7 +157,7 @@
                     <plugin>
                         <groupId>org.owasp</groupId>
                         <artifactId>dependency-check-maven</artifactId>
-                        <version>8.3.1</version>
+                        <version>8.4.2</version>
                         <executions>
                             <execution>
                                 <goals>

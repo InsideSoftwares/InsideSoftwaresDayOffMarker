@@ -15,7 +15,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @ComponentScan(basePackages = {"br.com.insidesoftwares.dayoffmarker.configuration", "br.com.insidesoftwares"})
 @SpringBootApplication(exclude = {RedisAutoConfiguration.class, DataSourceAutoConfiguration.class})
 public class DayOffMarkerApplication {
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         SpringApplication.run(DayOffMarkerApplication.class, args);
     }
 }

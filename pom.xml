@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.5</version>
+        <version>3.2.0</version>
         <relativePath/>
     </parent>
 
@@ -38,31 +38,33 @@
         <maven.compiler.target>21</maven.compiler.target>
         <java.version>21</java.version>
 
-        <spring-boot.version>3.1.5</spring-boot.version>
-        <spring.framework.version>6.0.12</spring.framework.version>
-        <spring-data-redis.version>3.1.5</spring-data-redis.version>
+        <spring-boot.version>3.2.0</spring-boot.version>
+        <spring-data-redis.version>3.2.0</spring-data-redis.version>
+        <spring.framework.version>6.1.1</spring.framework.version>
+        <spring-security-test.version>6.2.0</spring-security-test.version>
+        <spring-cloud-starter.version>4.0.4</spring-cloud-starter.version>
+        <spring-cloud-dependencies.version>2022.0.4</spring-cloud-dependencies.version>
 
-        <checkstyle-maven-plugin.version>3.3.0</checkstyle-maven-plugin.version>
+        <checkstyle-maven-plugin.version>3.3.1</checkstyle-maven-plugin.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
         <lombok.version>1.18.30</lombok.version>
         <gson.version>2.10.1</gson.version>
 
-        <postgresql.version>42.6.0</postgresql.version>
-        <liquibase.version>4.23.2</liquibase.version>
-        <op_querydsl.version>5.1</op_querydsl.version>
+        <postgresql.version>42.7.0</postgresql.version>
+        <liquibase.version>4.25.0</liquibase.version>
+        <op_querydsl.version>5.1.1</op_querydsl.version>
 
-        <mockito.version>5.5.0</mockito.version>
+        <mockito.version>5.7.0</mockito.version>
         <mockito-inline.version>5.2.0</mockito-inline.version>
-        <junit-jupiter.version>5.10.0</junit-jupiter.version>
+        <junit-jupiter.version>5.10.1</junit-jupiter.version>
 
         <spring-cloud-starter-netflix-eureka-client.version>4.0.3</spring-cloud-starter-netflix-eureka-client.version>
         <spring-cloud-starter.version>4.0.4</spring-cloud-starter.version>
-        <spring-boot-admin-starter-client.version>3.1.4</spring-boot-admin-starter-client.version>
 
-        <junit-platform-launcher.version>1.10.0</junit-platform-launcher.version>
-        <testcontainers-bom.version>1.19.0</testcontainers-bom.version>
+        <junit-platform-launcher.version>1.10.1</junit-platform-launcher.version>
+        <testcontainers-bom.version>1.19.2</testcontainers-bom.version>
 
-        <snakeyaml.version>2.1</snakeyaml.version>
+        <snakeyaml.version>2.2</snakeyaml.version>
         <json.version>20231013</json.version>
     </properties>
 
@@ -156,11 +158,6 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
                 <version>${spring-cloud-starter-netflix-eureka-client.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>de.codecentric</groupId>
-                <artifactId>spring-boot-admin-starter-client</artifactId>
-                <version>${spring-boot-admin-starter-client.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
@@ -346,6 +343,22 @@
     </dependencyManagement>
 
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>${checkstyle-maven-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -362,7 +375,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.1.2</version>
+                <version>3.2.2</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

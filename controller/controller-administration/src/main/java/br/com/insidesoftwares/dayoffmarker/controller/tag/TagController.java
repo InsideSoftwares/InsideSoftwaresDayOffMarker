@@ -7,8 +7,8 @@ import br.com.insidesoftwares.dayoffmarker.commons.dto.tag.TagLinkUnlinkRequestD
 import br.com.insidesoftwares.dayoffmarker.commons.dto.tag.TagRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.tag.TagLinkResponseDTO;
 import br.com.insidesoftwares.dayoffmarker.specification.service.tag.TagService;
-import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
-import com.trendyol.jdempotent.core.annotation.JdempotentResource;
+import br.com.insidesoftwares.jdempotent.core.annotation.JdempotentRequestPayload;
+import br.com.insidesoftwares.jdempotent.core.annotation.JdempotentResource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;

@@ -9,8 +9,8 @@ import br.com.insidesoftwares.dayoffmarker.commons.dto.state.StateHolidayDeleteR
 import br.com.insidesoftwares.dayoffmarker.commons.dto.state.StateHolidayRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.commons.dto.state.StateRequestDTO;
 import br.com.insidesoftwares.dayoffmarker.specification.service.state.StateService;
-import com.trendyol.jdempotent.core.annotation.JdempotentRequestPayload;
-import com.trendyol.jdempotent.core.annotation.JdempotentResource;
+import br.com.insidesoftwares.jdempotent.core.annotation.JdempotentRequestPayload;
+import br.com.insidesoftwares.jdempotent.core.annotation.JdempotentResource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;

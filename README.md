@@ -16,13 +16,13 @@ Todos esses processos dependem de datas específicas para serem realizados, a fi
 ## Bibliotecas, Framework e Projetos utilizado para implementação do sistema
 
 * [Spring Boot](https://spring.io/projects/spring-boot)
-    * Versão: 3.1.5
+    * Versão: 3.2.0
 * [Java](https://www.java.com/pt-BR/)
     * Versão: 21 ou superior
 * [Liquibase](https://www.liquibase.org/)
-    * Versão: 4.23.0
-* [Jdempotent](https://github.com/Trendyol/Jdempotent)
-    * Versão: 3.0.0 (Em desenvolvimento)
+    * Versão: 4.25.0
+* [InsideSoftwaresJdempotent](https://github.com/InsideSoftwares/InsideSoftwaresJdempotent)
+    * Versão: 1.0.0 (Em desenvolvimento)
 * [InsideSoftwaresCommons](https://github.com/InsideSoftwares/InsideSoftwaresCommons)
     * Versão: 1.0.0 (Em desenvolvimento)
 * [InsideSoftwaresSecurityCommons](https://github.com/InsideSoftwares/InsideSoftwaresSecurityCommons)

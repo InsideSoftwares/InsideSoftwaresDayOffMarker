@@ -15,7 +15,7 @@ public class HolidayScheduledComponent {
 
     private final FixedHolidayJobServiceBean fixedHolidayJobServiceBean;
 
-    @Scheduled(fixedDelay = 5, initialDelay = 1, timeUnit = TimeUnit.MINUTES)
+    @Scheduled(fixedDelay = 20, initialDelay = 5, timeUnit = TimeUnit.MINUTES)
     public void schedulingFindRequestForUpdateFixedHoliday() {
         log.info("Starting request query to update fixed holidays.");
         fixedHolidayJobServiceBean.processFixedHolidayBatch();

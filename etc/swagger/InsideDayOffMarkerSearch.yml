@@ -32,8 +32,6 @@ tags:
     description: Search days of work.
   - name: State
     description: Get and register the states
-  - name: Configuration
-    description: Performs basic system settings.
   - name: Fixed Holiday
     description: Get and register the fixed holidays
 paths:

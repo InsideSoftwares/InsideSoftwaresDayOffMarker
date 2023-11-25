@@ -22,6 +22,12 @@
         <dependency>
             <groupId>br.com.insidesoftwares.securitycommons</groupId>
             <artifactId>security</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>br.com.insidesoftwares.commons</groupId>
+                    <artifactId>utils</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -43,16 +49,8 @@
             <artifactId>commons</artifactId>
             <exclusions>
                 <exclusion>
-                    <groupId>br.com.insidesoftwares.commons</groupId>
-                    <artifactId>utils</artifactId>
-                </exclusion>
-                <exclusion>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-web</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.projectlombok</groupId>
-                    <artifactId>lombok</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>org.mapstruct</groupId>
@@ -103,10 +101,6 @@
                     <artifactId>lettuce-core</artifactId>
                 </exclusion>
                 <exclusion>
-                    <groupId>com.trendyol</groupId>
-                    <artifactId>Jdempotent-spring-boot-redis-starter</artifactId>
-                </exclusion>
-                <exclusion>
                     <groupId>com.google.guava</groupId>
                     <artifactId>guava</artifactId>
                 </exclusion>
@@ -154,7 +148,7 @@
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
-                        <version>0.8.10</version>
+                        <version>0.8.11</version>
                         <executions>
                             <execution>
                                 <id>default-prepare-agent</id>
@@ -173,7 +167,7 @@
                     <plugin>
                         <groupId>org.owasp</groupId>
                         <artifactId>dependency-check-maven</artifactId>
-                        <version>8.3.1</version>
+                        <version>8.4.2</version>
                         <executions>
                             <execution>
                                 <goals>
@@ -181,6 +175,13 @@
                                 </goals>
                             </execution>
                         </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-checkstyle-plugin</artifactId>
+                        <configuration>
+                            <configLocation>${project.parent.basedir}/etc/devops/checkstyle/checkstyle.xml</configLocation>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>

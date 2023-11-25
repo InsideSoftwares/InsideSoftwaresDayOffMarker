@@ -5,6 +5,9 @@ logging:
     root: INFO
 
 spring:
+  cloud:
+    compatibility-verifier:
+      enabled: false
   application:
     name: InsideDayOffMarker
   main:

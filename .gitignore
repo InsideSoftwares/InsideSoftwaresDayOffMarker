@@ -143,4 +143,9 @@ target/**/*
 */**/target/**/*
 server/**/target/**/*
 
+logs/**/*
+*/logs/**/*
+*/**/logs/**/*
+server/**/logs/**/*
+
 *.lst

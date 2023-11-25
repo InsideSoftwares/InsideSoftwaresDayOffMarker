@@ -20,14 +20,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableTransactionManagement
 @EnableJpaRepositories(
         entityManagerFactoryRef = "DayOffMarkerEntityManagerFactory",
         transactionManagerRef = "DayOffMarkerTransactionManager",
         basePackages = {"br.com.insidesoftwares.dayoffmarker.domain.repository"})
 @EnableConfigurationProperties(LiquibaseProperties.class)
-public class DayOffMarkerDataSourceConfiguration {
+public final class DayOffMarkerDataSourceConfiguration {
 
     @Primary
     @Bean(name = "DayOffMarkerDataSourcePropos")

@@ -22,12 +22,9 @@ spring:
       uri: ${CLOUD_CONFIG_URI:http://localhost:8888}
       username: ${CLOUD_CONFIG_NAME:ADMIN}
       password: ${CLOUD_CONFIG_PASSWORD:ADMIN}
-  boot:
-    admin:
-      client:
-        url: ${CLOUD_ADMIN_URL:http://localhost:8889/admin}
-      instance:
-        prefer-ip: true
+  threads:
+    virtual:
+      enabled: true
 
 eureka:
   client:

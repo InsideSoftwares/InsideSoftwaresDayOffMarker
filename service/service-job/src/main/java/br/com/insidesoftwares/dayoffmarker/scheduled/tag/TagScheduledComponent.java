@@ -15,7 +15,7 @@ public class TagScheduledComponent {
 
     private final TagJobService tagJobService;
 
-    @Scheduled(fixedDelay = 5, initialDelay = 2, timeUnit = TimeUnit.MINUTES)
+    @Scheduled(fixedDelay = 20, initialDelay = 5, timeUnit = TimeUnit.MINUTES)
     public void processLinkUnlinkTagDayBatch() {
         log.info("Starting request query to link and unlink Tag.");
         tagJobService.processLinkUnlinkTagDayBatch();

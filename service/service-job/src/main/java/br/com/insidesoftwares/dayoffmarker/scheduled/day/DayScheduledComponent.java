@@ -15,7 +15,7 @@ public class DayScheduledComponent {
 
     private final DayJobService dayJobService;
 
-    @Scheduled(fixedDelay = 5, initialDelay = 1, timeUnit = TimeUnit.MINUTES)
+    @Scheduled(fixedDelay = 15, initialDelay = 1, timeUnit = TimeUnit.MINUTES)
     public void schedulingFindRequestForCreatingDays() {
         log.info("Starting request query to create the days.");
         dayJobService.processCreationDayBatch();

@@ -61,17 +61,20 @@ class WorkingCityServiceBean implements WorkingCityService {
     private boolean isWorkingCityByDay(final UUID cityID, final LocalDate date) {
         City city = citySearchService.findCityFullHolidayById(cityID);
         boolean isWorkingDay;
+
         Optional<StateHoliday> stateHolidayOptional = city.getState().getStateHolidays().stream()
                 .filter(stateHoliday -> {
                     Holiday holiday = stateHoliday.getHoliday();
                     return date.isEqual(holiday.getDay().getDate());
                 })
-                .filter(StateHoliday::isStateHoliday).findFirst();
+                .filter(StateHoliday::isStateHoliday)
+                .findFirst();
 
         Optional<Boolean> isWorkingDayOptional = stateHolidayOptional.map(stateHoliday -> {
             Optional<CityHoliday> cityHolidayOptional = city.getCityHolidays().stream()
                     .filter(cityHoliday -> stateHoliday.getId().getHolidayId().equals(cityHoliday.getId().getHolidayId()))
-                    .filter(cityHoliday -> !cityHoliday.isCityHoliday()).findFirst();
+                    .filter(cityHoliday -> !cityHoliday.isCityHoliday())
+                    .findFirst();
 
             return cityHolidayOptional.isPresent();
         });

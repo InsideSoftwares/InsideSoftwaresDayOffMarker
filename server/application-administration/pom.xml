@@ -73,10 +73,6 @@
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
         <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-starter-client</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
@@ -195,7 +191,7 @@
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
-                        <version>0.8.10</version>
+                        <version>0.8.11</version>
                         <executions>
                             <execution>
                                 <id>default-prepare-agent</id>
@@ -214,7 +210,7 @@
                     <plugin>
                         <groupId>org.owasp</groupId>
                         <artifactId>dependency-check-maven</artifactId>
-                        <version>8.3.1</version>
+                        <version>8.4.2</version>
                         <executions>
                             <execution>
                                 <goals>
@@ -222,6 +218,13 @@
                                 </goals>
                             </execution>
                         </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-checkstyle-plugin</artifactId>
+                        <configuration>
+                            <configLocation>${project.parent.basedir}/etc/devops/checkstyle/checkstyle.xml</configLocation>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
@@ -253,7 +256,6 @@
                             <finalName>inside_dayoffmarker</finalName>
                         </configuration>
                     </plugin>
-
                 </plugins>
             </build>
         </profile>
